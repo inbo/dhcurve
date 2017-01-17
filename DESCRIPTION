@@ -5,7 +5,10 @@ Authors@R: c(person("Els", "Lommelen", email = "els.lommelen@inbo.be", role = c(
 Description: Model diameter height curves for individual tree species and
     forests.
 Depends:
-    R (>= 3.3.1)
+    R (>= 3.3.0)
+Imports:
+    dplyr,
+    nlme
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
