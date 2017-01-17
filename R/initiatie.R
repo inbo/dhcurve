@@ -25,6 +25,107 @@
 #'
 
 initiatie <- function(Data, Uitzonderingen = NULL) {
+  min_basismodel <- 50
+  min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen?
+  min_afgeleidmodel <- 10
+
+  #hier moet nog controle gebeuren op de ingevoerde data!
+
+  Data2 <- Data %>%
+    filter_(~HOOGTE!=0) %>%
+    mutate_(
+      Omtrek = ~((C13 %/% 10) * 10 + 5)/100,
+      Rijnr = ~seq_along(C13),   #geeft vector van lengte C13, dus nummert de rijen oplopend
+      logOmtrek = ~log(Omtrek),
+      logOmtrek2 = ~logOmtrek^2
+    ) %>%
+    filter_(
+      ~Omtrek < 2.40
+    ) %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
+    mutate_(
+      nBomen = ~n(),
+      Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
+      Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1
+    ) %>%
+    ungroup()
+
+
+  Data_Selectie_50 <- Data2 %>%
+    filter_(
+      ~Omtrek > 0.5
+    ) %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
+    filter_(
+      ~n() > min_basismodel
+    ) %>%
+    dplyr::summarise() %>%
+    ungroup() %>%
+    inner_join(
+      Data2,
+      by = c("DOMEIN_ID", "BMS")
+    )
+
+
+  Basisdata <- Data_Selectie_50 %>%
+    select_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
+    distinct_() %>%
+    group_by_(
+      ~BMS
+    ) %>%
+    filter_(
+      ~n() >= min_domeinen_basismodel
+    ) %>%
+    ungroup() %>%
+    inner_join(
+      Data_Selectie_50,
+      by = c("DOMEIN_ID", "BMS")
+    )
+
+
+  Extradata <- Data_Selectie_50 %>%
+    filter_(
+      ~!BMS %in% unique(Basisdata$BMS)
+    )
+
+
+  Data.afgeleid <- Data2 %>%
+    filter_(
+      ~BMS %in% unique(Basisdata$BMS)
+    ) %>%
+    anti_join(
+      Basisdata %>%
+        select_(~BMS, ~DOMEIN_ID) %>%
+        distinct_(),
+      by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    filter_(
+      ~Omtrek > 0.5
+    ) %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
+    filter_(
+      ~n() > min_afgeleidmodel
+    ) %>%
+    dplyr::summarise() %>%
+    ungroup() %>%
+    inner_join(
+      Data2,
+      by = c("DOMEIN_ID", "BMS")
+    )
+
+  return(list(Basisdata, Data.afgeleid, Extradata))
 }
 
 
