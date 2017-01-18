@@ -18,7 +18,51 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>% filter_ transmute_
+#'
 
 validatie.basis <- function(Basismodel){
+
+  Rmse <- rmse.basis(Basismodel)
+  #slechte modellen nog uitselecteren
+
+  #functie afwijkendeMetingen nog uitwerken
+  AfwijkendeMetingen <- NULL
+
+  #afwijkende curves
+  Parameters_Extr <- curvekarakteristieken(Basismodel) %>%
+    filter_(
+      ~Omtrek_Extr_Hoogte.d > 0.1 | Omtrek_Extr_Hoogte.vl > 0.1,
+      ~Omtrek_Extr_Hoogte.d < Q95 | Omtrek_Extr_Hoogte.vl < Q95
+    )
+
+  #hoog minimum domeinmodel
+  HoogMin <- Parameters_Extr %>%
+    filter_(
+      ~Omtrek_Extr_Hoogte.d > 0.1,
+      ~Hoogteverschil.d < 0,
+      ~Omtrek_Buigpunt.d > Q5,
+      ~Verschil_rico_BP_Q5.d > 1
+    ) %>%
+    transmute_(
+      ~DOMEIN_ID,
+      ~BMS
+    )
+
+  #laag maximum domeinmodel
+  LaagMax <- Parameters_Extr %>%
+    filter_(
+      ~Omtrek_Extr_Hoogte.d < Q95,
+      ~Hoogteverschil.d > 0
+    ) %>%
+    transmute_(
+      ~DOMEIN_ID,
+      ~BMS
+    )
+
+
+  #functie validatierapport nog uitwerken
+
+  return(AfwijkendeMetingen)
 
 }

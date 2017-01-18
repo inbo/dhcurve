@@ -9,6 +9,8 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ select_ distinct_ left_join bind_rows
+#' @importFrom nlme fixef
+#' @importFrom stats coef
 #'
 
 modelparameters <- function(Basismodel) {

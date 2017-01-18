@@ -54,6 +54,8 @@ Data.extra <- Datalijst[[3]]
 
 Basismodel <- fit.basis(Data.basis)
 
-Rmse <- rmse.basis(Basismodel)
+AfwijkendeMetingen <- validatie.basis(Basismodel) #deze functie moet nog afgewerkt worden
 
-Curvekarakteristieken <- curvekarakteristieken(Basismodel)
+AfwijkendeMetingen  #nakijken vooraleer verder te gaan!
+
+
