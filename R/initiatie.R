@@ -4,7 +4,7 @@
 #'
 #' Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden: (1) domeinen met veel metingen voor de boomsoort (> 50) op basis waarvan domeinmodellen en een Vlaams model berekend kan worden (= basismodel), (2) domeinen met minder metingen (10 - 50) op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en (3) domeinen waarvoor te weinig metingen zijn om een domeinspecifiek model te berekenen.  De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m.
 #'
-#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE
+#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis, min_afgeleid
 #'
 #' @return Een list van dataframes:

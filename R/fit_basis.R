@@ -9,18 +9,23 @@
 #' @export
 #'
 #' @importFrom nlme lme lmeControl
+#' @importFrom dplyr %>% group_by_ do_ ungroup
 #'
 
 fit.basis <- function(Data.basis) {
 
-  Modellijst <- list()
-  for (Boomsoort in unique(Data.basis$BMS)) {
-    Mixed_model <- lme(HOOGTE ~ logOmtrek + logOmtrek2, data = Data.basis,
-                       random = ~ (logOmtrek + logOmtrek2)|DOMEIN_ID,
-                       control = lmeControl(opt = "optim", singular.ok = TRUE,
-                                            returnObject = TRUE))
-    Modellijst[[Boomsoort]] <- Mixed_model
-  }
+  Basismodel <- Data.basis %>%
+    group_by_(~BMS) %>%
+    do_(
+      Model = ~ lme(
+        HOOGTE ~ logOmtrek + logOmtrek2,
+        random = ~ (logOmtrek + logOmtrek2)|DOMEIN_ID,
+        data = .,
+        control = lmeControl(opt = "optim", singular.ok = TRUE,
+                                         returnObject = TRUE)
+      )
+    ) %>%
+    ungroup()
 
-  return(Modellijst)
+  return(Basismodel)
 }

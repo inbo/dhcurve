@@ -1,6 +1,8 @@
 library(RODBC)
 library(readr)
 library(dplyr)
+library(tidyr)
+library(dhcurve)
 
 setwd("C:/R/GitRepositories/dhcurve")
 
@@ -42,6 +44,7 @@ Data <- TreesT4_2016bos %>%
     !grepl(" (G)",BMS, fixed = TRUE)
   )
 
+
 #hier beginnen de functies
 Datalijst <- initiatie(Data)
 
@@ -50,4 +53,6 @@ Data.afgeleid <- Datalijst[[2]]
 Data.extra <- Datalijst[[3]]
 
 Basismodel <- fit.basis(Data.basis)
+
+Rmse <- rmse.basis(Basismodel)
 

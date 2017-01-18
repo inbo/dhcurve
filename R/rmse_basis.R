@@ -14,7 +14,90 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>% filter_ group_by_ sample_frac ungroup transmute_ mutate_ bind_rows summarise_
+#'
 
 rmse.basis <- function(Basismodel){
 
+  Rmse <- data.frame(NULL)
+  for (Boomsoort in Basismodel$BMS) {
+    #dataset ophalen uit model
+    Soortdata <- (Basismodel %>% filter_(~ BMS == Boomsoort))$Model[[1]]$data
+
+    #testgroepen aanmaken in dataset
+    Soortdata$Testgroep <- NA
+    for (i in 1:5) {
+      Selectie <- Soortdata %>%
+        filter_(
+          ~is.na(Testgroep)
+        ) %>%
+        group_by_(
+          ~DOMEIN_ID,
+          ~TYPE_METING,
+          ~JAAR,
+          ~Omtrek
+        ) %>%
+        sample_frac(1/(7 - i)) %>%
+        ungroup() %>%
+        transmute_(
+          ~Rijnr
+        )
+      Soortdata$Testgroep <-
+        ifelse(Soortdata$Rijnr %in% Selectie$Rijnr,i,Soortdata$Testgroep)
+    }
+    Soortdata$Testgroep <-
+      ifelse(is.na(Soortdata$Testgroep),6,Soortdata$Testgroep)
+
+
+    #model fitten voor de 6 testgroepen: zit nog ergens een fout
+    Data_result <- data.frame(NULL)
+    for (i in 1:6) {
+      Data_test <- Soortdata[Soortdata$Testgroep == i,]
+      Data_model <- Soortdata[Soortdata$Testgroep != i,]
+
+      Model <- fit.basis(Data_model)$Model[[1]]
+
+      Data_Boomsoort <- Data_test %>%
+        mutate_(
+          H_Dmodel = ~predict(Model, newdata = .),
+          ResidD = ~HOOGTE - H_Dmodel,
+          ResidD2 = ~ResidD^2,
+          H_VLmodel = ~as.numeric(fixef(Model)[1]) +
+            as.numeric(fixef(Model)[2]) * logOmtrek +
+            as.numeric(fixef(Model)[3]) * logOmtrek2,
+          ResidVL = ~HOOGTE - H_VLmodel,
+          ResidVL2 = ~ResidVL^2
+        )
+      Data_result <- Data_result %>%
+        bind_rows(Data_Boomsoort)
+    }
+
+
+    #rmse berekenen
+    Rmse.soort <- Data_result[Data_result$Omtrek > 0.50,] %>%
+      group_by_(~DOMEIN_ID, ~nBomen, ~Q5, ~Q95) %>%
+      summarise_(
+        nBomenInterval = ~n(),
+        sseD = ~sum(c(ResidD2)),
+        sseVL = ~sum(c(ResidVL2))
+      ) %>%
+      ungroup() %>%
+      transmute_(
+        ~DOMEIN_ID,
+        ~nBomen,
+        ~nBomenInterval,
+        ~Q5,
+        ~Q95,
+        rmseD = ~sqrt(sseD/(nBomenInterval - 2)),
+        rmseVL = ~sqrt(sseVL/(nBomenInterval - 2))
+      )
+
+    Rmse <- Rmse %>%
+      bind_rows(data.frame(BMS = Boomsoort, Rmse.soort,
+                           stringsAsFactors = FALSE))
+
+  }
+
+
+  return(Rmse)
 }
