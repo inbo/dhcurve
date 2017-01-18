@@ -56,3 +56,4 @@ Basismodel <- fit.basis(Data.basis)
 
 Rmse <- rmse.basis(Basismodel)
 
+Curvekarakteristieken <- curvekarakteristieken(Basismodel)

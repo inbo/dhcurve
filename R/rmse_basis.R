@@ -49,7 +49,7 @@ rmse.basis <- function(Basismodel){
       ifelse(is.na(Soortdata$Testgroep),6,Soortdata$Testgroep)
 
 
-    #model fitten voor de 6 testgroepen: zit nog ergens een fout
+    #model fitten voor de 6 testgroepen
     Data_result <- data.frame(NULL)
     for (i in 1:6) {
       Data_test <- Soortdata[Soortdata$Testgroep == i,]
