@@ -2,10 +2,20 @@
 #'
 #' Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.
 #'
-#' Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden: (1) domeinen met veel metingen voor de boomsoort (> 50) op basis waarvan domeinmodellen en een Vlaams model berekend kan worden (= basismodel), (2) domeinen met minder metingen (10 - 50) op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en (3) domeinen waarvoor te weinig metingen zijn om een domeinspecifiek model te berekenen.  De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m.
+#' Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden:
+#'
+#' (1) boomsoorten waarvoor op minimum 6 domeinen veel metingen uitgevoerd zijn (> 50 metingen), op basis waarvan betrouwbare domeinmodellen en een betrouwbaar Vlaams model berekend kan worden (= basismodel),
+#'
+#' (2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en
+#'
+#' (3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)
+#'
+#' (4 en 5: zie voorlopig onder 'value')
+#'
+#' De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 #'
 #' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.
-#' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis, min_afgeleid
+#' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #'
 #' @return Een list van dataframes:
 #'
@@ -51,25 +61,48 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
       Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
       Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1
     ) %>%
-    ungroup()
-
-
-  Data_Selectie_50 <- Data2 %>%
+    ungroup() %>%
     filter_(
-      ~Omtrek > 0.5
-    ) %>%
+      ~Omtrek > Q5,
+      ~Omtrek < Q95
+    )
+
+  Data.aantallen <- Data2 %>%
     group_by_(
       ~BMS,
       ~DOMEIN_ID
     ) %>%
-    filter_(
-      ~n() > min_basismodel
+    summarise_(
+      nBomenInterval = ~n()
     ) %>%
-    dplyr::summarise() %>%
     ungroup() %>%
     inner_join(
       Data2,
-      by = c("DOMEIN_ID", "BMS")
+      by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    filter_(
+      ~Omtrek > 0.5,
+      ~Omtrek > Q5,
+      ~Omtrek < Q95
+    ) %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID,
+      ~nBomenInterval
+    ) %>%
+    summarise_(
+      nBomenOmtrek05 = ~n()
+    ) %>%
+    ungroup() %>%
+    inner_join(
+      Data2,
+      by = c("BMS", "DOMEIN_ID")
+    )
+
+
+  Data_Selectie_50 <- Data.aantallen %>%
+    filter_(
+      ~nBomenOmtrek05 > min_basismodel
     )
 
 
@@ -98,7 +131,7 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
     )
 
 
-  Data.afgeleid <- Data2 %>%
+  Data.afgeleid <- Data.aantallen %>%
     filter_(
       ~BMS %in% unique(Basisdata$BMS)
     ) %>%
@@ -109,20 +142,8 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
+      ~nBomenOmtrek05 > min_afgeleidmodel,
       ~Omtrek > 0.5
-    ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
-    ) %>%
-    filter_(
-      ~n() > min_afgeleidmodel
-    ) %>%
-    dplyr::summarise() %>%
-    ungroup() %>%
-    inner_join(
-      Data2,
-      by = c("DOMEIN_ID", "BMS")
     )
 
   return(list(Basisdata, Data.afgeleid, Extradata))

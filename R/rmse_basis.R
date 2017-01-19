@@ -15,6 +15,8 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ group_by_ sample_frac ungroup transmute_ mutate_ bind_rows summarise_
+#' @importFrom nlme fixef
+#' @importFrom stats predict
 #'
 
 rmse.basis <- function(Basismodel){
@@ -75,9 +77,15 @@ rmse.basis <- function(Basismodel){
 
     #rmse berekenen
     Rmse.soort <- Data_result[Data_result$Omtrek > 0.50,] %>%
-      group_by_(~DOMEIN_ID, ~nBomen, ~Q5, ~Q95) %>%
+      group_by_(
+        ~DOMEIN_ID,
+        ~nBomen,
+        ~nBomenInterval,
+        ~nBomenOmtrek05,
+        ~Q5,
+        ~Q95
+      ) %>%
       summarise_(
-        nBomenInterval = ~n(),
         sseD = ~sum(c(ResidD2)),
         sseVL = ~sum(c(ResidVL2))
       ) %>%
@@ -86,10 +94,11 @@ rmse.basis <- function(Basismodel){
         ~DOMEIN_ID,
         ~nBomen,
         ~nBomenInterval,
+        ~nBomenOmtrek05,
         ~Q5,
         ~Q95,
-        rmseD = ~sqrt(sseD/(nBomenInterval - 2)),
-        rmseVL = ~sqrt(sseVL/(nBomenInterval - 2))
+        rmseD = ~sqrt(sseD/(nBomenOmtrek05 - 2)),
+        rmseVL = ~sqrt(sseVL/(nBomenOmtrek05 - 2))
       )
 
     Rmse <- Rmse %>%

@@ -9,7 +9,7 @@ initiatie(Data, Uitzonderingen = NULL)
 \arguments{
 \item{Data}{dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.}
 
-\item{Uitzonderingen}{lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis, min_afgeleid}
+\item{Uitzonderingen}{lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)}
 }
 \value{
 Een list van dataframes:
@@ -28,6 +28,16 @@ Een list van dataframes:
 Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.
 }
 \details{
-Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden: (1) domeinen met veel metingen voor de boomsoort (> 50) op basis waarvan domeinmodellen en een Vlaams model berekend kan worden (= basismodel), (2) domeinen met minder metingen (10 - 50) op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en (3) domeinen waarvoor te weinig metingen zijn om een domeinspecifiek model te berekenen.  De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m.
+Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden:
+
+(1) boomsoorten waarvoor op minimum 6 domeinen veel metingen uitgevoerd zijn (> 50 metingen), op basis waarvan betrouwbare domeinmodellen en een betrouwbaar Vlaams model berekend kan worden (= basismodel),
+
+(2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en
+
+(3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)
+
+(4 en 5: zie voorlopig onder 'value')
+
+De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 }
 
