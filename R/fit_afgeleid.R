@@ -9,7 +9,45 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>% inner_join select_ distinct_ mutate_ group_by_ filter_ summarise_ ungroup
+#'
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
 
+  Parameters <- modelparameters(Basismodel)
+
+  ModelWeinigBomen <- Data.afgeleid %>%
+    inner_join(Parameters %>%
+                 select_(
+                   ~BMS, ~Avl, ~Bvl, ~Cvl
+                 ) %>%
+                 distinct_(),
+               by = c("BMS")
+    ) %>%
+    mutate_(
+      H_VLmodel = ~Avl + Bvl * logOmtrek + Cvl * logOmtrek2,
+      Resid = ~HOOGTE - H_VLmodel
+    ) %>%
+    mutate_(Resid2 = ~Resid^2) %>%
+    group_by_(
+      ~DOMEIN_ID,
+      ~BMS,
+      ~nBomen,
+      ~nBomenInterval,
+      ~nBomenOmtrek05,
+      ~Avl,
+      ~Bvl,
+      ~Cvl
+    ) %>%
+    summarise_(
+      sse = ~sum(c(Resid2)),
+      gemRes = ~mean(Resid)
+    ) %>%
+    ungroup() %>%
+    mutate_(
+      Ad = ~Avl - gemRes,
+      rmseVL = ~sqrt(sse/(nBomenOmtrek05 - 2))
+    )
+
+  return(ModelWeinigBomen)
 }

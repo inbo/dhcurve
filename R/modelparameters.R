@@ -43,7 +43,8 @@ modelparameters <- function(Basismodel) {
       )
 
     Parameters <- Parameters %>%
-      bind_rows(Soortparameters)
+      bind_rows(data.frame(BMS = Boomsoort, Soortparameters,
+                           stringsAsFactors = FALSE))
   }
 
   return(Parameters)

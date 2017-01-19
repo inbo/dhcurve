@@ -4,16 +4,14 @@
 \alias{afwijkendeMetingen}
 \title{Geeft de afwijkende metingen uit een gegeven model}
 \usage{
-afwijkendeMetingen(Basismodel, Rmse_domein, Verschuiving, Rmse_verschuiving)
+afwijkendeMetingen(Basismodel, Rmse_domein, Afgeleidmodel)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Rmse.basis}{rmse_domein en rmse_Vlaams}
-
 \item{Afgeleidmodel}{ingeval van verschoven Vlaams model}
 
-\item{Rmse.afgeleid}{ingeval van verschoven Vlaams model}
+\item{Rmse.basis}{rmse_domein en rmse_Vlaams}
 }
 \value{
 lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit databank

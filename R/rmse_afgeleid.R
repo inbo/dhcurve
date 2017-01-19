@@ -2,6 +2,8 @@
 #'
 #' deze functie berekent de rmse op basis van verschil tussen geschatte domeinwaarde en gemeten waarde (voor omtrekklassen > 0.5 m)
 #'
+#' DEZE FUNCTIE IS NIET NODIG, fit.afgeleid BEREKENT METEEN DE RMSE!!!
+#'
 #' @param Basismodel model per boomsoort
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (verschoven Vlaams model)
 #' @param Data.afgeleid dataframe 10-50

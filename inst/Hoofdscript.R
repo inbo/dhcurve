@@ -56,6 +56,7 @@ Basismodel <- fit.basis(Data.basis)
 
 AfwijkendeMetingen <- validatie.basis(Basismodel) #deze functie moet nog afgewerkt worden
 
-AfwijkendeMetingen  #nakijken vooraleer verder te gaan!
+AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
+Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel) #nog nakijken of Ad goed berekend is!!!
 
