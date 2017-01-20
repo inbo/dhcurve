@@ -33,6 +33,8 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       ~DOMEIN_ID,
       ~BMS,
       ~nBomen,
+      ~Q5,
+      ~Q95,
       ~nBomenInterval,
       ~nBomenOmtrek05,
       ~Avl,

@@ -4,14 +4,12 @@
 \alias{resultaat}
 \title{berekent de modelparameters per domein}
 \usage{
-resultaat(Basismodel, Afgeleidmodel, Data.afgeleid, Data.ontbrekend)
+resultaat(Basismodel, Afgeleidmodel, Data.ontbrekend = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
 \item{Afgeleidmodel}{verschuiving per boomsoort en domein (Vlaams model)}
-
-\item{Data.afgeleid}{dataframe 10-50 (nodig voor rmse.afgeleid)}
 
 \item{Data.ontbrekend}{evt. lijst van domeinen < 10 per boomsoort (en dan voor deze domeinen het Vlaams model invullen?)}
 }
@@ -42,8 +40,9 @@ evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per boomsoo
 Berekeningen die leiden tot de gevraagde tabel.  Hiervoor worden volgende hulpfuncties aangeroepen:
 }
 \details{
-rmse.basis
-rmse.afgeleid
+modelparameters
+rsme.basis
+fit.afgeleid
 
 Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
 }
