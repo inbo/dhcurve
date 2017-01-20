@@ -23,4 +23,10 @@
 
 validatie.afgeleid <- function(Basismodel, Afgeleidmodel, Data.afgeleid){
 
+  Dataset <- hoogteschatting.afgeleid(Afgeleidmodel, Data.afgeleid)
+  AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
+
+  #anomalieen nog verder selecteren
+  #functie validatierapport nog uitwerken
+
 }

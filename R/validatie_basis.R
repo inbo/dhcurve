@@ -26,8 +26,9 @@ validatie.basis <- function(Basismodel){
   Rmse <- rmse.basis(Basismodel)
   #slechte modellen nog uitselecteren
 
+  Dataset <- hoogteschatting.basis(Basismodel)
   #functie afwijkendeMetingen nog uitwerken
-  AfwijkendeMetingen <- NULL
+  AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
 
   #afwijkende curves
   Parameters_Extr <- curvekarakteristieken(Basismodel) %>%
@@ -61,6 +62,7 @@ validatie.basis <- function(Basismodel){
     )
 
 
+  #anomalieen nog verder selecteren
   #functie validatierapport nog uitwerken
 
   return(AfwijkendeMetingen)
