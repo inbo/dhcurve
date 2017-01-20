@@ -46,7 +46,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ungroup() %>%
     mutate_(
       Ad = ~Avl - gemRes,
-      rmseVL = ~sqrt(sse/(nBomenOmtrek05 - 2))
+      rmseD = ~sqrt(sse/(nBomenOmtrek05 - 2))
     )
 
   return(ModelWeinigBomen)

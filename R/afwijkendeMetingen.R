@@ -8,7 +8,15 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>% filter_
+#'
 
 afwijkendeMetingen <- function(Dataset){
 
+  Afwijkend <- Dataset %>%
+    filter_(
+      ~(HOOGTE > (H_D_finaal + 2.5 * rmseD)) | (HOOGTE < (H_D_finaal - 2.5 * rmseD))
+    )
+
+  return(Afwijkend)
 }

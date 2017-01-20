@@ -18,7 +18,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ transmute_
+#' @importFrom dplyr %>% filter_ transmute_ select_
 #'
 
 validatie.basis <- function(Basismodel){
@@ -26,7 +26,9 @@ validatie.basis <- function(Basismodel){
   Rmse <- rmse.basis(Basismodel)
   #slechte modellen nog uitselecteren
 
-  Dataset <- hoogteschatting.basis(Basismodel)
+  Dataset <- hoogteschatting.basis(Basismodel) %>%
+    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
+               by = c("BMS", "DOMEIN_ID"))
   #functie afwijkendeMetingen nog uitwerken
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
 

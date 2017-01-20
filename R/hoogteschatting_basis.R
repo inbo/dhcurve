@@ -29,8 +29,7 @@ hoogteschatting.basis <- function(Basismodel) {
       )
 
     Schatting <- Schatting %>%
-      bind_rows(data.frame(BMS = Boomsoort, Schatting.soort,
-                           stringsAsFactors = FALSE))
+      bind_rows(Schatting.soort)
   }
 
   return(Schatting)

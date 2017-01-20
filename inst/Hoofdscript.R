@@ -60,3 +60,6 @@ AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verde
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel) #nog nakijken of Ad goed berekend is!!!
 
+AfwijkendeMetingen <- validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid) #deze functie moet nog afgewerkt worden
+
+AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
