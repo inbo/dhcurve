@@ -9,12 +9,13 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% left_join mutate_
+#' @importFrom dplyr %>% left_join mutate_ select_
 #'
 
 hoogteschatting.afgeleid <- function(Afgeleidmodel, Data.afgeleid) {
 
   Schatting <- Data.afgeleid %>%
+    select_(~-Q5, ~-Q95, ~-nBomen, ~-nBomenInterval, ~-nBomenOmtrek05) %>%
     left_join(
       Afgeleidmodel,
       by = c("BMS", "DOMEIN_ID")
