@@ -9,7 +9,10 @@ Depends:
 Imports:
     dplyr,
     nlme,
-    stats
+    stats,
+    ggplot2,
+    rmarkdown,
+    assertthat
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

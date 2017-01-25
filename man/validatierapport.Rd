@@ -4,19 +4,19 @@
 \alias{validatierapport}
 \title{stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport}
 \usage{
-validatierapport(Basismodel, Rmse.basis, Afgeleidmodel, Rmse.afgeleid,
-  SlechtsteModellen)
+validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
+  Bestandsnaam = "Validatie.html", verbose = TRUE)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{SlechtsteModellen}{lijst van de slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen.  Deze bevat ook de info om weer te geven bij de grafieken (parameters)}
 
-\item{Rmse.basis}{rmse_domein en rmse_Vlaams}
+\item{AfwijkendeMetingen}{lijst met afwijkende metingen (zoals gegenereerd door de functie afwijkendeMetingen)}
 
-\item{Afgeleidmodel}{ingeval van verschoven Vlaams model}
+\item{Dataset}{Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)}
 
-\item{Rmse.afgeleid}{ingeval van verschoven Vlaams model}
+\item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{SlechtsteModellen}{lijst met slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen}
+\item{verbose}{geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden}
 }
 \value{
 document (html/pdf) met te controleren curves (incl. aantal metingen per curve)

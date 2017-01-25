@@ -1,0 +1,51 @@
+---
+title: "Validatierapport"
+author: "Els Lommelen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(dplyr)
+library(dhcurve)
+library(knitr)
+
+```
+
+```{r, warning=FALSE, results='asis', include=FALSE}
+
+#sortering maken volgens aandeel outliers in curve
+
+#curves met enkel gevlagde outliers verwijderen
+
+Uitvoer <- NULL
+
+for (Poutliers in unique(Selectie$PAfwijkend)) {
+  SelectieOutliers <- Selectie %>%
+    filter_(~PAfwijkend == Poutliers)
+  for (Boomsoort in unique(SelectieOutliers$BMS)) {
+    SelectieSoort <- SelectieOutliers %>%
+      filter_(~BMS == Boomsoort)
+    for (Domein in unique(SelectieSoort$DOMEIN_ID)) {
+      SelectieModel <- SelectieSoort %>%
+        filter_(~DOMEIN_ID == Domein)
+      #print(unique(SelectieModel$Reden))
+      #print(maakGrafiek(SelectieModel))
+      Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+    }
+  }
+}
+  
+
+```
+
+```{r output, results='asis'}
+
+cat(Uitvoer, sep = "\n")
+
+```
+

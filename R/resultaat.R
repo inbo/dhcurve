@@ -58,31 +58,33 @@ resultaat <- function(Basismodel, Afgeleidmodel, Data.ontbrekend = NULL){
       Modeltype = ~"eigen model"
     )
 
-  Modellen.Vlaams <- Modellen.basis %>%
-    select_(~-Ad, ~-Bd, ~-Cd, ~-rmseD) %>%
-    mutate_(
-      sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
-    ) %>%
-    group_by_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
-    summarise_(
-      nBomen = ~sum(nBomen),
-      nBomenInterval = ~sum(nBomenInterval),
-      nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-      RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
-    ) %>%
-    ungroup() %>%
-    rename_(
-      A = ~Avl,
-      B = ~Bvl,
-      C = ~Cvl,
-      nBomenOmtrek05 = ~nBomenOmtrek05VL
-    ) %>%
-    mutate_(
-      Modeltype = ~"Vlaams model"
-    )
+  # volgende code is om ook de Vlaamse modellen toe te voegen aan de resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als een Vlaams model gebaseerd is op enkel bomen van 1 streek en de te schatten boom ligt in een andere streek, is de schatting onbetrouwbaar), voegen we het niet toe
+
+  # Modellen.Vlaams <- Modellen.basis %>%
+  #   select_(~-Ad, ~-Bd, ~-Cd, ~-rmseD) %>%
+  #   mutate_(
+  #     sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
+  #   ) %>%
+  #   group_by_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
+  #   summarise_(
+  #     nBomen = ~sum(nBomen),
+  #     nBomenInterval = ~sum(nBomenInterval),
+  #     nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
+  #     RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+  #   ) %>%
+  #   ungroup() %>%
+  #   rename_(
+  #     A = ~Avl,
+  #     B = ~Bvl,
+  #     C = ~Cvl,
+  #     nBomenOmtrek05 = ~nBomenOmtrek05VL
+  #   ) %>%
+  #   mutate_(
+  #     Modeltype = ~"Vlaams model"
+  #   )
 
   Modellen <- Modellen.domein %>%
-    bind_rows(Modellen.Vlaams) %>%
+#    bind_rows(Modellen.Vlaams) %>%
     bind_rows(
       Afgeleidmodel %>%
         select_(

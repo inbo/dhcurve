@@ -18,18 +18,24 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ transmute_ select_
+#' @importFrom dplyr %>% filter_ transmute_ select_ arrange_ desc row_number mutate_ distinct_ group_by_ summarise_ ungroup
 #'
 
 validatie.basis <- function(Basismodel){
 
   Rmse <- rmse.basis(Basismodel)
-  #slechte modellen nog uitselecteren
+  Rmse_Hoog <- Rmse %>%
+    arrange_(~desc(rmseD)) %>%
+    filter_(~row_number(rmseD) <= 20) %>%
+    transmute_(
+      ~DOMEIN_ID,
+      ~BMS
+    )
 
   Dataset <- hoogteschatting.basis(Basismodel) %>%
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
                by = c("BMS", "DOMEIN_ID"))
-  #functie afwijkendeMetingen nog uitwerken
+
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
 
   #afwijkende curves
@@ -49,7 +55,8 @@ validatie.basis <- function(Basismodel){
     ) %>%
     transmute_(
       ~DOMEIN_ID,
-      ~BMS
+      ~BMS,
+      ~Omtrek_Buigpunt.d
     )
 
   #laag maximum domeinmodel
@@ -60,12 +67,53 @@ validatie.basis <- function(Basismodel){
     ) %>%
     transmute_(
       ~DOMEIN_ID,
-      ~BMS
+      ~BMS,
+      ~Omtrek_Extr_Hoogte.d
     )
 
 
-  #anomalieen nog verder selecteren
-  #functie validatierapport nog uitwerken
+  SlechtsteModellen <- Rmse_Hoog %>%
+    mutate_(
+      Reden = ~"hoge RMSE"
+    ) %>%
+    bind_rows(
+      HoogMin %>%
+        mutate_(
+          Reden = ~"curvevorm hol bij lage omtrekklassen"
+        )
+    ) %>%
+    bind_rows(
+      LaagMax %>%
+        mutate_(
+          Reden = ~"curve daalt terug bij hoge omtrekklassen"
+        )
+    ) %>%
+    bind_rows(
+      AfwijkendeMetingen %>%
+        select_(
+          ~BMS, ~DOMEIN_ID
+        ) %>%
+        distinct_() %>%
+        mutate_(
+          Reden = ~"afwijkende metingen"
+        )
+    ) %>%
+    mutate_(
+      Omtrek_Buigpunt.d = ~ifelse(is.na(Omtrek_Buigpunt.d),"",Omtrek_Buigpunt.d),
+      Omtrek_Extr_Hoogte.d = ~ifelse(is.na(Omtrek_Extr_Hoogte.d),"",
+                                     Omtrek_Extr_Hoogte.d)
+    ) %>%
+    group_by_(
+      ~BMS, ~DOMEIN_ID
+    ) %>%
+    summarise_(
+      Reden = ~paste(Reden, collapse = ", "),
+      Omtrek_Buigpunt = ~as.numeric(paste(Omtrek_Buigpunt.d, collapse = "")),
+      Omtrek_Extr_Hoogte = ~as.numeric(paste(Omtrek_Extr_Hoogte.d, collapse = ""))
+    ) %>%
+    ungroup()
+
+  validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Basis.html")
 
   return(AfwijkendeMetingen)
 
