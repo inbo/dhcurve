@@ -13,14 +13,15 @@ library(ggplot2)
 
 DOMEIN_ID: `r unique(SelectieModel$DOMEIN_ID)`
 
-__Slechte curve omdat: `r unique(SelectieModel$Reden)`__
+__Potentiële problemen: `r unique(SelectieModel$Reden)`__
 
-RMSE = `r unique(SelectieModel$rmseD)`; aantal bomen = `r unique(SelectieModel$nBomen)`;
+RMSE = `r round(unique(SelectieModel$rmseD),2)`; aantal bomen = `r unique(SelectieModel$nBomen)`;
 aantal bomen in bruikbaar interval = `r unique(SelectieModel$nBomenInterval)`;
-aantal bomen met omtrek > 0,5 m = `r unique(SelectieModel$nBomenOmtrek05)`;
-`r unique(SelectieModel$PAfwijkend)`
+aantal bomen met omtrek > 0,5 m = `r unique(SelectieModel$nBomenOmtrek05)`
 
-(Rood = aandachtspunten, Blauw = Vlaams model)
+Model bruikbaar tussen de omtrekklassen met klassemiddens 
+`r (((unique(SelectieModel$Q5) * 100) %/% 10) * 10 + 5)/100` en 
+`r (((unique(SelectieModel$Q95) * 100) %/% 10) * 10 + 5)/100` m
 
 ```{r warning=FALSE}
 
@@ -29,10 +30,13 @@ Grafiek <-
   ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE, colour = ~Afwijkend)) +
   scale_colour_manual(values = alpha(c("black","red"))) +
   geom_jitter(width = 0.03, height = 0) +
-  geom_line(aes_(y = ~H_D_finaal, colour = ~CurveSlecht), size = 1) +
-  geom_line(aes_(y = ~H_VL_finaal), colour = "blue") +
+  geom_line(aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domein"), size = 1) +
+  geom_point(aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white", size = 2, stroke = 1) +
+  geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams"), colour = "black", size = 1) +
+  scale_linetype_manual(name = "Model", values = c("Vlaams" = "dashed", "Domein" = "solid")) +
   geom_vline(xintercept = SelectieModel$Q5) + 
-  geom_vline(xintercept = SelectieModel$Q95) #+
+  geom_vline(xintercept = SelectieModel$Q95) +
+  scale_x_continuous(minor_breaks = seq(0.05,2.35,0.1))#+
   # geom_vline(xintercept = SelectieModel$Omtrek_Buigpunt, colour = "red") +
   # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red")
 

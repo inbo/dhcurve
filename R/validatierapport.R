@@ -30,7 +30,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_
+#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup slice_ summarise_
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag
 #'
@@ -64,18 +64,13 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
   CorrectieHogeRMSE <- Selectie %>%
     filter_(~grepl("hoge RMSE", Reden)) %>%
     mutate_(
-      error = ~abs(HOOGTE - H_D_finaal)
+      error = ~abs(HOOGTE - H_D_finaal),
+      HogeAfwijking = ~TRUE
     ) %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     arrange_(~desc(error)) %>%
-    mutate_(
-      NR = ~seq_along(error)
-    ) %>%
-    filter_(~NR <= 10) %>%
+    slice_(~1:10) %>%
     ungroup() %>%
-    mutate_(
-      HogeAfwijking = ~TRUE
-    ) %>%
     select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE, ~HogeAfwijking) %>%
     distinct_()
 
@@ -133,7 +128,8 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
   render(system.file("Validatierapport.rmd", package = "dhcurve"),
          #params = list(Selectie = Selectie),
          output_file = Bestandsnaam,
-         output_dir = getwd())
+         output_dir = getwd(),
+         encoding = "UTF-8")
 
   if (verbose) {
     message(sprintf("Het rapport is opgeslagen in de working directory: %s", getwd()))

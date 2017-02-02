@@ -59,7 +59,9 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
     mutate_(
       nBomen = ~n(),
       Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
-      Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1
+      Q5k = ~(((Q5 * 100) %/% 10) * 10 + 5)/100,     #het klassemidden van Q5
+      Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
+      Q5k = ~(((Q95 * 100) %/% 10) * 10 + 5)/100     #het klassemidden van Q95
     ) %>%
     ungroup() %>%
     filter_(
