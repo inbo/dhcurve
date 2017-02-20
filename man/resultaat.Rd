@@ -22,7 +22,7 @@ dataframe met modellen per domein en per boomsoort met velden:
 
 - BoomsoortID
 
-- type model (‘eigen model’/‘verschoven Vlaams model’/‘Vlaams model’)
+- type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel))
 
 - paramaters A,B en C
 

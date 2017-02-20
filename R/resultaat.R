@@ -20,7 +20,7 @@
 #'
 #' - BoomsoortID
 #'
-#' - type model (‘eigen model’/‘verschoven Vlaams model’/‘Vlaams model’)
+#' - type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel))
 #'
 #' - paramaters A,B en C
 #'
@@ -55,7 +55,7 @@ resultaat <- function(Basismodel, Afgeleidmodel, Data.ontbrekend = NULL){
       RMSE = ~rmseD
     ) %>%
     mutate_(
-      Modeltype = ~"eigen model"
+      Modeltype = ~"basismodel"
     )
 
   # volgende code is om ook de Vlaamse modellen toe te voegen aan de resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als een Vlaams model gebaseerd is op enkel bomen van 1 streek en de te schatten boom ligt in een andere streek, is de schatting onbetrouwbaar), voegen we het niet toe
