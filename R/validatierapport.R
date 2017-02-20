@@ -30,7 +30,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup slice_ summarise_
+#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag
 #'
@@ -58,31 +58,6 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
     ) %>%
     mutate_(
       Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
-    )
-
-  #voor domeinen met hoge RMSE nemen we de 10 hoogste afwijkingen
-  CorrectieHogeRMSE <- Selectie %>%
-    filter_(~grepl("hoge RMSE", Reden)) %>%
-    mutate_(
-      error = ~abs(HOOGTE - H_D_finaal),
-      HogeAfwijking = ~TRUE
-    ) %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    arrange_(~desc(error)) %>%
-    slice_(~1:10) %>%
-    ungroup() %>%
-    select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE, ~HogeAfwijking) %>%
-    distinct_()
-
-  Selectie <- Selectie %>%
-    left_join(
-      CorrectieHogeRMSE,
-      by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
-    ) %>%
-    mutate_(
-      Afwijkend =
-        ~ifelse(!is.na(HogeAfwijking) & HogeAfwijking, HogeAfwijking, Afwijkend),
-      HogeAfwijking = ~NULL
     )
 
 

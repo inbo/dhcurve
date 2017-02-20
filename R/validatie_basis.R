@@ -24,13 +24,6 @@
 validatie.basis <- function(Basismodel){
 
   Rmse <- rmse.basis(Basismodel)
-  Rmse_Hoog <- Rmse %>%
-    arrange_(~desc(rmseD)) %>%
-    filter_(~row_number(rmseD) <= 20) %>%
-    transmute_(
-      ~DOMEIN_ID,
-      ~BMS
-    )
 
   Dataset <- hoogteschatting.basis(Basismodel) %>%
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
@@ -72,7 +65,10 @@ validatie.basis <- function(Basismodel){
     )
 
 
-  SlechtsteModellen <- Rmse_Hoog %>%
+  SlechtsteModellen <- AfwijkendeMetingen %>%
+    filter_(~HogeRmse) %>%
+    select_(~DOMEIN_ID, ~BMS) %>%
+    distinct_() %>%
     mutate_(
       Reden = ~"hoge RMSE"
     ) %>%
