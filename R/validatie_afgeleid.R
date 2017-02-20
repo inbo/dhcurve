@@ -26,7 +26,31 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel, Data.afgeleid){
   Dataset <- hoogteschatting.afgeleid(Afgeleidmodel, Data.afgeleid)
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
 
-  #anomalieen nog verder selecteren
-  #functie validatierapport nog uitwerken
+  SlechtsteModellen <- AfwijkendeMetingen %>%
+    filter_(~HogeRmse) %>%
+    select_(~DOMEIN_ID, ~BMS) %>%
+    distinct_() %>%
+    mutate_(
+      Reden = ~"hoge RMSE"
+    ) %>%
+    bind_rows(
+      AfwijkendeMetingen %>%
+        select_(
+          ~BMS, ~DOMEIN_ID
+        ) %>%
+        distinct_() %>%
+        mutate_(
+          Reden = ~"afwijkende metingen"
+        )
+    ) %>%
+    group_by_(
+      ~BMS, ~DOMEIN_ID
+    ) %>%
+    summarise_(
+      Reden = ~paste(Reden, collapse = ", ")
+    ) %>%
+    ungroup()
+
+  validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Afgeleid.html")
 
 }

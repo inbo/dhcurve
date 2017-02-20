@@ -9,21 +9,36 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% left_join mutate_ select_
+#' @importFrom dplyr %>% filter_ full_join mutate_ select_
 #'
 
 hoogteschatting.afgeleid <- function(Afgeleidmodel, Data.afgeleid) {
 
-  Schatting <- Data.afgeleid %>%
-    select_(~-Q5, ~-Q95, ~-nBomen, ~-nBomenInterval, ~-nBomenOmtrek05) %>%
-    left_join(
-      Afgeleidmodel,
-      by = c("BMS", "DOMEIN_ID")
+  AlleKlassen <- seq(55, 245, 10)
+
+  Schatting <- merge(Afgeleidmodel, AlleKlassen) %>%
+    filter_(
+      ~y >= (100 * Q5k) - 1,
+      ~y <= (100 * Q95k) + 1
+    ) %>%
+    mutate_(
+      Omtrek = ~y / 100,
+      logOmtrek = ~log(Omtrek),
+      logOmtrek2 = ~logOmtrek^2
     ) %>%
     mutate_(
       H_D_finaal = ~Ad + Bvl * logOmtrek + Cvl * logOmtrek2,
       H_VL_finaal = ~Avl + Bvl * logOmtrek + Cvl * logOmtrek2
-    )
+    ) %>%
+    select_(~-logOmtrek, ~-logOmtrek2, ~-Q5, ~-Q95) %>%
+    full_join(
+      Data.afgeleid %>%
+        mutate_(y = ~as.integer(round(100 * Omtrek))) %>%
+        select_(~-Omtrek),
+      by = c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomen", "nBomenInterval", "nBomenOmtrek05",
+             "Q5k", "Q95k", "y")
+    ) %>%
+    select_(~-y)
 
   return(Schatting)
 }

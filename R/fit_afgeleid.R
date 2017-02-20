@@ -31,10 +31,13 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     mutate_(Resid2 = ~Resid^2) %>%
     group_by_(
       ~DOMEIN_ID,
+      ~BOS_BHI,
       ~BMS,
       ~nBomen,
       ~Q5,
+      ~Q5k,
       ~Q95,
+      ~Q95k,
       ~nBomenInterval,
       ~nBomenOmtrek05,
       ~Avl,
@@ -47,7 +50,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ) %>%
     ungroup() %>%
     mutate_(
-      Ad = ~Avl - gemRes,
+      Ad = ~Avl + gemRes,
       rmseD = ~sqrt(sse/(nBomenOmtrek05 - 2))
     )
 

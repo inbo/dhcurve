@@ -32,7 +32,7 @@
 #'
 #' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_
 #' @importFrom rmarkdown render
-#' @importFrom assertthat assert_that noNA is.flag
+#' @importFrom assertthat assert_that noNA is.flag has_name
 #'
 
 validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bestandsnaam = "Validatie.html", verbose = TRUE){
@@ -60,35 +60,40 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
       Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
     )
 
+  #om curves bij afwijkingen een andere kleur te geven (enkel nodig bij basismodel, waar buigpunten berekend zijn)
+  if (has_name(Selectie, "Omtrek_Buigpunt")) {
+    Selectie2 <- Selectie %>%
+      mutate_(
+        Omtrek_BP = ~(((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5)/100,
+        Omtrek_Max = ~(((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5)/100,
+        CurveSlecht =
+          ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
+                  FALSE),
+        CurveSlecht =
+          ~ifelse(!is.na(Omtrek_Max) & (Omtrek >= Omtrek_Max),
+                  TRUE,CurveSlecht)
+      )
 
-  #om curves bij afwijkingen een andere kleur te geven
-  Selectie2 <- Selectie %>%
-    mutate_(
-      Omtrek_BP = ~(((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5)/100,
-      Omtrek_Max = ~(((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5)/100,
-      CurveSlecht =
-        ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
-                FALSE),
-      CurveSlecht =
-        ~ifelse(!is.na(Omtrek_Max) & (Omtrek >= Omtrek_Max),
-                TRUE,CurveSlecht)
-    )
+    Selectie <- Selectie2 %>%
+      filter_(~Omtrek == Omtrek_BP | Omtrek == Omtrek_Max) %>%
+      mutate_(
+        CurveSlecht = ~FALSE
+      ) %>%
+      bind_rows(
+        Selectie2
+      )
 
-  Selectie <- Selectie2 %>%
-    filter_(~Omtrek == Omtrek_BP | Omtrek == Omtrek_Max) %>%
-    mutate_(
-      CurveSlecht = ~FALSE
-    ) %>%
-    bind_rows(
-      Selectie2
-    )
+  } else {
+    Selectie$CurveSlecht <- FALSE
+  }
+
 
 
   #sorteren volgens grootste aandeel outliers
   SelectieGesorteerd <- Selectie %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     summarise_(
-      PAfwijkend = ~sum(Afwijkend/nBomenOmtrek05)
+      PAfwijkend = ~sum(Afwijkend/nBomenOmtrek05, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     inner_join(

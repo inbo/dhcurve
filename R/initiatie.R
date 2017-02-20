@@ -65,8 +65,8 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
     ) %>%
     ungroup() %>%
     filter_(
-      ~Omtrek > Q5,
-      ~Omtrek < Q95
+      ~Omtrek > Q5k - 0.05,
+      ~Omtrek < Q95 + 0.05
     )
 
   Data.aantallen <- Data2 %>%
@@ -84,8 +84,8 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
     ) %>%
     filter_(
       ~Omtrek > 0.5,
-      ~Omtrek > Q5,
-      ~Omtrek < Q95
+      ~Omtrek > Q5k - 0.05,
+      ~Omtrek < Q95k - 0.05
     ) %>%
     group_by_(
       ~BMS,

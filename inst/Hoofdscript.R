@@ -54,13 +54,13 @@ Data.extra <- Datalijst[[3]]
 
 Basismodel <- fit.basis(Data.basis)
 
-AfwijkendeMetingen <- validatie.basis(Basismodel) #deze functie moet nog afgewerkt worden
+AfwijkendeMetingen <- validatie.basis(Basismodel)
 
 AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
-Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel) #nog nakijken of Ad goed berekend is!!!
+Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 
-AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid) #deze functie moet nog afgewerkt worden
+AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid)
 
 AfwijkendeMetingen2  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 

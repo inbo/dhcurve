@@ -23,7 +23,8 @@ hoogteschatting.basis <- function(Basismodel) {
     AlleKlassen <- seq(15, 245, 10)
 
     Schatting.soort <- Soortmodel$data %>%
-      select_(~BMS, ~DOMEIN_ID, ~Q5k, ~Q95k) %>%
+      select_(~BMS, ~DOMEIN_ID, ~BOS_BHI, ~nBomenInterval, ~nBomenOmtrek05,
+              ~nBomen, ~Q5k, ~Q95k) %>%
       distinct_()
 
     Schatting.soort <- merge(Schatting.soort, AlleKlassen) %>%
@@ -42,10 +43,13 @@ hoogteschatting.basis <- function(Basismodel) {
           as.numeric(fixef(Soortmodel)[2]) * logOmtrek +
           as.numeric(fixef(Soortmodel)[3]) * logOmtrek2
       ) %>%
-      select_(~-Omtrek, ~-logOmtrek, ~-logOmtrek2) %>%
+      select_(~-logOmtrek, ~-logOmtrek2) %>%
       full_join(
-        Soortmodel$data %>% mutate_(y = ~as.integer(round(100 * Omtrek))),
-        by = c("BMS", "DOMEIN_ID", "Q5k", "Q95k", "y")
+        Soortmodel$data %>%
+          mutate_(y = ~as.integer(round(100 * Omtrek))) %>%
+          select_(~-Omtrek),
+        by = c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+               "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "y")
       ) %>%
       select_(~-y)
 
