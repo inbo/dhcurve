@@ -33,7 +33,9 @@ Resultaat2 <- data.frame(logOmtrek = 0.048790164169,
                      logOmtrek2 = 0.00238048011968,
                      nBomen = 55,
                      Q5 = 0.95,
-                     Q95 = 1.15)
+                     Q5k = 0.95,
+                     Q95 = 1.15,
+                     Q95k = 1.15)
 
 
 test_that("Dataset wordt correct opgedeeld", {
@@ -62,7 +64,9 @@ test_that("Dataset wordt correct opgedeeld", {
                           logOmtrek2 = 0.00238048011968,
                           nBomen = 15,
                           Q5 = 0.95,
+                          Q5k = 0.95,
                           Q95 = 1.15,
+                          Q95k = 1.15,
                           stringsAsFactors = FALSE))
   expect_equal(as.data.frame(initiatie(Dataset)[[3]]),
                data.frame(BMS = "SoortExtra",

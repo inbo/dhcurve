@@ -34,8 +34,8 @@ Grafiek <-
   geom_point(aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white", size = 2, stroke = 1) +
   geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams"), colour = "black", size = 1) +
   scale_linetype_manual(name = "Model", values = c("Vlaams" = "dashed", "Domein" = "solid")) +
-  geom_vline(xintercept = SelectieModel$Q5) + 
-  geom_vline(xintercept = SelectieModel$Q95) +
+  # geom_vline(xintercept = SelectieModel$Q5) + 
+  # geom_vline(xintercept = SelectieModel$Q95) +
   scale_x_continuous(minor_breaks = seq(0.05,2.35,0.1))#+
   # geom_vline(xintercept = SelectieModel$Omtrek_Buigpunt, colour = "red") +
   # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red")
