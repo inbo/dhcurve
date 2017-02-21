@@ -14,7 +14,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ group_by_ sample_frac ungroup transmute_ mutate_ bind_rows summarise_
+#' @importFrom dplyr %>% filter_ group_by_ ungroup transmute_ mutate_ bind_rows summarise_ arrange_ row_number
 #' @importFrom nlme fixef
 #' @importFrom stats predict
 #'
@@ -27,28 +27,11 @@ rmse.basis <- function(Basismodel){
     Soortdata <- (Basismodel %>% filter_(~ BMS == Boomsoort))$Model[[1]]$data
 
     #testgroepen aanmaken in dataset
-    Soortdata$Testgroep <- NA
-    for (i in 1:5) {
-      Selectie <- Soortdata %>%
-        filter_(
-          ~is.na(Testgroep)
-        ) %>%
-        group_by_(
-          ~DOMEIN_ID,
-          ~TYPE_METING,
-          ~JAAR,
-          ~Omtrek
-        ) %>%
-        sample_frac(1/(7 - i)) %>%
-        ungroup() %>%
-        transmute_(
-          ~Rijnr
-        )
-      Soortdata$Testgroep <-
-        ifelse(Soortdata$Rijnr %in% Selectie$Rijnr,i,Soortdata$Testgroep)
-    }
-    Soortdata$Testgroep <-
-      ifelse(is.na(Soortdata$Testgroep),6,Soortdata$Testgroep)
+    Soortdata <- Soortdata %>%
+      arrange_(~DOMEIN_ID, ~Omtrek, ~HOOGTE) %>%
+      mutate_(
+        Testgroep = ~(row_number(DOMEIN_ID) - 1) %% 6 + 1
+      )
 
 
     #model fitten voor de 6 testgroepen
