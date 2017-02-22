@@ -34,8 +34,8 @@ validatie.basis <- function(Basismodel){
   #afwijkende curves
   Parameters_Extr <- curvekarakteristieken(Basismodel) %>%
     filter_(
-      ~Omtrek_Extr_Hoogte.d > 0.1 | Omtrek_Extr_Hoogte.vl > 0.1,
-      ~Omtrek_Extr_Hoogte.d < Q95 | Omtrek_Extr_Hoogte.vl < Q95
+      ~Omtrek_Extr_Hoogte.d > 0.1,
+      ~Omtrek_Extr_Hoogte.d < Q95
     )
 
   #hoog minimum domeinmodel
