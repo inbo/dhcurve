@@ -66,4 +66,4 @@ AfwijkendeMetingen3 <- validatie.basis(Extramodellen, Data.extra)
 AfwijkendeMetingen3  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 
-Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen)
+Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra)
