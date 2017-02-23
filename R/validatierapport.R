@@ -30,7 +30,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_
+#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_ desc
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag has_name
 #'
@@ -102,7 +102,7 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
     )
 
   Selectie <- SelectieGesorteerd %>%
-    arrange_(~desc(PAfwijkend))
+    arrange_(~ desc(PAfwijkend))
 
 
   render(system.file("Validatierapport.rmd", package = "dhcurve"),

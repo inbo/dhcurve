@@ -3,15 +3,16 @@
 #' Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
 #'
 #' @param Basismodel model per boomsoort
-#' @param Data
+#' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ select_ rename_ distinct_ full_join
+#' @importFrom dplyr %>% filter_ mutate_ select_ distinct_ full_join row_number
 #' @importFrom nlme fixef
 #' @importFrom stats predict
+#' @importFrom assertthat has_name
 #'
 
 hoogteschatting.basis <- function(Basismodel, Data = NULL) {

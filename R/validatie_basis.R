@@ -21,7 +21,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ transmute_ select_ arrange_ desc row_number mutate_ distinct_ group_by_ summarise_ ungroup
+#' @importFrom dplyr %>% inner_join filter_ transmute_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows
+#' @importFrom assertthat has_name
 #'
 
 validatie.basis <- function(Basismodel, Data = NULL){

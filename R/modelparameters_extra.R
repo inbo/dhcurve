@@ -3,7 +3,7 @@
 #' Functie die de modelparameters berekent op basis van een opgegeven extra model.  Ze berekent de parameters voor het domeinmodel en geeft de grenzen van het bruikbaar interval
 #'
 #' @param Extramodellen model per boomsoort-domein-combinatie
-#' @param Data
+#' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #'
 #' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd)
 #'

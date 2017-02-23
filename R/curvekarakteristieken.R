@@ -3,7 +3,7 @@
 #' Berekent curvekarakteristieken die toelaten om mogelijke afwijkingen in curvevorm te detecteren: extremen (min en max), buigpunt,...
 #'
 #' @param Basismodel model per boomsoort
-#' @param Data
+#' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #'
 #' @return dataframe met curvekarakteristieken per domein en boomsoort
 #'

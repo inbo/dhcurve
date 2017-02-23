@@ -20,6 +20,8 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>% filter_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup
+#'
 
 validatie.afgeleid <- function(Basismodel, Afgeleidmodel, Data.afgeleid){
 

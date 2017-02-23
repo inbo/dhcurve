@@ -9,7 +9,7 @@ hoogteschatting.basis(Basismodel, Data = NULL)
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Data}{}
+\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model

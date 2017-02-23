@@ -8,7 +8,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup
+#' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup desc
 #'
 
 afwijkendeMetingen <- function(Dataset){
@@ -16,7 +16,7 @@ afwijkendeMetingen <- function(Dataset){
   HogeRmse <- Dataset %>%
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%
     distinct_() %>%
-    arrange_(~desc(rmseD)) %>%
+    arrange_(~ desc(rmseD)) %>%
     slice_(~ seq_len(20)) %>%
     transmute_(
       ~DOMEIN_ID,
@@ -38,7 +38,7 @@ afwijkendeMetingen <- function(Dataset){
       HogeAfwijking = ~TRUE
     ) %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
-    arrange_(~desc(error)) %>%
+    arrange_(~ desc(error)) %>%
     slice_(~1:10) %>%
     ungroup() %>%
     select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE, ~HogeAfwijking) %>%

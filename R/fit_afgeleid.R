@@ -9,7 +9,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join select_ distinct_ mutate_ group_by_ filter_ summarise_ ungroup
+#' @importFrom dplyr %>% inner_join select_ distinct_ mutate_ group_by_ summarise_ ungroup
 #'
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {

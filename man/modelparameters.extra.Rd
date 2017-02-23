@@ -9,7 +9,7 @@ modelparameters.extra(Extramodellen, Data)
 \arguments{
 \item{Extramodellen}{model per boomsoort-domein-combinatie}
 
-\item{Data}{}
+\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 }
 \value{
 dataframe met parameters voor domeinmodel (Ad, Bd en Cd)

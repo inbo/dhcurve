@@ -9,7 +9,7 @@ curvekarakteristieken(Basismodel, Data = NULL)
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Data}{}
+\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 }
 \value{
 dataframe met curvekarakteristieken per domein en boomsoort

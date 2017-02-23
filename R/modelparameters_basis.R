@@ -8,7 +8,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ select_ distinct_ left_join bind_rows
+#' @importFrom dplyr %>% filter_ select_ distinct_ left_join bind_rows row_number
 #' @importFrom nlme fixef
 #' @importFrom stats coef
 #'

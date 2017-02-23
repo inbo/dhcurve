@@ -9,7 +9,7 @@ modelparameters(Basismodel, Data = NULL)
 \arguments{
 \item{Basismodel}{model per boomsoort of model per boomsoort-domein-combinatie}
 
-\item{Data}{}
+\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 }
 \value{
 dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl)
