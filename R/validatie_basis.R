@@ -12,7 +12,10 @@
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, curvekarakteristieken en afwijkende metingen).
 #'
+#' Deze functie kan ook gebruikt worden voor extra modellen
+#'
 #' @param Basismodel model per boomsoort
+#' @param Data dataset op basis waarvan het model berekend is (nodig voor extra model)
 #'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
@@ -21,21 +24,21 @@
 #' @importFrom dplyr %>% filter_ transmute_ select_ arrange_ desc row_number mutate_ distinct_ group_by_ summarise_ ungroup
 #'
 
-validatie.basis <- function(Basismodel){
+validatie.basis <- function(Basismodel, Data = NULL){
 
-  Rmse <- rmse.basis(Basismodel)
+  Rmse <- rmse.basis(Basismodel, Data)
 
-  Dataset <- hoogteschatting.basis(Basismodel) %>%
+  Dataset <- hoogteschatting.basis(Basismodel, Data) %>%
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
                by = c("BMS", "DOMEIN_ID"))
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
 
   #afwijkende curves
-  Parameters_Extr <- curvekarakteristieken(Basismodel) %>%
+  Parameters_Extr <- curvekarakteristieken(Basismodel, Data) %>%
     filter_(
       ~Omtrek_Extr_Hoogte.d > 0.1,
-      ~Omtrek_Extr_Hoogte.d < Q95
+      ~Omtrek_Extr_Hoogte.d < Q95k
     )
 
   #hoog minimum domeinmodel
@@ -43,7 +46,7 @@ validatie.basis <- function(Basismodel){
     filter_(
       ~Omtrek_Extr_Hoogte.d > 0.1,
       ~Hoogteverschil.d < 0,
-      ~Omtrek_Buigpunt.d > Q5,
+      ~Omtrek_Buigpunt.d > Q5k,
       ~Verschil_rico_BP_Q5.d > 1
     ) %>%
     transmute_(
@@ -55,7 +58,7 @@ validatie.basis <- function(Basismodel){
   #laag maximum domeinmodel
   LaagMax <- Parameters_Extr %>%
     filter_(
-      ~Omtrek_Extr_Hoogte.d < Q95,
+      ~Omtrek_Extr_Hoogte.d < Q95k,
       ~Hoogteverschil.d > 0
     ) %>%
     transmute_(
@@ -109,7 +112,12 @@ validatie.basis <- function(Basismodel){
     ) %>%
     ungroup()
 
-  validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Basis.html")
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Extra.html")
+  } else {
+    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Basis.html")
+  }
+
 
   return(AfwijkendeMetingen)
 

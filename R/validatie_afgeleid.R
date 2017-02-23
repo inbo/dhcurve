@@ -53,4 +53,6 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel, Data.afgeleid){
 
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Afgeleid.html")
 
+  return(AfwijkendeMetingen)
+
 }

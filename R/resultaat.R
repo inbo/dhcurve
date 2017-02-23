@@ -10,6 +10,8 @@
 #'
 #' @param Basismodel model per boomsoort
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (Vlaams model)
+#' @param Extramodellen model per boomsoort-domein-combinatie
+#' @param Data.extra data voor model per boomsoort-domein-combinatie
 #' @param Data.ontbrekend evt. lijst van domeinen < 10 per boomsoort (en dan voor deze domeinen het Vlaams model invullen?)
 #'
 #' @return dataframe met modellen per domein en per boomsoort met velden:
@@ -20,7 +22,7 @@
 #'
 #' - BoomsoortID
 #'
-#' - type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel))
+#' - type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel)/ 'domeinmodel' (= apart model voor 1 boomsoort-domein-combinatie))
 #'
 #' - paramaters A,B en C
 #'
@@ -39,10 +41,10 @@
 #' @importFrom dplyr %>% select_ left_join rename_ mutate_ group_by summarise_ ungroup
 #'
 
-resultaat <- function(Basismodel, Afgeleidmodel, Data.ontbrekend = NULL){
+resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.ontbrekend = NULL){
 
   Modellen.basis <- modelparameters(Basismodel) %>%
-    select_(~-Q5, ~-Q95) %>%
+    select_(~-Q5k, ~-Q95k) %>%
     left_join(rmse.basis(Basismodel),
               c("BMS","DOMEIN_ID"))
 
@@ -96,12 +98,33 @@ resultaat <- function(Basismodel, Afgeleidmodel, Data.ontbrekend = NULL){
           ~nBomen,
           ~nBomenInterval,
           ~nBomenOmtrek05,
-          ~Q5,
-          ~Q95,
+          ~Q5k,
+          ~Q95k,
           RMSE = ~rmseD
         ) %>%
         mutate_(
           Modeltype = ~"afgeleid model"
+        )
+    ) %>%
+    bind_rows(
+      modelparameters(Extramodellen, Data.extra) %>%
+        left_join(rmse.basis(Extramodellen, Data.extra),
+                  c("BMS","DOMEIN_ID")) %>%
+        select_(
+          ~DOMEIN_ID,
+          ~BMS,
+          A = ~Ad,
+          B = ~Bd,
+          C = ~Cd,
+          ~nBomen,
+          ~nBomenInterval,
+          ~nBomenOmtrek05,
+          ~Q5k,
+          ~Q95k,
+          RMSE = ~rmseD
+        ) %>%
+        mutate_(
+          Modeltype = ~"domeinmodel"
         )
     )
 

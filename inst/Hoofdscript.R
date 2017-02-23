@@ -53,15 +53,17 @@ Data.afgeleid <- Datalijst[[2]]
 Data.extra <- Datalijst[[3]]
 
 Basismodel <- fit.basis(Data.basis)
-
 AfwijkendeMetingen <- validatie.basis(Basismodel)
-
 AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
-
 AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid)
-
 AfwijkendeMetingen2  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
-Resultaat <- resultaat(Basismodel, Afgeleidmodel)
+#De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus onafhankelijk berekend worden
+Extramodellen <- fit.extra(Data.extra)
+AfwijkendeMetingen3 <- validatie.basis(Extramodellen, Data.extra)
+AfwijkendeMetingen3  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+
+Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen)

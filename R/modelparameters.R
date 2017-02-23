@@ -1,10 +1,11 @@
-#' Modelparameters berekenen voor opgegeven basismodel
+#' Modelparameters berekenen voor opgegeven model
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
+#' Functie die de modelparameters berekent op basis van een opgegeven basismodel of extra.  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis of modelparameters.extra, afhankelijk van de situatie)
 #'
-#' @param Basismodel model per boomsoort
+#' @param Basismodel model per boomsoort of model per boomsoort-domein-combinatie
+#' @param Data
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en parameters voor Vlaams model (Avl, Bvl en Cvl)
+#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl)
 #'
 #' @export
 #'
@@ -13,37 +14,12 @@
 #' @importFrom stats coef
 #'
 
-modelparameters <- function(Basismodel) {
+modelparameters <- function(Basismodel, Data = NULL) {
 
-  Parameters <- data.frame(NULL)
-  for (Boomsoort in Basismodel$BMS) {
-    #dataset ophalen uit model
-    Soortmodel <- (Basismodel %>% filter_(~ BMS == Boomsoort))$Model[[1]]
-
-    Parameters.soort <- data.frame(BMS = Boomsoort,
-                                   DOMEIN_ID = rownames(coef(Soortmodel)),
-                                   Ad = coef(Soortmodel)[[1]],
-                                   Bd = coef(Soortmodel)[[2]],
-                                   Cd = coef(Soortmodel)[[3]],
-                                   Avl = fixef(Soortmodel)[[1]],
-                                   Bvl = fixef(Soortmodel)[[2]],
-                                   Cvl = fixef(Soortmodel)[[3]],
-                                   stringsAsFactors = FALSE)
-
-    Soortparameters <- Soortmodel$data %>%
-      select_(
-        ~DOMEIN_ID,
-        ~Q5,
-        ~Q95
-      ) %>%
-      distinct_() %>%
-      left_join(
-        Parameters.soort,
-        by = c("DOMEIN_ID")
-      )
-
-    Parameters <- Parameters %>%
-      bind_rows(Soortparameters)
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    Parameters <- modelparameters.extra(Basismodel, Data)
+  } else {
+    Parameters <- modelparameters.basis(Basismodel)
   }
 
   return(Parameters)

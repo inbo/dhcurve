@@ -17,7 +17,7 @@ afwijkendeMetingen <- function(Dataset){
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%
     distinct_() %>%
     arrange_(~desc(rmseD)) %>%
-    filter_(~row_number(rmseD) <= 20) %>%
+    slice_(~ seq_len(20)) %>%
     transmute_(
       ~DOMEIN_ID,
       ~BMS,

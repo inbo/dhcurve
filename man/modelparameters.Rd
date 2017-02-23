@@ -2,17 +2,19 @@
 % Please edit documentation in R/modelparameters.R
 \name{modelparameters}
 \alias{modelparameters}
-\title{Modelparameters berekenen voor opgegeven basismodel}
+\title{Modelparameters berekenen voor opgegeven model}
 \usage{
-modelparameters(Basismodel)
+modelparameters(Basismodel, Data = NULL)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{Basismodel}{model per boomsoort of model per boomsoort-domein-combinatie}
+
+\item{Data}{}
 }
 \value{
-dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en parameters voor Vlaams model (Avl, Bvl en Cvl)
+dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl)
 }
 \description{
-Functie die de modelparameters berekent op basis van een opgegeven basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
+Functie die de modelparameters berekent op basis van een opgegeven basismodel of extra.  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis of modelparameters.extra, afhankelijk van de situatie)
 }
 

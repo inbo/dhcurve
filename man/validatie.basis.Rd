@@ -4,10 +4,12 @@
 \alias{validatie.basis}
 \title{Validatie van het basismodel}
 \usage{
-validatie.basis(Basismodel)
+validatie.basis(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
+
+\item{Data}{dataset op basis waarvan het model berekend is (nodig voor extra model)}
 }
 \value{
 Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
@@ -25,5 +27,7 @@ Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model e
 - validatierapport
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, curvekarakteristieken en afwijkende metingen).
+
+Deze functie kan ook gebruikt worden voor extra modellen
 }
 

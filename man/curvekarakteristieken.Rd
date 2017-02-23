@@ -4,10 +4,12 @@
 \alias{curvekarakteristieken}
 \title{Berekent curvekarakteristieken van de domeinmodellen}
 \usage{
-curvekarakteristieken(Basismodel)
+curvekarakteristieken(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
+
+\item{Data}{}
 }
 \value{
 dataframe met curvekarakteristieken per domein en boomsoort
