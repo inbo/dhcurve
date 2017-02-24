@@ -4,12 +4,14 @@
 \alias{hoogteschatting.basis}
 \title{Hoogteschatting op basis van opgegeven basismodel}
 \usage{
-hoogteschatting.basis(Basismodel, Data = NULL)
+hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{Soortmodel}{model voor boomsoort (basis) of boomsoort-domein-combinatie (extra)}
 
-\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
+\item{Soortdata}{meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (extra)}
+
+\item{Typemodel}{'Basis' of 'Extra'?}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model

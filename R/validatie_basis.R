@@ -42,10 +42,36 @@ validatie.basis <- function(Basismodel, Data = NULL){
       rowwise() %>%
       do_(
         ~rmse.basis(.$Model$data, "Basis")
-      )
+      ) %>%
+      ungroup()
   }
 
-  Dataset <- hoogteschatting.basis(Basismodel, Data) %>%
+  if (has_name(Basismodel,"DOMEIN_ID")) {
+    Hoogteschatting <- Basismodel %>%
+      inner_join(
+        Data,
+        by = c("BMS", "DOMEIN_ID")
+      ) %>%
+      group_by_(
+        ~BMS,
+        ~DOMEIN_ID
+      ) %>%
+      do_(
+        ~hoogteschatting.basis(.$Model[[1]],
+                                select_(.,~-Model),
+                                "Extra")
+      ) %>%
+      ungroup()
+  } else {
+    Hoogteschatting <- Basismodel %>%
+      rowwise() %>%
+      do_(
+        ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+      ) %>%
+      ungroup()
+  }
+
+  Dataset <- Hoogteschatting %>%
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
                by = c("BMS", "DOMEIN_ID"))
 
