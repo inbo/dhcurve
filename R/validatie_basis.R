@@ -21,13 +21,29 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join filter_ transmute_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows
+#' @importFrom dplyr %>% inner_join filter_ transmute_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows do_ rowwise
 #' @importFrom assertthat has_name
 #'
 
 validatie.basis <- function(Basismodel, Data = NULL){
 
-  Rmse <- rmse.basis(Basismodel, Data)
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    Rmse <- Data %>%
+      group_by_(
+        ~BMS,
+        ~DOMEIN_ID
+      ) %>%
+      do_(
+        ~rmse.basis(., "Extra")
+      ) %>%
+      ungroup()
+  } else {
+    Rmse <- Basismodel %>%
+      rowwise() %>%
+      do_(
+        ~rmse.basis(.$Model$data, "Basis")
+      )
+  }
 
   Dataset <- hoogteschatting.basis(Basismodel, Data) %>%
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
