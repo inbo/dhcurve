@@ -4,12 +4,10 @@
 \alias{modelparameters.extra}
 \title{Modelparameters berekenen voor opgegeven extra model}
 \usage{
-modelparameters.extra(Extramodellen, Data)
+modelparameters.extra(Soortmodel)
 }
 \arguments{
-\item{Extramodellen}{model per boomsoort-domein-combinatie}
-
-\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
+\item{Soortmodel}{model voor boomsoort-domein-combinatie}
 }
 \value{
 dataframe met parameters voor domeinmodel (Ad, Bd en Cd)

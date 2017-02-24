@@ -10,14 +10,33 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
+#' @importFrom dplyr %>% rowwise do_ inner_join group_by_ ungroup
 #'
 
 modelparameters <- function(Basismodel, Data = NULL) {
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
-    Parameters <- modelparameters.extra(Basismodel, Data)
+    Parameters <- Basismodel %>%
+      inner_join(
+        Data,
+        by = c("BMS", "DOMEIN_ID")
+      ) %>%
+      group_by_(
+        ~BMS,
+        ~DOMEIN_ID,
+        ~Q5k,
+        ~Q95k
+      ) %>%
+      do_(
+        ~modelparameters.extra(.$Model[[1]])
+      ) %>%
+      ungroup()
   } else {
-    Parameters <- modelparameters.basis(Basismodel)
+    Parameters <- Basismodel %>%
+      rowwise() %>%
+      do_(
+        ~modelparameters.basis(.$Model)
+      )
   }
 
   return(Parameters)
