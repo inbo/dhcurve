@@ -45,7 +45,12 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
 
   Modellen.basis <- modelparameters(Basismodel) %>%
     select_(~-Q5k, ~-Q95k) %>%
-    left_join(rmse.basis(Basismodel),
+    left_join(Basismodel %>%
+                rowwise() %>%
+                do_(
+                  ~rmse.basis(.$Model$data, "Basis")
+                ) %>%
+                ungroup(),
               c("BMS","DOMEIN_ID"))
 
   Modellen.domein <- Modellen.basis %>%
@@ -108,7 +113,16 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
     ) %>%
     bind_rows(
       modelparameters(Extramodellen, Data.extra) %>%
-        left_join(rmse.basis(Extramodellen, Data.extra),
+        select_(~-Q5k, ~-Q95k) %>%
+        left_join(Data.extra %>%
+                    group_by_(
+                      ~BMS,
+                      ~DOMEIN_ID
+                    ) %>%
+                    do_(
+                      ~rmse.basis(., "Extra")
+                    ) %>%
+                    ungroup(),
                   c("BMS","DOMEIN_ID")) %>%
         select_(
           ~DOMEIN_ID,
