@@ -48,6 +48,14 @@ Data <- TreesT4_2016bos %>%
 #hier beginnen de functies
 Datalijst <- initiatie(Data)
 
+#voorbeeld als je de limiet voor gebruik van de gegevens van cultuurpopulier in de Palingbeek om het model te berekenen, wil optrekken van 50 naar 60 bomen
+# Uitzonderingen <- data.frame(DOMEIN_ID = "DomWVL09172", BMS = "cultuurpopulier",
+#                              min_basis = 60, min_afgeleid = NA,
+#                              stringsAsFactors = FALSE)
+#
+# Datalijst <- initiatie(Data, Uitzonderingen)
+
+
 Data.basis <- Datalijst[[1]]
 Data.afgeleid <- Datalijst[[2]]
 Data.extra <- Datalijst[[3]]

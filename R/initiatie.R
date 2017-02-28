@@ -34,7 +34,11 @@
 #' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join
 #'
 
-initiatie <- function(Data, Uitzonderingen = NULL) {
+initiatie <-
+  function(Data,
+           Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
+                                       min_basis = NA, min_afgeleid = NA,
+                                       stringsAsFactors = FALSE)) {
   min_basismodel <- 50
   min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen?
   min_afgeleidmodel <- 10
@@ -99,12 +103,20 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
     inner_join(
       Data2,
       by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    left_join(
+      Uitzonderingen,
+      by = c("BMS", "DOMEIN_ID")
     )
 
 
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
-      ~nBomenOmtrek05 > min_basismodel
+      ~((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
+        (!is.na(min_basis) & nBomenOmtrek05 > min_basis))
+    ) %>%
+    select_(
+      ~-min_basis, ~-min_afgeleid
     )
 
 
@@ -144,8 +156,12 @@ initiatie <- function(Data, Uitzonderingen = NULL) {
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
-      ~nBomenOmtrek05 > min_afgeleidmodel,
+      ~((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
+        (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
       ~Omtrek > 0.5
+    ) %>%
+    select_(
+      ~-min_basis, ~-min_afgeleid
     )
 
   return(list(Basisdata, Data.afgeleid, Extradata))

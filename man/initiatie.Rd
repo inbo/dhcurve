@@ -4,7 +4,8 @@
 \alias{initiatie}
 \title{Initiatiestap met opsplitsen van dataset op basis van aantal metingen per domein}
 \usage{
-initiatie(Data, Uitzonderingen = NULL)
+initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
+  min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE))
 }
 \arguments{
 \item{Data}{dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.}
