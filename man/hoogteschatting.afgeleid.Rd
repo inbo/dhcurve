@@ -4,12 +4,12 @@
 \alias{hoogteschatting.afgeleid}
 \title{Hoogteschatting op basis van opgegeven afgeleid model}
 \usage{
-hoogteschatting.afgeleid(Afgeleidmodel, Data.afgeleid)
+hoogteschatting.afgeleid(Afgeleidmodel, DataAfgeleidmodel)
 }
 \arguments{
-\item{Afgeleidmodel}{verschuiving per boomsoort en domein (verschoven Vlaams model)}
+\item{Afgeleidmodel}{verschoven Vlaams model voor 1 boomsoort-domein-combinatie}
 
-\item{Data.afgeleid}{dataframe 10-50}
+\item{DataAfgeleidmodel}{de gegevens die hierbij horen: meetresultaten en het berekend Vlaams model (Deze dataset is het tweede item van de list die teruggegeven wordt bij de functie fit.afgeleid)}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model

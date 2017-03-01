@@ -7,14 +7,14 @@
 fit.afgeleid(Data.afgeleid, Basismodel)
 }
 \arguments{
-\item{Data.afgeleid}{dataframe 10-50}
+\item{Data.afgeleid}{Data.afgeleid dataframe 10-50}
 
 \item{Basismodel}{model per boomsoort}
 }
 \value{
-verschuiving per boomsoort en domein (dit is geen nieuw model, wel een verschuiving t.o.v. het Vlaams model)
+list met model per boomsoort-domein-combinatie
 }
 \description{
-Functie die het Vlaams model verschuift op basis van domeinen met 10 - 50 bomen (Domeinmodel = Vlaams model - residu’s): op basis van omtrekklassen > 0.5 m
+Functie die een model berekent voor domeinen met 10 - 50 bomen (binnen omtrekklassen > 0.5 m) door verschuiving van het Vlaams model voor die boomsoort.
 }
 

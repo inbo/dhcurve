@@ -65,7 +65,7 @@ AfwijkendeMetingen <- validatie.basis(Basismodel)
 AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
-AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid)
+AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
 AfwijkendeMetingen2  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 #De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus onafhankelijk berekend worden

@@ -4,14 +4,13 @@
 \alias{validatie.afgeleid}
 \title{Validatie van het afgeleid model}
 \usage{
-validatie.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid)
+validatie.afgeleid(Basismodel, Afgeleidmodel)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Afgeleidmodel}{verschuiving per boomsoort en domein (verschoven Vlaams model)}
-
-\item{Data.afgeleid}{dataframe 10-50}
+\item{Afgeleidmodel}{verschuiving per boomsoort en domein (verschoven Vlaams model)
+#@param Data.afgeleid dataframe 10-50}
 }
 \value{
 Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen

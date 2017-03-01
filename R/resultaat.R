@@ -38,7 +38,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select_ left_join rename_ mutate_ bind_rows
+#' @importFrom dplyr %>% select_ left_join rowwise do_ ungroup rename_ mutate_ bind_rows group_by_
 #'
 
 resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.ontbrekend = NULL){
