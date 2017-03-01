@@ -46,7 +46,8 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ) %>%
     summarise_(
       sse = ~sum(c(Resid2)),
-      gemRes = ~mean(Resid)
+      gemRes = ~mean(Resid),
+      maxResid = ~max(c(Resid2))
     ) %>%
     ungroup() %>%
     mutate_(

@@ -82,7 +82,8 @@ rmse.basis <- function(Data, Typemodel){
     ) %>%
     summarise_(
       sseD = ~sum(c(ResidD2)),
-      sseVL = ~sum(c(ResidVL2))
+      sseVL = ~sum(c(ResidVL2)),
+      maxResid = ~max(c(ResidD2))
     ) %>%
     ungroup() %>%
     transmute_(
@@ -94,7 +95,8 @@ rmse.basis <- function(Data, Typemodel){
       ~Q5k,
       ~Q95k,
       rmseD = ~sqrt(sseD/(nBomenOmtrek05 - 2)),
-      rmseVL = ~sqrt(sseVL/(nBomenOmtrek05 - 2))
+      rmseVL = ~sqrt(sseVL/(nBomenOmtrek05 - 2)),
+      ~maxResid
     )
 
   #voor extra model het Vlaams model verwijderen (is gelijkgesteld aan 0)

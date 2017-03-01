@@ -51,7 +51,8 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
                   ~rmse.basis(.$Model$data, "Basis")
                 ) %>%
                 ungroup(),
-              c("BMS","DOMEIN_ID"))
+              c("BMS","DOMEIN_ID")) %>%
+    select_(~-maxResid)
 
   Modellen.domein <- Modellen.basis %>%
     select_(~-Avl, ~-Bvl, ~-Cvl, ~-rmseVL) %>%

@@ -72,7 +72,7 @@ validatie.basis <- function(Basismodel, Data = NULL){
   }
 
   Dataset <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
+    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset)

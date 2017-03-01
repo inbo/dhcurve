@@ -75,3 +75,4 @@ AfwijkendeMetingen3  #metingen nakijken en vlaggen in de databank vooraleer verd
 
 
 Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra)
+write.csv2(Resultaat, "DHcurves.csv")

@@ -102,7 +102,10 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
     )
 
   Selectie <- SelectieGesorteerd %>%
-    arrange_(~ desc(PAfwijkend))
+    #mutate_(RelFout = ~maxResid /rmseD) %>%
+    #arrange_(~ desc(RelFout))
+    arrange_(~ desc(maxResid))
+    #arrange_(~ desc(PAfwijkend))
 
 
   render(system.file("Validatierapport.rmd", package = "dhcurve"),
