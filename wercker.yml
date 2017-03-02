@@ -1,0 +1,6 @@
+box: inbobmk/rstable:3.3.2
+build:
+  steps:
+    - inbobmk/r-check
+    - inbobmk/r-coverage
+    - inbobmk/r-lint
