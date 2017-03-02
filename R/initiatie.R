@@ -40,7 +40,7 @@ initiatie <-
                                        min_basis = NA, min_afgeleid = NA,
                                        stringsAsFactors = FALSE)) {
   min_basismodel <- 50
-  min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen?
+  min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen
   min_afgeleidmodel <- 10
 
   #hier moet nog controle gebeuren op de ingevoerde data!
@@ -87,9 +87,9 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
-      ~Omtrek > 0.5,
+      ~Omtrek > 0.5 - 0.05,
       ~Omtrek > Q5k - 0.05,
-      ~Omtrek < Q95k - 0.05
+      ~Omtrek < Q95k + 0.05
     ) %>%
     group_by_(
       ~BMS,
@@ -158,7 +158,7 @@ initiatie <-
     filter_(
       ~((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
         (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
-      ~Omtrek > 0.5
+      ~Omtrek > 0.5 - 0.05
     ) %>%
     select_(
       ~-min_basis, ~-min_afgeleid
