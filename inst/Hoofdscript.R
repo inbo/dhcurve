@@ -59,6 +59,7 @@ Datalijst <- initiatie(Data)
 Data.basis <- Datalijst[[1]]
 Data.afgeleid <- Datalijst[[2]]
 Data.extra <- Datalijst[[3]]
+Data.rest <- Datalijst[[4]]
 
 Basismodel <- fit.basis(Data.basis)
 AfwijkendeMetingen <- validatie.basis(Basismodel)
@@ -74,5 +75,5 @@ AfwijkendeMetingen3 <- validatie.basis(Extramodellen, Data.extra)
 AfwijkendeMetingen3  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 
-Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra)
+Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.rest)
 write.csv2(Resultaat, "DHcurves.csv")

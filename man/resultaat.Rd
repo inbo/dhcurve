@@ -5,7 +5,7 @@
 \title{berekent de modelparameters per domein}
 \usage{
 resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra,
-  Data.ontbrekend = NULL)
+  Data.onbruikbaar = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
@@ -16,7 +16,7 @@ resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra,
 
 \item{Data.extra}{data voor model per boomsoort-domein-combinatie}
 
-\item{Data.ontbrekend}{evt. lijst van domeinen < 10 per boomsoort (en dan voor deze domeinen het Vlaams model invullen?)}
+\item{Data.onbruikbaar}{evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden}
 }
 \value{
 dataframe met modellen per domein en per boomsoort met velden:
@@ -27,7 +27,7 @@ dataframe met modellen per domein en per boomsoort met velden:
 
 - BoomsoortID
 
-- type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel)/ 'domeinmodel' (= apart model voor 1 boomsoort-domein-combinatie))
+- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'domeinmodel'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
 
 - paramaters A,B en C
 

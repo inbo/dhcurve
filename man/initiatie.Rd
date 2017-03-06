@@ -21,9 +21,7 @@ Een list van dataframes:
 
 - dataframe > 50 metingen en < 6 domeinen
 
-- dataframe met lijst van domeinen < 10 per boomsoort (nog toe te voegen)
-
-- evt. lijst van boomsoorten die niet gefit kunnen worden (nog toe te voegen)
+- dataframe met metingen van domeinen en boomsoorten waar geen model voor opgesteld kan worden
 }
 \description{
 Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.
@@ -37,7 +35,7 @@ Daarna splitst de functie de data op in 3 delen die voor de verschillende analys
 
 (3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)
 
-(4 en 5: zie voorlopig onder 'value')
+(4) metingen van de domein-boomsoort-combinaties die niet tot de 3 voorgaande categorieën behoren en waar dus geen model voor opgesteld kan worden.
 
 De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 }

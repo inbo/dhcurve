@@ -12,7 +12,7 @@
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (Vlaams model)
 #' @param Extramodellen model per boomsoort-domein-combinatie
 #' @param Data.extra data voor model per boomsoort-domein-combinatie
-#' @param Data.ontbrekend evt. lijst van domeinen < 10 per boomsoort (en dan voor deze domeinen het Vlaams model invullen?)
+#' @param Data.onbruikbaar evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden
 #'
 #' @return dataframe met modellen per domein en per boomsoort met velden:
 #'
@@ -22,7 +22,7 @@
 #'
 #' - BoomsoortID
 #'
-#' - type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel)/ 'domeinmodel' (= apart model voor 1 boomsoort-domein-combinatie))
+#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'domeinmodel'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
 #'
 #' - paramaters A,B en C
 #'
@@ -41,7 +41,7 @@
 #' @importFrom dplyr %>% select_ left_join rowwise do_ ungroup rename_ mutate_ bind_rows group_by_
 #'
 
-resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.ontbrekend = NULL){
+resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.onbruikbaar = NULL){
 
   Modellen.basis <- modelparameters(Basismodel) %>%
     select_(~-Q5k, ~-Q95k) %>%
@@ -190,6 +190,18 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
         ) %>%
         mutate_(
           Modeltype = ~"domeinmodel"
+        )
+    ) %>%
+    bind_rows(
+      Data.onbruikbaar %>%
+        select_(
+          ~DOMEIN_ID, ~BMS,
+          ~nBomen, ~nBomenInterval, ~nBomenOmtrek05,
+          ~Q5k, ~Q95k
+        ) %>%
+        distinct_() %>%
+        mutate_(
+          Modeltype = ~"Geen model"
         )
     )
 
