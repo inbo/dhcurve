@@ -91,14 +91,64 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
   #     Modeltype = ~"Vlaams model"
   #   )
 
+
+  #Rmse van Vlaams model berekenen
+  RmseVL <- Basismodel %>%
+    rowwise() %>%
+    do_(
+      ~rmse.basis(.$Model$data, "Basis")
+    ) %>%
+    ungroup() %>%
+    mutate_(
+      sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
+    ) %>%
+    group_by_(~BMS) %>%
+    summarise_(
+      nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
+      rmseVL = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+    ) %>%
+    ungroup()
+
+  #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
+  RmseAfg <- Afgeleidmodel[[1]] %>%
+    rowwise() %>%
+    do_(
+      ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+    ) %>%
+    ungroup() %>%
+    inner_join(
+      RmseVL %>% select_(~BMS, ~rmseVL),
+      by = c("BMS")
+    ) %>%
+    mutate_(
+      rmseD = ~sqrt(rmseVL^2 + RmseVerschuiving^2)
+    )
+
+
   Modellen <- Modellen.domein %>%
 #    bind_rows(Modellen.Vlaams) %>%
     bind_rows(
-      Afgeleidmodel %>%
+      Afgeleidmodel[[2]] %>%
         select_(
+          ~BMS,
+          ~DOMEIN_ID,
+          ~nBomen,
+          ~nBomenInterval,
+          ~nBomenOmtrek05
+        ) %>%
+        distinct_() %>%
+        left_join(
+          RmseAfg %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
+          by = c("BMS", "DOMEIN_ID")
+        ) %>%
+        left_join(
+          modelparameters(Basismodel, Afgeleidmodel = Afgeleidmodel),
+          by = c("BMS", "DOMEIN_ID")
+        ) %>%
+        transmute_(
           ~DOMEIN_ID,
           ~BMS,
-          A = ~Ad,
+          A = ~Ad + Avl,
           B = ~Bvl,
           C = ~Cvl,
           ~nBomen,
