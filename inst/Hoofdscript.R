@@ -56,23 +56,26 @@ Datalijst <- initiatie(Data)
 # Datalijst <- initiatie(Data, Uitzonderingen)
 
 
-Data.basis <- Datalijst[[1]]
-Data.afgeleid <- Datalijst[[2]]
-Data.extra <- Datalijst[[3]]
-Data.rest <- Datalijst[[4]]
+Data.basis <- Datalijst[["Basis"]]
+Data.afgeleid <- Datalijst[["Afgeleid"]]
+Data.extra <- Datalijst[["Domein"]]
+Data.rest <- Datalijst[["Rest"]]
 
 Basismodel <- fit.basis(Data.basis)
 AfwijkendeMetingen <- validatie.basis(Basismodel)
-AfwijkendeMetingen  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
-AfwijkendeMetingen2  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+write.csv2(AfwijkendeMetingen2, "AfwijkendeMetingenAfgeleid.csv")
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 #De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus onafhankelijk berekend worden
 Extramodellen <- fit.extra(Data.extra)
 AfwijkendeMetingen3 <- validatie.basis(Extramodellen, Data.extra)
-AfwijkendeMetingen3  #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenExtra.csv")
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 
 Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.rest)

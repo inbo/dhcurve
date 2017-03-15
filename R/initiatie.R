@@ -178,7 +178,7 @@ initiatie <-
     )
 
 
-  return(list(Basisdata, Data.afgeleid, Extradata, Data.rest))
+  return(list(Basis = Basisdata, Afgeleid = Data.afgeleid, Domein = Extradata, Rest = Data.rest))
 }
 
 
