@@ -22,12 +22,11 @@ Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model e
 
 - afwijkendeMetingen
 
-- curvekarakteristieken
+- afwijkendeCurves
 
 - validatierapport
 
-Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, curvekarakteristieken en afwijkende metingen).
+Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
 
 Deze functie kan ook gebruikt worden voor extra modellen
 }
-
