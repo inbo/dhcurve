@@ -29,4 +29,3 @@ validatie.afgeleid roept meerdere hulpfuncties op:
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
 }
-

@@ -32,4 +32,3 @@ Deze functie genereert een grafiek met volgende info op basis van de gegeven dat
 
 Idee is dat in de grafieken een afwijkende kleur het probleem aangeeft: afwijkende meting, buigpunt,...  Daarnaast wordt het probleem ook tekstueel weergegeven
 }
-

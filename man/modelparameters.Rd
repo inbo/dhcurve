@@ -19,4 +19,3 @@ dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basi
 \description{
 Functie die de modelparameters berekent op basis van een opgegeven basismodel, extra model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.extra of modelparameters.afgeleid, afhankelijk van de situatie)
 }
-

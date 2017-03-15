@@ -17,4 +17,3 @@ list met model per boomsoort-domein-combinatie
 \description{
 Functie die een model berekent voor domeinen met 10 - 50 bomen (binnen omtrekklassen > 0.5 m) door verschuiving van het Vlaams model voor die boomsoort.
 }
-

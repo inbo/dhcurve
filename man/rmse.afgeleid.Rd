@@ -19,4 +19,3 @@ dataframe met rmse_verschuiving per boomsoort en domein
 \description{
 deze functie berekent de rmse op basis van verschil tussen geschatte domeinwaarde en gemeten waarde (voor omtrekklassen > 0.5 m)
 }
-

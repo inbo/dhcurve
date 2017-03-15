@@ -17,4 +17,3 @@ dataframe met de meetresultaten en de schattingen van de hoogtes voor het domein
 \description{
 Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven afgeleid model.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
 }
-

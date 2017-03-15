@@ -51,4 +51,3 @@ fit.afgeleid
 
 Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
 }
-

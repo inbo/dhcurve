@@ -15,4 +15,3 @@ dataframe met parameters voor domeinmodel (Ad, Bd en Cd)
 \description{
 Functie die de modelparameters berekent op basis van een opgegeven extra model.  Ze berekent de parameters voor het domeinmodel en geeft de grenzen van het bruikbaar interval
 }
-
