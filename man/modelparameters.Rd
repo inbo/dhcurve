@@ -7,7 +7,7 @@
 modelparameters(Basismodel, Data = NULL, Afgeleidmodel = NULL)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (extramodel)}
+\item{Basismodel}{model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (lokaalmodel)}
 
 \item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 
@@ -17,5 +17,5 @@ modelparameters(Basismodel, Data = NULL, Afgeleidmodel = NULL)
 dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl).  Ingeval van een afgeleid model worden de parameters voor het Vlaams model gegeven (Avl, Bvl en Cvl), en een parameter Ad die de verschuiving van het Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra intercept)
 }
 \description{
-Functie die de modelparameters berekent op basis van een opgegeven basismodel, extra model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.extra of modelparameters.afgeleid, afhankelijk van de situatie)
+Functie die de modelparameters berekent op basis van een opgegeven basismodel, lokaal model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de situatie)
 }

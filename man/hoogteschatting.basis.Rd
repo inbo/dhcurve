@@ -7,11 +7,11 @@
 hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
 }
 \arguments{
-\item{Soortmodel}{model voor boomsoort (basis) of boomsoort-domein-combinatie (extra)}
+\item{Soortmodel}{model voor boomsoort (basis) of boomsoort-domein-combinatie (lokaal)}
 
-\item{Soortdata}{meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (extra)}
+\item{Soortdata}{meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (lokaal)}
 
-\item{Typemodel}{'Basis' of 'Extra'?}
+\item{Typemodel}{'Basis' of 'Lokaal'?}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model

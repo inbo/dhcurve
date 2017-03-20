@@ -10,8 +10,8 @@
 #'
 #' @param Basismodel model per boomsoort
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (Vlaams model)
-#' @param Extramodellen model per boomsoort-domein-combinatie
-#' @param Data.extra data voor model per boomsoort-domein-combinatie
+#' @param Lokaalmodel model per boomsoort-domein-combinatie
+#' @param Data.lokaal data voor model per boomsoort-domein-combinatie
 #' @param Data.onbruikbaar evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden
 #'
 #' @return dataframe met modellen per domein en per boomsoort met velden:
@@ -22,7 +22,7 @@
 #'
 #' - BoomsoortID
 #'
-#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'domeinmodel'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
+#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
 #'
 #' - paramaters A,B en C
 #'
@@ -41,7 +41,7 @@
 #' @importFrom dplyr %>% select_ left_join rowwise do_ ungroup rename_ mutate_ bind_rows group_by_
 #'
 
-resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.onbruikbaar = NULL){
+resultaat <- function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.onbruikbaar = NULL){
 
   Modellen.basis <- modelparameters(Basismodel) %>%
     select_(~-Q5k, ~-Q95k) %>%
@@ -163,15 +163,15 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
         )
     ) %>%
     bind_rows(
-      modelparameters(Extramodellen, Data.extra) %>%
+      modelparameters(Lokaalmodel, Data.lokaal) %>%
         select_(~-Q5k, ~-Q95k) %>%
-        left_join(Data.extra %>%
+        left_join(Data.lokaal %>%
                     group_by_(
                       ~BMS,
                       ~DOMEIN_ID
                     ) %>%
                     do_(
-                      ~rmse.basis(., "Extra")
+                      ~rmse.basis(., "Lokaal")
                     ) %>%
                     ungroup(),
                   c("BMS","DOMEIN_ID")) %>%
@@ -189,7 +189,7 @@ resultaat <- function(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data
           RMSE = ~rmseD
         ) %>%
         mutate_(
-          Modeltype = ~"domeinmodel"
+          Modeltype = ~"lokaal model"
         )
     ) %>%
     bind_rows(

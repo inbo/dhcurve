@@ -31,12 +31,11 @@ Daarna splitst de functie de data op in 3 delen die voor de verschillende analys
 
 (1) boomsoorten waarvoor op minimum 6 domeinen veel metingen uitgevoerd zijn (> 50 metingen), op basis waarvan betrouwbare domeinmodellen en een betrouwbaar Vlaams model berekend kan worden (= basismodel),
 
-(2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model), en
+(2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model),
 
-(3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)
+(3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)(= lokaal model), en
 
 (4) metingen van de domein-boomsoort-combinaties die niet tot de 3 voorgaande categorieën behoren en waar dus geen model voor opgesteld kan worden.
 
 De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 }
-

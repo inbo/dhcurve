@@ -2,10 +2,10 @@
 #'
 #' Functie die de curvekarakteristieken van de modellen berekent (roept hiervoor de functie curvekarakteristieken op) en op basis van deze parameters de mogelijk slechtste modellen oplijst met de reden.
 #'
-#' Deze functie kan ook gebruikt worden voor extra modellen
+#' Deze functie kan ook gebruikt worden voor lokale modellen
 #'
 #' @param Basismodel model per boomsoort
-#' @param Data dataset op basis waarvan het model berekend is (nodig voor extra model)
+#' @param Data dataset op basis waarvan het model berekend is (nodig voor lokaal model)
 #'
 #' @return Dataframe met te controleren curves (incl. aantal metingen per curve)
 #'

@@ -58,7 +58,7 @@ Datalijst <- initiatie(Data)
 
 Data.basis <- Datalijst[["Basis"]]
 Data.afgeleid <- Datalijst[["Afgeleid"]]
-Data.extra <- Datalijst[["Domein"]]
+Data.lokaal <- Datalijst[["Lokaal"]]
 Data.rest <- Datalijst[["Rest"]]
 
 Basismodel <- fit.basis(Data.basis)
@@ -71,12 +71,14 @@ AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
 write.csv2(AfwijkendeMetingen2, "AfwijkendeMetingenAfgeleid.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
-#De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus onafhankelijk berekend worden
-Extramodellen <- fit.extra(Data.extra)
-AfwijkendeMetingen3 <- validatie.basis(Extramodellen, Data.extra)
-write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenExtra.csv")
+#De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus
+#berekend worden zonder dat de voorgaande berekend zijn
+Lokaalmodel <- fit.lokaal(Data.lokaal)
+AfwijkendeMetingen3 <- validatie.basis(Lokaalmodel, Data.lokaal)
+write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 
-Resultaat <- resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra, Data.rest)
+Resultaat <-
+  resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.rest)
 write.csv2(Resultaat, "DHcurves.csv")

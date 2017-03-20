@@ -9,7 +9,7 @@ validatie.basis(Basismodel, Data = NULL)
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Data}{dataset op basis waarvan het model berekend is (nodig voor extra model)}
+\item{Data}{dataset op basis waarvan het model berekend is (nodig voor lokaal model)}
 }
 \value{
 Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
@@ -28,5 +28,5 @@ Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model e
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
 
-Deze functie kan ook gebruikt worden voor extra modellen
+Deze functie kan ook gebruikt worden voor lokale modellen
 }

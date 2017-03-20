@@ -1,8 +1,8 @@
 #' Modelparameters berekenen voor opgegeven model
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven basismodel, extra model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.extra of modelparameters.afgeleid, afhankelijk van de situatie)
+#' Functie die de modelparameters berekent op basis van een opgegeven basismodel, lokaal model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de situatie)
 #'
-#' @param Basismodel model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (extramodel)
+#' @param Basismodel model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (lokaalmodel)
 #' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #' @param Afgeleidmodel voor de berekening van de modelparameters van het afgeleid model (verschoven Vlaams model) moeten zowel het basismodel als het afgeleid model gegeven worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de andere modellen mag dit argument niet toegevoegd worden.
 #'
@@ -52,7 +52,7 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
           ~Q95k
         ) %>%
         do_(
-          ~modelparameters.extra(.$Model[[1]])
+          ~modelparameters.lokaal(.$Model[[1]])
         ) %>%
         ungroup()
     } else {

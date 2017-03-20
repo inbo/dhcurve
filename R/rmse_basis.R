@@ -8,11 +8,11 @@
 #'
 #' - rmse berekenen voor domeinmodellen en Vlaams model op basis van testgroep-modellen
 #'
-#' Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het extra model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
+#' Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het lokaal model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
 #'
 #' Vroegere param: Basismodel model per boomsoort als argument meegeven en hier de nodige gegevens uit halen  (Vermits de 2 hoofdfuncties waarin deze hulpfunctie opgeroepen wordt allebei het argument model beschikbaar hebben en de dataframe niet, lijkt het me het meest logisch om hier van het model te vertrekken, dan moet het script om de meetgegevens uit het model te halen, enkel in deze functie geschreven worden)  Een alternatief is vertrekken van het dataframe > 50 en min. 6 domeinen
 #' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
-#' @param Typemodel 'Basis' of 'Extra'?
+#' @param Typemodel 'Basis' of 'Lokaal'?
 #'
 #' @return dataframe met rmse_domein en rmse_Vlaams
 #'
@@ -39,8 +39,8 @@ rmse.basis <- function(Data, Typemodel){
     Data_test <- Soortdata[Soortdata$Testgroep == i,]
     Data_model <- Soortdata[Soortdata$Testgroep != i,]
 
-    if (grepl(Typemodel,"Extra")) {
-      Model <- fit.extra(Data_model)$Model[[1]]
+    if (grepl(Typemodel,"Lokaal")) {
+      Model <- fit.lokaal(Data_model)$Model[[1]]
     } else {
       Model <- fit.basis(Data_model)$Model[[1]]
     }
@@ -99,8 +99,8 @@ rmse.basis <- function(Data, Typemodel){
       ~maxResid
     )
 
-  #voor extra model het Vlaams model verwijderen (is gelijkgesteld aan 0)
-  if (grepl(Typemodel,"Extra")) {
+  #voor lokaal model het Vlaams model verwijderen (is gelijkgesteld aan 0)
+  if (grepl(Typemodel,"Lokaal")) {
     Rmse.soort$rmseVL <- NULL
   }
 

@@ -9,7 +9,7 @@ afwijkendeCurves(Basismodel, Data = NULL)
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Data}{dataset op basis waarvan het model berekend is (nodig voor extra model)}
+\item{Data}{dataset op basis waarvan het model berekend is (nodig voor lokaal model)}
 }
 \value{
 Dataframe met te controleren curves (incl. aantal metingen per curve)
@@ -18,5 +18,5 @@ Dataframe met te controleren curves (incl. aantal metingen per curve)
 Functie die de curvekarakteristieken van de modellen berekent (roept hiervoor de functie curvekarakteristieken op) en op basis van deze parameters de mogelijk slechtste modellen oplijst met de reden.
 }
 \details{
-Deze functie kan ook gebruikt worden voor extra modellen
+Deze functie kan ook gebruikt worden voor lokale modellen
 }
