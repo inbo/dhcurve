@@ -52,7 +52,8 @@ afwijkendeMetingen <- function(Dataset){
     mutate_(
       Afwijkend =
         ~ifelse(!is.na(HogeAfwijking) & HogeAfwijking, HogeAfwijking,
-                (HOOGTE > (H_D_finaal + 2.5 * rmseD)) | (HOOGTE < (H_D_finaal - 2.5 * rmseD))),
+                (HOOGTE > (H_D_finaal + 2.5 * rmseD)) |
+                  (HOOGTE < (H_D_finaal - 2.5 * rmseD))),
       HogeAfwijking = ~NULL
     )
 

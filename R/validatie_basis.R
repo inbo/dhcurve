@@ -46,7 +46,7 @@ validatie.basis <- function(Basismodel, Data = NULL){
       ungroup()
   }
 
-  if (has_name(Basismodel,"DOMEIN_ID")) {
+  if (has_name(Basismodel, "DOMEIN_ID")) {
     Hoogteschatting <- Basismodel %>%
       inner_join(
         Data,
@@ -58,7 +58,7 @@ validatie.basis <- function(Basismodel, Data = NULL){
       ) %>%
       do_(
         ~hoogteschatting.basis(.$Model[[1]],
-                                select_(.,~-Model),
+                                select_(., ~-Model),
                                 "Lokaal")
       ) %>%
       ungroup()
@@ -116,9 +116,11 @@ validatie.basis <- function(Basismodel, Data = NULL){
     ungroup()
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
-    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Lokaal.html")
+    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
+                     "Validatie_Lokaal.html")
   } else {
-    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Basis.html")
+    validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
+                     "Validatie_Basis.html")
   }
 
 

@@ -19,7 +19,7 @@ rmse.afgeleid <- function(Verschovenmodel, Boomsoort, Domein){
 
   Rmse <- data.frame(RMSE = influence(Verschovenmodel)$sigma) %>%
     mutate_(
-      RMSE2 = ~RMSE^2
+      RMSE2 = ~RMSE ^ 2
     ) %>%
     summarise_(
       RMSE2 = ~sum(RMSE2),

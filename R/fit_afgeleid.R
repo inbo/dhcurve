@@ -15,7 +15,9 @@
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
 
-  #eerst doen we een hoogteschatting op basis van het Vlaams model voor alle omtrekklassen binnen de ranges van de boomsoort-domein-combinaties waarvoor we het afgeleid model maken.
+  #eerst doen we een hoogteschatting op basis van het Vlaams model voor alle
+  #omtrekklassen binnen de ranges van de boomsoort-domein-combinaties waarvoor
+  #we het afgeleid model maken.
   Hoogteschatting <- Basismodel %>%
     inner_join(
       Data.afgeleid,
@@ -27,7 +29,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ) %>%
     do_(
       ~hoogteschatting.basis(.$Model[[1]],
-                             select_(.,~-Model),
+                             select_(., ~-Model),
                              "Basis")
     ) %>%
     ungroup() %>%

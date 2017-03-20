@@ -41,7 +41,9 @@
 #' @importFrom dplyr %>% select_ left_join rowwise do_ ungroup rename_ mutate_ bind_rows group_by_
 #'
 
-resultaat <- function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.onbruikbaar = NULL){
+resultaat <-
+  function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal,
+           Data.onbruikbaar = NULL){
 
   Modellen.basis <- modelparameters(Basismodel) %>%
     select_(~-Q5k, ~-Q95k) %>%
@@ -51,7 +53,7 @@ resultaat <- function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.
                   ~rmse.basis(.$Model$data, "Basis")
                 ) %>%
                 ungroup(),
-              c("BMS","DOMEIN_ID")) %>%
+              c("BMS", "DOMEIN_ID")) %>%
     select_(~-maxResid)
 
   Modellen.domein <- Modellen.basis %>%

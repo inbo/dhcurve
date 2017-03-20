@@ -32,7 +32,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
     mutate_(
       Omtrek = ~y / 100,
       logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek^2
+      logOmtrek2 = ~logOmtrek ^ 2
     ) %>%
     mutate_(
       H_D_finaal = ~predict(Soortmodel, newdata = .)

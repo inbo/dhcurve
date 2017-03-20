@@ -36,7 +36,7 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
     ) %>%
     ungroup() %>%
     mutate_(
-      sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
+      sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
     ) %>%
     group_by_(~BMS) %>%
     summarise_(
@@ -59,7 +59,7 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
       by = c("BMS")
     ) %>%
     mutate_(
-      rmseD = ~sqrt(rmseVL^2 + RmseVerschuiving^2)
+      rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
     )
 
 
@@ -74,11 +74,11 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
     ) %>%
     do_(
       ~hoogteschatting.afgeleid(.$Model[[1]],
-                                select_(.,~-Model))
+                                select_(., ~-Model))
     ) %>%
     ungroup() %>%
     mutate_(
-      ResidD2 = ~(HOOGTE - H_D_finaal)^2
+      ResidD2 = ~ (HOOGTE - H_D_finaal) ^ 2
     )
 
   Dataset <- Hoogteschatting %>%
@@ -126,7 +126,8 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
     ) %>%
     ungroup()
 
-  validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset, "Validatie_Afgeleid.html")
+  validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
+                   "Validatie_Afgeleid.html")
 
   return(AfwijkendeMetingen)
 

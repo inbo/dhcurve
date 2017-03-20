@@ -29,17 +29,17 @@ rmse.basis <- function(Data, Typemodel){
   Soortdata <- Data %>%
     arrange_(~BMS, ~DOMEIN_ID, ~Omtrek, ~HOOGTE) %>%
     mutate_(
-      Testgroep = ~(row_number(DOMEIN_ID) - 1) %% 6 + 1
+      Testgroep = ~ (row_number(DOMEIN_ID) - 1) %% 6 + 1
     )
 
 
   #model fitten voor de 6 testgroepen
   Data_result <- data.frame(NULL)
   for (i in 1:6) {
-    Data_test <- Soortdata[Soortdata$Testgroep == i,]
-    Data_model <- Soortdata[Soortdata$Testgroep != i,]
+    Data_test <- Soortdata[Soortdata$Testgroep == i, ]
+    Data_model <- Soortdata[Soortdata$Testgroep != i, ]
 
-    if (grepl(Typemodel,"Lokaal")) {
+    if (grepl(Typemodel, "Lokaal")) {
       Model <- fit.lokaal(Data_model)$Model[[1]]
     } else {
       Model <- fit.basis(Data_model)$Model[[1]]
@@ -49,18 +49,18 @@ rmse.basis <- function(Data, Typemodel){
       mutate_(
         H_Dmodel = ~predict(Model, newdata = .),
         ResidD = ~HOOGTE - H_Dmodel,
-        ResidD2 = ~ResidD^2,
+        ResidD2 = ~ResidD ^ 2,
         ResidVL2 = ~0
       )
 
-    if (grepl(Typemodel,"Basis")) {
+    if (grepl(Typemodel, "Basis")) {
       Data_Boomsoort <- Data_Boomsoort %>%
         mutate_(
           H_VLmodel = ~as.numeric(fixef(Model)[1]) +
             as.numeric(fixef(Model)[2]) * logOmtrek +
             as.numeric(fixef(Model)[3]) * logOmtrek2,
           ResidVL = ~HOOGTE - H_VLmodel,
-          ResidVL2 = ~ResidVL^2
+          ResidVL2 = ~ResidVL ^ 2
         )
     }
 
@@ -70,7 +70,7 @@ rmse.basis <- function(Data, Typemodel){
 
 
   #rmse berekenen
-  Rmse.soort <- Data_result[Data_result$Omtrek > 0.50,] %>%
+  Rmse.soort <- Data_result[Data_result$Omtrek > 0.50, ] %>%
     group_by_(
       ~BMS,
       ~DOMEIN_ID,
@@ -94,13 +94,13 @@ rmse.basis <- function(Data, Typemodel){
       ~nBomenOmtrek05,
       ~Q5k,
       ~Q95k,
-      rmseD = ~sqrt(sseD/(nBomenOmtrek05 - 2)),
-      rmseVL = ~sqrt(sseVL/(nBomenOmtrek05 - 2)),
+      rmseD = ~sqrt(sseD / (nBomenOmtrek05 - 2)),
+      rmseVL = ~sqrt(sseVL / (nBomenOmtrek05 - 2)),
       ~maxResid
     )
 
   #voor lokaal model het Vlaams model verwijderen (is gelijkgesteld aan 0)
-  if (grepl(Typemodel,"Lokaal")) {
+  if (grepl(Typemodel, "Lokaal")) {
     Rmse.soort$rmseVL <- NULL
   }
 

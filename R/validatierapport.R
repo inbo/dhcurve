@@ -35,7 +35,9 @@
 #' @importFrom assertthat assert_that noNA is.flag has_name
 #'
 
-validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bestandsnaam = "Validatie.html", verbose = TRUE){
+validatierapport <-
+  function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
+           Bestandsnaam = "Validatie.html", verbose = TRUE){
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
@@ -60,18 +62,19 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
       Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
     )
 
-  #om curves bij afwijkingen een andere kleur te geven (enkel nodig bij basismodel, waar buigpunten berekend zijn)
+  #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
+  #buigpunten berekend zijn)
   if (has_name(Selectie, "Omtrek_Buigpunt")) {
     Selectie2 <- Selectie %>%
       mutate_(
-        Omtrek_BP = ~(((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5)/100,
-        Omtrek_Max = ~(((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5)/100,
+        Omtrek_BP = ~(((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_Max = ~(((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
         CurveSlecht =
           ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
                   FALSE),
         CurveSlecht =
           ~ifelse(!is.na(Omtrek_Max) & (Omtrek >= Omtrek_Max),
-                  TRUE,CurveSlecht)
+                  TRUE, CurveSlecht)
       )
 
     Selectie <- Selectie2 %>%
@@ -93,7 +96,7 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
   SelectieGesorteerd <- Selectie %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     summarise_(
-      PAfwijkend = ~sum(Afwijkend/nBomenOmtrek05, na.rm = TRUE)
+      PAfwijkend = ~sum(Afwijkend / nBomenOmtrek05, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     inner_join(
@@ -115,7 +118,8 @@ validatierapport <- function(SlechtsteModellen, AfwijkendeMetingen, Dataset, Bes
          encoding = "UTF-8")
 
   if (verbose) {
-    message(sprintf("Het rapport is opgeslagen in de working directory: %s", getwd()))
+    message(sprintf("Het rapport is opgeslagen in de working directory: %s",
+                    getwd()))
   }
 
 }
