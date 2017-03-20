@@ -86,7 +86,7 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
-      ~Omtrek > 0.5 - 0.05,
+      ~Omtrek > 0.5,
       ~Omtrek > Q5k - 0.05,
       ~Omtrek < Q95k + 0.05
     ) %>%
@@ -157,7 +157,10 @@ initiatie <-
     filter_(
       ~((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
         (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
-      ~Omtrek > 0.5 - 0.05
+      ~Omtrek > 0.5
+    ) %>%
+    mutate_(
+      Q5k = ~ifelse(Q5k > 0.5, Q5k, 0.55)
     ) %>%
     select_(
       ~-min_basis, ~-min_afgeleid
