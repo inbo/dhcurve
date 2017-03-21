@@ -17,6 +17,8 @@
 #' @param Basismodel model per boomsoort
 #' @param Data dataset op basis waarvan het model berekend is (nodig voor lokaal model)
 #'
+#' @inheritParams afwijkendeMetingen
+#'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
 #' @export
@@ -25,7 +27,7 @@
 #' @importFrom assertthat has_name
 #'
 
-validatie.basis <- function(Basismodel, Data = NULL){
+validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     Rmse <- Data %>%
@@ -75,7 +77,7 @@ validatie.basis <- function(Basismodel, Data = NULL){
     inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
-  AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
+  AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   #afwijkende curves
   AfwijkendeCurves <- afwijkendeCurves(Basismodel, Data)

@@ -1,8 +1,9 @@
 #' Geeft de afwijkende metingen uit een gegeven model
 #'
-#' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 * rmse, en geeft deze weer volgens dalende afwijking
+#' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 * rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden minstens 10 meetresultaten geselecteerd als 'afwijkend' (nl. de 10 meetresultaten met de hoogste error).
 #'
 #' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.
+#' @param AantalDomHogeRMSE Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.
 #'
 #' @return lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit databank
 #'
@@ -11,13 +12,13 @@
 #' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup desc
 #'
 
-afwijkendeMetingen <- function(Dataset){
+afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
 
   HogeRmse <- Dataset %>%
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%
     distinct_() %>%
     arrange_(~ desc(rmseD)) %>%
-    slice_(~ seq_len(20)) %>%
+    slice_(~ seq_len(AantalDomHogeRMSE)) %>%
     transmute_(
       ~DOMEIN_ID,
       ~BMS,

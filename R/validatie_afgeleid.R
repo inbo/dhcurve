@@ -16,6 +16,8 @@
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (verschoven Vlaams model)
 #' #@param Data.afgeleid dataframe 10-50
 #'
+#' @inheritParams afwijkendeMetingen
+#'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
 #' @export
@@ -23,7 +25,7 @@
 #' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
 #'
 
-validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
+validatie.afgeleid <- function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20){
 
   Model <- Afgeleidmodel[[1]]
 
@@ -99,7 +101,7 @@ validatie.afgeleid <- function(Basismodel, Afgeleidmodel){
     )
 
 
-  AfwijkendeMetingen <- afwijkendeMetingen(Dataset)
+  AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter_(~HogeRmse) %>%
