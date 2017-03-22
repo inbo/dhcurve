@@ -40,9 +40,9 @@ rmse.basis <- function(Data, Typemodel){
     Data_model <- Soortdata[Soortdata$Testgroep != i, ]
 
     if (grepl(Typemodel, "Lokaal")) {
-      Model <- fit.lokaal(Data_model)$Model[[1]]
+      Model <- fit.lokaal(Data_model)$Model[[1]]  #nolint
     } else {
-      Model <- fit.basis(Data_model)$Model[[1]]
+      Model <- fit.basis(Data_model)$Model[[1]]   #nolint
     }
 
     Data_Boomsoort <- Data_test %>%

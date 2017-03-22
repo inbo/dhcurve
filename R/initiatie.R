@@ -45,12 +45,12 @@ initiatie <-
   #hier moet nog controle gebeuren op de ingevoerde data!
 
   Data2 <- Data %>%
-    filter_(~HOOGTE!=0) %>%
+    filter_(~HOOGTE != 0) %>%
     mutate_(
-      Omtrek = ~((C13 %/% 10) * 10 + 5)/100,
-      Rijnr = ~seq_along(C13),   #geeft vector van lengte C13, dus nummert de rijen oplopend
+      Omtrek = ~ ( (C13 %/% 10) * 10 + 5) / 100,
+      Rijnr = ~seq_along(C13),       #nummert de rijen oplopend
       logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek^2
+      logOmtrek2 = ~logOmtrek ^ 2
     ) %>%
     filter_(
       ~Omtrek < 2.40
@@ -62,9 +62,9 @@ initiatie <-
     mutate_(
       nBomen = ~n(),
       Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
-      Q5k = ~(((Q5 * 100) %/% 10) * 10 + 5)/100,     #het klassemidden van Q5
+      Q5k = ~ ( ( (Q5 * 100) %/% 10) * 10 + 5) / 100,   #het klassemidden van Q5
       Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
-      Q95k = ~(((Q95 * 100) %/% 10) * 10 + 5)/100     #het klassemidden van Q95
+      Q95k = ~ ( ( (Q95 * 100) %/% 10) * 10 + 5) / 100 #het klassemidden van Q95
     ) %>%
     ungroup() %>%
     filter_(
@@ -111,7 +111,7 @@ initiatie <-
 
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
-      ~((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
+      ~ ( (nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
         (!is.na(min_basis) & nBomenOmtrek05 > min_basis))
     ) %>%
     select_(
@@ -155,7 +155,7 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
-      ~((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
+      ~ ( (nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
         (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
       ~Omtrek > 0.5
     ) %>%
@@ -181,7 +181,6 @@ initiatie <-
     )
 
 
-  return(list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata, Rest = Data.rest))
+  return(list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
+              Rest = Data.rest))
 }
-
-

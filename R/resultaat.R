@@ -68,29 +68,33 @@ resultaat <-
       Modeltype = ~"basismodel"
     )
 
-  # volgende code is om ook de Vlaamse modellen toe te voegen aan de resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als een Vlaams model gebaseerd is op enkel bomen van 1 streek en de te schatten boom ligt in een andere streek, is de schatting onbetrouwbaar), voegen we het niet toe
+  # volgende code is om ook de Vlaamse modellen toe te voegen aan de
+  # resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als een
+  #Vlaams model gebaseerd is op enkel bomen van 1 streek en de te schatten boom
+  #ligt in een andere streek, is de schatting onbetrouwbaar), voegen we het niet
+  #toe
 
   # Modellen.Vlaams <- Modellen.basis %>%
   #   select_(~-Ad, ~-Bd, ~-Cd, ~-rmseD) %>%
   #   mutate_(
-  #     sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
+  #     sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)    #nolint
   #   ) %>%
   #   group_by_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
   #   summarise_(
   #     nBomen = ~sum(nBomen),
   #     nBomenInterval = ~sum(nBomenInterval),
   #     nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-  #     RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+  #     RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))   #nolint
   #   ) %>%
   #   ungroup() %>%
   #   rename_(
   #     A = ~Avl,
   #     B = ~Bvl,
   #     C = ~Cvl,
-  #     nBomenOmtrek05 = ~nBomenOmtrek05VL
+  #     nBomenOmtrek05 = ~nBomenOmtrek05VL    #nolint
   #   ) %>%
   #   mutate_(
-  #     Modeltype = ~"Vlaams model"
+  #     Modeltype = ~"Vlaams model"     #nolint
   #   )
 
 
@@ -102,7 +106,7 @@ resultaat <-
     ) %>%
     ungroup() %>%
     mutate_(
-      sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)
+      sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
     ) %>%
     group_by_(~BMS) %>%
     summarise_(
@@ -123,7 +127,7 @@ resultaat <-
       by = c("BMS")
     ) %>%
     mutate_(
-      rmseD = ~sqrt(rmseVL^2 + RmseVerschuiving^2)
+      rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
     )
 
 
@@ -176,7 +180,7 @@ resultaat <-
                       ~rmse.basis(., "Lokaal")
                     ) %>%
                     ungroup(),
-                  c("BMS","DOMEIN_ID")) %>%
+                  c("BMS", "DOMEIN_ID")) %>%
         select_(
           ~DOMEIN_ID,
           ~BMS,

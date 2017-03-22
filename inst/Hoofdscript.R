@@ -4,11 +4,14 @@ library(dplyr)
 library(tidyr)
 library(dhcurve)
 
+path <- "C:/R/gegevens/project_DHcurves/meetgegevens/"  #nolint
+
 setwd("C:/R/GitRepositories/dhcurve")
 
 #ophalen gegevens
-connectieGegs2016bosniveau <-
-  odbcConnectAccess2007("C:/R/gegevens/project_DHcurves/meetgegevens/GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
+connectieGegs2016bosniveau <- odbcConnectAccess2007(
+  paste0(path, "GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
+)
 
 query40_T4 <-
   "SELECT DOMEIN_ID, BOS_BHI, BOS_OPNAME_TYPE_OMSCH, BMS, TYPE_METING, C13,
@@ -24,8 +27,9 @@ TreesT7_2016bos <-
 
 odbcClose(connectieGegs2016bosniveau)
 
-connectieGegs2016bestandniveau <-
-  odbcConnectAccess2007("C:/R/gegevens/project_DHcurves/meetgegevens/NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
+connectieGegs2016bestandniveau <- odbcConnectAccess2007(
+  paste0(path, "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
+)
 
 query_nieuw <-
   "SELECT DOMEIN_ID, BOS_BHI, BMS, C13, HOOGTE, JAAR, GUID_BestandBHI
@@ -37,7 +41,7 @@ Trees_nieuw <-
 odbcClose(connectieGegs2016bestandniveau)
 
 Data <- TreesT4_2016bos %>%
-  gather(key = magweg, value = HOOGTE, -(1:6), -AANTAL, -JAAR) %>%
+  gather(key = magweg, value = HOOGTE, -1:-6, -AANTAL, -JAAR) %>%
   filter(HOOGTE != 0) %>%
   transmute(DOMEIN_ID, BOS_BHI, BOS_OPNAME_TYPE_OMSCH, BMS, TYPE_METING, C13,
             HOOGTE, JAAR) %>%
@@ -64,11 +68,11 @@ Datalijst <- initiatie(Data)
 
 #voorbeeld als je de limiet voor gebruik van de gegevens van cultuurpopulier in
 #de Palingbeek om het model te berekenen, wil optrekken van 50 naar 60 bomen
-# Uitzonderingen <- data.frame(DOMEIN_ID = "DomWVL09172", BMS = "cultuurpopulier",
+# Uitzonderingen <- data.frame(DOMEIN_ID = "DomWVL09172", BMS = "cultuurpopulier",  #nolint
 #                              min_basis = 60, min_afgeleid = NA,
 #                              stringsAsFactors = FALSE)
 #
-# Datalijst <- initiatie(Data, Uitzonderingen)
+# Datalijst <- initiatie(Data, Uitzonderingen)   #nolint
 
 
 Data.basis <- Datalijst[["Basis"]]

@@ -103,8 +103,9 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
         )
     ) %>%
     mutate_(
-      Omtrek_Buigpunt.d = ~ifelse(is.na(Omtrek_Buigpunt.d),"",Omtrek_Buigpunt.d),
-      Omtrek_Extr_Hoogte.d = ~ifelse(is.na(Omtrek_Extr_Hoogte.d),"",
+      Omtrek_Buigpunt.d =
+        ~ifelse(is.na(Omtrek_Buigpunt.d), "", Omtrek_Buigpunt.d),
+      Omtrek_Extr_Hoogte.d = ~ifelse(is.na(Omtrek_Extr_Hoogte.d), "",
                                      Omtrek_Extr_Hoogte.d)
     ) %>%
     group_by_(
@@ -113,7 +114,8 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
     summarise_(
       Reden = ~paste(Reden, collapse = ", "),
       Omtrek_Buigpunt = ~as.numeric(paste(Omtrek_Buigpunt.d, collapse = "")),
-      Omtrek_Extr_Hoogte = ~as.numeric(paste(Omtrek_Extr_Hoogte.d, collapse = ""))
+      Omtrek_Extr_Hoogte =
+        ~as.numeric(paste(Omtrek_Extr_Hoogte.d, collapse = ""))
     ) %>%
     ungroup()
 

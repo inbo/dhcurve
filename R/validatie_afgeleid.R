@@ -25,7 +25,8 @@
 #' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
 #'
 
-validatie.afgeleid <- function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20){
+validatie.afgeleid <-
+  function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20){
 
   Model <- Afgeleidmodel[[1]]
 

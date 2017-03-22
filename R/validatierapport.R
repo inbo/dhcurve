@@ -67,8 +67,8 @@ validatierapport <-
   if (has_name(Selectie, "Omtrek_Buigpunt")) {
     Selectie2 <- Selectie %>%
       mutate_(
-        Omtrek_BP = ~(((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
-        Omtrek_Max = ~(((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_BP = ~ ( ( (Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_Max = ~ ( ( (Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
         CurveSlecht =
           ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
                   FALSE),
@@ -105,10 +105,7 @@ validatierapport <-
     )
 
   Selectie <- SelectieGesorteerd %>%
-    #mutate_(RelFout = ~maxResid /rmseD) %>%
-    #arrange_(~ desc(RelFout))
     arrange_(~ desc(maxResid))
-    #arrange_(~ desc(PAfwijkend))
 
 
   render(system.file("Validatierapport.rmd", package = "dhcurve"),
