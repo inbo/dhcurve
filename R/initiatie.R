@@ -17,6 +17,10 @@
 #' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #'
+#' @param min_basismodel tijdelijk toegevoegd voor testen
+#' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
+#' @param min_afgeleidmodel tijdelijk toegevoegd voor testen
+#'
 #' @return Een list van dataframes:
 #'
 #' - dataframe > 50 metingen en min. 6 domeinen
@@ -37,10 +41,14 @@ initiatie <-
   function(Data,
            Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
                                        min_basis = NA, min_afgeleid = NA,
-                                       stringsAsFactors = FALSE)) {
-  min_basismodel <- 50
-  min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen
-  min_afgeleidmodel <- 10
+                                       stringsAsFactors = FALSE),
+           min_basismodel = 50,
+           min_domeinen_basismodel = 6,
+           min_afgeleidmodel = 10) {
+
+  # min_basismodel <- 50   #nolint
+  # min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen  #nolint
+  # min_afgeleidmodel <- 10   #nolint
 
   #hier moet nog controle gebeuren op de ingevoerde data!
 
