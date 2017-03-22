@@ -6,7 +6,7 @@ library(dhcurve)
 
 path <- "C:/R/gegevens/project_DHcurves/meetgegevens/"  #nolint
 
-setwd("C:/R/GitRepositories/dhcurve")
+setwd("C:/R/GitRepositories/dhcurve")  #nolint
 
 #ophalen gegevens
 connectieGegs2016bosniveau <- odbcConnectAccess2007(
