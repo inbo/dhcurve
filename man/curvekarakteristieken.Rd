@@ -17,4 +17,3 @@ dataframe met curvekarakteristieken per domein en boomsoort
 \description{
 Berekent curvekarakteristieken die toelaten om mogelijke afwijkingen in curvevorm te detecteren: extremen (min en max), buigpunt,...
 }
-

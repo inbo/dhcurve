@@ -9,7 +9,7 @@ rmse.basis(Data, Typemodel)
 \arguments{
 \item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
 
-\item{Typemodel}{'Basis' of 'Extra'?}
+\item{Typemodel}{'Basis' of 'Lokaal'?}
 }
 \value{
 dataframe met rmse_domein en rmse_Vlaams
@@ -24,8 +24,7 @@ Deze functie berekent de rmse op basis van testgroepen en omvat de volgende deel
 
 - rmse berekenen voor domeinmodellen en Vlaams model op basis van testgroep-modellen
 
-Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het extra model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
+Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het lokaal model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
 
 Vroegere param: Basismodel model per boomsoort als argument meegeven en hier de nodige gegevens uit halen  (Vermits de 2 hoofdfuncties waarin deze hulpfunctie opgeroepen wordt allebei het argument model beschikbaar hebben en de dataframe niet, lijkt het me het meest logisch om hier van het model te vertrekken, dan moet het script om de meetgegevens uit het model te halen, enkel in deze functie geschreven worden)  Een alternatief is vertrekken van het dataframe > 50 en min. 6 domeinen
 }
-

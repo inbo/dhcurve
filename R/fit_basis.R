@@ -19,7 +19,7 @@ fit.basis <- function(Data.basis) {
     do_(
       Model = ~ lme(
         HOOGTE ~ logOmtrek + logOmtrek2,
-        random = ~ (logOmtrek + logOmtrek2)|DOMEIN_ID,
+        random = ~ (logOmtrek + logOmtrek2) | DOMEIN_ID,
         data = .,
         control = lmeControl(opt = "optim", singular.ok = TRUE,
                                          returnObject = TRUE)

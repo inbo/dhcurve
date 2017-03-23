@@ -4,12 +4,14 @@
 \alias{validatie.basis}
 \title{Validatie van het basismodel}
 \usage{
-validatie.basis(Basismodel, Data = NULL)
+validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
-\item{Data}{dataset op basis waarvan het model berekend is (nodig voor extra model)}
+\item{Data}{dataset op basis waarvan het model berekend is (nodig voor lokaal model)}
+
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
 }
 \value{
 Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
@@ -22,12 +24,11 @@ Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model e
 
 - afwijkendeMetingen
 
-- curvekarakteristieken
+- afwijkendeCurves
 
 - validatierapport
 
-Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, curvekarakteristieken en afwijkende metingen).
+Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
 
-Deze functie kan ook gebruikt worden voor extra modellen
+Deze functie kan ook gebruikt worden voor lokale modellen
 }
-

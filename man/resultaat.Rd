@@ -4,19 +4,19 @@
 \alias{resultaat}
 \title{berekent de modelparameters per domein}
 \usage{
-resultaat(Basismodel, Afgeleidmodel, Extramodellen, Data.extra,
-  Data.ontbrekend = NULL)
+resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal,
+  Data.onbruikbaar = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
 
 \item{Afgeleidmodel}{verschuiving per boomsoort en domein (Vlaams model)}
 
-\item{Extramodellen}{model per boomsoort-domein-combinatie}
+\item{Lokaalmodel}{model per boomsoort-domein-combinatie}
 
-\item{Data.extra}{data voor model per boomsoort-domein-combinatie}
+\item{Data.lokaal}{data voor model per boomsoort-domein-combinatie}
 
-\item{Data.ontbrekend}{evt. lijst van domeinen < 10 per boomsoort (en dan voor deze domeinen het Vlaams model invullen?)}
+\item{Data.onbruikbaar}{evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden}
 }
 \value{
 dataframe met modellen per domein en per boomsoort met velden:
@@ -27,7 +27,7 @@ dataframe met modellen per domein en per boomsoort met velden:
 
 - BoomsoortID
 
-- type model ('basismodel'(eigen model op basis van mixed model)/‘eigen model’ (eigen fixed model)/‘afgeleid model' (= verschoven Vlaams model, afgeleid van fixed factor uit basismodel)/‘Vlaams model’ (= fixed factor uit basismodel)/ 'domeinmodel' (= apart model voor 1 boomsoort-domein-combinatie))
+- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
 
 - paramaters A,B en C
 
@@ -51,4 +51,3 @@ fit.afgeleid
 
 Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
 }
-

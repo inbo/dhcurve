@@ -4,14 +4,14 @@
 \alias{rmse.afgeleid}
 \title{RMSE berekenen van afgeleid model (verschoven Vlaams model)}
 \usage{
-rmse.afgeleid(Basismodel, Afgeleidmodel, Data.afgeleid)
+rmse.afgeleid(Verschovenmodel, Boomsoort, Domein)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{Verschovenmodel}{afgeleid model per boomsoort-domein-combinatie}
 
-\item{Afgeleidmodel}{verschuiving per boomsoort en domein (verschoven Vlaams model)}
+\item{Boomsoort}{BMS}
 
-\item{Data.afgeleid}{dataframe 10-50}
+\item{Domein}{DOMEIN_ID}
 }
 \value{
 dataframe met rmse_verschuiving per boomsoort en domein
@@ -19,7 +19,3 @@ dataframe met rmse_verschuiving per boomsoort en domein
 \description{
 deze functie berekent de rmse op basis van verschil tussen geschatte domeinwaarde en gemeten waarde (voor omtrekklassen > 0.5 m)
 }
-\details{
-DEZE FUNCTIE IS NIET NODIG, fit.afgeleid BEREKENT METEEN DE RMSE!!!
-}
-

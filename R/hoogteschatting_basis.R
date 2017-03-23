@@ -2,9 +2,9 @@
 #'
 #' Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
 #'
-#' @param Soortmodel model voor boomsoort (basis) of boomsoort-domein-combinatie (extra)
-#' @param Soortdata meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (extra)
-#' @param Typemodel 'Basis' of 'Extra'?
+#' @param Soortmodel model voor boomsoort (basis) of boomsoort-domein-combinatie (lokaal)
+#' @param Soortdata meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (lokaal)
+#' @param Typemodel 'Basis' of 'Lokaal'?
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model
 #'
@@ -32,7 +32,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
     mutate_(
       Omtrek = ~y / 100,
       logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek^2
+      logOmtrek2 = ~logOmtrek ^ 2
     ) %>%
     mutate_(
       H_D_finaal = ~predict(Soortmodel, newdata = .)

@@ -24,9 +24,9 @@ library(knitr)
 
 Uitvoer <- NULL
 
-for (Poutliers in unique(Selectie$PAfwijkend)) {
+for (Poutliers in unique(Selectie$maxResid)) {
   SelectieOutliers <- Selectie %>%
-    filter_(~PAfwijkend == Poutliers)
+    filter_(~maxResid == Poutliers)
   for (Boomsoort in unique(SelectieOutliers$BMS)) {
     SelectieSoort <- SelectieOutliers %>%
       filter_(~BMS == Boomsoort)
