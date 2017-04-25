@@ -14,7 +14,7 @@
 #'
 #' De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 #'
-#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.
+#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BOS_BHI, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.  C13 moet in centimeter opgegeven worden (maar wordt omgezet naar meter om de berekeningen uit te voern) en HOOGTE in meter.
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #'
 #' @param min_basismodel tijdelijk toegevoegd voor testen
@@ -70,9 +70,11 @@ initiatie <-
     mutate_(
       nBomen = ~n(),
       Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
-      Q5k = ~ max(( ( (Q5 * 100) %/% 10) * 10 + 5) / 100, 0.25),   #het klassemidden van Q5
+      #het klassemidden van Q5:
+      Q5k = ~ max( ( ( (Q5 * 100) %/% 10) * 10 + 5) / 100, 0.25),
       Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
-      Q95k = ~ min(( ( (Q95 * 100) %/% 10) * 10 + 5) / 100, 2.35) #het klassemidden van Q95
+      #het klassemidden van Q95:
+      Q95k = ~ min( ( ( (Q95 * 100) %/% 10) * 10 + 5) / 100, 2.35)
     ) %>%
     ungroup() %>%
     filter_(
