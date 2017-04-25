@@ -97,7 +97,11 @@ AfwijkendeMetingen3 <- validatie.basis(Lokaalmodel, Data.lokaal)
 write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
+OutputIvanho <-
+  outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+write.csv2(OutputIvanho, "IVANHO.csv")
 
+#voor een lijst met de modelparameters en foutenmarge (RMSE):
 Resultaat <-
   resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.rest)
 write.csv2(Resultaat, "DHcurves.csv")
