@@ -4,9 +4,13 @@ library(dplyr)
 library(tidyr)
 library(dhcurve)
 
-path <- "C:/R/gegevens/project_DHcurves/meetgegevens/"  #nolint
+path <- leesFile("path")
 
-setwd("C:/R/GitRepositories/dhcurve")  #nolint
+wd <- leesFile("wd")
+
+if (!is.null(wd)) {
+  setwd(wd)
+}
 
 #ophalen gegevens
 connectieGegs2016bosniveau <- odbcConnectAccess2007(
