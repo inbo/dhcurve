@@ -6,13 +6,18 @@
 \usage{
 initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
   min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE),
+  Bestandsnaam = "VerwijderdeGegevens.html", verbose = TRUE,
   min_basismodel = 50, min_domeinen_basismodel = 6,
   min_afgeleidmodel = 10)
 }
 \arguments{
-\item{Data}{dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.}
+\item{Data}{dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BOS_BHI, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.  C13 moet in centimeter opgegeven worden (maar wordt omgezet naar meter om de berekeningen uit te voern) en HOOGTE in meter.}
 
 \item{Uitzonderingen}{lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)}
+
+\item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+
+\item{verbose}{geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden}
 
 \item{min_basismodel}{tijdelijk toegevoegd voor testen}
 
@@ -30,6 +35,8 @@ Een list van dataframes:
 - dataframe > 50 metingen en < 6 domeinen
 
 - dataframe met metingen van domeinen en boomsoorten waar geen model voor opgesteld kan worden
+
+En een validatierapport waarin een overzicht gegeven wordt van de verwijderde gegevens (omtrek > 2.4 m of < 0.2 m)
 }
 \description{
 Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.

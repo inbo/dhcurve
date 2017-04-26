@@ -16,6 +16,8 @@
 #'
 #' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BOS_BHI, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.  C13 moet in centimeter opgegeven worden (maar wordt omgezet naar meter om de berekeningen uit te voern) en HOOGTE in meter.
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
+#' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
 #'
 #' @param min_basismodel tijdelijk toegevoegd voor testen
 #' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
@@ -31,10 +33,14 @@
 #'
 #' - dataframe met metingen van domeinen en boomsoorten waar geen model voor opgesteld kan worden
 #'
+#' En een validatierapport waarin een overzicht gegeven wordt van de verwijderde gegevens (omtrek > 2.4 m of < 0.2 m)
+#'
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join
+#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join summarise_
+#' @importFrom rmarkdown render
+#' @importFrom assertthat assert_that noNA is.flag
 #'
 
 initiatie <-
@@ -42,6 +48,8 @@ initiatie <-
            Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
                                        min_basis = NA, min_afgeleid = NA,
                                        stringsAsFactors = FALSE),
+           Bestandsnaam = "VerwijderdeGegevens.html",
+           verbose = TRUE,
            min_basismodel = 50,
            min_domeinen_basismodel = 6,
            min_afgeleidmodel = 10) {
@@ -52,6 +60,46 @@ initiatie <-
 
   #hier moet nog controle gebeuren op de ingevoerde data!
 
+
+  #eerst een rapport maken van de gegevens die verwijderd worden
+  assert_that(is.flag(verbose))
+  assert_that(noNA(verbose))
+  assert_that(is.character(Bestandsnaam))
+  if (!grepl(".html$", Bestandsnaam)) {
+    stop("De bestandnaam moet eindigen op '.html'")
+  }
+
+  DataRapport <- Data %>%
+    group_by_(
+      ~DOMEIN_ID,
+      ~BOS_BHI,
+      ~BMS
+    ) %>%
+    summarise_(
+      nTotaal = ~n(),
+      nTeDun = ~sum(C13 < 20),
+      percTeDun = ~round(nTeDun * 100 / nTotaal, digits = 1),
+      nTeDik = ~sum(C13 > 240),
+      percTeDik = ~round(nTeDik * 100 / nTotaal, digits = 1),
+      nInterval = ~nTotaal - nTeDun - nTeDik
+    ) %>%
+    ungroup() %>%
+    filter_(
+      ~nTotaal >= 10
+    )
+
+  render(system.file("OverzichtGegevens.rmd", package = "dhcurve"),
+         output_file = Bestandsnaam,
+         output_dir = getwd(),
+         encoding = "UTF-8")
+
+  if (verbose) {
+    message(sprintf("Het rapport is opgeslagen in de working directory: %s",
+                    getwd()))
+  }
+
+
+  #dan de extra variabelen berekenen
   Data2 <- Data %>%
     filter_(~HOOGTE != 0) %>%
     mutate_(
@@ -119,6 +167,7 @@ initiatie <-
     )
 
 
+  #en tenslotte de dataset opsplitsen
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
       ~ ( (nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
