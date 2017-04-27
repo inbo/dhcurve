@@ -1,6 +1,8 @@
 box: inbobmk/rstable
 build:
   steps:
+    - script:
+        - Rscript -e "install.packages('DT')"
     - inbobmk/r-check
     - inbobmk/r-coverage
     - inbobmk/r-lint
