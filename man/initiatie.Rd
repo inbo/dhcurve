@@ -7,7 +7,7 @@
 initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
   min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE),
   Bestandsnaam = "VerwijderdeGegevens.html", verbose = TRUE,
-  min_basismodel = 50, min_domeinen_basismodel = 6,
+  PathWD = getwd(), min_basismodel = 50, min_domeinen_basismodel = 6,
   min_afgeleidmodel = 10)
 }
 \arguments{
@@ -18,6 +18,8 @@ initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
 \item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
 \item{verbose}{geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden}
+
+\item{PathWD}{Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default de working directory)}
 
 \item{min_basismodel}{tijdelijk toegevoegd voor testen}
 

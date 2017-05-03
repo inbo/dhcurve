@@ -18,6 +18,7 @@
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
+#' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default de working directory)
 #'
 #' @param min_basismodel tijdelijk toegevoegd voor testen
 #' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
@@ -50,6 +51,7 @@ initiatie <-
                                        stringsAsFactors = FALSE),
            Bestandsnaam = "VerwijderdeGegevens.html",
            verbose = TRUE,
+           PathWD = getwd(),
            min_basismodel = 50,
            min_domeinen_basismodel = 6,
            min_afgeleidmodel = 10) {
@@ -90,6 +92,7 @@ initiatie <-
 
   render(system.file("OverzichtGegevens.Rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
+         output_dir = PathWD,
          encoding = "UTF-8")
 
   if (verbose) {

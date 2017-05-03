@@ -25,6 +25,7 @@
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
+#' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default de working directory)
 #'
 #' @return document (html/pdf) met te controleren curves (incl. aantal metingen per curve)
 #'
@@ -37,7 +38,7 @@
 
 validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-           Bestandsnaam = "Validatie.html", verbose = TRUE){
+           Bestandsnaam = "Validatie.html", verbose = TRUE, PathWD = getwd()){
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
@@ -110,6 +111,7 @@ validatierapport <-
 
   render(system.file("Validatierapport.Rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
+         output_dir = PathWD,
          encoding = "UTF-8")
 
   if (verbose) {
