@@ -50,7 +50,11 @@ Resultaat3 <- data.frame(logOmtrek = 0.048790164169,
 
 
 test_that("Dataset wordt correct opgedeeld", {
-  expect_equal(as.data.frame(initiatie(Dataset)[[1]]),
+  expect_is(
+    Output <- initiatie(Dataset),
+    "list"
+  )
+  expect_equal(as.data.frame(Output[[1]]),
                data.frame(BMS = "SoortModel",
                           DOMEIN_ID = c(rep("Bos1", 55),
                                         rep("Bos2", 55),
@@ -69,7 +73,7 @@ test_that("Dataset wordt correct opgedeeld", {
                           Rijnr = c(1:55, 156:210, 266:485),
                           Resultaat3,
                           stringsAsFactors = FALSE))
-  expect_equal(as.data.frame(initiatie(Dataset)[[2]]),
+  expect_equal(as.data.frame(Output[[2]]),
                data.frame(BMS = "SoortModel",
                           DOMEIN_ID = c(rep("BosKlein", 15)),
                           nBomenInterval = 15,
@@ -87,7 +91,7 @@ test_that("Dataset wordt correct opgedeeld", {
                           Q95 = 1.15,
                           Q95k = 1.15,
                           stringsAsFactors = FALSE))
-  expect_equal(as.data.frame(initiatie(Dataset)[[3]]),
+  expect_equal(as.data.frame(Output[[3]]),
                data.frame(BMS = "SoortExtra",
                           DOMEIN_ID = c(rep("Bos1", 55),
                                         rep("Bos2", 55)),
