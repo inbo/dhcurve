@@ -92,7 +92,6 @@ initiatie <-
 
   render(system.file("OverzichtGegevens.rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
-         output_dir = wd,
          encoding = "UTF-8")
 
   if (verbose) {
