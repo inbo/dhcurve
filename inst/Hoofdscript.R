@@ -32,7 +32,8 @@ TreesT7_2016bos <-
 odbcClose(connectieGegs2016bosniveau)
 
 connectieGegs2016bestandniveau <- odbcConnectAccess2007(
-  paste0(dbpath, "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
+  paste0(dbpath,
+         "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
 )
 
 query_nieuw <-
