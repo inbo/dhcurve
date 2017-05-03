@@ -4,17 +4,17 @@ library(dplyr)
 library(tidyr)
 library(dhcurve)
 
-path <- leesFile("path")
+dbpath <- leesFile("dbpath")
 
-wd <- leesFile("wd")
+wdpath <- leesFile("wdpath")
 
-if (!is.null(wd)) {
-  setwd(wd)
+if (!is.null(wdpath)) {
+  setwd(wdpath)
 }
 
 #ophalen gegevens
 connectieGegs2016bosniveau <- odbcConnectAccess2007(
-  paste0(path, "GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
+  paste0(dbpath, "GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
 )
 
 query40_T4 <-
@@ -32,7 +32,7 @@ TreesT7_2016bos <-
 odbcClose(connectieGegs2016bosniveau)
 
 connectieGegs2016bestandniveau <- odbcConnectAccess2007(
-  paste0(path, "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
+  paste0(dbpath, "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
 )
 
 query_nieuw <-
