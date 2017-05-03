@@ -13,14 +13,17 @@ leesFile <- function(Bestandsnaam) {
 
   if (file.exists(system.file(Bestandsnaam, package = "dhcurve"))) {
     inhoud <-
-      tryCatch(inhoud <- scan(file = system.file(Bestandsnaam, package = "dhcurve"),
-                            what = "character", quiet = TRUE),
+      tryCatch(inhoud <-
+                 scan(file = system.file(Bestandsnaam, package = "dhcurve"),
+                      what = "character", quiet = TRUE),
                error = function(e) {
-                 print(paste("Error: Geen bestand",Bestandsnaam,"gevonden, zie functie leesFile voor meer info"))
+                 print(paste("Error: Geen bestand", Bestandsnaam,
+                             "gevonden, zie functie leesFile voor meer info"))
                  return(NULL)
                },
                warning = function(w) {
-                 print(paste("Error: Geen bestand",Bestandsnaam,"gevonden, zie functie leesFile voor meer info"))
+                 print(paste("Error: Geen bestand", Bestandsnaam,
+                             "gevonden, zie functie leesFile voor meer info"))
                  return(NULL)
                },
                message = FALSE)
