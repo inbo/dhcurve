@@ -76,7 +76,7 @@ initiatie <-
       ~BMS
     ) %>%
     summarise_(
-      nTotaal = ~n(),
+      nTotaal = ~n(), #nolint
       nTeDun = ~sum(C13 < 20),
       percTeDun = ~round(nTeDun * 100 / nTotaal, digits = 1),
       nTeDik = ~sum(C13 > 240),
