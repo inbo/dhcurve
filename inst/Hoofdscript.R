@@ -4,13 +4,17 @@ library(dplyr)
 library(tidyr)
 library(dhcurve)
 
-path <- "C:/R/gegevens/project_DHcurves/meetgegevens/"  #nolint
+dbpath <- leesFile("dbpath")
 
-setwd("C:/R/GitRepositories/dhcurve")  #nolint
+wdpath <- leesFile("wdpath")
+
+if (!is.null(wdpath)) {
+  setwd(wdpath)
+}
 
 #ophalen gegevens
 connectieGegs2016bosniveau <- odbcConnectAccess2007(
-  paste0(path, "GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
+  paste0(dbpath, "GegevensGelinktOpBosniveauAanBHIvsJan2016.accdb")
 )
 
 query40_T4 <-
@@ -28,7 +32,8 @@ TreesT7_2016bos <-
 odbcClose(connectieGegs2016bosniveau)
 
 connectieGegs2016bestandniveau <- odbcConnectAccess2007(
-  paste0(path, "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
+  paste0(dbpath,
+         "NieuweMeetgegevensGelinktOpBestandsniveauAanBHIvsJan2016.accdb")
 )
 
 query_nieuw <-
@@ -97,7 +102,11 @@ AfwijkendeMetingen3 <- validatie.basis(Lokaalmodel, Data.lokaal)
 write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
+OutputIvanho <-
+  outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+write.csv2(OutputIvanho, "IVANHO.csv")
 
+#voor een lijst met de modelparameters en foutenmarge (RMSE):
 Resultaat <-
   resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.rest)
 write.csv2(Resultaat, "DHcurves.csv")

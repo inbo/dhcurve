@@ -36,7 +36,7 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
         ~DOMEIN_ID
       ) %>%
       do_(
-        ~rmse.basis(., "Extra")
+        ~rmse.basis(., "Lokaal")
       ) %>%
       ungroup()
   } else {
