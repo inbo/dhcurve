@@ -18,7 +18,6 @@
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
-#' @param wd working directory waarin het validatierapport opgeslagen wordt (default de huidige wd)
 #'
 #' @param min_basismodel tijdelijk toegevoegd voor testen
 #' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
@@ -51,7 +50,6 @@ initiatie <-
                                        stringsAsFactors = FALSE),
            Bestandsnaam = "VerwijderdeGegevens.html",
            verbose = TRUE,
-           wd = getwd(),
            min_basismodel = 50,
            min_domeinen_basismodel = 6,
            min_afgeleidmodel = 10) {
@@ -96,7 +94,7 @@ initiatie <-
 
   if (verbose) {
     message(sprintf("Het rapport is opgeslagen in de working directory: %s",
-                    wd))
+                    getwd()))
   }
 
 

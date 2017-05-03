@@ -108,10 +108,8 @@ validatierapport <-
     arrange_(~ desc(maxResid))
 
 
-  render(system.file("Validatierapport.rmd", package = "dhcurve"),
-         #params = list(Selectie = Selectie),
+  render(system.file("Validatierapport.Rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
-         output_dir = getwd(),
          encoding = "UTF-8")
 
   if (verbose) {
