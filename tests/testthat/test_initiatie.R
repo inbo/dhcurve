@@ -2,6 +2,8 @@ context("test initiatie")
 
 #voor testfuncties: evt. een map 'helper' onder tests zetten en daarin functies zetten om een dataset te genereren vanuit een welbepaald model (met bepaalde rmse, outliers,...).  Deze runt hij voor de tests
 
+test_wd <- tempdir()
+
 Dataset <- data.frame(DOMEIN_ID = c(rep("Bos1", 155),
                                     rep("Bos2", 110),
                                     rep("Bos3", 55),
@@ -46,7 +48,7 @@ Resultaat3 <- data.frame(logOmtrek = 0.048790164169,
 
 
 test_that("Dataset wordt correct opgedeeld", {
-  expect_equal(as.data.frame(initiatie(Dataset)[[1]]),
+  expect_equal(as.data.frame(initiatie(Dataset, wd = test_wd)[[1]]),
                data.frame(BMS = "SoortModel",
                           DOMEIN_ID = c(rep("Bos1", 55),
                                         rep("Bos2", 55),
@@ -65,7 +67,7 @@ test_that("Dataset wordt correct opgedeeld", {
                           Rijnr = c(1:55, 156:210, 266:485),
                           Resultaat3,
                           stringsAsFactors = FALSE))
-  expect_equal(as.data.frame(initiatie(Dataset)[[2]]),
+  expect_equal(as.data.frame(initiatie(Dataset, wd = test_wd)[[2]]),
                data.frame(BMS = "SoortModel",
                           DOMEIN_ID = c(rep("BosKlein", 15)),
                           nBomenInterval = 15,
@@ -83,7 +85,7 @@ test_that("Dataset wordt correct opgedeeld", {
                           Q95 = 1.15,
                           Q95k = 1.15,
                           stringsAsFactors = FALSE))
-  expect_equal(as.data.frame(initiatie(Dataset)[[3]]),
+  expect_equal(as.data.frame(initiatie(Dataset, wd = test_wd)[[3]]),
                data.frame(BMS = "SoortExtra",
                           DOMEIN_ID = c(rep("Bos1", 55),
                                         rep("Bos2", 55)),
