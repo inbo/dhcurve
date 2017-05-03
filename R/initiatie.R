@@ -90,7 +90,7 @@ initiatie <-
       ~nTotaal >= 10
     )
 
-  render(system.file("OverzichtGegevens.rmd", package = "dhcurve"),
+  render(system.file("OverzichtGegevens.Rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
          encoding = "UTF-8")
 
