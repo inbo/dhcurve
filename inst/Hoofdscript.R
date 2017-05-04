@@ -43,8 +43,7 @@ Data <- TreesBosdat %>%
               mutate(TYPE_METING = "Nieuw")) %>%
   filter(
     StaandLiggend == "staand",
-    Status != "Afgekeurd"#,
-    #!grepl(" (G)", BMS, fixed = TRUE)
+    Status != "Afgekeurd"
   )
 
 
