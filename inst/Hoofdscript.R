@@ -21,7 +21,7 @@ connectieGegs <- odbcConnectAccess2007(
 #voor Ivanho moeten de queries aangepast worden!
 
 queryBosdat <-
-  "SELECT DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
+  "SELECT rownames, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
    TYPE_METING, C13,HOOGTE, JAAR, StaandLiggend, Status
    FROM tblBosdatMetingen"
 TreesBosdat <-
@@ -68,6 +68,23 @@ Basismodel <- fit.basis(Data.basis)
 AfwijkendeMetingen <- validatie.basis(Basismodel)
 write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+#methode om vlaggen aan te passen in de db (enkel uitgewerkt voor 'Bosdat'-gegevens):
+updatequeryBosdat <-
+  "UPDATE tblBosdatMetingen
+  SET Status = 'Te controleren'
+  WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
+
+IDafwijkendeMetingen <-
+  paste(unique(AfwijkendeMetingen$rownames, na.rm = TRUE), collapse = "','")
+query <- sprintf(updatequeryBosdat, IDafwijkendeMetingen)
+
+connectieGegs <- odbcConnectAccess2007(
+  paste0(dbpath, "DiamHoogteMetingen.accdb")
+)
+Test <-
+  sqlQuery(connectieGegs, query)
+odbcClose(connectieGegs)
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
