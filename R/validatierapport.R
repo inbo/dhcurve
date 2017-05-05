@@ -54,6 +54,7 @@ validatierapport <-
     ) %>%
     left_join(
       AfwijkendeMetingen %>%
+        filter_(~Status != "Goedgekeurd") %>%
         select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE) %>%
         distinct_() %>%
         mutate_(Afwijkend = ~TRUE),
@@ -93,7 +94,7 @@ validatierapport <-
 
 
 
-  #sorteren volgens grootste aandeel outliers
+  #sorteren volgens grootste outlier (in absolute waarde)
   SelectieGesorteerd <- Selectie %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     summarise_(

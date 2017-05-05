@@ -105,7 +105,7 @@ validatie.afgeleid <-
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
-    filter_(~HogeRmse) %>%
+    filter_(~HogeRmse & Status != "Goedgekeurd") %>%
     select_(~DOMEIN_ID, ~BMS) %>%
     distinct_() %>%
     mutate_(
@@ -113,6 +113,9 @@ validatie.afgeleid <-
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%
+        filter_(
+          ~Status != "Goedgekeurd"
+        ) %>%
         select_(
           ~BMS, ~DOMEIN_ID
         ) %>%
