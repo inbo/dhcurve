@@ -69,7 +69,7 @@ AfwijkendeMetingen <- validatie.basis(Basismodel)
 write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
-#methode om vlaggen aan te passen in de db (enkel uitgewerkt voor 'Bosdat'-gegevens):
+#methode om status aan te passen in de db (enkel uitgewerkt voor 'Bosdat'-gegs):
 updatequeryBosdat <-
   "UPDATE tblBosdatMetingen
   SET Status = 'Te controleren'
@@ -85,6 +85,7 @@ connectieGegs <- odbcConnectAccess2007(
 Test <-
   sqlQuery(connectieGegs, query)
 odbcClose(connectieGegs)
+
 
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)

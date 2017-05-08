@@ -57,11 +57,12 @@ validatierapport <-
         filter_(~Status != "Goedgekeurd") %>%
         select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE) %>%
         distinct_() %>%
-        mutate_(Afwijkend = ~TRUE),
+        mutate_(TeControlerenAfwijking = ~TRUE),
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
     ) %>%
     mutate_(
-      Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
+      TeControlerenAfwijking =
+        ~ifelse(is.na(TeControlerenAfwijking), FALSE, TeControlerenAfwijking)
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
@@ -98,7 +99,7 @@ validatierapport <-
   SelectieGesorteerd <- Selectie %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     summarise_(
-      PAfwijkend = ~sum(Afwijkend / nBomenOmtrek05, na.rm = TRUE)
+      PAfwijkend = ~sum(TeControlerenAfwijking / nBomenOmtrek05, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     inner_join(
