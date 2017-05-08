@@ -50,7 +50,6 @@ invoercontrole <- function(Data, Type) {
   if (Type == "fit") {
     assert_that(has_name(Data, "nBomen"),
                 msg = "De opgegeven dataframe heeft geen veld met naam nBomen")
-    assert_that(inherits(Data$nBomen, "numeric"))
     if (!all.equal(Data$nBomen, as.integer(Data$nBomen),
                    check.attributes = FALSE)) {
       stop("De waarden in de kolom nBomen moeten gehele getallen zijn")
@@ -62,7 +61,6 @@ invoercontrole <- function(Data, Type) {
     assert_that(has_name(Data, "nBomenInterval"),
                 msg = "De opgegeven dataframe heeft geen veld met naam
                 nBomenInterval")
-    assert_that(inherits(Data$nBomenInterval, "numeric"))
     if (!all.equal(Data$nBomenInterval, as.integer(Data$nBomenInterval),
                    check.attributes = FALSE)) {
       stop("De waarden in de kolom nBomenInterval moeten gehele getallen zijn")
@@ -93,9 +91,9 @@ invoercontrole <- function(Data, Type) {
     assert_that(has_name(Data, "Omtrek"),
                 msg = "De opgegeven dataframe heeft geen veld met naam Omtrek")
     assert_that(inherits(Data$Omtrek, "numeric"))
-    if (!all(Data$Omtrek %in% seq(25, 235, 10))) {
+    if (!all(round(Data$Omtrek * 100) %in% seq(25, 235, 10))) {
       stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
-           (geldige omtrekklassen zijn 25, 35, 45,... t.e.m. 235)")
+           (geldige omtrekklassen zijn 0.25, 0.35, 0.45,... t.e.m. 2.35)")
     }
 
     assert_that(has_name(Data, "logOmtrek"),
