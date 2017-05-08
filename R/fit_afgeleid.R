@@ -15,6 +15,9 @@
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
 
+  invoercontrole(Data.afgeleid, "fit")
+  #invoer van 'Basismodel' nog controleren!
+
   #eerst doen we een hoogteschatting op basis van het Vlaams model voor alle
   #omtrekklassen binnen de ranges van de boomsoort-domein-combinaties waarvoor
   #we het afgeleid model maken.

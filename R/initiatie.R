@@ -41,7 +41,7 @@
 #'
 #' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join summarise_
 #' @importFrom rmarkdown render
-#' @importFrom assertthat assert_that noNA is.flag
+#' @importFrom assertthat assert_that has_name noNA is.flag
 #'
 
 initiatie <-
@@ -62,25 +62,7 @@ initiatie <-
 
 
   #controle op invoer
-  assert_that(inherits(Data, "data.frame"))
-  assert_that(has_name(Data, "DOMEIN_ID"))
-  assert_that(has_name(Data, "BOS_BHI"))
-  assert_that(has_name(Data, "IDbms"))
-  assert_that(has_name(Data, "BMS"))
-
-  assert_that(has_name(Data, "C13"))
-  assert_that(inherits(Data$C13, "numeric"))
-  assert_that(has_name(Data, "HOOGTE"))
-  assert_that(inherits(Data$HOOGTE, "numeric"))
-
-  assert_that(has_name(Data, "Status"))
-  assert_that(inherits(Data$Status, "character"))
-  if (!all(Data$Status %in%
-      c("Niet gecontroleerd", "Te controleren", "Goedgekeurd"))) {
-    stop("De kolom Status in de dataframe heeft niet voor alle records een
-          geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
-          'Te controleren' en 'Goedgekeurd' voorkomen.")
-  }
+  invoercontrole(Data, "initiatie")
 
   assert_that(inherits(Uitzonderingen, "data.frame"))
   assert_that(has_name(Uitzonderingen, "DOMEIN_ID"))

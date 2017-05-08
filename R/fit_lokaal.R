@@ -14,6 +14,8 @@
 
 fit.lokaal <- function(Data.lokaal) {
 
+  invoercontrole(Data.lokaal, "fit")
+
   Lokaalmodel <- Data.lokaal %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     do_(
