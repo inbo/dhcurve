@@ -24,6 +24,7 @@
 #' @param AfwijkendeMetingen lijst met afwijkende metingen (zoals gegenereerd door de functie afwijkendeMetingen)
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
 #' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default de working directory)
 #'
@@ -38,7 +39,8 @@
 
 validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-           Bestandsnaam = "Validatie.html", verbose = TRUE, PathWD = getwd()){
+           Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
+           verbose = TRUE, PathWD = getwd()){
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))

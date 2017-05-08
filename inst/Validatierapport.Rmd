@@ -35,7 +35,11 @@ for (Poutliers in unique(Selectie$maxResid)) {
         filter_(~DOMEIN_ID == Domein)
       #print(unique(SelectieModel$Reden))
       #print(maakGrafiek(SelectieModel))
-      Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+      if (TypeRapport == "Dynamisch") {
+        Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+      } else {
+        Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+      }
     }
   }
 }

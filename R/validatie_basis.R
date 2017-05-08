@@ -18,6 +18,7 @@
 #' @param Data dataset op basis waarvan het model berekend is (nodig voor lokaal model)
 #'
 #' @inheritParams afwijkendeMetingen
+#' @inheritParams validatierapport
 #'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
@@ -27,7 +28,8 @@
 #' @importFrom assertthat has_name
 #'
 
-validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
+validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+                            TypeRapport = "Dynamisch"){
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     Rmse <- Data %>%
@@ -124,10 +126,10 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Lokaal.html")
+                     "Validatie_Lokaal.html", TypeRapport)
   } else {
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Basis.html")
+                     "Validatie_Basis.html", TypeRapport)
   }
 
 

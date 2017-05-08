@@ -17,6 +17,7 @@
 #' #@param Data.afgeleid dataframe 10-50
 #'
 #' @inheritParams afwijkendeMetingen
+#' @inheritParams validatierapport
 #'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
@@ -26,7 +27,8 @@
 #'
 
 validatie.afgeleid <-
-  function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20){
+  function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
+           TypeRapport = "Dynamisch"){
 
   Model <- Afgeleidmodel[[1]]
 
@@ -133,7 +135,7 @@ validatie.afgeleid <-
     ungroup()
 
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   "Validatie_Afgeleid.html")
+                   "Validatie_Afgeleid.html", TypeRapport)
 
   return(AfwijkendeMetingen)
 

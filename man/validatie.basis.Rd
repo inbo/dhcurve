@@ -4,7 +4,8 @@
 \alias{validatie.basis}
 \title{Validatie van het basismodel}
 \usage{
-validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20)
+validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+  TypeRapport = "Dynamisch")
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
@@ -12,6 +13,8 @@ validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20)
 \item{Data}{dataset op basis waarvan het model berekend is (nodig voor lokaal model)}
 
 \item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
+
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
 }
 \value{
 Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
