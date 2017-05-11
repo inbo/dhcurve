@@ -28,7 +28,7 @@
 
 validatie.afgeleid <-
   function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
-           TypeRapport = "Dynamisch"){
+           Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch"){
 
   Model <- Afgeleidmodel[[1]]
 
@@ -135,7 +135,7 @@ validatie.afgeleid <-
     ungroup()
 
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   "Validatie_Afgeleid.html", TypeRapport)
+                   Bestandsnaam, TypeRapport)
 
   return(AfwijkendeMetingen)
 

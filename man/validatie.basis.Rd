@@ -5,7 +5,7 @@
 \title{Validatie van het basismodel}
 \usage{
 validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
-  TypeRapport = "Dynamisch")
+  Bestandsnaam = "Default", TypeRapport = "Dynamisch")
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
@@ -14,10 +14,12 @@ validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
 
 \item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
 
+\item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+
 \item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
 }
 \value{
-Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
+Dataframe met te controleren metingen en document (html) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 }
 \description{
 Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model en een overzicht geeft van de afwijkende metingen en slechte curves (zodat de gebruiker deze kan valideren). De functie roept meerdere hulpfuncties op:

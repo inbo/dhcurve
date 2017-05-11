@@ -20,7 +20,7 @@
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #'
-#' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
+#' @return Dataframe met te controleren metingen en document (html) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
 #' @export
 #'
@@ -28,8 +28,9 @@
 #' @importFrom assertthat has_name
 #'
 
-validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
-                            TypeRapport = "Dynamisch"){
+validatie.basis <-
+  function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+           Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     Rmse <- Data %>%
@@ -125,11 +126,17 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
     ungroup()
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Lokaal.html",
+                           Bestandsnaam)
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Lokaal.html", TypeRapport)
+                     Bestandsnaam, TypeRapport)
   } else {
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Basis.html",
+                           Bestandsnaam)
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Basis.html", TypeRapport)
+                     Bestandsnaam, TypeRapport)
   }
 
 

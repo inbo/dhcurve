@@ -5,7 +5,7 @@
 \title{Validatie van het afgeleid model}
 \usage{
 validatie.afgeleid(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
-  TypeRapport = "Dynamisch")
+  Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch")
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
@@ -14,6 +14,8 @@ validatie.afgeleid(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
 #@param Data.afgeleid dataframe 10-50}
 
 \item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
+
+\item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
 \item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
 }
