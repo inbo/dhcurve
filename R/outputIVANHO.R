@@ -1,10 +1,12 @@
 #' berekent de geschatte hoogtes per omtrekklasse
 #'
-#' Berekeningen die leiden tot de gevraagde tabel om in IVANHO te importeren.  Hiervoor worden volgende hulpfuncties aangeroepen:
+#' Berekeningen die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug maar de hoogste waarde wordt aangehouden.)
 #'
-#' hoogteschatting.basis, hoogteschatting.afgeleid
+#' Hiervoor worden volgende hulpfuncties aangeroepen:
 #'
-#' Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
+#' hoogteschatting.basis, hoogteschatting.afgeleid, curvekarakteristieken
+#'
+#'
 #'
 #' @param Basismodel model per boomsoort
 #' @param Afgeleidmodel verschuiving per boomsoort en domein (Vlaams model)
@@ -35,12 +37,40 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select_ rowwise do_ ungroup mutate_ bind_rows group_by_ transmute_ distinct_ inner_join
+#' @importFrom dplyr %>% select_ filter_ rowwise do_ ungroup mutate_ bind_rows group_by_ transmute_ distinct_ inner_join left_join
 #'
 
 outputIVANHO <-
   function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal) {
 
+  #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan hogere omtrekklassen
+  MaxCurveBasis <- curvekarakteristieken(Basismodel) %>%
+    filter_(
+      ~Omtrek_Extr_Hoogte.d > 0.1,
+      ~Omtrek_Extr_Hoogte.d < Q95k,
+      ~Hoogteverschil.d > 0
+    ) %>%
+    select_(
+      ~DOMEIN_ID,
+      ~BMS,
+      ~Omtrek_Extr_Hoogte.d,
+      ~Extr_Hoogte.d
+    )
+
+  MaxCurveLokaal <- curvekarakteristieken(Lokaalmodel, Data.lokaal) %>%
+    filter_(
+      ~Omtrek_Extr_Hoogte.d > 0.1,
+      ~Omtrek_Extr_Hoogte.d < Q95k,
+      ~Hoogteverschil.d > 0
+    ) %>%
+    select_(
+      ~DOMEIN_ID,
+      ~BMS,
+      ~Omtrek_Extr_Hoogte.d,
+      ~Extr_Hoogte.d
+    )
+
+  #hoogtes van verschillende modellen schatten en samenvoegen
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
     do_(
@@ -49,6 +79,10 @@ outputIVANHO <-
     ungroup() %>%
     mutate_(
       Modeltype = ~"basismodel"
+    ) %>%
+    left_join(
+      MaxCurveBasis,
+      by = c("BMS", "DOMEIN_ID")
     ) %>%
     bind_rows(
       Afgeleidmodel[[1]] %>%
@@ -87,6 +121,10 @@ outputIVANHO <-
         ungroup() %>%
         mutate_(
           Modeltype = ~"lokaal model"
+        ) %>%
+        left_join(
+          MaxCurveLokaal,
+          by = c("BMS", "DOMEIN_ID")
         )
     ) %>%
     transmute_(
@@ -96,7 +134,10 @@ outputIVANHO <-
       ~Omtrek,
       OmtrekklassetypeID = ~as.integer(Omtrek * 10 + 1.5),
       Omtrekklasse = ~paste(Omtrek * 100 - 5, Omtrek * 100 + 5, sep = " - "),
-      Hoogte = ~H_D_finaal,
+      Hoogte =
+        ~ifelse(!is.na(Omtrek_Extr_Hoogte.d) & Omtrek > Omtrek_Extr_Hoogte.d,
+                Extr_Hoogte.d,
+                H_D_finaal),
       ~Modeltype
     ) %>%
     distinct_()
