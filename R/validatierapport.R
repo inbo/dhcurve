@@ -64,7 +64,10 @@ validatierapport <-
     ) %>%
     mutate_(
       TeControlerenAfwijking =
-        ~ifelse(is.na(TeControlerenAfwijking), FALSE, TeControlerenAfwijking)
+        ~factor(ifelse(is.na(TeControlerenAfwijking),
+                       FALSE, TeControlerenAfwijking),
+                levels = c(TRUE, FALSE),
+                labels = c("Te controleren", "OK"))
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
@@ -94,6 +97,10 @@ validatierapport <-
   } else {
     Selectie$CurveSlecht <- FALSE
   }
+
+  Selectie$CurveSlecht <-
+    factor(Selectie$CurveSlecht, levels = c(TRUE, FALSE),
+           labels = c("Te controleren", "OK"))
 
 
 
