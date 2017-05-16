@@ -4,16 +4,37 @@
 \alias{hoogteschatting.afgeleid}
 \title{Hoogteschatting op basis van opgegeven afgeleid model}
 \usage{
-hoogteschatting.afgeleid(Afgeleidmodel, DataAfgeleidmodel)
+hoogteschatting.afgeleid(Domeinsoortmodel, Domeinsoortdata)
 }
 \arguments{
-\item{Afgeleidmodel}{verschoven Vlaams model voor 1 boomsoort-domein-combinatie}
+\item{Domeinsoortmodel}{verschoven Vlaams model voor 1 boomsoort-domein-combinatie}
 
-\item{DataAfgeleidmodel}{de gegevens die hierbij horen: meetresultaten en het berekend Vlaams model (Deze dataset is het tweede item van de list die teruggegeven wordt bij de functie fit.afgeleid)}
+\item{Domeinsoortdata}{de gegevens die hierbij horen: meetresultaten voor 1 boomsoort-domein-combinatie}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model
 }
 \description{
-Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven afgeleid model.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
+Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven afgeleid model.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van 1 model en de bijhorende meetgegevens.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen op de volledige dataset Afgeleidmodel.
+}
+\examples{
+library(dplyr)
+#nog datasets toevoegen om deze voorbeelden te kunnen runnen
+\dontrun{
+Afgeleidmodel[[1]] \%>\%
+  inner_join(
+    Afgeleidmodel[[2]],
+    by = c("BMS", "DOMEIN_ID")
+  ) \%>\%
+  group_by_(
+    ~BMS,
+    ~DOMEIN_ID
+  ) \%>\%
+  do_(
+    ~hoogteschatting.afgeleid(.$Model[[1]],
+                              select_(., ~-Model))
+  ) \%>\%
+  ungroup()
+}
+
 }

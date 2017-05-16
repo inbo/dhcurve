@@ -10,11 +10,35 @@
 #'
 #' Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het lokaal model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
 #'
+#' Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeelden voor een methode om deze functie te kunnen toepassen vertrekkend van meetgegevens (bv. Data.lokaal) of vertrekkend van een model waar de meetgegevens uit gehaald kunnen worden (bv. Basismodel).
+#'
 #' Vroegere param: Basismodel model per boomsoort als argument meegeven en hier de nodige gegevens uit halen  (Vermits de 2 hoofdfuncties waarin deze hulpfunctie opgeroepen wordt allebei het argument model beschikbaar hebben en de dataframe niet, lijkt het me het meest logisch om hier van het model te vertrekken, dan moet het script om de meetgegevens uit het model te halen, enkel in deze functie geschreven worden)  Een alternatief is vertrekken van het dataframe > 50 en min. 6 domeinen
 #' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #' @param Typemodel 'Basis' of 'Lokaal'?
 #'
 #' @return dataframe met rmse_domein en rmse_Vlaams
+#'
+#' @examples
+#' library(dplyr)
+#' #nog datasets toevoegen om deze voorbeelden te kunnen runnen
+#' \dontrun{
+#' Data.lokaal %>%
+#'   group_by_(
+#'     ~BMS,
+#'     ~DOMEIN_ID
+#'   ) %>%
+#'   do_(
+#'     ~rmse.basis(., "Lokaal")
+#'   ) %>%
+#'   ungroup()
+#'
+#' Basismodel %>%
+#'   rowwise() %>%
+#'   do_(
+#'     ~rmse.basis(.$Model$data, "Basis")
+#'   ) %>%
+#'   ungroup()
+#' }
 #'
 #' @export
 #'

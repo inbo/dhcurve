@@ -17,5 +17,34 @@ hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
 dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model
 }
 \description{
-Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
+Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van 1 model en de bijhorende meetgegevens.  Zie voorbeelden voor een methode om deze functie te kunnen toepassen op Basismodel of Lokaalmodel + Data.lokaal.
+}
+\examples{
+library(dplyr)
+#nog datasets toevoegen om deze voorbeelden te kunnen runnen
+\dontrun{
+Basismodel \%>\%
+  rowwise() \%>\%
+  do_(
+    ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+  ) \%>\%
+  ungroup()
+
+Lokaalmodel \%>\%
+  inner_join(
+    Data.lokaal,
+    by = c("BMS", "DOMEIN_ID")
+  ) \%>\%
+  group_by_(
+    ~BMS,
+    ~DOMEIN_ID
+  ) \%>\%
+  do_(
+    ~hoogteschatting.basis(.$Model[[1]],
+                           select_(., ~-Model),
+                           "Lokaal")
+  ) \%>\%
+  ungroup()
+}
+
 }
