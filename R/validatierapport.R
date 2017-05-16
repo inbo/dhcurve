@@ -42,12 +42,49 @@ validatierapport <-
            Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
            verbose = TRUE, PathWD = getwd()){
 
+  assert_that(inherits(SlechtsteModellen, "data.frame"))
+  assert_that(has_name(SlechtsteModellen, "BMS"))
+  if (has_name(SlechtsteModellen, "Omtrek_Buigpunt")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Buigpunt, "numeric"))
+  }
+  assert_that(has_name(SlechtsteModellen, "Reden"))
+  if (has_name(SlechtsteModellen, "Omtrek_Extr_Hoogte")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Extr_Hoogte, "numeric"))
+  }
+
+  assert_that(inherits(AfwijkendeMetingen, "data.frame"))
+  assert_that(has_name(AfwijkendeMetingen, "BMS"))
+  assert_that(has_name(AfwijkendeMetingen, "DOMEIN_ID"))
+  assert_that(has_name(AfwijkendeMetingen, "C13"))
+  assert_that(inherits(AfwijkendeMetingen$C13, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "HOOGTE"))
+  assert_that(inherits(AfwijkendeMetingen$HOOGTE, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "Status"),
+              msg = "De opgegeven dataframe heeft geen veld met naam Status")
+  if (!all(AfwijkendeMetingen$Status %in%
+           c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
+    stop("De kolom Status in de dataframe heeft niet voor alle records een
+         geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
+         'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten.")
+  }
+
+  invoercontrole(Dataset, "afgeleidedata")
+  assert_that(has_name(Dataset, "H_D_finaal"))
+  assert_that(inherits(Dataset$H_D_finaal, "numeric"))
+  assert_that(has_name(Dataset, "rmseD"))
+  assert_that(inherits(Dataset$rmseD, "numeric"))
+  assert_that(has_name(Dataset, "maxResid"))
+  assert_that(inherits(Dataset$maxResid, "numeric"))
+
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
   if (!grepl(".html$", Bestandsnaam)) {
     stop("De bestandnaam moet eindigen op '.html'")
   }
+  assert_that(is.character(TypeRapport))
+  TypeRapport <- tolower(TypeRapport)
+  assert_that(TypeRapport %in% c("dynamisch", "statisch"))
 
   Selectie <- Dataset %>%
     inner_join(

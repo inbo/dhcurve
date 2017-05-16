@@ -42,10 +42,13 @@
 #'
 
 resultaat <-
-  function(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal,
-           Data.onbruikbaar = NULL){
+  function(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
+           Data.lokaal = NULL, Data.onbruikbaar = NULL){
 
-  Modellen.basis <- modelparameters(Basismodel) %>%
+
+  if (!is.null(Basismodel)) {
+    invoercontrole(Basismodel, "basismodel")
+    Modellen.basis <- modelparameters(Basismodel) %>%
     select_(~-Q5k, ~-Q95k) %>%
     left_join(Basismodel %>%
                 rowwise() %>%
@@ -56,151 +59,180 @@ resultaat <-
               c("BMS", "DOMEIN_ID")) %>%
     select_(~-maxResid)
 
-  Modellen.domein <- Modellen.basis %>%
-    select_(~-Avl, ~-Bvl, ~-Cvl, ~-rmseVL) %>%
-    rename_(
-      A = ~Ad,
-      B = ~Bd,
-      C = ~Cd,
-      RMSE = ~rmseD
-    ) %>%
-    mutate_(
-      Modeltype = ~"basismodel"
-    )
+    Modellen <- Modellen.basis %>%
+      select_(~-Avl, ~-Bvl, ~-Cvl, ~-rmseVL) %>%
+      rename_(
+        A = ~Ad,
+        B = ~Bd,
+        C = ~Cd,
+        RMSE = ~rmseD
+      ) %>%
+      mutate_(
+        Modeltype = ~"basismodel"
+      )
 
-  # volgende code is om ook de Vlaamse modellen toe te voegen aan de
-  # resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als een
-  #Vlaams model gebaseerd is op enkel bomen van 1 streek en de te schatten boom
-  #ligt in een andere streek, is de schatting onbetrouwbaar), voegen we het niet
-  #toe
+    # volgende code is om ook de Vlaamse modellen toe te voegen aan de
+    # resultatenlijst.  Omdat het niet wenselijk is om deze te gebruiken (als
+    # een Vlaams model gebaseerd is op enkel bomen van 1 streek en de te
+    # schatten boom ligt in een andere streek, is de schatting onbetrouwbaar),
+    # voegen we het niet toe
 
-  # Modellen.Vlaams <- Modellen.basis %>%
-  #   select_(~-Ad, ~-Bd, ~-Cd, ~-rmseD) %>%
-  #   mutate_(
-  #     sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)    #nolint
-  #   ) %>%
-  #   group_by_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
-  #   summarise_(
-  #     nBomen = ~sum(nBomen),
-  #     nBomenInterval = ~sum(nBomenInterval),
-  #     nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-  #     RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))   #nolint
-  #   ) %>%
-  #   ungroup() %>%
-  #   rename_(
-  #     A = ~Avl,
-  #     B = ~Bvl,
-  #     C = ~Cvl,
-  #     nBomenOmtrek05 = ~nBomenOmtrek05VL    #nolint
-  #   ) %>%
-  #   mutate_(
-  #     Modeltype = ~"Vlaams model"     #nolint
-  #   )
+    # Modellen.Vlaams <- Modellen.basis %>%
+    #   select_(~-Ad, ~-Bd, ~-Cd, ~-rmseD) %>%
+    #   mutate_(
+    #     sseVL = ~(rmseVL)^2 * (nBomenOmtrek05 - 2)    #nolint
+    #   ) %>%
+    #   group_by_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
+    #   summarise_(
+    #     nBomen = ~sum(nBomen),
+    #     nBomenInterval = ~sum(nBomenInterval),
+    #     nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
+    #     RMSE = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))   #nolint
+    #   ) %>%
+    #   ungroup() %>%
+    #   rename_(
+    #     A = ~Avl,
+    #     B = ~Bvl,
+    #     C = ~Cvl,
+    #     nBomenOmtrek05 = ~nBomenOmtrek05VL    #nolint
+    #   ) %>%
+    #   mutate_(
+    #     Modeltype = ~"Vlaams model"     #nolint
+    #   )
 
+    if (!is.null(Afgeleidmodel)) {
+      invoercontrole(Afgeleidmodel, "afgeleidmodel")
 
-  #Rmse van Vlaams model berekenen
-  RmseVL <- Basismodel %>%
-    rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
-    ) %>%
-    ungroup() %>%
-    mutate_(
-      sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
-    ) %>%
-    group_by_(~BMS) %>%
-    summarise_(
-      nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-      rmseVL = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
-    ) %>%
-    ungroup()
-
-  #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
-  RmseAfg <- Afgeleidmodel[[1]] %>%
-    rowwise() %>%
-    do_(
-      ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
-    ) %>%
-    ungroup() %>%
-    inner_join(
-      RmseVL %>% select_(~BMS, ~rmseVL),
-      by = c("BMS")
-    ) %>%
-    mutate_(
-      rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
-    )
-
-
-  Modellen <- Modellen.domein %>%
-#    bind_rows(Modellen.Vlaams) %>%
-    bind_rows(
-      Afgeleidmodel[[2]] %>%
-        select_(
-          ~BMS,
-          ~DOMEIN_ID,
-          ~nBomen,
-          ~nBomenInterval,
-          ~nBomenOmtrek05
+      #Rmse van Vlaams model berekenen
+      RmseVL <- Basismodel %>%
+        rowwise() %>%
+        do_(
+          ~rmse.basis(.$Model$data, "Basis")
         ) %>%
-        distinct_() %>%
-        left_join(
-          RmseAfg %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
-          by = c("BMS", "DOMEIN_ID")
+        ungroup() %>%
+        mutate_(
+          sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
         ) %>%
-        left_join(
-          modelparameters(Basismodel, Afgeleidmodel = Afgeleidmodel),
-          by = c("BMS", "DOMEIN_ID")
+        group_by_(~BMS) %>%
+        summarise_(
+          nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
+          rmseVL = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
         ) %>%
-        transmute_(
-          ~DOMEIN_ID,
-          ~BMS,
-          A = ~Ad + Avl,
-          B = ~Bvl,
-          C = ~Cvl,
-          ~nBomen,
-          ~nBomenInterval,
-          ~nBomenOmtrek05,
-          ~Q5k,
-          ~Q95k,
-          RMSE = ~rmseD
+        ungroup()
+
+      #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
+      RmseAfg <- Afgeleidmodel[[1]] %>%
+        rowwise() %>%
+        do_(
+          ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+        ) %>%
+        ungroup() %>%
+        inner_join(
+          RmseVL %>% select_(~BMS, ~rmseVL),
+          by = c("BMS")
         ) %>%
         mutate_(
-          Modeltype = ~"afgeleid model"
+          rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
         )
-    ) %>%
-    bind_rows(
+
+
+      Modellen <- Modellen %>%
+    #    bind_rows(Modellen.Vlaams) %>%
+        bind_rows(
+          Afgeleidmodel[[2]] %>%
+            select_(
+              ~BMS,
+              ~DOMEIN_ID,
+              ~nBomen,
+              ~nBomenInterval,
+              ~nBomenOmtrek05
+            ) %>%
+            distinct_() %>%
+            left_join(
+              RmseAfg %>% select_(~BMS, ~DOMEIN_ID, ~rmseD),
+              by = c("BMS", "DOMEIN_ID")
+            ) %>%
+            left_join(
+              modelparameters(Basismodel, Afgeleidmodel = Afgeleidmodel),
+              by = c("BMS", "DOMEIN_ID")
+            ) %>%
+            transmute_(
+              ~DOMEIN_ID,
+              ~BMS,
+              A = ~Ad + Avl,
+              B = ~Bvl,
+              C = ~Cvl,
+              ~nBomen,
+              ~nBomenInterval,
+              ~nBomenOmtrek05,
+              ~Q5k,
+              ~Q95k,
+              RMSE = ~rmseD
+            ) %>%
+            mutate_(
+              Modeltype = ~"afgeleid model"
+            )
+        )
+    }
+
+  } else {
+    if (!is.null(Afgeleidmodel)) {
+      stop("Als je een afgeleid model opgeeft, moet je ook het basismodel
+           opgeven waarvan dit afgeleid is.")
+    }
+  }
+
+  if (!is.null(Lokaalmodel)) {
+    invoercontrole(Lokaalmodel, "lokaalmodel")
+    if (is.null(Data.lokaal)) {
+      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
+    } else {
+      invoercontrole(Data.lokaal, "fit")
+    }
+
+    Modellen.lokaal <-
       modelparameters(Lokaalmodel, Data.lokaal) %>%
-        select_(~-Q5k, ~-Q95k) %>%
-        left_join(Data.lokaal %>%
-                    group_by_(
-                      ~BMS,
-                      ~DOMEIN_ID
-                    ) %>%
-                    do_(
-                      ~rmse.basis(., "Lokaal")
-                    ) %>%
-                    ungroup(),
-                  c("BMS", "DOMEIN_ID")) %>%
-        select_(
-          ~DOMEIN_ID,
-          ~BMS,
-          A = ~Ad,
-          B = ~Bd,
-          C = ~Cd,
-          ~nBomen,
-          ~nBomenInterval,
-          ~nBomenOmtrek05,
-          ~Q5k,
-          ~Q95k,
-          RMSE = ~rmseD
-        ) %>%
-        mutate_(
-          Modeltype = ~"lokaal model"
-        )
-    ) %>%
-    bind_rows(
-      Data.onbruikbaar %>%
-        select_(
+      select_(~-Q5k, ~-Q95k) %>%
+      left_join(Data.lokaal %>%
+                  group_by_(
+                    ~BMS,
+                    ~DOMEIN_ID
+                  ) %>%
+                  do_(
+                    ~rmse.basis(., "Lokaal")
+                  ) %>%
+                  ungroup(),
+                c("BMS", "DOMEIN_ID")) %>%
+      select_(
+        ~DOMEIN_ID,
+        ~BMS,
+        A = ~Ad,
+        B = ~Bd,
+        C = ~Cd,
+        ~nBomen,
+        ~nBomenInterval,
+        ~nBomenOmtrek05,
+        ~Q5k,
+        ~Q95k,
+        RMSE = ~rmseD
+      ) %>%
+      mutate_(
+        Modeltype = ~"lokaal model"
+      )
+
+    if (exists("Modellen")) {
+      Modellen <- Modellen %>%
+        bind_rows(Modellen.lokaal)
+    } else {
+      Modellen <- Modellen.lokaal
+    }
+  }
+
+  if (!is.null(Data.onbruikbaar)) {
+    invoercontrole(Data.onbruikbaar, "fit")
+
+    Lijst.onbruikbaar <- Data.onbruikbaar %>%
+      select_(
           ~DOMEIN_ID, ~BMS,
           ~nBomen, ~nBomenInterval, ~nBomenOmtrek05,
           ~Q5k, ~Q95k
@@ -209,8 +241,20 @@ resultaat <-
         mutate_(
           Modeltype = ~"Geen model"
         )
-    )
 
-  return(Modellen)
+    if (exists("Modellen")) {
+      Modellen <- Modellen %>%
+        bind_rows(Lijst.onbruikbaar)
+    } else {
+      Modellen <- Lijst.onbruikbaar
+    }
+  }
+
+  if (exists("Modellen")) {
+    return(Modellen)
+  } else {
+    message("Er zijn geen modellen opgegeven.")
+  }
+
 
 }

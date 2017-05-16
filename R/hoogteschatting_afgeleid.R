@@ -31,10 +31,20 @@
 #'
 #' @importFrom dplyr %>% mutate_
 #' @importFrom stats predict
+#' @importFrom assertthat assert_that
 #'
 
 hoogteschatting.afgeleid <- function(Domeinsoortmodel, Domeinsoortdata) {
 
+  #controle invoer
+  assert_that(inherits(Domeinsoortmodel, "lm"),
+              msg = "Domeinsoortmodel moet een lineair model zijn (zie
+              documentatie)")
+  invoercontrole(Domeinsoortdata, "afgeleidedata")
+  assert_that(length(unique(Domeinsoortdata$BMS)) == 1,
+              msg = "De dataset Domeinsoortdata mag maar 1 boomsoort bevatten")
+  assert_that(length(unique(Domeinsoortdata$DOMEIN_ID)) == 1,
+              msg = "De dataset Domeinsoortdata maar 1 domein bevatten")
 
   Schatting <- Domeinsoortdata %>%
     mutate_(

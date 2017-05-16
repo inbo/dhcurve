@@ -25,12 +25,26 @@
 #' @export
 #'
 #' @importFrom dplyr %>% inner_join filter_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows do_ rowwise
-#' @importFrom assertthat has_name
+#' @importFrom assertthat assert_that has_name
 #'
 
 validatie.basis <-
   function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
+
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    invoercontrole(Basismodel, "lokaalmodel")
+    if (is.null(Data)) {
+      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
+    } else {
+      invoercontrole(Data, "fit")
+    }
+  } else {
+    invoercontrole(Basismodel, "basismodel")
+  }
+  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
+  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
+  assert_that(AantalDomHogeRMSE >= 0)
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     Rmse <- Data %>%

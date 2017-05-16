@@ -4,8 +4,8 @@
 \alias{resultaat}
 \title{berekent de modelparameters per domein}
 \usage{
-resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal,
-  Data.onbruikbaar = NULL)
+resultaat(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
+  Data.lokaal = NULL, Data.onbruikbaar = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}

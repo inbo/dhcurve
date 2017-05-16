@@ -24,11 +24,18 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
+#' @importFrom assertthat assert_that
 #'
 
 validatie.afgeleid <-
   function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
            Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch"){
+
+  invoercontrole(Basismodel, "basismodel")
+  invoercontrole(Afgeleidmodel, "afgeleidmodel")
+  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
+  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
+  assert_that(AantalDomHogeRMSE >= 0)
 
   Model <- Afgeleidmodel[[1]]
 

@@ -46,6 +46,29 @@
 
 hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
 
+  #controle invoer
+  assert_that(is.character(Typemodel))
+  Typemodel <- tolower(Typemodel)
+  assert_that(Typemodel %in% c("basis", "lokaal"))
+
+
+  invoercontrole(Soortdata, "fit")
+  assert_that(length(unique(Soortdata$BMS)) == 1,
+              msg = "De dataset Soortdata mag maar 1 boomsoort bevatten")
+  if (Typemodel == "lokaal") {
+    assert_that(length(unique(Soortdata$DOMEIN_ID)) == 1,
+                msg = "Voor een lokaal model mag de dataset Soortdata maar 1
+                domein bevatten")
+    assert_that(inherits(Soortmodel, "lm"),
+                msg = "Soortmodel moet een lineair model zijn (zie
+                documentatie)")
+  } else {
+    assert_that(inherits(Soortmodel, "lme"),
+                msg = "Soortmodel moet een lineair mixed model zijn (zie
+                documentatie)")
+  }
+
+
   #Hoogtes schatten voor alle omtrekklassen binnen bruikbaar interval
   AlleKlassen <- seq(15, 245, 10)
 

@@ -4,7 +4,8 @@
 \alias{outputIVANHO}
 \title{berekent de geschatte hoogtes per omtrekklasse}
 \usage{
-outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+outputIVANHO(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
+  Data.lokaal = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}

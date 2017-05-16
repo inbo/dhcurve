@@ -45,9 +45,24 @@
 #' @importFrom dplyr %>% group_by_ ungroup transmute_ mutate_ bind_rows summarise_ arrange_ row_number
 #' @importFrom nlme fixef
 #' @importFrom stats predict
+#' @importFrom assertthat assert_that
 #'
 
 rmse.basis <- function(Data, Typemodel){
+
+  #controle
+  assert_that(is.character(Typemodel))
+  Typemodel <- tolower(Typemodel)
+  assert_that(Typemodel %in% c("basis", "lokaal"))
+
+  invoercontrole(Data, "fit")
+  assert_that(length(unique(Data$BMS)) == 1,
+              msg = "De dataset Data mag maar 1 boomsoort bevatten")
+  if (Typemodel == "lokaal") {
+    assert_that(length(unique(Data$DOMEIN_ID)) == 1,
+                msg = "Voor een lokaal model mag de dataset Data maar 1
+                domein bevatten")
+  }
 
   #testgroepen aanmaken in dataset
   Soortdata <- Data %>%
@@ -63,7 +78,7 @@ rmse.basis <- function(Data, Typemodel){
     Data_test <- Soortdata[Soortdata$Testgroep == i, ]
     Data_model <- Soortdata[Soortdata$Testgroep != i, ]
 
-    if (grepl(Typemodel, "Lokaal")) {
+    if (grepl(Typemodel, "lokaal")) {
       Model <- fit.lokaal(Data_model)$Model[[1]]  #nolint
     } else {
       Model <- fit.basis(Data_model)$Model[[1]]   #nolint
@@ -77,7 +92,7 @@ rmse.basis <- function(Data, Typemodel){
         ResidVL2 = ~0
       )
 
-    if (grepl(Typemodel, "Basis")) {
+    if (grepl(Typemodel, "basis")) {
       Data_Boomsoort <- Data_Boomsoort %>%
         mutate_(
           H_VLmodel = ~as.numeric(fixef(Model)[1]) +
@@ -124,7 +139,7 @@ rmse.basis <- function(Data, Typemodel){
     )
 
   #voor lokaal model het Vlaams model verwijderen (is gelijkgesteld aan 0)
-  if (grepl(Typemodel, "Lokaal")) {
+  if (grepl(Typemodel, "lokaal")) {
     Rmse.soort$rmseVL <- NULL
   }
 

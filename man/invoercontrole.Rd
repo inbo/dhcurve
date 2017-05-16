@@ -9,7 +9,7 @@ invoercontrole(Data, Type)
 \arguments{
 \item{Data}{De dataframe die moet gecontroleerd worden}
 
-\item{Type}{Het type controle dat moet gebeuren, verwijzend naar de functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn: 'initiatie' en 'fit'}
+\item{Type}{Het type controle dat moet gebeuren, verwijzend naar de functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn: 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en 'afgeleidedata'}
 }
 \value{
 Een foutmelding of de geteste dataframe

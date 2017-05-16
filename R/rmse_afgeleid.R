@@ -29,9 +29,14 @@
 #'
 #' @importFrom dplyr %>% mutate_ summarise_ select_
 #' @importFrom stats influence
+#' @importFrom assertthat assert_that
 #'
 
 rmse.afgeleid <- function(Verschovenmodel, Boomsoort, Domein){
+
+  assert_that(inherits(Verschovenmodel, "lm"),
+              msg = "Domeinsoortmodel moet een lineair model zijn (zie
+              documentatie)")
 
   Rmse <- data.frame(RMSE = influence(Verschovenmodel)$sigma) %>%
     mutate_(
