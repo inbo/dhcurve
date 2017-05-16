@@ -2,7 +2,7 @@ box: inbobmk/rstable
 build:
   steps:
     - script:
-        code: Rscript -e "install.packages('DT', repos = 'https://cran.rstudio.com')"
+        code: Rscript -e "install.packages('DT', repos = 'https://cran.rstudio.com')  install.packages('plotly', repos = 'https://cran.rstudio.com')"
     - inbobmk/r-check
     - inbobmk/r-coverage
     - inbobmk/r-lint
