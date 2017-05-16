@@ -6,8 +6,6 @@
 #'
 #' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en parameters voor Vlaams model (Avl, Bvl en Cvl)
 #'
-#' @export
-#'
 #' @importFrom dplyr %>% select_ distinct_ left_join
 #' @importFrom nlme fixef
 #' @importFrom stats coef
