@@ -16,6 +16,14 @@
 
 modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
 
+  invoercontrole(Basismodel, "basismodel")
+  if (!is.null(Data)) {
+    invoercontrole(Data, "fit")
+  }
+  if (!is.null(Afgeleidmodel)) {
+    invoercontrole(Afgeleidmodel, "afgeleidmodel")
+  }
+
   if (!is.null(Afgeleidmodel)) {
     Parameters <- Afgeleidmodel[[1]] %>%
       inner_join(

@@ -12,10 +12,24 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ transmute_ mutate_ bind_rows
+#' @importFrom assertthat has_name
 #'
 
 afwijkendeCurves <- function(Basismodel, Data = NULL) {
 
+  #controle invoer
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    invoercontrole(Basismodel, "lokaalmodel")
+    if (is.null(Data)) {
+      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
+    } else {
+      invoercontrole(Data, "fit")
+    }
+  } else {
+    invoercontrole(Basismodel, "basismodel")
+  }
+
+  #berekeningen
   Parameters_Extr <- curvekarakteristieken(Basismodel, Data) %>%
     filter_(
       ~Omtrek_Extr_Hoogte.d > 0.1,

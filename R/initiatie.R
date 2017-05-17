@@ -14,7 +14,7 @@
 #'
 #' De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
 #'
-#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BOS_BHI, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.  C13 moet in centimeter opgegeven worden (maar wordt omgezet naar meter om de berekeningen uit te voern) en HOOGTE in meter.
+#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BOS_BHI, IDbms, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.  C13 moet in centimeter opgegeven worden (maar wordt omgezet naar meter om de berekeningen uit te voern) en HOOGTE in meter.
 #' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
@@ -41,7 +41,7 @@
 #'
 #' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join summarise_
 #' @importFrom rmarkdown render
-#' @importFrom assertthat assert_that noNA is.flag
+#' @importFrom assertthat assert_that has_name noNA is.flag
 #'
 
 initiatie <-
@@ -60,7 +60,19 @@ initiatie <-
   # min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen  #nolint
   # min_afgeleidmodel <- 10   #nolint
 
-  #hier moet nog controle gebeuren op de ingevoerde data!
+
+  #controle op invoer
+  invoercontrole(Data, "initiatie")
+
+  assert_that(inherits(Uitzonderingen, "data.frame"))
+  assert_that(has_name(Uitzonderingen, "DOMEIN_ID"))
+  assert_that(has_name(Uitzonderingen, "BMS"))
+  assert_that(has_name(Uitzonderingen, "min_basis"))
+  assert_that(is.na(Uitzonderingen$min_basis) |
+                inherits(Uitzonderingen$min_basis, "numeric"))
+  assert_that(has_name(Uitzonderingen, "min_afgeleid"))
+  assert_that(is.na(Uitzonderingen$min_afgeleid) |
+                inherits(Uitzonderingen$min_afgeleid, "numeric"))
 
 
   #eerst een rapport maken van de gegevens die verwijderd worden
@@ -239,6 +251,9 @@ initiatie <-
         select_(~BMS, ~DOMEIN_ID) %>%
         distinct_(),
       by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    select_(
+      ~-min_basis, ~-min_afgeleid
     )
 
 

@@ -4,7 +4,8 @@
 \alias{outputIVANHO}
 \title{berekent de geschatte hoogtes per omtrekklasse}
 \usage{
-outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+outputIVANHO(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
+  Data.lokaal = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort}
@@ -39,10 +40,10 @@ dataframe met geschatte hoogtes per domein en per boomsoort met velden:
 - Hoogte
 }
 \description{
-Berekeningen die leiden tot de gevraagde tabel om in IVANHO te importeren.  Hiervoor worden volgende hulpfuncties aangeroepen:
+Berekeningen die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug maar de hoogste waarde wordt aangehouden.)
 }
 \details{
-hoogteschatting.basis, hoogteschatting.afgeleid
+Hiervoor worden volgende hulpfuncties aangeroepen:
 
-Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
+hoogteschatting.basis, hoogteschatting.afgeleid, curvekarakteristieken
 }

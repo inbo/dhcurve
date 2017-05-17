@@ -11,6 +11,7 @@ Imports:
     nlme,
     stats,
     ggplot2,
+    plotly,
     rmarkdown,
     assertthat,
     DT,

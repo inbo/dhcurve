@@ -15,6 +15,18 @@
 
 curvekarakteristieken <- function(Basismodel, Data = NULL){
 
+  #controle invoer
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    invoercontrole(Basismodel, "lokaalmodel")
+    if (is.null(Data)) {
+      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
+    } else {
+      invoercontrole(Data, "fit")
+    }
+  } else {
+    invoercontrole(Basismodel, "basismodel")
+  }
+
   Parameters <- modelparameters(Basismodel, Data) %>%
     mutate_(
       Omtrek_Extr_Hoogte.d = ~exp(-Bd / (2 * Cd)),

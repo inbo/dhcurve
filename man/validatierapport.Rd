@@ -5,7 +5,8 @@
 \title{stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport}
 \usage{
 validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-  Bestandsnaam = "Validatie.html", verbose = TRUE, PathWD = getwd())
+  Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
+  verbose = TRUE, PathWD = getwd())
 }
 \arguments{
 \item{SlechtsteModellen}{lijst van de slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen.  Deze bevat ook de info om weer te geven bij de grafieken (parameters)}
@@ -15,6 +16,8 @@ validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
 \item{Dataset}{Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)}
 
 \item{Bestandsnaam}{Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
 
 \item{verbose}{geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden}
 

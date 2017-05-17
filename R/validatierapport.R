@@ -24,6 +24,7 @@
 #' @param AfwijkendeMetingen lijst met afwijkende metingen (zoals gegenereerd door de functie afwijkendeMetingen)
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
 #' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.
 #' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
 #' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default de working directory)
 #'
@@ -38,7 +39,42 @@
 
 validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-           Bestandsnaam = "Validatie.html", verbose = TRUE, PathWD = getwd()){
+           Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
+           verbose = TRUE, PathWD = getwd()){
+
+  assert_that(inherits(SlechtsteModellen, "data.frame"))
+  assert_that(has_name(SlechtsteModellen, "BMS"))
+  if (has_name(SlechtsteModellen, "Omtrek_Buigpunt")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Buigpunt, "numeric"))
+  }
+  assert_that(has_name(SlechtsteModellen, "Reden"))
+  if (has_name(SlechtsteModellen, "Omtrek_Extr_Hoogte")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Extr_Hoogte, "numeric"))
+  }
+
+  assert_that(inherits(AfwijkendeMetingen, "data.frame"))
+  assert_that(has_name(AfwijkendeMetingen, "BMS"))
+  assert_that(has_name(AfwijkendeMetingen, "DOMEIN_ID"))
+  assert_that(has_name(AfwijkendeMetingen, "C13"))
+  assert_that(inherits(AfwijkendeMetingen$C13, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "HOOGTE"))
+  assert_that(inherits(AfwijkendeMetingen$HOOGTE, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "Status"),
+              msg = "De opgegeven dataframe heeft geen veld met naam Status")
+  if (!all(AfwijkendeMetingen$Status %in%
+           c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
+    stop("De kolom Status in de dataframe heeft niet voor alle records een
+         geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
+         'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten.")
+  }
+
+  invoercontrole(Dataset, "afgeleidedata")
+  assert_that(has_name(Dataset, "H_D_finaal"))
+  assert_that(inherits(Dataset$H_D_finaal, "numeric"))
+  assert_that(has_name(Dataset, "rmseD"))
+  assert_that(inherits(Dataset$rmseD, "numeric"))
+  assert_that(has_name(Dataset, "maxResid"))          #nolint
+  assert_that(inherits(Dataset$maxResid, "numeric"))
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
@@ -46,6 +82,9 @@ validatierapport <-
   if (!grepl(".html$", Bestandsnaam)) {
     stop("De bestandnaam moet eindigen op '.html'")
   }
+  assert_that(is.character(TypeRapport))
+  TypeRapport <- tolower(TypeRapport)
+  assert_that(TypeRapport %in% c("dynamisch", "statisch"))
 
   Selectie <- Dataset %>%
     inner_join(
@@ -54,13 +93,18 @@ validatierapport <-
     ) %>%
     left_join(
       AfwijkendeMetingen %>%
+        filter_(~Status != "Goedgekeurd") %>%
         select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE) %>%
         distinct_() %>%
-        mutate_(Afwijkend = ~TRUE),
+        mutate_(TeControlerenAfwijking = ~TRUE),
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
     ) %>%
     mutate_(
-      Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
+      TeControlerenAfwijking =
+        ~factor(ifelse(is.na(TeControlerenAfwijking),
+                       FALSE, TeControlerenAfwijking),
+                levels = c(TRUE, FALSE),
+                labels = c("Te controleren", "OK"))
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
@@ -91,13 +135,17 @@ validatierapport <-
     Selectie$CurveSlecht <- FALSE
   }
 
+  Selectie$CurveSlecht <-
+    factor(Selectie$CurveSlecht, levels = c(TRUE, FALSE),
+           labels = c("Te controleren", "OK"))
 
 
-  #sorteren volgens grootste aandeel outliers
+
+  #sorteren volgens grootste outlier (in absolute waarde)
   SelectieGesorteerd <- Selectie %>%
     group_by_(~BMS, ~DOMEIN_ID) %>%
     summarise_(
-      PAfwijkend = ~sum(Afwijkend / nBomenOmtrek05, na.rm = TRUE)
+      PAfwijkend = ~sum(TeControlerenAfwijking / nBomenOmtrek05, na.rm = TRUE)
     ) %>%
     ungroup() %>%
     inner_join(

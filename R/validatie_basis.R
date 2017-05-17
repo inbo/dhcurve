@@ -18,16 +18,33 @@
 #' @param Data dataset op basis waarvan het model berekend is (nodig voor lokaal model)
 #'
 #' @inheritParams afwijkendeMetingen
+#' @inheritParams validatierapport
 #'
-#' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
+#' @return Dataframe met te controleren metingen en document (html) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% inner_join filter_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows do_ rowwise
-#' @importFrom assertthat has_name
+#' @importFrom assertthat assert_that has_name
 #'
 
-validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
+validatie.basis <-
+  function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+           Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
+
+  if (has_name(Basismodel, "DOMEIN_ID")) {
+    invoercontrole(Basismodel, "lokaalmodel")
+    if (is.null(Data)) {
+      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
+    } else {
+      invoercontrole(Data, "fit")
+    }
+  } else {
+    invoercontrole(Basismodel, "basismodel")
+  }
+  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
+  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
+  assert_that(AantalDomHogeRMSE >= 0)
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
     Rmse <- Data %>%
@@ -83,7 +100,7 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
   AfwijkendeCurves <- afwijkendeCurves(Basismodel, Data)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
-    filter_(~HogeRmse) %>%
+    filter_(~HogeRmse & Status != "Goedgekeurd") %>%
     select_(~DOMEIN_ID, ~BMS) %>%
     distinct_() %>%
     mutate_(
@@ -94,6 +111,9 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%
+        filter_(
+          ~Status != "Goedgekeurd"
+        ) %>%
         select_(
           ~BMS, ~DOMEIN_ID
         ) %>%
@@ -120,11 +140,17 @@ validatie.basis <- function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20){
     ungroup()
 
   if (has_name(Basismodel, "DOMEIN_ID")) {
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Lokaal.html",
+                           Bestandsnaam)
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Lokaal.html")
+                     Bestandsnaam, TypeRapport)
   } else {
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Basis.html",
+                           Bestandsnaam)
     validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                     "Validatie_Basis.html")
+                     Bestandsnaam, TypeRapport)
   }
 
 

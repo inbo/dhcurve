@@ -10,20 +10,59 @@
 #'
 #' Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het lokaal model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
 #'
+#' Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeelden voor een methode om deze functie te kunnen toepassen vertrekkend van meetgegevens (bv. Data.lokaal) of vertrekkend van een model waar de meetgegevens uit gehaald kunnen worden (bv. Basismodel).
+#'
 #' Vroegere param: Basismodel model per boomsoort als argument meegeven en hier de nodige gegevens uit halen  (Vermits de 2 hoofdfuncties waarin deze hulpfunctie opgeroepen wordt allebei het argument model beschikbaar hebben en de dataframe niet, lijkt het me het meest logisch om hier van het model te vertrekken, dan moet het script om de meetgegevens uit het model te halen, enkel in deze functie geschreven worden)  Een alternatief is vertrekken van het dataframe > 50 en min. 6 domeinen
 #' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
 #' @param Typemodel 'Basis' of 'Lokaal'?
 #'
 #' @return dataframe met rmse_domein en rmse_Vlaams
 #'
+#' @examples
+#' library(dplyr)
+#' #nog datasets toevoegen om deze voorbeelden te kunnen runnen
+#' \dontrun{
+#' Data.lokaal %>%
+#'   group_by_(
+#'     ~BMS,
+#'     ~DOMEIN_ID
+#'   ) %>%
+#'   do_(
+#'     ~rmse.basis(., "Lokaal")
+#'   ) %>%
+#'   ungroup()
+#'
+#' Basismodel %>%
+#'   rowwise() %>%
+#'   do_(
+#'     ~rmse.basis(.$Model$data, "Basis")
+#'   ) %>%
+#'   ungroup()
+#' }
+#'
 #' @export
 #'
 #' @importFrom dplyr %>% group_by_ ungroup transmute_ mutate_ bind_rows summarise_ arrange_ row_number
 #' @importFrom nlme fixef
 #' @importFrom stats predict
+#' @importFrom assertthat assert_that
 #'
 
 rmse.basis <- function(Data, Typemodel){
+
+  #controle
+  assert_that(is.character(Typemodel))
+  Typemodel <- tolower(Typemodel)
+  assert_that(Typemodel %in% c("basis", "lokaal"))
+
+  invoercontrole(Data, "fit")
+  assert_that(length(unique(Data$BMS)) == 1,
+              msg = "De dataset Data mag maar 1 boomsoort bevatten")
+  if (Typemodel == "lokaal") {
+    assert_that(length(unique(Data$DOMEIN_ID)) == 1,
+                msg = "Voor een lokaal model mag de dataset Data maar 1
+                domein bevatten")
+  }
 
   #testgroepen aanmaken in dataset
   Soortdata <- Data %>%
@@ -39,7 +78,7 @@ rmse.basis <- function(Data, Typemodel){
     Data_test <- Soortdata[Soortdata$Testgroep == i, ]
     Data_model <- Soortdata[Soortdata$Testgroep != i, ]
 
-    if (grepl(Typemodel, "Lokaal")) {
+    if (grepl(Typemodel, "lokaal")) {
       Model <- fit.lokaal(Data_model)$Model[[1]]  #nolint
     } else {
       Model <- fit.basis(Data_model)$Model[[1]]   #nolint
@@ -53,7 +92,7 @@ rmse.basis <- function(Data, Typemodel){
         ResidVL2 = ~0
       )
 
-    if (grepl(Typemodel, "Basis")) {
+    if (grepl(Typemodel, "basis")) {
       Data_Boomsoort <- Data_Boomsoort %>%
         mutate_(
           H_VLmodel = ~as.numeric(fixef(Model)[1]) +
@@ -100,7 +139,7 @@ rmse.basis <- function(Data, Typemodel){
     )
 
   #voor lokaal model het Vlaams model verwijderen (is gelijkgesteld aan 0)
-  if (grepl(Typemodel, "Lokaal")) {
+  if (grepl(Typemodel, "lokaal")) {
     Rmse.soort$rmseVL <- NULL
   }
 

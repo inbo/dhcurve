@@ -6,8 +6,6 @@
 #'
 #' @return dataframe met parameter voor de verschuiving t.o.v. het basismodel (Ad)
 #'
-#' @export
-#'
 #' @importFrom stats coef
 #'
 

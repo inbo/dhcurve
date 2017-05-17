@@ -17,16 +17,25 @@
 #' #@param Data.afgeleid dataframe 10-50
 #'
 #' @inheritParams afwijkendeMetingen
+#' @inheritParams validatierapport
 #'
 #' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
+#' @importFrom assertthat assert_that
 #'
 
 validatie.afgeleid <-
-  function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20){
+  function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
+           Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch"){
+
+  invoercontrole(Basismodel, "basismodel")
+  invoercontrole(Afgeleidmodel, "afgeleidmodel")
+  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
+  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
+  assert_that(AantalDomHogeRMSE >= 0)
 
   Model <- Afgeleidmodel[[1]]
 
@@ -105,7 +114,7 @@ validatie.afgeleid <-
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
-    filter_(~HogeRmse) %>%
+    filter_(~HogeRmse & Status != "Goedgekeurd") %>%
     select_(~DOMEIN_ID, ~BMS) %>%
     distinct_() %>%
     mutate_(
@@ -113,6 +122,9 @@ validatie.afgeleid <-
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%
+        filter_(
+          ~Status != "Goedgekeurd"
+        ) %>%
         select_(
           ~BMS, ~DOMEIN_ID
         ) %>%
@@ -130,7 +142,7 @@ validatie.afgeleid <-
     ungroup()
 
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   "Validatie_Afgeleid.html")
+                   Bestandsnaam, TypeRapport)
 
   return(AfwijkendeMetingen)
 

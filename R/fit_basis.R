@@ -14,6 +14,8 @@
 
 fit.basis <- function(Data.basis) {
 
+  invoercontrole(Data.basis, "fit")
+
   Basismodel <- Data.basis %>%
     group_by_(~BMS) %>%
     do_(

@@ -10,9 +10,22 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup desc
+#' @importFrom assertthat assert_that has_name
 #'
 
 afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
+
+  invoercontrole(Dataset, "afgeleidedata")
+  assert_that(has_name(Dataset, "H_D_finaal"))
+  assert_that(inherits(Dataset$H_D_finaal, "numeric"))
+  assert_that(has_name(Dataset, "rmseD"))
+  assert_that(inherits(Dataset$rmseD, "numeric"))
+  assert_that(has_name(Dataset, "maxResid"))
+  assert_that(inherits(Dataset$maxResid, "numeric"))
+
+  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
+  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
+  assert_that(AantalDomHogeRMSE >= 0)
 
   HogeRmse <- Dataset %>%
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%
