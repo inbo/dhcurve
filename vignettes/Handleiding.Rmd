@@ -394,7 +394,7 @@ We beschouwen een meting als afwijkend als de afwijking van het model groter is 
 
 _Potentieel probleem?_  Bij modellen waarbij de rmse hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële problemen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis/afgeleid/lokaal) voor de 20 domeinen met de hoogste rmse minstens de 10 metingen met grootste afwijking geselecteerd.
 
-(Deze afwijkende metingen worden berekend in de functie _afwijkendeMetingen_ die door de functie _validatie.basis_ of _validatie.afgeleid_ aangeroepen wordt.)
+(Deze afwijkende metingen worden berekend in de functie _afwijkendeMetingen_ die door de functie _validatie.basis_, _validatie.afgeleid_ of _validatie.lokaal_ aangeroepen wordt.)
     
 ### Afwijkende curvevorm
 

@@ -22,7 +22,7 @@ AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 Lokaalmodel <- fit.lokaal(Data.lokaal)
-AfwijkendeMetingen3 <- validatie.basis(Lokaalmodel, Data.lokaal)
+AfwijkendeMetingen3 <- validatie.lokaal(Lokaalmodel, Data.lokaal)
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 #om te gebruiken in IVANHO
