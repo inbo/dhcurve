@@ -138,20 +138,7 @@ validatierapport <-
            labels = c("Te controleren", "OK"))
 
 
-
-  #sorteren volgens grootste outlier (in absolute waarde)
-  SelectieGesorteerd <- Selectie %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    summarise_(
-      PAfwijkend = ~sum(TeControlerenAfwijking / nBomenOmtrek05, na.rm = TRUE)
-    ) %>%
-    ungroup() %>%
-    inner_join(
-      Selectie,
-      by = c("BMS", "DOMEIN_ID")
-    )
-
-  Selectie <- SelectieGesorteerd %>%
+  Selectie <- Selectie %>%
     arrange_(~ desc(maxResid))
 
 
