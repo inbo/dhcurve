@@ -4,7 +4,7 @@
 #'
 #' validatie.afgeleid roept meerdere hulpfuncties op:
 #'
-#' - rmse.afgeleid
+#' - rmse.basis en rmse.verschuiving
 #'
 #' - afwijkendeMetingen
 #'
@@ -71,11 +71,11 @@ validatie.afgeleid <-
     ) %>%
     ungroup()
 
-  #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
+  #Rmse van verschuiving berekenen en combineren met die van Vlaams model
   Rmse <- AModel %>%
     rowwise() %>%
     do_(
-      ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+      ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
     ) %>%
     ungroup() %>%
     inner_join(

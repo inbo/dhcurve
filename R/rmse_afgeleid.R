@@ -16,7 +16,7 @@
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
 #'   do_(
-#'     ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+#'     ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
 #'   ) %>%
 #'   ungroup()
 #' #Nota: voor een berekening van de volledige RMSE van dit afgeleid model
@@ -30,7 +30,7 @@
 #' @importFrom assertthat assert_that
 #'
 
-rmse.afgeleid <- function(Verschovenmodel, Boomsoort, Domein){
+rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein){
 
   assert_that(inherits(Verschovenmodel, "lm"),
               msg = "Domeinsoortmodel moet een lineair model zijn (zie

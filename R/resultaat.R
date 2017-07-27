@@ -118,11 +118,11 @@ resultaat <-
         ) %>%
         ungroup()
 
-      #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
+      #Rmse van verschuiving berekenen en combineren met die van Vlaams model
       RmseAfg <- Afgeleidmodel[[1]] %>%
         rowwise() %>%
         do_(
-          ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+          ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
         ) %>%
         ungroup() %>%
         inner_join(
