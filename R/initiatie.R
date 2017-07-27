@@ -111,7 +111,7 @@ initiatie <-
   Data2 <- Data %>%
     filter_(~HOOGTE != 0) %>%
     mutate_(
-      Omtrek = ~ ( (C13 %/% 10) * 10 + 5) / 100,
+      Omtrek = ~ ((C13 %/% 10) * 10 + 5) / 100,
       Rijnr = ~seq_along(C13),       #nummert de rijen oplopend
       logOmtrek = ~log(Omtrek),
       logOmtrek2 = ~logOmtrek ^ 2
@@ -127,7 +127,7 @@ initiatie <-
       nBomen = ~n(),
       Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
       #het klassemidden van Q5:
-      Q5k = ~ max( ( ( (Q5 * 100) %/% 10) * 10 + 5) / 100, 0.25),
+      Q5k = ~ max((((Q5 * 100) %/% 10) * 10 + 5) / 100, 0.25),
       Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
       #het klassemidden van Q95:
       Q95k = ~ min( ( ( (Q95 * 100) %/% 10) * 10 + 5) / 100, 2.35)
