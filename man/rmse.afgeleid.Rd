@@ -2,25 +2,22 @@
 % Please edit documentation in R/rmse_afgeleid.R
 \name{rmse.afgeleid}
 \alias{rmse.afgeleid}
-\title{RMSE berekenen van afgeleid model (verschoven Vlaams model)}
+\title{Berekent RMSE van afgeleid model}
 \usage{
 rmse.afgeleid(Verschovenmodel, Boomsoort, Domein)
 }
 \arguments{
-\item{Verschovenmodel}{afgeleid model per boomsoort-domein-combinatie}
+\item{Verschovenmodel}{Afgeleid model voor één boomsoort-domein-combinatie (lm-object)}
 
 \item{Boomsoort}{BMS}
 
 \item{Domein}{DOMEIN_ID}
 }
 \value{
-dataframe met rmse_verschuiving per boomsoort en domein
+Dataframe met BMS(boomsoort), DOMEIN_ID, RmseVerschuiving
 }
 \description{
-deze functie berekent de rmse op basis van verschil tussen geschatte domeinwaarde en gemeten waarde (voor omtrekklassen > 0.5 m)
-}
-\details{
-Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
+Deze functie berekent de rmse op basis van verschil tussen de hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het afgeleid model, want behalve deze rmse van de verschuiving moet er ook rekening gehouden met de rmse van het Vlaams model (basismodel).   Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
 }
 \examples{
 library(dplyr)

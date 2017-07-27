@@ -384,7 +384,7 @@ We berekenen de RMSE voor het __basismodel__ en het __lokaal model__ door cross-
 - de twee voorgaande stappen 6x herhalen zodat elk record een schatting heeft
 - maat voor fit berekenen: $$rmse = \sqrt{\frac{\sum{(Hoogte_{gemeten} - Hoogte_{geschat})^2}}{n - 2}}$$
 
-Voor het __afgeleid model__, waar het aantal records per boomsoort-domeincombinatie beperkt is, wordt voor elk punt een schatting gemaakt op basis van van een model dat opgesteld is op basis van de dataset zonder dat ene punt, waarna de rmse op dezelfde manier berekend wordt.  (Hiervoor is de functie _rmse.afgeleid_ ontwikkeld.)
+Voor het __afgeleid model__, dat een verschuiving van het Vlaams model is, wordt voor de rmse beide toegepaste modellen in rekening gebracht: $$rmse = \sqrt{rmse_{Vlaams}^2 + rmse_{Verschuiving}^2}$$  Hierbij wordt $rmse_{Vlaams}$ berekend volgens de hierboven beschreven methode (waarbij de hoogte geschat wordt op basis van het Vlaams model en alle metingen die gebruikt zijn om het basismodel in kwestie op te stellen).  Voor $rmse_{Verschuiving}$ wordt omwille van het beperkt aantal records voor de boomsoort-domeincombinatie voor elk punt een schatting gemaakt op basis van van een model dat opgesteld is op basis van de dataset zonder dat ene punt, waarna de rmse op dezelfde manier berekend wordt.  (Voor deze laatste berekening is de functie _rmse.afgeleid_ ontwikkeld.)  <!-- deze zou misschien beter rmse.verschuiving genoemd worden-->
 
 ### Afwijkende metingen
 

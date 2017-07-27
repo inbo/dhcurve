@@ -7,13 +7,29 @@
 curvekarakteristieken(Basismodel, Data = NULL)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis of model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal}
 
-\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
+\item{Data}{Dataset op basis waarvan het lokaal model berekend is (enkel nodig voor lokaal model)}
 }
 \value{
-dataframe met curvekarakteristieken per domein en boomsoort
+Dataframe met curvekarakteristieken per domein en boomsoort met de velden:
+
+- parameters Ad, Bd en Cd van het model en enkele generieke velden (DOMEIN_ID, BMS,...)
+
+- Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin een extreem (minimum of maximum) van de curve van het domeinmodel ligt
+
+- Extr_Hoogte.d: hoogteschatting die aansluit bij het vorige veld
+
+- Hoogteverschil.d: verschil tussen de hoogteschattingen van het extreem van de curve en de bovengrens van het bruikbaar interval.  Deze maat is relevant als het extreem een maximum is (enkel dan is deze waarde positief).
+
+- Omtrek_Buigpunt.d: midden van omtrekklasse waarin een buigpunt van de curve van het domeinmodel ligt (deze en volgende variabelen zijn relevante maten bij het voorkomen van een minimum)
+
+- Verschil_rico_BP_Q5.d: het verschil in de waarde van de richtingscoefficient tussen het buigpunt en de ondergrens van het bruikbaar interval.
+
+- Verschil_rico_BP_Q5_per_omtrek.d: de voorgaande variabele gedeeld door het verschil in omtrek tussen het buigpunt en de ondergrens van het bruikbaar interval.
+
+Ingeval van een basismodel worden deze variabelen aangevuld met dezelfde variabelen voor het Vlaams model.  Hierbij is de 'd' op het einde van de variabelenaam vervangen door 'vl'.
 }
 \description{
-Berekent curvekarakteristieken die toelaten om mogelijke afwijkingen in curvevorm te detecteren: extremen (min en max), buigpunt,...
+Berekent de curvekarakteristieken die toelaten om mogelijke afwijkingen in de curvevorm te detecteren: extremen (min en max), buigpunt,...
 }

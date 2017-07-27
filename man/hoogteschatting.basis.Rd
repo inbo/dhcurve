@@ -7,7 +7,7 @@
 hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
 }
 \arguments{
-\item{Soortmodel}{model voor boomsoort (basis) of boomsoort-domein-combinatie (lokaal)}
+\item{Soortmodel}{model voor één boomsoort (basis) of één boomsoort-domein-combinatie (lokaal)}
 
 \item{Soortdata}{meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (lokaal)}
 

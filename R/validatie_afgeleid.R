@@ -1,6 +1,6 @@
 #' Validatie van het afgeleid model
 #'
-#' Functie die de validatie uitvoert op het verschoven Vlaams model. Vermits fit.afgeleid geen echte modelfit is en je deze validatiestap normaliter niet moet overslaan (na de laatste validatie exporteer je logischerwijs direct de gegevens), zou evt. overwogen kunnen worden om de voorgaande (fit.afgeleid) en deze stap (validatie.afgeleid) samen te nemen.  Een andere mogelijke piste is om Rmse.afgeleid toe te voegen aan fit.afgeleid.
+#' Functie die de validatie uitvoert op het verschoven Vlaams model en een overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan valideren).
 #'
 #' validatie.afgeleid roept meerdere hulpfuncties op:
 #'
@@ -12,14 +12,26 @@
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
 #'
-#' @param Basismodel model per boomsoort
-#' @param Afgeleidmodel verschuiving per boomsoort en domein (verschoven Vlaams model)
+#' @param Basismodel Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)
+#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.
 #' #@param Data.afgeleid dataframe 10-50
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #'
-#' @return Dataframe met te controleren metingen en document (html/pdf) met te controleren curves (incl. aantal metingen per curve) en grafieken van te controleren metingen
+#' @return De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren metingen.  De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of vignette voor meer informatie).
+#'
+#' De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
+#'
+#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
+#'
+#' - rsmeD: de foutenschatting voor het domeinmodel
+#'
+#' - H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams model waarvan het domeinmodel afgeleid is
+#'
+#' - rmseVL: de foutenschatting voor dit Vlaams model
+#'
+#' - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
 #'
 #' @export
 #'

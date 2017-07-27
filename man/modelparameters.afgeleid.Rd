@@ -13,5 +13,5 @@ modelparameters.afgeleid(Soortmodel)
 dataframe met parameter voor de verschuiving t.o.v. het basismodel (Ad)
 }
 \description{
-Functie die de modelparameters berekent op basis van een opgegeven afgeleid model.  Ze berekent de parameter voor de verschuiving van het basismodel
+Interne functie die de modelparameters berekent op basis van een opgegeven afgeleid model.  Ze berekent de parameter voor de verschuiving van het basismodel.
 }

@@ -1,39 +1,30 @@
-#' berekent de geschatte hoogtes per omtrekklasse
+#' Berekent de geschatte hoogtes per omtrekklasse
 #'
-#' Berekeningen die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug maar de hoogste waarde wordt aangehouden.)
+#' De functie outputIVANHO voert de berekeningen uit die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt aangehouden.)
 #'
-#' Hiervoor worden volgende hulpfuncties aangeroepen:
+#' Voor deze functie worden volgende hulpfuncties aangeroepen: hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
 #'
-#' hoogteschatting.basis, hoogteschatting.afgeleid, curvekarakteristieken
+#' @inheritParams resultaat
 #'
-#'
-#'
-#' @param Basismodel model per boomsoort
-#' @param Afgeleidmodel verschuiving per boomsoort en domein (Vlaams model)
-#' @param Lokaalmodel model per boomsoort-domein-combinatie
-#' @param Data.lokaal data voor model per boomsoort-domein-combinatie
-#'
-#' @return dataframe met geschatte hoogtes per domein en per boomsoort met velden:
-#'
-#' - ModelID
+#' @return Dataframe met geschatte hoogtes per domein en per boomsoort met velden:
 #'
 #' - DOMEIN_ID: domeincode
 #'
 #' - BOS_BHI: domeinnaam
 #'
-#' - BoomsoortID
+#' - IDbms (nog toe te voegen!!!)
 #'
 #' - BMS: boomsoort
 #'
 #' - Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
 #'
-#' - Omtrek: klassemidden
+#' - Omtrek: klassemidden van omtrekklasse
 #'
-#' - OmtrekklassetypeID
+#' - OmtrekklassetypeID: het overeenkomstige identificatienummer van de omtrekklasse
 #'
 #' - Omtrekklasse
 #'
-#' - Hoogte
+#' - Hoogte: de geschatte hoogte
 #'
 #' @export
 #'

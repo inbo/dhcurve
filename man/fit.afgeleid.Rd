@@ -2,18 +2,22 @@
 % Please edit documentation in R/fit_afgeleid.R
 \name{fit.afgeleid}
 \alias{fit.afgeleid}
-\title{Afgeleid model (= verschuiving t.o.v. Vlaams model) fitten op basis van het basismodel en de opgegeven dataset}
+\title{Fit afgeleid model op basis van het basismodel en de opgegeven dataset}
 \usage{
 fit.afgeleid(Data.afgeleid, Basismodel)
 }
 \arguments{
-\item{Data.afgeleid}{Data.afgeleid dataframe 10-50}
+\item{Data.afgeleid}{Dataframe met minimaal de velden BMS (boomsoort), DOMEIN_ID (identificatienummer van het domein), BOS_BHI (domeinnaam), HOOGTE, Omtrek, logOmtrek en logOmtrek2, nBomenInterval, nBomenOmtrek05, nBomen, Q5k en Q95k.  Om alle verdere stappen van de analyse te kunnen doorlopen, wordt best de dataframe "Afgeleid" gebruikt uit de list die teruggegeven wordt bij de functie initiatie.}
 
-\item{Basismodel}{model per boomsoort}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)}
 }
 \value{
-list met model per boomsoort-domein-combinatie
+List met 2 tibbles:
+
+ - tibble met velden BMS (boomsoort), DOMEIN_ID en Model (lm-object van model per boomsoort-domein-combinatie)
+
+ - tibble met de ingevoerde dataset, waaraan het veld H_VL_finaal (de hoogteschatting volgens het Vlaams model) toegevoegd is
 }
 \description{
-Functie die een model berekent voor domeinen met 10 - 50 bomen (binnen omtrekklassen > 0.5 m) door verschuiving van het Vlaams model voor die boomsoort.
+Functie die op basis van de opgegeven dataset een model opstelt per domein-boomsoortcombinatie door verschuiving van het Vlaams model voor die boomsoort (afgeleid uit het basismodel). Dit komt overeen met het fitten van het lineair model \eqn{Hoogte_{afgeleid} \sim \delta A + Hoogte_{Vlaams})}{Hoogte(afgeleid) ~ \delta A + Hoogte(Vlaams)} op basis van de opgegeven dataset, waarbij \eqn{Hoogte_{Vlaams})}{Hoogte(Vlaams)} de hoogteschatting is volgens het Vlaams model.
 }
