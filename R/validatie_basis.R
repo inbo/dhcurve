@@ -46,9 +46,6 @@ validatie.basis <-
 
   invoercontrole(Basismodel, "basismodel")
 
-  # assert_that(inherits(AantalDomHogeRMSE, "numeric"))
-  # assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
-  # assert_that(AantalDomHogeRMSE >= 0)
   assert_that(is.count(AantalDomHogeRMSE))
 
   Rmse <- Basismodel %>%

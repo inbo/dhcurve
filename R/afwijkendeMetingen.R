@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup desc
-#' @importFrom assertthat assert_that has_name
+#' @importFrom assertthat assert_that has_name is.count
 #'
 
 afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
@@ -23,9 +23,7 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
   assert_that(has_name(Dataset, "maxResid"))
   assert_that(inherits(Dataset$maxResid, "numeric"))
 
-  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
-  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
-  assert_that(AantalDomHogeRMSE >= 0)
+  assert_that(is.count(AantalDomHogeRMSE))
 
   HogeRmse <- Dataset %>%
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%

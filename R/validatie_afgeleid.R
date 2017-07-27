@@ -36,7 +36,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
-#' @importFrom assertthat assert_that
+#' @importFrom assertthat assert_that is.count
 #'
 
 validatie.afgeleid <-
@@ -45,9 +45,7 @@ validatie.afgeleid <-
 
   invoercontrole(Basismodel, "basismodel")
   invoercontrole(Afgeleidmodel, "afgeleidmodel")
-  assert_that(inherits(AantalDomHogeRMSE, "numeric"))
-  assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
-  assert_that(AantalDomHogeRMSE >= 0)
+  assert_that(is.count(AantalDomHogeRMSE))
 
   AModel <- Afgeleidmodel[[1]]
 
