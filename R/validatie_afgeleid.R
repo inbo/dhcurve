@@ -49,11 +49,11 @@ validatie.afgeleid <-
   assert_that(AantalDomHogeRMSE == as.integer(AantalDomHogeRMSE))
   assert_that(AantalDomHogeRMSE >= 0)
 
-  Model <- Afgeleidmodel[[1]]
+  AModel <- Afgeleidmodel[[1]]
 
   #Rmse van Vlaams model berekenen
   RmseVL <- Basismodel %>%
-    filter_(~BMS %in% unique(Model$BMS)) %>%
+    filter_(~BMS %in% unique(AModel$BMS)) %>%
     rowwise() %>%
     do_(
       ~rmse.basis(.$Model$data, "Basis")
@@ -72,7 +72,7 @@ validatie.afgeleid <-
     ungroup()
 
   #Rmse van afgeleid model berekenen en combineren met die van Vlaams model
-  Rmse <- Model %>%
+  Rmse <- AModel %>%
     rowwise() %>%
     do_(
       ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
@@ -87,7 +87,7 @@ validatie.afgeleid <-
     )
 
 
-  Hoogteschatting <- Model %>%
+  Hoogteschatting <- AModel %>%
     inner_join(
       Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
