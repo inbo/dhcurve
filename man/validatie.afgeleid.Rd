@@ -40,7 +40,7 @@ Functie die de validatie uitvoert op het verschoven Vlaams model en een overzich
 \details{
 validatie.afgeleid roept meerdere hulpfuncties op:
 
-- rmse.afgeleid
+- rmse.basis en rmse.verschuiving
 
 - afwijkendeMetingen
 
