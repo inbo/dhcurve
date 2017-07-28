@@ -1,15 +1,13 @@
-#' RMSE berekenen van afgeleid model (verschoven Vlaams model)
+#' Berekent RMSE van afgeleid model
 #'
-#' deze functie berekent de rmse op basis van verschil tussen geschatte domeinwaarde en gemeten waarde (voor omtrekklassen > 0.5 m)
-#'
-#' Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
+#' Deze functie berekent de rmse op basis van verschil tussen de hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de rmse van het Vlaams model (basismodel) in rekening gebracht worden.   Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
 #'
 #'
-#' @param Verschovenmodel afgeleid model per boomsoort-domein-combinatie
+#' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie (lm-object)
 #' @param Boomsoort BMS
 #' @param Domein DOMEIN_ID
 #'
-#' @return dataframe met rmse_verschuiving per boomsoort en domein
+#' @return Dataframe met BMS(boomsoort), DOMEIN_ID, RmseVerschuiving
 #'
 #' @examples
 #' library(dplyr)
@@ -18,7 +16,7 @@
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
 #'   do_(
-#'     ~rmse.afgeleid(.$Model, .$BMS, .$DOMEIN_ID)
+#'     ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
 #'   ) %>%
 #'   ungroup()
 #' #Nota: voor een berekening van de volledige RMSE van dit afgeleid model
@@ -32,7 +30,7 @@
 #' @importFrom assertthat assert_that
 #'
 
-rmse.afgeleid <- function(Verschovenmodel, Boomsoort, Domein){
+rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein){
 
   assert_that(inherits(Verschovenmodel, "lm"),
               msg = "Domeinsoortmodel moet een lineair model zijn (zie

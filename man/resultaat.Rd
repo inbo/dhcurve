@@ -2,52 +2,50 @@
 % Please edit documentation in R/resultaat.R
 \name{resultaat}
 \alias{resultaat}
-\title{berekent de modelparameters per domein}
+\title{Berekent de modelparameters per domein}
 \usage{
 resultaat(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
   Data.lokaal = NULL, Data.onbruikbaar = NULL)
 }
 \arguments{
-\item{Basismodel}{model per boomsoort}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{verschuiving per boomsoort en domein (Vlaams model)}
+\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.}
 
-\item{Lokaalmodel}{model per boomsoort-domein-combinatie}
+\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).}
 
-\item{Data.lokaal}{data voor model per boomsoort-domein-combinatie}
+\item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
 
-\item{Data.onbruikbaar}{evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden}
+\item{Data.onbruikbaar}{Evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de vorm van een dataframe zoals de dataframe "Rest" uit de list die door de funtie initiatie teruggegeven wordt.}
 }
 \value{
-dataframe met modellen per domein en per boomsoort met velden:
+Dataframe met modellen per domein en per boomsoort met velden:
 
-- ModelID
+- DomeinID (identificatienummer voor domein)
 
-- DomeinID
+- BMS (boomsoort)
 
-- BoomsoortID
+- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= eigen model voor 1 boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
 
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
+- paramaters A, B en C (zie description)
 
-- paramaters A,B en C
+- bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)
 
-- bruikbaar interval
+- RMSE (root mean square error, zie vignette voor meer info)
 
-- rmse
+- nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en 2,4 m)
 
-- aantal metingen waarop model gebaseerd is
+- nBomenInterval (aantal metingen waarop model gebaseerd is)
 
-- aantal metingen > 0.5 m (dus waarop rmse-berekening gebaseerd is)
+- nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening gebaseerd is)
 
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij DomeinID leeg gelaten wordt of een specifieke waarde ‘Vlaams model’ krijgt
 }
 \description{
-Berekeningen die leiden tot de gevraagde tabel.  Hiervoor worden volgende hulpfuncties aangeroepen:
+De functie resultaat berekent op basis van de opgegeven modellen voor elke boomsoort-domeincombinatie de modelparameters A, B en C voor een model van de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A + B.log(Omtrek) + C.log(Omtrek)^2}.
 }
 \details{
-modelparameters
-rsme.basis
-fit.afgeleid
+Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters, rsme.basis en rsme.afgeleid
 
-Verder moeten parameters A, B en C uit het model gehaald worden (coef) en een aantal berekende gegevens uit de eerste stap toegevoegd worden.
+Verder worden parameters A, B en C uit het model gehaald (coef) en een aantal in de functie initiatie berekende gegevens toegevoegd .
 }

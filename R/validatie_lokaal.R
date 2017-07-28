@@ -1,6 +1,6 @@
-#' Validatie van het basismodel
+#' Validatie van het lokaal model
 #'
-#' Functie die alle nodige validaties uitvoert op het opgegeven (volledige) model en een overzicht geeft van de afwijkende metingen en slechte curves (zodat de gebruiker deze kan valideren).
+#' Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en een overzicht geeft van de afwijkende metingen en slechte curves (zodat de gebruiker deze kan valideren).
 #'
 #' De functie roept meerdere hulpfuncties op:
 #'
@@ -15,7 +15,8 @@
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
 #'
 #'
-#' @param Basismodel Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).
+#' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).
+#' @param Data Dataset op basis waarvan het opgegeven lokaal model berekend is.
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
@@ -26,9 +27,7 @@
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
 #'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)
-#'
-#' - H_VL_finaal: een geschatte hoogte voor de omtrek volgens het Vlaams model (dus voor het overkoepelend boomsoort-model)
+#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
 #'
 #' - rmseD: de foutenschatting voor het domeinmodel
 #'
@@ -40,25 +39,39 @@
 #' @importFrom assertthat assert_that has_name is.count
 #'
 
-validatie.basis <-
-  function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+validatie.lokaal <-
+  function(Lokaalmodel, Data, AantalDomHogeRMSE = 20,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
 
-  invoercontrole(Basismodel, "basismodel")
+
+  invoercontrole(Lokaalmodel, "lokaalmodel")
+  invoercontrole(Data, "fit")
 
   assert_that(is.count(AantalDomHogeRMSE))
 
-  Rmse <- Basismodel %>%
-    rowwise() %>%
+  Rmse <- Data %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
     do_(
-      ~rmse.basis(.$Model$data, "Basis")
+      ~rmse.basis(., "Lokaal")
     ) %>%
     ungroup()
 
-  Hoogteschatting <- Basismodel %>%
-    rowwise() %>%
+  Hoogteschatting <- Lokaalmodel %>%
+    inner_join(
+      Data,
+      by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    group_by_(
+      ~BMS,
+      ~DOMEIN_ID
+    ) %>%
     do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+      ~hoogteschatting.basis(.$Model[[1]],
+                              select_(., ~-Model),
+                              "Lokaal")
     ) %>%
     ungroup()
 
@@ -69,7 +82,7 @@ validatie.basis <-
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   #afwijkende curves
-  AfwijkendeCurves <- afwijkendeCurves(Basismodel, Data)
+  AfwijkendeCurves <- afwijkendeCurves(Lokaalmodel, Data)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter_(~HogeRmse & Status != "Goedgekeurd") %>%
@@ -112,7 +125,7 @@ validatie.basis <-
     ungroup()
 
   Bestandsnaam <- ifelse(Bestandsnaam == "Default",
-                         "Validatie_Basis.html",
+                         "Validatie_Lokaal.html",
                          Bestandsnaam)
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
                    Bestandsnaam, TypeRapport)

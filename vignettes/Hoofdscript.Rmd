@@ -1,0 +1,40 @@
+
+
+```{r child_{{child_id}}, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+
+
+library(dhcurve)
+#Eerst de gegevens uit de databank opladen (hier niet opgenomen)
+
+Datalijst <- initiatie(Data)
+
+Data.basis <- Datalijst[["Basis"]]
+Data.afgeleid <- Datalijst[["Afgeleid"]]
+Data.lokaal <- Datalijst[["Lokaal"]]
+Data.rest <- Datalijst[["Rest"]]
+
+Basismodel <- fit.basis(Data.basis)
+AfwijkendeMetingen <- validatie.basis(Basismodel)
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
+AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+Lokaalmodel <- fit.lokaal(Data.lokaal)
+AfwijkendeMetingen3 <- validatie.lokaal(Lokaalmodel, Data.lokaal)
+#metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+#om te gebruiken in IVANHO
+OutputIvanho <-
+  outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+write.csv2(OutputIvanho, "IVANHO.csv")
+
+#voor een lijst met de modelparameters en foutenmarge (RMSE):
+Resultaat <- 
+  resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
+
+
+write.csv2(Resultaat, "DHcurves.csv")
+
+```

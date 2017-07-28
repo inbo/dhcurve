@@ -2,7 +2,7 @@
 #'
 #' Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van 1 model en de bijhorende meetgegevens.  Zie voorbeelden voor een methode om deze functie te kunnen toepassen op Basismodel of Lokaalmodel + Data.lokaal.
 #'
-#' @param Soortmodel model voor boomsoort (basis) of boomsoort-domein-combinatie (lokaal)
+#' @param Soortmodel model voor één boomsoort (basis) of één boomsoort-domein-combinatie (lokaal)
 #' @param Soortdata meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (lokaal)
 #' @param Typemodel 'Basis' of 'Lokaal'?
 #'

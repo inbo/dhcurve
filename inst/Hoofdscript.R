@@ -95,7 +95,7 @@ write.csv2(AfwijkendeMetingen2, "AfwijkendeMetingenAfgeleid.csv")
 #De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus
 #berekend worden zonder dat de voorgaande berekend zijn
 Lokaalmodel <- fit.lokaal(Data.lokaal)
-AfwijkendeMetingen3 <- validatie.basis(Lokaalmodel, Data.lokaal)
+AfwijkendeMetingen3 <- validatie.lokaal(Lokaalmodel, Data.lokaal)
 write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
