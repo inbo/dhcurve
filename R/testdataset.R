@@ -35,8 +35,8 @@ testdataset <-
       ~BMS, ~IDbms
     ) %>%
     mutate_(
-      A = ~rnorm(length(nBomenDomein), A, 1),
-      B = ~rnorm(length(nBomenDomein), B, 1),
+      A = ~rnorm(length(nBomenDomein), A, 5),
+      B = ~rnorm(length(nBomenDomein), B, 2),
       C = ~rnorm(length(nBomenDomein), C, 1),
       rmse = ~rnorm(length(nBomenDomein), rmse, 0.5)
     ) %>%
