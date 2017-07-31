@@ -50,7 +50,8 @@ testdataset <-
     ) %>%
     ungroup() %>%
     mutate_(
-      Status = ~"Niet gecontroleerd"
+      Status = ~"Niet gecontroleerd",
+      ID = ~rownames(.)
     )
 
   return(Metingen)

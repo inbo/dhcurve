@@ -162,9 +162,9 @@ updatequeryBosdat <-
   SET Status = 'Te controleren'
   WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
 
-# Lijst maken met alle id's (in dit geval 'rownames') van de records die aangepast moeten worden
+# Lijst maken met alle id's (die in dit geval overeenkomen met 'rownames' in de databank) van de records die aangepast moeten worden
 IDafwijkendeMetingen <-
-  paste(unique(AfwijkendeMetingen$rownames, na.rm = TRUE), collapse = "','")
+  paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
 
 # Deze lijst in de query plakken (sprintf vervangt %s in de string 'updatequeryBosdat' door de inhoud van IDafwijkendemetingen)
 query <- sprintf(updatequeryBosdat, IDafwijkendeMetingen)
