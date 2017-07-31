@@ -41,7 +41,7 @@
 #'
 
 validatie.basis <-
-  function(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+  function(Basismodel, AantalDomHogeRMSE = 20,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
 
   invoercontrole(Basismodel, "basismodel")
@@ -69,7 +69,7 @@ validatie.basis <-
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   #afwijkende curves
-  AfwijkendeCurves <- afwijkendeCurves(Basismodel, Data)
+  AfwijkendeCurves <- afwijkendeCurves(Basismodel)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter_(~HogeRmse & Status != "Goedgekeurd") %>%

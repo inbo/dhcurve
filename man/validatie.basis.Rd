@@ -4,7 +4,7 @@
 \alias{validatie.basis}
 \title{Validatie van het basismodel}
 \usage{
-validatie.basis(Basismodel, Data = NULL, AantalDomHogeRMSE = 20,
+validatie.basis(Basismodel, AantalDomHogeRMSE = 20,
   Bestandsnaam = "Default", TypeRapport = "Dynamisch")
 }
 \arguments{
