@@ -11,17 +11,24 @@
 #'
 #' @examples
 #' library(dplyr)
-#' #nog datasets toevoegen om deze voorbeelden te kunnen runnen
-#' \dontrun{
+#'
+#' #Datasets inladen en het basismodel en afgeleid model berekenen
+#' Data <- testdataset()
+#' Datalijst <- initiatie(Data)
+#' Data.basis <- Datalijst[["Basis"]]
+#' Basismodel <- fit.basis(Data.basis)
+#' Data.afgeleid <- Datalijst[["Afgeleid"]]
+#' Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
+#'
+#' #De rmse berekenen voor de verschuiving van het Vlaams model naar een afgeleid model
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
 #'   do_(
 #'     ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
 #'   ) %>%
 #'   ungroup()
-#' #Nota: voor een berekening van de volledige RMSE van dit afgeleid model
+#' #Nota: voor een berekening van de volledige RMSE van een afgeleid model
 #' #moet ook de RMSE van het basismodel in rekening gebracht worden
-#' }
 #'
 #' @export
 #'

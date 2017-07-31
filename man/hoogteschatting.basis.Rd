@@ -21,8 +21,14 @@ Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en 
 }
 \examples{
 library(dplyr)
-#nog datasets toevoegen om deze voorbeelden te kunnen runnen
-\dontrun{
+
+#Dataset inladen en het basismodel berekenen
+Data <- testdataset()
+Datalijst <- initiatie(Data)
+Data.basis <- Datalijst[["Basis"]]
+Basismodel <- fit.basis(Data.basis)
+
+#De hoogteschatting voor een basismodel
 Basismodel \%>\%
   rowwise() \%>\%
   do_(
@@ -30,6 +36,12 @@ Basismodel \%>\%
   ) \%>\%
   ungroup()
 
+#Dataset inladen en het lokaal model berekenen
+Data.lokaal <- Data.basis \%>\%
+  filter(DOMEIN_ID == "A")
+Lokaalmodel <- fit.lokaal(Data.lokaal)
+
+#De hoogteschatting voor een lokaal model
 Lokaalmodel \%>\%
   inner_join(
     Data.lokaal,
@@ -45,6 +57,6 @@ Lokaalmodel \%>\%
                            "Lokaal")
   ) \%>\%
   ungroup()
-}
+
 
 }
