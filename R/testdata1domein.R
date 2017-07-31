@@ -30,7 +30,7 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
     group_by_(~Omtrek) %>%
     mutate_(
       HOOGTE = ~rnorm(n(),
-                      A + B * log(Omtrek) + C * log(Omtrek)^2,
+                      A + B * log(Omtrek) + C * (log(Omtrek)) ^ 2,
                       rmse * sqrt(n()))
     ) %>%
     ungroup() %>%
@@ -38,4 +38,3 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
 
   return(Metingen)
 }
-

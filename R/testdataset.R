@@ -21,8 +21,8 @@ testdataset <-
            BMS = "testboom", IDbms = 1,
            minOmtrek = 20, maxOmtrek = 239) {
 
-  DOMEIN_ID = LETTERS[1:length(nBomenDomein)]
-  BOS_BHI <- paste("Domein", DOMEIN_ID,sep = "_")
+  DOMEIN_ID <- LETTERS[1:length(nBomenDomein)]
+  BOS_BHI <- paste("Domein", DOMEIN_ID, sep = "_")
   A <- 20
   B <- 15
   C <- 1
@@ -45,7 +45,8 @@ testdataset <-
       ~BMS, ~IDbms, ~DOMEIN_ID, ~BOS_BHI
     ) %>%
     do_(
-      ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek, .$A, .$B, .$C, .$rmse)
+      ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
+                       .$A, .$B, .$C, .$rmse)
     ) %>%
     ungroup() %>%
     mutate_(
@@ -54,4 +55,3 @@ testdataset <-
 
   return(Metingen)
 }
-
