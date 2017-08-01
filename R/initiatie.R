@@ -11,7 +11,7 @@
 #'
 #' @return
 #'
-#' De functie genereert een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
+#' Als er gegevens verwijderd worden, genereert de functie een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 #'
 #' De functie geeft een list van dataframes terug, met in elke dataframe behalve de variabelen uit Data de berekende variabelen Omtrek (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval) en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met omtrek > 0.5 m)).
 #'
@@ -46,6 +46,11 @@ initiatie <-
   min_basismodel <- 50
   min_domeinen_basismodel <- 6
   min_afgeleidmodel <- 10
+
+  #variabelen 'gebruiken' om lintr-foutmelding weg te werken
+  assert_that(is.count(min_basismodel))
+  assert_that(is.count(min_domeinen_basismodel))
+  assert_that(is.count(min_afgeleidmodel))
 
 
   #controle op invoer
@@ -101,16 +106,17 @@ initiatie <-
       ~nTotaal >= 10
     )
 
-  render(system.file("OverzichtGegevens.Rmd", package = "dhcurve"),
-         output_file = Bestandsnaam,
-         output_dir = PathWD,
-         encoding = "UTF-8")
+  if (nrow(DataRapport > 0)) {
+    render(system.file("OverzichtGegevens.Rmd", package = "dhcurve"),
+           output_file = Bestandsnaam,
+           output_dir = PathWD,
+           encoding = "UTF-8")
 
-  if (verbose) {
-    message(sprintf("Het rapport is opgeslagen in de working directory: %s",
-                    getwd()))
+    if (verbose) {
+      message(sprintf("Het rapport is opgeslagen in de working directory: %s",
+                      getwd()))
+    }
   }
-
 
   #dan de extra variabelen berekenen
   Data2 <- Data %>%
