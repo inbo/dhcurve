@@ -8,7 +8,7 @@
 #' @param A  Parameter voor het intercept van de functie
 #' @param B  Parameter voor de 1ste-graadsfunctie
 #' @param C  Parameter voor de 2de-graadsfunctie
-#' @param rmse  foutenmarge t.o.v. model voor de data
+#' @param sd  foutenmarge t.o.v. model voor de data
 #'
 #' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
 #'
@@ -18,7 +18,7 @@
 #'
 
 testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
-                            A = 20, B = 15, C = 1, rmse = 3) {
+                            A = 20, B = 15, C = 1, sd = 3) {
 
   assert_that(is.count(nBomen))
   assert_that(is.numeric(minOmtrek))
@@ -27,8 +27,8 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
   assert_that(is.numeric(A))
   assert_that(is.numeric(B))
   assert_that(is.numeric(C))
-  assert_that(is.numeric(rmse))
-  assert_that(rmse > 0)
+  assert_that(is.numeric(sd))
+  assert_that(sd > 0)
 
   Metingen <-
     data.frame(C13 = round(runif(nBomen, minOmtrek, maxOmtrek))) %>%
@@ -39,7 +39,7 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
     mutate_(
       HOOGTE = ~rnorm(n(),
                       A + B * log(Omtrek) + C * (log(Omtrek)) ^ 2,
-                      rmse * sqrt(n()))
+                      sd)
     ) %>%
     ungroup() %>%
     select_(~-Omtrek)

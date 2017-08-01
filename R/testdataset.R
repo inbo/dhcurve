@@ -27,7 +27,7 @@ testdataset <-
   A <- 20
   B <- 15
   C <- 1
-  rmse <- 3
+  sd <- 3
 
   for (nBomen in nBomenDomein) {
     assert_that(is.count(nBomen),
@@ -46,8 +46,8 @@ testdataset <-
   assert_that(is.numeric(A))
   assert_that(is.numeric(B))
   assert_that(is.numeric(C))
-  assert_that(is.numeric(rmse))
-  assert_that(rmse > 0)
+  assert_that(is.numeric(sd))
+  assert_that(sd > 0)
 
   Metingen <-
     data.frame(BMS, IDbms, DOMEIN_ID, BOS_BHI, nBomen = nBomenDomein,
@@ -59,7 +59,7 @@ testdataset <-
       A = ~rnorm(length(nBomenDomein), A, 5),
       B = ~rnorm(length(nBomenDomein), B, 2),
       C = ~rnorm(length(nBomenDomein), C, 1),
-      rmse = ~rnorm(length(nBomenDomein), rmse, 0.5)
+      sd = ~rnorm(length(nBomenDomein), sd, 0.5)
     ) %>%
     ungroup() %>%
     group_by_(
@@ -67,7 +67,7 @@ testdataset <-
     ) %>%
     do_(
       ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
-                       .$A, .$B, .$C, .$rmse)
+                       .$A, .$B, .$C, .$sd)
     ) %>%
     ungroup() %>%
     mutate_(

@@ -5,7 +5,7 @@
 \title{Genereert testdata voor 1 boomsoort-domeincombinatie}
 \usage{
 testdata1domein(nBomen = 100, minOmtrek = 20, maxOmtrek = 239, A = 20,
-  B = 15, C = 1, rmse = 3)
+  B = 15, C = 1, sd = 3)
 }
 \arguments{
 \item{nBomen}{Aantal gemeten bomen voor het domein}
@@ -20,7 +20,7 @@ testdata1domein(nBomen = 100, minOmtrek = 20, maxOmtrek = 239, A = 20,
 
 \item{C}{Parameter voor de 2de-graadsfunctie}
 
-\item{rmse}{foutenmarge t.o.v. model voor de data}
+\item{sd}{foutenmarge t.o.v. model voor de data}
 }
 \value{
 Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
