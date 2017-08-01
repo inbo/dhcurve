@@ -12,15 +12,23 @@
 #'
 #' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
 #'
-#' @export
-#'
-#'
 #' @importFrom dplyr %>% mutate_ group_by_ ungroup
 #' @importFrom stats runif rnorm
+#' @importFrom assertthat assert_that is.count
 #'
 
 testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
                             A = 20, B = 15, C = 1, rmse = 3) {
+
+  assert_that(is.count(nBomen))
+  assert_that(is.numeric(minOmtrek))
+  assert_that(is.numeric(maxOmtrek))
+
+  assert_that(is.numeric(A))
+  assert_that(is.numeric(B))
+  assert_that(is.numeric(C))
+  assert_that(is.numeric(rmse))
+  assert_that(rmse > 0)
 
   Metingen <-
     data.frame(C13 = round(runif(nBomen, minOmtrek, maxOmtrek))) %>%

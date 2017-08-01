@@ -14,6 +14,7 @@
 #'
 #' @importFrom dplyr %>% mutate_ group_by_ ungroup do_
 #' @importFrom stats rnorm
+#' @importFrom assertthat assert_that is.count
 #'
 
 testdataset <-
@@ -27,6 +28,26 @@ testdataset <-
   B <- 15
   C <- 1
   rmse <- 3
+
+  for (nBomen in nBomenDomein) {
+    assert_that(is.count(nBomen),
+                msg = "Alle waarden in nBomenDomein moeten positieve gehele getallen zijn") #nolint
+  }
+  assert_that(is.character(as.character(BMS)))
+  assert_that(length(BMS) == 1)
+  assert_that(is.character(as.character(IDbms)))
+  assert_that(length(IDbms) == 1)
+  assert_that(is.numeric(minOmtrek))
+  assert_that(is.numeric(maxOmtrek))
+
+  assert_that(is.character(as.character(DOMEIN_ID)))
+  assert_that(is.character(as.character(BOS_BHI)))
+
+  assert_that(is.numeric(A))
+  assert_that(is.numeric(B))
+  assert_that(is.numeric(C))
+  assert_that(is.numeric(rmse))
+  assert_that(rmse > 0)
 
   Metingen <-
     data.frame(BMS, IDbms, DOMEIN_ID, BOS_BHI, nBomen = nBomenDomein,
