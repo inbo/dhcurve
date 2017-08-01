@@ -68,17 +68,13 @@ invoercontrole <- function(Data, Type) {
       if (Type != "afgeleidedata" &
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd"))) {
-        stop("De kolom Status in de dataframe heeft niet voor alle records een
-             geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
-             'Te controleren' en 'Goedgekeurd' voorkomen.")
+        stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint
       }
       if (Type == "afgeleidedata" &
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
         stop(
-          "De kolom Status in de dataframe heeft niet voor alle records een
-          geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
-          'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten."
+          "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten." #nolint
         )
       }
     }

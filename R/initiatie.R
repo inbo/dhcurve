@@ -9,10 +9,6 @@
 #' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)
 #' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default wordt het in de op dat moment actieve working directory opgeslagen).
 #'
-#' @param min_basismodel tijdelijk toegevoegd voor testen
-#' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
-#' @param min_afgeleidmodel tijdelijk toegevoegd voor testen
-#'
 #' @return
 #'
 #' De functie genereert een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
@@ -45,14 +41,11 @@ initiatie <-
                                        stringsAsFactors = FALSE),
            Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
            verbose = TRUE,
-           PathWD = getwd(),
-           min_basismodel = 50,
-           min_domeinen_basismodel = 6,
-           min_afgeleidmodel = 10) {
+           PathWD = getwd()) {
 
-  # min_basismodel <- 50   #nolint
-  # min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen  #nolint
-  # min_afgeleidmodel <- 10   #nolint
+  min_basismodel <- 50
+  min_domeinen_basismodel <- 6
+  min_afgeleidmodel <- 10
 
 
   #controle op invoer
@@ -62,11 +55,23 @@ initiatie <-
   assert_that(has_name(Uitzonderingen, "DOMEIN_ID"))
   assert_that(has_name(Uitzonderingen, "BMS"))
   assert_that(has_name(Uitzonderingen, "min_basis"))
-  assert_that(is.na(Uitzonderingen$min_basis) |
-                inherits(Uitzonderingen$min_basis, "numeric"))
+  for (Waarde in Uitzonderingen$min_basis) {
+    if (!is.na(Waarde)) {
+      if (!is.count(Waarde)) {
+        stop("Elke waarde van min_basis in de dataframe Uitzonderingen moet
+             een geheel getal of NA zijn")
+      }
+    }
+  }
   assert_that(has_name(Uitzonderingen, "min_afgeleid"))
-  assert_that(is.na(Uitzonderingen$min_afgeleid) |
-                inherits(Uitzonderingen$min_afgeleid, "numeric"))
+  for (Waarde in Uitzonderingen$min_afgeleid) {
+    if (!is.na(Waarde)) {
+      if (!is.count(Waarde)) {
+        stop("Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet
+             een geheel getal of NA zijn")
+      }
+    }
+  }
 
 
   #eerst een rapport maken van de gegevens die verwijderd worden
