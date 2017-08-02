@@ -1,6 +1,4 @@
-context("test initiatie")
-
-#voor testfuncties: evt. een map 'helper' onder tests zetten en daarin functies zetten om een dataset te genereren vanuit een welbepaald model (met bepaalde rmse, outliers,...).  Deze runt hij voor de tests
+context("test curvekarakteristieken")
 
 test_wd <- tempdir()
 
