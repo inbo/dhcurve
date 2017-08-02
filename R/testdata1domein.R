@@ -12,6 +12,8 @@
 #'
 #' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
 #'
+#' @export
+#'
 #' @importFrom dplyr %>% mutate_ group_by_ ungroup
 #' @importFrom stats runif rnorm
 #' @importFrom assertthat assert_that is.count
