@@ -93,7 +93,7 @@ Rmse <- Data_result %>%
 
 test_that("De rmse ligt voor elke domeincurve rond 3", {
   expect_equal(mean(Rmse$rmse),
-               3, tolerance = 0.5)
-  expect_lt(max(Rmse$rmse), 4)
-  expect_gt(min(Rmse$rmse), 2)
+               3, tolerance = 1)
+  expect_lt(max(Rmse$rmse), 4.5)
+  expect_gt(min(Rmse$rmse), 1.5)
 })
