@@ -18,16 +18,16 @@ Lokaalmodel <- Data[["Lokaalmodel"]]
 test_that(
   "Niet afwijkende curves vertonen geen extremen in relevant interval", {
   expect_equal(curvekarakteristieken(Basismodel) %>%
-                 filter(!(Omtrek_Extr_Hoogte.d > 0.2 &
+                 filter(!(Omtrek_Extr_Hoogte.d > 0.1 &
                           Omtrek_Extr_Hoogte.d < 2.4)) %>%
                  select(DOMEIN_ID),
                tibble(DOMEIN_ID = LETTERS[1:6]))
 })
 
 test_that(
-  "Afwijkende curves vertonen wel een extreem bij omtrek tussen 0.2 en 2.4 m", {
+  "Afwijkende curves vertonen wel een extreem bij omtrek tussen 0.1 en 2.4 m", {
   expect_equal(curvekarakteristieken(Basismodel) %>%
-                 filter(Omtrek_Extr_Hoogte.d > 0.2 &
+                 filter(Omtrek_Extr_Hoogte.d > 0.1 &
                           Omtrek_Extr_Hoogte.d < 2.4) %>%
                  select(DOMEIN_ID),
                tibble(DOMEIN_ID = c("HM", "LM")))
