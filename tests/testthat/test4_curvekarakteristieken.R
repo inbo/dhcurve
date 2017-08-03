@@ -132,3 +132,9 @@ test_that("De relevante variabelen voor laag minimum worden correct berekend", {
                         Omtrek_Buigpunt.d -
                         (2 * LML$Cd * log(0.25) + LML$Bd) / 0.25))
 })
+
+test_that(
+  "Niet meegeven van de data bij het lokaal model geeft een foutmelding", {
+    expect_error(curvekarakteristieken(Lokaalmodel),
+                 "Bij opgave van een lokaal model moet je ook de dataset meegeven")
+})
