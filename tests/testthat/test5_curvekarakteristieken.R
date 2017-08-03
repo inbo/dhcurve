@@ -51,22 +51,6 @@ LML <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
   filter(DOMEIN_ID == "LM") %>%
   select(Ad, Bd, Cd)
 
-test_that("De curven worden correct berekend (i.f.v. volgende testen)", {
-  expect_equal(HMB$Ad, 20, tolerance = 1)
-  expect_equal(HMB$Bd, 7, tolerance = 1)
-  expect_equal(HMB$Cd, 4, tolerance = 1)
-  expect_equal(LMB$Ad, 20, tolerance = 1)
-  expect_equal(LMB$Bd, 5, tolerance = 1)
-  expect_equal(LMB$Cd, -6, tolerance = 1)
-
-  expect_equal(HML$Ad, 20, tolerance = 1)
-  expect_equal(HML$Bd, 7, tolerance = 1)
-  expect_equal(HML$Cd, 4, tolerance = 1)
-  expect_equal(LML$Ad, 20, tolerance = 1)
-  expect_equal(LML$Bd, 5, tolerance = 1)
-  expect_equal(LML$Cd, -6, tolerance = 1)
-})
-
 test_that("De relevante variabelen voor hoog maximum worden correct berekend", {
   expect_equal(
     as.data.frame(
@@ -136,5 +120,5 @@ test_that("De relevante variabelen voor laag minimum worden correct berekend", {
 test_that(
   "Niet meegeven van de data bij het lokaal model geeft een foutmelding", {
     expect_error(curvekarakteristieken(Lokaalmodel),
-                 "Bij opgave van een lokaal model moet je ook de dataset meegeven")
+                 "Bij opgave van een lokaal model moet je ook de dataset meegeven") #nolint
 })
