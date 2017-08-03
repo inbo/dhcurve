@@ -14,17 +14,17 @@ dataAfwijkendeCurve <- function() {
       ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
                        .$A, .$B, .$C, .$sd)
     ) %>%
-    ungroup() %>%
-    mutate_(
-      Status = ~"Niet gecontroleerd",
-      ID = ~rownames(.)
-    )
+    ungroup()
 
   Metingen <-
     merge(
       data.frame(BMS = c("testboom", "andereboom"), IDbms = 1:2,
                  stringsAsFactors = FALSE),
       Metingen
+    ) %>%
+    mutate_(
+      Status = ~"Niet gecontroleerd",
+      ID = ~as.character(as.integer(rownames(.)) + 1200)
     ) %>%
     bind_rows(testdataset(rep(200, 6)))
 
