@@ -14,7 +14,7 @@ Lokaalmodel <- Data[["Lokaalmodel"]]
 
 
 test_that(
-  "De parameters worden correct berekend voor domeinen van het Basismodel", {
+  "De hoogtes worden correct berekend voor domeinen van het Basismodel", {
   expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
                                      Basismodel1$Model[[1]]$data,
                                      "Basis") %>%
@@ -45,7 +45,7 @@ test_that(
 })
 
 test_that(
-  "De parameters worden correct berekend voor het lokaal model", {
+  "De hoogtes worden correct berekend voor het lokaal model", {
     expect_equal(hoogteschatting.basis(Lokaalmodel$Model[[1]],
                                        Lokaledata %>%
                                          filter(DOMEIN_ID == "HM"),
@@ -98,7 +98,7 @@ Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
 test_that(
-  "De parameters worden correct berekend voor Vlaams model (Basismodel)", {
+  "De hoogtes worden correct berekend voor Vlaams model (Basismodel)", {
     expect_equal(hoogteschatting.basis(Basismodel2$Model[[1]],
                                        Basismodel2$Model[[1]]$data,
                                        "Basis") %>%
@@ -126,7 +126,7 @@ test_that(
 })
 
 test_that(
-  "De parameters worden correct berekend voor Afgeleid model", {
+  "De hoogtes worden correct berekend voor Afgeleid model", {
     expect_equal(hoogteschatting.afgeleid(Afgeleidmodel[[1]]$Model[[1]],
                                        Afgeleidmodel[[2]]) %>%
                    colnames(.),
