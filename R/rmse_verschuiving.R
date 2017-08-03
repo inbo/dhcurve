@@ -56,7 +56,7 @@ rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein){
       BMS = ~Boomsoort,
       DOMEIN_ID = ~Domein
     ) %>%
-    select_(~-RMSE2)
+    select_(~BMS, ~DOMEIN_ID, ~nBomenModel, ~RmseVerschuiving)
 
   return(Rmse)
 
