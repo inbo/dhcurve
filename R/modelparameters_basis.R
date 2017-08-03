@@ -33,6 +33,10 @@ modelparameters.basis <- function(Soortmodel) {
     left_join(
       Parameters.soort,
       by = c("DOMEIN_ID")
+    ) %>%
+    select_(
+      ~"BMS", ~"DOMEIN_ID", ~"Q5k", ~"Q95k",
+      ~"Ad", ~"Bd", ~"Cd", ~"Avl", ~"Bvl", ~"Cvl"
     )
 
   return(Soortparameters)
