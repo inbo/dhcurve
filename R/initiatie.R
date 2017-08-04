@@ -60,24 +60,44 @@ initiatie <-
   assert_that(has_name(Uitzonderingen, "DOMEIN_ID"))
   assert_that(has_name(Uitzonderingen, "BMS"))
   assert_that(has_name(Uitzonderingen, "min_basis"))
-  for (Waarde in Uitzonderingen$min_basis) {
-    if (!is.na(Waarde)) {
-      if (!is.count(Waarde)) {
-        stop("Elke waarde van min_basis in de dataframe Uitzonderingen moet
-             een geheel getal of NA zijn")
-      }
+  if (!all(is.na(Uitzonderingen$min_basis))) {
+    assert_that(inherits(Uitzonderingen$min_basis, c("integer", "numeric")),
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+    if (inherits(Uitzonderingen$min_basis, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            Uitzonderingen$min_basis - as.integer(Uitzonderingen$min_basis)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+      , msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+      )
+      Uitzonderingen$min_basis <- as.integer(Uitzonderingen$min_basis)
     }
-  }
-  assert_that(has_name(Uitzonderingen, "min_afgeleid"))
-  for (Waarde in Uitzonderingen$min_afgeleid) {
-    if (!is.na(Waarde)) {
-      if (!is.count(Waarde)) {
-        stop("Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet
-             een geheel getal of NA zijn")
-      }
-    }
+    assert_that(all(Uitzonderingen$min_basis > 0, na.rm = TRUE),
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 0 zijn (of NA)") #nolint
   }
 
+  assert_that(has_name(Uitzonderingen, "min_afgeleid"))
+  if (!all(is.na(Uitzonderingen$min_afgeleid))) {
+    assert_that(inherits(Uitzonderingen$min_afgeleid, c("integer", "numeric")),
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+    if (inherits(Uitzonderingen$min_afgeleid, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            Uitzonderingen$min_afgeleid - as.integer(Uitzonderingen$min_afgeleid)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+        , msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+      )
+      Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
+    }
+    assert_that(all(Uitzonderingen$min_afgeleid > 0, na.rm = TRUE),
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 0 zijn (of NA)") #nolint
+  }
 
   #eerst een rapport maken van de gegevens die verwijderd worden
   assert_that(is.flag(verbose))
