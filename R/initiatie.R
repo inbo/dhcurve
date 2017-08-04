@@ -87,7 +87,8 @@ initiatie <-
       assert_that(
         max(
           abs(
-            Uitzonderingen$min_afgeleid - as.integer(Uitzonderingen$min_afgeleid)
+            Uitzonderingen$min_afgeleid -
+              as.integer(Uitzonderingen$min_afgeleid)
           ),
           na.rm = TRUE
         ) < 1e-6
