@@ -25,6 +25,7 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
   assert_that(is.count(nBomen))
   assert_that(is.numeric(minOmtrek))
   assert_that(is.numeric(maxOmtrek))
+  assert_that(minOmtrek < maxOmtrek)
 
   assert_that(is.numeric(A))
   assert_that(is.numeric(B))

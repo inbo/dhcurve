@@ -39,6 +39,7 @@ testdataset <-
   assert_that(length(IDbms) == 1)
   assert_that(is.numeric(minOmtrek))
   assert_that(is.numeric(maxOmtrek))
+  assert_that(minOmtrek < maxOmtrek)
 
   assert_that(is.character(as.character(DOMEIN_ID)))
   assert_that(is.character(as.character(BOS_BHI)))
