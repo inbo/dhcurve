@@ -75,8 +75,8 @@ initiatie <-
       )
       Uitzonderingen$min_basis <- as.integer(Uitzonderingen$min_basis)
     }
-    assert_that(all(Uitzonderingen$min_basis > 0, na.rm = TRUE),
-      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 0 zijn (of NA)") #nolint
+    assert_that(all(Uitzonderingen$min_basis > 50, na.rm = TRUE),
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 50 zijn (of NA)") #nolint
   }
 
   assert_that(has_name(Uitzonderingen, "min_afgeleid"))
@@ -95,8 +95,8 @@ initiatie <-
       )
       Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
     }
-    assert_that(all(Uitzonderingen$min_afgeleid > 0, na.rm = TRUE),
-                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 0 zijn (of NA)") #nolint
+    assert_that(all(Uitzonderingen$min_afgeleid > 10, na.rm = TRUE),
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
   }
 
   #eerst een rapport maken van de gegevens die verwijderd worden
