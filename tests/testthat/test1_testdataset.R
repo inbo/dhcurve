@@ -93,7 +93,7 @@ describe("testdataset", {
   it("De rmse ligt voor elke domeincurve rond 2", {
     expect_equal(mean(Rmse$rmse),
                  2, tolerance = 1)
-    expect_lt(max(Rmse$rmse), 3)
-    expect_gt(min(Rmse$rmse), 1)
+    expect_lt(max(Rmse$rmse), 3.5)
+    expect_gt(min(Rmse$rmse), 0.5)
   })
 })
