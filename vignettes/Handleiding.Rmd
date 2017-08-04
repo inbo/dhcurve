@@ -19,31 +19,29 @@ library(knitr)
 
 ## Situering
 
-Een aanbeveling uit het KOBE-project 'Meting na hamering' uit 2012 was om het opmeten van boomhoogtes te vervangen door diameter-hoogtecurves opgesteld aan de hand van bestaande meetgegevens.  Hiermee zou bij de volumeschatting van bomen een tijdswinst gerealiseerd kunnen worden zonder substantieel in te boeten aan nauwkeurigheid.  Om deze aanbeveling in de praktijk te brengen, is in 2016-2017 het package dhcurve ontwikkeld.  
+Een aanbeveling uit het KOBE-project 'Meting na hamering' uit 2012 was om het opmeten van boomhoogtes te vervangen door diameter-hoogtecurves opgesteld aan de hand van bestaande meetgegevens.  Hiermee zou bij de volumeschatting van bomen een tijdswinst gerealiseerd kunnen worden zonder substantieel in te boeten aan nauwkeurigheid.  Om deze aanbeveling in de praktijk te brengen, is in 2016-2017 het package `dhcurve` ontwikkeld.  
 
 ## Doelstellingen
 
-Het package dhcurve bundelt een aantal functies die toelaten om 'diameter-hoogtecurves' op te stellen op basis van bestaande meetgegevens van bomen (omtrek en hoogte).  Het eindresultaat is een dataset waarin per boomsoort, domein en omtrekklasse een geschatte hoogte wordt opgegeven, of een dataset met per boomsoort-domein-combinatie de parameters A, B en C van de curve $Hoogte = A + B\log(Omtrek)+C\log(Omtrek)^2$.  
+Het package `dhcurve` bundelt een aantal functies die toelaten om 'diameter-hoogtecurves' op te stellen op basis van bestaande meetgegevens van bomen (omtrek en hoogte).  Het eindresultaat is een dataset waarin per boomsoort, domein en omtrekklasse een geschatte hoogte wordt opgegeven, of een dataset met per boomsoort-domein-combinatie de parameters A, B en C van de curve $Hoogte = A + B\log(Omtrek)+C\log(Omtrek)^2$.  
 
-Het model dat gebruikt wordt om een curve op te stellen en/of de hoogteschattingen te maken, is afhankelijk van het aantal beschikbare metingen (zie _definities_).  Om een betrouwbaar eindresultaat te bekomen, zijn de keuze van de op te meten bomen en de validatie van de gegevens belangrijk (zie _Praktische werkwijze_).  Achtergrondinformatie over de in het package uitgewerkte berekeningswijze is opgenomen onder _Standaardstramien voor berekeningen_.
+Het model dat gebruikt wordt om een curve op te stellen en/of de hoogteschattingen te maken, is afhankelijk van het aantal beschikbare metingen (zie [definities](#definities)).  Om een betrouwbaar eindresultaat te bekomen, zijn de keuze van de op te meten bomen en de validatie van de gegevens belangrijk (zie [Praktische werkwijze](#praktische-werkwijze)).  Achtergrondinformatie over de in het package uitgewerkte berekeningswijze is opgenomen onder [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen).
 
 ## Definities
 
-__Basismodel:__  Het meest uitgebreide en nauwkeurige model voor een boomsoort, bestaande uit een soortspecifiek overkoepelend deel (= Vlaams model) en een soort- en domeinspecifiek deel dat corrigeert voor de standplaats.  Dit model wordt berekend voor boomsoorten waarvoor meer dan 50 metingen beschikbaar zijn in minimum 6 domeinen (en enkel voor de domeinen waarvoor minimum 50 metingen beschikbaar zijn).
+__Basismodel:__  Het meest uitgebreide en nauwkeurige model voor een boomsoort, bestaande uit een overkoepelend deel (= Vlaams model) en een domeinspecifiek deel dat corrigeert voor de standplaats.  Dit model wordt berekend voor boomsoorten waarvoor meer dan 50 metingen beschikbaar zijn in minimum 6 domeinen (en enkel voor de domeinen waarvoor minimum 50 metingen beschikbaar zijn).
 
-__Vlaams model:__  Het soortspecifiek overkoepelend deel van het basismodel, dus een 'gemiddeld model' op Vlaamse schaal voor een specifieke boomsoort.  Zonder correctie voor de standplaats (domein) geeft dit model een onnauwkeurige schatting.
+__Vlaams model:__  Het overkoepelend deel van het basismodel, dus een 'gemiddeld model' op Vlaamse schaal voor een specifieke boomsoort.  Zonder correctie voor de standplaats (domein) geeft dit model een minder accurate schatting.
 
-__Domeinmodel:__  Algemene term voor een model dat specifiek op maat van een boomsoort-domeincombinatie berekend is.  Het kan hier gaan over een basismodel inclusief domeinspecifiek deel, een afgeleid model of een lokaal model.  Deze term moet vooral gezien worden als een tegenstelling van het Vlaams model, dat een gemiddelde is van alle domeinen voor een boomsoort.
-
-__Afgeleid model:__  Domeinspecifiek model waarbij het Vlaams model gecorrigeerd wordt voor de standplaats door de curve in hoogte te verschuiven, terwijl de curvevorm van het Vlaams model behouden wordt.  Dit model wordt berekend voor domeinen waar 10 tot 50 metingen beschikbaar zijn op voorwaarde dat er een Vlaams model en een basismodel berekend zijn voor de boomsoort.
+__Afgeleid model:__  Domeinspecifiek model waarbij het Vlaams model gecorrigeerd wordt voor de standplaats door de curve in hoogte te verschuiven, terwijl de curvevorm van het Vlaams model behouden wordt.  Dit model wordt berekend voor domeinen waar 10 tot 50 metingen beschikbaar zijn op voorwaarde dat er een basismodel berekend is voor de boomsoort.
 
 __Lokaal model:__  Domeinspecifiek model waarbij een eigen curve berekend wordt voor elke boomsoort-domeincombinatie waarvoor minimum 50 metingen beschikbaar zijn.  Dit model is een alternatief van het basismodel voor boomsoorten waarvan er minder dan 6 domeinen zijn met 50 metingen.  In tegenstelling tot het basismodel heeft het lokaal model geen soortspecifiek overkoepelend deel, waardoor er geen Vlaams model kan afgeleid worden.  Dit betekent dat er voor boomsoorten waarvoor dit model opgesteld wordt, geen afgeleide modellen berekend kunnen worden voor domeinen met minder dan 50 metingen.
 
-__Bruikbaar interval:__  Interval waarbinnen het model in kwestie gebruikt kan worden.  Dit interval is afhankelijk van de beschikbare gegevens en van het vooraf vastgelegde relevante bereik (zie _Standaardstramien voor berekeningen_).
+__Domeinmodel:__  Algemene term voor een model dat specifiek op maat van een boomsoort-domeincombinatie berekend is.  Het kan hier gaan over een basismodel inclusief domeinspecifiek deel, een afgeleid model of een lokaal model.  Deze term moet vooral gezien worden als een tegenstelling van het Vlaams model, dat een gemiddelde is van alle domeinen voor een boomsoort.
 
-__RMSE:__  De _root mean square error_ is waarde in meter die aangeeft hoe groot de spreiding van de metingen is t.o.v. het model en waar in feite ook uit afgeleid kan worden hoe goed het model de metingen benadert.  Gelijkaardig aan de _standaard error_ kan een betrouwbaarheidsinterval berekend worden voor de geschatte hoogten (op basis van het model) door 2,5 maal de waarde van de rmse op te tellen en af te trekken van de geschatte hoogte.
+__Bruikbaar interval:__  Interval waarbinnen het model in kwestie gebruikt kan worden.  Dit interval is afhankelijk van de beschikbare gegevens en van het vooraf vastgelegde relevante bereik (zie [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen)).
 
-#
+__RMSE:__  De _**R**oot **M**ean **S**quare **E**rror_ is waarde in meter die aangeeft hoe groot de spreiding van de metingen is t.o.v. het model en waar in feite ook uit afgeleid kan worden hoe goed het model de metingen benadert.  Gelijkaardig aan de _standaard error_ kan een betrouwbaarheidsinterval berekend worden voor de geschatte hoogten (op basis van het model) door 2 maal de waarde van de RMSE op te tellen en af te trekken van de geschatte hoogte.
 
 # Praktische werkwijze
 
