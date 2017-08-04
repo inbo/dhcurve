@@ -2,7 +2,10 @@
 title: "Handleiding package diameter-hoogtecurves (dhcurve)"
 author: "Els Lommelen en Thierry Onkelinx"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: TRUE
+    number_sections: TRUE
 vignette: >
   %\VignetteIndexEntry{Handleiding dhcurve}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,7 +14,6 @@ vignette: >
 
 ```{r packages, include=FALSE, cache=FALSE}
 library(knitr)
-
 ```
 
 
