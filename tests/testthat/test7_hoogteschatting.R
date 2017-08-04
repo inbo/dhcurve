@@ -1,51 +1,53 @@
 context("test hoogteschatting")
 
-test_wd <- tempdir()
+describe("hoogteschatting", {
 
-setwd(test_wd)
+  wd <- getwd()
 
-library(dplyr)
+  test_wd <- tempdir()
 
-Data <- dataAfwijkendeCurve()
+  setwd(test_wd)
 
-Basismodel1 <- Data[["Basismodel"]]
-Lokaledata <- Data[["Lokaledata"]]
-Lokaalmodel <- Data[["Lokaalmodel"]]
+  library(dplyr)
+
+  Data <- dataAfwijkendeCurve()
+
+  Basismodel1 <- Data[["Basismodel"]]
+  Lokaledata <- Data[["Lokaledata"]]
+  Lokaalmodel <- Data[["Lokaalmodel"]]
 
 
-test_that(
-  "De hoogtes worden correct berekend voor domeinen van het Basismodel", {
-  expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
-                                     Basismodel1$Model[[1]]$data,
-                                     "Basis") %>%
-                 colnames(.),
-               c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                 "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                 "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                 "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                 "Q95"))
-  expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
-                                     Basismodel1$Model[[1]]$data,
-                                     "Basis") %>%
-                 filter(
-                   DOMEIN_ID %in% c("HM", "LM"),
-                   Omtrek == 0.55
-                 ) %>%
-                 transmute(DOMEIN_ID, Omtrek,
-                           H_D_finaal = as.numeric(H_D_finaal)) %>%
-                 distinct() %>%
-                 as.data.frame(., stringsAsFactors = FALSE),
-               data.frame(DOMEIN_ID = c("HM", "LM"),
-                          Omtrek = 0.55,
-                          H_D_finaal =
-                            c(20 + 7 * log(0.55) + 4 * log(0.55) ^ 2,
-                              20 + 5 * log(0.55) - 4 * log(0.55) ^ 2),
-                          stringsAsFactors = FALSE),
-               tolerance = 1)
-})
+  it("De hoogtes worden correct berekend voor domeinen van het Basismodel", {
+    expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
+                                       Basismodel1$Model[[1]]$data,
+                                       "Basis") %>%
+                   colnames(.),
+                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                   "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
+                   "Q95"))
+    expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
+                                       Basismodel1$Model[[1]]$data,
+                                       "Basis") %>%
+                   filter(
+                     DOMEIN_ID %in% c("HM", "LM"),
+                     Omtrek == 0.55
+                   ) %>%
+                   transmute(DOMEIN_ID, Omtrek,
+                             H_D_finaal = as.numeric(H_D_finaal)) %>%
+                   distinct() %>%
+                   as.data.frame(., stringsAsFactors = FALSE),
+                 data.frame(DOMEIN_ID = c("HM", "LM"),
+                            Omtrek = 0.55,
+                            H_D_finaal =
+                              c(20 + 7 * log(0.55) + 4 * log(0.55) ^ 2,
+                                20 + 5 * log(0.55) - 4 * log(0.55) ^ 2),
+                            stringsAsFactors = FALSE),
+                 tolerance = 1)
+  })
 
-test_that(
-  "De hoogtes worden correct berekend voor het lokaal model", {
+  it("De hoogtes worden correct berekend voor het lokaal model", {
     expect_equal(hoogteschatting.basis(Lokaalmodel$Model[[1]],
                                        Lokaledata %>%
                                          filter(DOMEIN_ID == "HM"),
@@ -88,17 +90,16 @@ test_that(
                             H_D_finaal = 20 + 5 * log(0.55) - 4 * log(0.55) ^ 2,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
-})
+  })
 
 
-Data <- dataAfgeleidmodel()
+  Data <- dataAfgeleidmodel()
 
-Basismodel2 <- Data[["Basismodel"]]
-Afgeleidmodel <- Data[["Afgeleidmodel"]]
+  Basismodel2 <- Data[["Basismodel"]]
+  Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
-test_that(
-  "De hoogtes worden correct berekend voor Vlaams model (Basismodel)", {
+  it("De hoogtes worden correct berekend voor Vlaams model (Basismodel)", {
     expect_equal(hoogteschatting.basis(Basismodel2$Model[[1]],
                                        Basismodel2$Model[[1]]$data,
                                        "Basis") %>%
@@ -123,10 +124,9 @@ test_that(
                             H_VL_finaal = 20 + 15 * log(0.55) + log(0.55) ^ 2,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
-})
+  })
 
-test_that(
-  "De hoogtes worden correct berekend voor Afgeleid model", {
+  it("De hoogtes worden correct berekend voor Afgeleid model", {
     expect_equal(hoogteschatting.afgeleid(Afgeleidmodel[[1]]$Model[[1]],
                                        Afgeleidmodel[[2]]) %>%
                    colnames(.),
@@ -151,4 +151,8 @@ test_that(
                             H_D_finaal = 15 + 15 * log(1.05) + log(1.05) ^ 2,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
+  })
+
+  setwd(wd)
+
 })

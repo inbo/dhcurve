@@ -1,52 +1,64 @@
 context("test afwijkendeCurves")
 
-test_wd <- tempdir()
+describe("afwijkendecurves", {
 
-setwd(test_wd)
+  wd <- getwd()
 
-library(dplyr)
+  test_wd <- tempdir()
 
-Data <- dataAfwijkendeCurve()
+  setwd(test_wd)
 
-Basismodel <- Data[["Basismodel"]]
-Lokaledata <- Data[["Lokaledata"]]
-Lokaalmodel <- Data[["Lokaalmodel"]]
+  library(dplyr)
 
-HMB <- curvekarakteristieken(Basismodel) %>%
-  filter(DOMEIN_ID == "HM") %>%
-  select(Ad, Bd, Cd)
+  Data <- dataAfwijkendeCurve()
 
-LMB <- curvekarakteristieken(Basismodel) %>%
-  filter(DOMEIN_ID == "LM") %>%
-  select(Ad, Bd, Cd)
+  Basismodel <- Data[["Basismodel"]]
+  Lokaledata <- Data[["Lokaledata"]]
+  Lokaalmodel <- Data[["Lokaalmodel"]]
 
-HML <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
-  filter(DOMEIN_ID == "HM") %>%
-  select(Ad, Bd, Cd)
+  HMB <- curvekarakteristieken(Basismodel) %>%
+    filter(DOMEIN_ID == "HM") %>%
+    select(Ad, Bd, Cd)
 
-LML <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
-  filter(DOMEIN_ID == "LM") %>%
-  select(Ad, Bd, Cd)
+  LMB <- curvekarakteristieken(Basismodel) %>%
+    filter(DOMEIN_ID == "LM") %>%
+    select(Ad, Bd, Cd)
+
+  HML <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
+    filter(DOMEIN_ID == "HM") %>%
+    select(Ad, Bd, Cd)
+
+  LML <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
+    filter(DOMEIN_ID == "LM") %>%
+    select(Ad, Bd, Cd)
 
 
-test_that("De uitvoer van de functie is correct", {
-  expect_equal(afwijkendeCurves(Basismodel),
-               tibble(DOMEIN_ID = c("HM", "LM"),
-                      BMS = "testboom",
-                      Omtrek_Buigpunt.d = c(exp(1 - HMB$Bd / (2 * HMB$Cd)), NA),
-                      Reden = c("curvevorm hol bij lage omtrekklassen",
-                                "curve daalt terug bij hoge omtrekklassen"),
-                      Omtrek_Extr_Hoogte.d = c(NA, exp(-LMB$Bd / (2 * LMB$Cd)))
-      )
-  )
-  expect_equal(afwijkendeCurves(Lokaalmodel, Lokaledata),
-               tibble(DOMEIN_ID = c("HM", "LM"),
-                      BMS = "andereboom",
-                      Omtrek_Buigpunt.d = c(exp(1 - HML$Bd / (2 * HML$Cd)), NA),
-                      Reden = c("curvevorm hol bij lage omtrekklassen",
-                                "curve daalt terug bij hoge omtrekklassen"),
-                      Omtrek_Extr_Hoogte.d = c(NA, exp(-LML$Bd / (2 * LML$Cd)))
-               )
+  it("De uitvoer van de functie is correct", {
+    expect_equal(afwijkendeCurves(Basismodel),
+                 tibble(DOMEIN_ID = c("HM", "LM"),
+                        BMS = "testboom",
+                        Omtrek_Buigpunt.d =
+                          c(exp(1 - HMB$Bd / (2 * HMB$Cd)), NA),
+                        Reden = c("curvevorm hol bij lage omtrekklassen",
+                                  "curve daalt terug bij hoge omtrekklassen"),
+                        Omtrek_Extr_Hoogte.d =
+                          c(NA, exp(-LMB$Bd / (2 * LMB$Cd)))
+        )
+    )
+    expect_equal(afwijkendeCurves(Lokaalmodel, Lokaledata),
+                 tibble(DOMEIN_ID = c("HM", "LM"),
+                        BMS = "andereboom",
+                        Omtrek_Buigpunt.d =
+                          c(exp(1 - HML$Bd / (2 * HML$Cd)), NA),
+                        Reden = c("curvevorm hol bij lage omtrekklassen",
+                                  "curve daalt terug bij hoge omtrekklassen"),
+                        Omtrek_Extr_Hoogte.d =
+                          c(NA, exp(-LML$Bd / (2 * LML$Cd)))
+                 )
 
-  )
+    )
+  })
+
+  setwd(wd)
+
 })
