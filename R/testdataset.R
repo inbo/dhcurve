@@ -27,7 +27,7 @@ testdataset <-
   A <- 20
   B <- 15
   C <- 1
-  sd <- 3
+  sd <- 2
 
   for (nBomen in nBomenDomein) {
     assert_that(is.count(nBomen),
@@ -57,7 +57,7 @@ testdataset <-
     ) %>%
     mutate_(
       A = ~rnorm(length(nBomenDomein), A, 5),
-      B = ~rnorm(length(nBomenDomein), B, 2),
+      B = ~rnorm(length(nBomenDomein), B, 1),
       C = ~rnorm(length(nBomenDomein), C, 1),
       sd = ~rnorm(length(nBomenDomein), sd, 0.5)
     ) %>%

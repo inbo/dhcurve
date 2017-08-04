@@ -5,7 +5,7 @@
 \title{Genereert testdata voor 1 boomsoort-domeincombinatie}
 \usage{
 testdata1domein(nBomen = 100, minOmtrek = 20, maxOmtrek = 239, A = 20,
-  B = 15, C = 1, sd = 3)
+  B = 15, C = 1, sd = 2)
 }
 \arguments{
 \item{nBomen}{Aantal gemeten bomen voor het domein}

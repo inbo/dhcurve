@@ -20,7 +20,7 @@
 #'
 
 testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
-                            A = 20, B = 15, C = 1, sd = 3) {
+                            A = 20, B = 15, C = 1, sd = 2) {
 
   assert_that(is.count(nBomen))
   assert_that(is.numeric(minOmtrek))
