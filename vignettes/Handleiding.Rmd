@@ -92,32 +92,32 @@ Technisch kan - net zoals bij de boomsoorten - ook voor domeinen gespeeld worden
 
 ## Berekenen van curves
 
-De zogenaamde diameter-hoogte-curves, die in feite omtrek-hoogte-curves zijn, kunnen berekend worden door het hieronder weergegeven voorbeeldscript te runnen voor een opgegeven dataset Data (zie _initiatie_).  Hierbij is het de bedoeling dat bij elke validatiestap een validatie gebeurt, waarna het script met de gevalideerde data opnieuw gerund wordt (zie _validatie_).
+De zogenaamde diameter-hoogte-curves, die in feite omtrek-hoogte-curves zijn, kunnen berekend worden door het hieronder weergegeven voorbeeldscript te runnen voor een opgegeven dataset Data (zie [initiatie](#initiatie)).  Hierbij is het de bedoeling dat bij elke validatiestap een validatie gebeurt, waarna het script met de gevalideerde data opnieuw gerund wordt (zie [validatie](#validatie)).
 
 ```{r hoofdscript1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 child_id <- 1
 cat(knit(text = knit_expand("Hoofdscript.Rmd"), quiet = TRUE))
 ```
 
-De stappen 'fit' en 'validatie' worden achtereenvolgens doorlopen voor de verschillende modeltypen (basismodel, afgeleid model en lokaal model).  Deze stappen (inclusief de initiatiestap en de finale stappen) worden hieronder kort toegelicht vanuit praktisch oogpunt, met focus op de workflow en aandachtspunten.  Voor meer informatie over het gebruik van de functies (om ze bv. buiten deze standaard workflow te gebruiken) verwijzen we naar de helpfunctie van de functie in kwestie (in R aan te roepen door ?_functienaam_), voor achtergrondinformatie over de achterliggende berekeningen verwijzen we naar het laatste deel van dit document: _Standaardstramien voor berekeningen_.
+De stappen 'fit' en 'validatie' worden achtereenvolgens doorlopen voor de verschillende modeltypen (basismodel, afgeleid model en lokaal model).  Deze stappen (inclusief de initiatiestap en de finale stappen) worden hieronder kort toegelicht vanuit praktisch oogpunt, met focus op de workflow en aandachtspunten.  Voor meer informatie over het gebruik van de functies (om ze bv. buiten deze standaard workflow te gebruiken) verwijzen we naar de helpfunctie van de functie in kwestie (in R aan te roepen door `?functienaam`), voor achtergrondinformatie over de achterliggende berekeningen verwijzen we naar het laatste deel van dit document: [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen).
 
 ### Initiatie
 
-De curves worden berekend op basis van een dataframe Data met metingen van bomen, die de volgende informatie moet bevatten: 
+De curves worden berekend op basis van een dataframe `Data` met metingen van bomen, die de volgende informatie moet bevatten: 
 
-- DOMEIN_ID: het identificatienummer van het domein
-- BOS_BHI: de naam van het domein
-- IDbms: het identificatienummer van de boomsoort
-- BMS: de naam van de boomsoort
-- C13: de omtrek van de boom in cm (gemeten op 130 cm hoogte)
-- HOOGTE: de hoogte van de boom in meter
-- Status: in hoeverre er foutcontrole op de meting gedaan is, mogelijke categorieën: 'Niet gecontroleerd', 'Te controleren', 'Goedgekeurd', 'Afgekeurd', 'Negeren', 'Aangepast',...
+- `DOMEIN_ID`: het identificatienummer van het domein
+- `BOS_BHI`: de naam van het domein
+- `IDbms`: het identificatienummer van de boomsoort
+- `BMS`: de naam van de boomsoort
+- `C13`: de omtrek van de boom in cm (gemeten op 130 cm hoogte)
+- `HOOGTE`: de hoogte van de boom in meter
+- `Status`: in hoeverre er foutcontrole op de meting gedaan is, mogelijke categorieën: 'Niet gecontroleerd', 'Te controleren', 'Goedgekeurd', 'Afgekeurd', 'Negeren', 'Aangepast',...
 
 Bedoeling is dat gegevens met status anders dan 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' voor het uitvoeren van deze initiatiestap uit de dataset verwijderd worden.
 
 Bij de initiatiestap wordt op basis van de omtrek C13 (in te voeren in cm!) een omtrekklasse berekend met eenheid in meter en alle verdere rekenstappen gebeuren in meter.  
 
-De hier berekende omtrekklassen komen overeen met deze in IVANHO (gemeten op 1,3 m hoogte): ze gaan omhoog met stappen van 0,1 m (10 cm), bv. de klasse van 0,35 m bevat de bomen met omtrek tussen 0,3 en 0,4 m.  Het klassemidden van de omtrekklasse (in het voorbeeld 0,35 m) wordt opgeslagen in de variabele Omtrek, in een finale fase wordt uit deze variabele het interval van de klassegrenzen afgeleid.
+De hier berekende omtrekklassen komen overeen met deze in IVANHO^[ANB databank met metingen voor houtverkoop] (gemeten op 1,3 m hoogte): ze gaan omhoog met stappen van 0,1 m (10 cm), bv. de klasse van 0,35 m bevat de bomen met omtrek tussen 0,3 en 0,4 m.  Het klassemidden van de omtrekklasse (in het voorbeeld 0,35 m) wordt opgeslagen in de variabele Omtrek, in een finale fase wordt uit deze variabele het interval van de klassegrenzen afgeleid.
 
 De verdere analysen gebeuren voornamelijk op basis van bomen met omtrek tussen 0,5 en 2,3 m, wat betekent dat de gegevens van zeer dunne en zeer dikke bomen niet gebruikt worden (zie _Standaardstramien voor berekeningen_ voor meer achtergrondinformatie over deze keuze).  Daarom worden bomen met omtrek kleiner dan 0,2 m en bomen met omtrek groter dan 2,4 m  al tijdens deze initiatiestap uit de dataset verwijderd.  Om enige controle te hebben over wat verwijderd wordt en eventuele fouten te kunnen rechtzetten, genereert de functie _initiatie_ een overzichtsrapport met instructies hoe de grootste problemen gemakkelijk opgespoord kunnen worden.  (Een potentiële fout hier is het gebruik van een verkeerde eenheid voor de metingen, en het ten onrechte verwijderen van een boom kan gevolgen hebben voor het al dan niet kunnen fitten van een bepaald modeltype.)
 
