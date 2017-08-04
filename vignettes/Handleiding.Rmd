@@ -194,7 +194,7 @@ Deze stap moet enkel gebeuren bij het basismodel en het lokaal model, niet bij h
 
 Bedoeling van deze tweede stap is om aan de hand van de curvevorm na te gaan of het model geen te sterke afwijkingen vertoont en dus bruikbaar is als model.  Mogelijk afwijkende delen in de curves zijn in rood getekend.  
 
-_Welke problemen kunnen optreden en hoe beoordelen?_
+**Welke problemen kunnen optreden en hoe beoordelen?**
 
 - 'curvevorm hol bij lage omtrekklassen': dit is waarschijnlijk geen probleem als het rood gekleurde deel maar 1-2 omtrekklassen omvat of als de curve min of meer recht is.  Wel problematisch zijn een U-vormige curve, een curve in de vorm van hockeystick of een S-vormige curve.
 - 'curve daalt terug bij hoge omtrekklassen': dit is geen probleem als het rood gekleurde deel minder dan 5 omtrekklassen omvat, en het is wel een probleem als het gaat over een aanzienlijk deel van de curve.  Houd bij de beoordeling in het achterhoofd dat voor de hoogteschattingen voor IVANHO de maximale hoogte van de curve zal gebruikt worden voor de (rood gekleurde) hogere omtrekklassen.  De 'curve' zal hier met andere woorden niet dalen maar horizontaal lopen.
@@ -241,10 +241,10 @@ De functie _resultaat_ genereert op basis van de berekende (gefitte) modellen ee
 - type model: basismodel / afgeleid model / lokaal model / geen model
 - parameters A, B en C per model en per boomsoort
 - bruikbaar interval (Q5k en Q95k)
-- rmse
+- RMSE
 - nBomen: aantal metingen met omtrek < 2,4 m
 - nBomenInterval: aantal metingen waarop het model gebaseerd is (ingeval van basismodel of lokaal model)
-- nBomenOmtrek05: aantal metingen > 0.5 m (dus het aantal metingen waarop de rmse-berekening gebaseerd is en ingeval van een afgeleid model ook het model)
+- nBomenOmtrek05: aantal metingen > 0.5 m (dus het aantal metingen waarop de RMSE-berekening gebaseerd is en ingeval van een afgeleid model ook het model)
 
 
 # Standaardstramien voor berekeningen
@@ -260,11 +260,9 @@ Kort gezegd laat dit package toe om de hoogtes van bomen te schatten door middel
 
 De opdrachtgever verwacht als resultaat een hoogteschatting voor elke omtrekklasse (per stap van 0,1 m, bv. de klasse van 0,35 m bevat de omtrekken tussen 0,30 en 0,40 m).  Bovendien is voor een deel van de aangeleverde gegevens de omtrek niet exact gemeten, maar weergegeven als omtrekklassen.  Om deze redenen is gekozen om het model niet op te stellen op basis van een continue variabele omtrek, maar op basis van een discrete variabele 'omtrekklasse'.  Een continue variabele zou eerder een vals gevoel van nauwkeurigheid geven, want de gemeten omtrekken zijn afgerond tot op een bepaalde meeteenheid, dus het zijn sowieso discrete variabelen.
 
->**Onduidelijk geformuleerd**
->
+<!--Start onduidelijk geformuleerd-->
 >Aan elke omtrekklasse hebben we als waarde het klassemidden toegekend, wat toelaat om de hoogteschatting te modelleren op basis van een numerieke waarde voor de omtrek.  Dit heeft (t.o.v. het declareren van de omtrekklassen als factoren) als voordeel dat het model niet louter bestaat uit gemiddelde hoogtes per omtrekklasse, maar dat er op basis van de numerieke omtrekklassen rekening gehouden kan worden met de ligging van de gemiddelde hoogtes t.o.v. elkaar door het opstellen van een globaal model van de hoogte in functie van de omtrekklasse.  Dankzij het gebruik van de discrete variabelen worden afwijkende hoogtes dus gecorrigeerd t.o.v. de andere hoogtes.
->
->**Onduidelijk geformuleerd**
+<!--Einde onduidelijk geformuleerd-->
 
 Het feit dat de omtrekklassen gedefinieerd zijn als een discrete variabele, heeft als belangrijk gevolg dat __het model resulteert in een schatting per omtrekklasse en dus niet in een continu verband tussen omtrek en hoogte__.  Dit is zeer belangrijk om rekening mee te houden bij de interpretatie van de gegevens.
 
@@ -380,7 +378,7 @@ De kwaliteitsbeoordeling of validatie richt zich enerzijds op afwijkende metinge
 
 RMSE of _root mean square error_ is een maat voor de spreiding van de metingen t.o.v. de opgestelde modelcurve.  Deze error is qua principe vergelijkbaar met een standaard error voor individuele gemiddelden (gebaseerd op een som van gekwadrateerde afstanden tussen meting en schatting) en kan dus gebruikt worden om betrouwbaarheidsintervallen te berekenen.  
 
-Omgekeerd geeft deze spreidingsmaat informatie over de ligging van de modelcurve ten opzichte van de metingen, waardoor deze waarde ook gebruikt kan worden om modellen te beoordelen of te vergelijken.  Zo hebben we voor de keuze van ons model (wiskundige vergelijking, zie _keuze van modellen_) verschillende modellen opgesteld op basis van dezelfde dataset en op basis van de rmse de 'beste' modellen geselecteerd (= modellen die de metingen het dichtst benaderen).
+Omgekeerd geeft deze spreidingsmaat informatie over de ligging van de modelcurve ten opzichte van de metingen, waardoor deze waarde ook gebruikt kan worden om modellen te beoordelen of te vergelijken.  Zo hebben we voor de keuze van ons model (wiskundige vergelijking, zie _keuze van modellen_) verschillende modellen opgesteld op basis van dezelfde dataset en op basis van de RMSE de 'beste' modellen geselecteerd (= modellen die de metingen het dichtst benaderen).
 
 We berekenen de RMSE voor het __basismodel__ en het __lokaal model__ door cross-validatie op basis van 6 subsets (dit gebeurt in de functie _rmse.basis_).  Meer specifiek doorlopen we volgende stappen:
 
@@ -388,17 +386,17 @@ We berekenen de RMSE voor het __basismodel__ en het __lokaal model__ door cross-
 - model opstellen op basis van 5 delen
 - model toepassen op de records van het 6de deel, dus de hoogte schatten op basis van de gemeten omtrek en het opgestelde model
 - de twee voorgaande stappen 6x herhalen zodat elk record een schatting heeft
-- maat voor fit berekenen: $$rmse = \sqrt{\frac{\sum{(Hoogte_{gemeten} - Hoogte_{geschat})^2}}{n - 2}}$$
+- maat voor fit berekenen: $$RMSE = \sqrt{\frac{\sum{(Hoogte_{gemeten} - Hoogte_{geschat})^2}}{n - 2}}$$
 
-Voor het __afgeleid model__, dat een verschuiving van het Vlaams model is, wordt voor de rmse beide toegepaste modellen in rekening gebracht: $$rmse = \sqrt{rmse_{Vlaams}^2 + rmse_{Verschuiving}^2}$$  Hierbij wordt $rmse_{Vlaams}$ berekend volgens de hierboven beschreven methode (waarbij de hoogte geschat wordt op basis van het Vlaams model en alle metingen die gebruikt zijn om het basismodel in kwestie op te stellen).  Voor $rmse_{Verschuiving}$ wordt omwille van het beperkt aantal records voor de boomsoort-domeincombinatie voor elk punt een schatting gemaakt op basis van van een model dat opgesteld is op basis van de dataset zonder dat ene punt, waarna de rmse op dezelfde manier berekend wordt.  (Voor deze laatste berekening is de functie _rmse.verschuiving_ ontwikkeld.)
+Voor het __afgeleid model__, dat een verschuiving van het Vlaams model is, wordt voor de RMSE beide toegepaste modellen in rekening gebracht: $$RMSE = \sqrt{RMSE_{Vlaams}^2 + RMSE_{Verschuiving}^2}$$  Hierbij wordt $RMSE_{Vlaams}$ berekend volgens de hierboven beschreven methode (waarbij de hoogte geschat wordt op basis van het Vlaams model en alle metingen die gebruikt zijn om het basismodel in kwestie op te stellen).  Voor $RMSE_{Verschuiving}$ wordt omwille van het beperkt aantal records voor de boomsoort-domeincombinatie voor elk punt een schatting gemaakt op basis van van een model dat opgesteld is op basis van de dataset zonder dat ene punt, waarna de RMSE op dezelfde manier berekend wordt.  (Voor deze laatste berekening is de functie _rmse.verschuiving_ ontwikkeld.)
 
 ### Afwijkende metingen
 
-We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * rmse, dus als de meting buiten het betrouwbaarheidsinterval van de schatting ligt (tussen schatting - 2,5 * rmse en schatting + 2,5 * rmse).
+We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het betrouwbaarheidsinterval van de schatting ligt (tussen schatting - 2,5 * RMSE en schatting + 2,5 * RMSE).
 
 <!-- figuur toevoegen met betrouwbaarheidsintervallen-->
 
-_Potentieel probleem?_  Bij modellen waarbij de rmse hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële problemen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis/afgeleid/lokaal) voor de 20 domeinen met de hoogste rmse minstens de 10 metingen met grootste afwijking geselecteerd.
+**Potentieel probleem?**  Bij modellen waarbij de RMSE hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële problemen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis/afgeleid/lokaal) voor de 20 domeinen met de hoogste RMSE minstens de 10 metingen met grootste afwijking geselecteerd.
 
 (Deze afwijkende metingen worden berekend in de functie _afwijkendeMetingen_ die door de functie _validatie.basis_, _validatie.afgeleid_ of _validatie.lokaal_ aangeroepen wordt.)
     
@@ -406,7 +404,7 @@ _Potentieel probleem?_  Bij modellen waarbij de rmse hoog is (bv. hoge spreiding
 
 Vermits het afgeleid model de vorm overneemt van het Vlaams model (dat in principe een goede curvevorm heeft), wordt een afwijkende curvevorm enkel onderzocht voor het basismodel en het lokaal model.  (De selectie van afwijkende curves gebeurt met de functie _afwijkendeCurves_, enkel de noodzakelijke variabelen berekenen kan met de functie _curvekarakteristieken_.)
 
-De detectie van afwijkende curvevormen is gebaseerd op het voorkomen van extremen (minima of maxima).  Dit zijn de punten waarop de afgeleide van de functie 0 is, dus voor ons model treden extremen op bij een omtrek van $e^{\frac{-B}{2 * C}}$.  
+De detectie van afwijkende curvevormen is gebaseerd op het voorkomen van extremen (minima of maxima).  Dit zijn de punten waarop de afgeleide van de functie 0 is. Voor ons model treden extremen op bij een omtrek van $e^{\frac{-B}{2 C}}$.  
 
 Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven onder _Praktische werkwijze/validatie_):
 
@@ -418,7 +416,7 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
     
 - 'curve daalt terug bij hoge omtrekklassen': de hiervoor geselecteerde curves hebben een maximum binnen het bruikbare interval
 
-(Nota: Een buigpunt doet zich voor waar de tweede afgeleide van de functie 0 is, wat in dit geval is bij een omtrek van $e^{\frac{1-B}{2 * C}}$.  En een richtingscoëfficiënt (rico) kan berekend worden op basis van de eerste afgeleide, dus voor een welbepaalde omtrek is de rico $\frac{2 . C . \log({Omtrek}) + B}{Omtrek}$.)
+(Nota: Een buigpunt doet zich voor waar de tweede afgeleide van de functie 0 is, wat in dit geval is bij een omtrek van $e^{\frac{1-B}{2 C}}$.  En een richtingscoëfficiënt (rico) kan berekend worden op basis van de eerste afgeleide, dus voor een welbepaalde omtrek is de rico $\frac{2 C \log({Omtrek}) + B}{Omtrek}$.)
 
 
 ## Berekening resultaat
