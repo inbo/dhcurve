@@ -299,7 +299,7 @@ Op basis van het aantal bomen binnen het bruikbaar interval met omtrek > 0,5 m s
 
 ### Algemeen
 
-Voor de keuze van de wiskundige vergelijking die binnen het bruikbaar interval een goede schatting geeft, hebben we 17 modellen uit de literatuur uitgetest.  Voor de selecties hebben we ons voornamelijk gebaseerd op de rmse, die aangeeft hoe goed het model de metingen benadert (zie verder).  Bijkomend hebben we de curvevorm visueel beoordeeld, wat in feite een gelijkaardig resultaat gaf.  We zijn in 4 fasen tewerk gegaan: 
+Voor de keuze van de wiskundige vergelijking die binnen het bruikbaar interval een goede schatting geeft, hebben we 17 modellen uit de literatuur uitgetest.  Voor de selecties hebben we ons voornamelijk gebaseerd op de [RMSE](#rmse), die aangeeft hoe goed het model de metingen benadert.  Bijkomend hebben we de curvevorm visueel beoordeeld, wat in feite een gelijkaardig resultaat gaf.  We zijn in 4 fasen tewerk gegaan: 
 
 - alle modellen getest voor de metingen van beuk uit Zoniënwoud en de slechtste modellen geschrapt
 - de overblijvende modellen getest op de metingen van beuk van 4 andere domeinen met veel beuken
@@ -335,7 +335,7 @@ Voorwaarde om goede modellen te bekomen op basis van dit mixed model, is dat er 
 
 ### Afgeleid model
 
-_Wat als er niet genoeg metingen zijn om een basismodel te berekenen?_  Een eerste idee was om 'vergelijkbare' domeinen te clusteren, zodat niet voor elk domein een apart model moest opgesteld worden en modellen van 'vergelijkbare' domeinen zouden kunnen gebruikt worden om hoogtes te schatten voor domeinen met weinig metingen.  Maar wat is 'vergelijkbaar', op basis van welke variabele kunnen we de domeinen clusteren?  Hiervoor hebben we gezocht naar een correlatie tussen karakteristieken van de opgestelde modellen enerzijds (parameters A, B en C, en hoogteschattingen voor bepaalde omtrekklassen) en potentiële verklarende variabelen anderzijds: bodemtype, ecoregio, provincie (~ beheermethode) en ruimtelijke spreiding (getest door resultaten op kaart weer te geven).  Er bleek een vaag verband te zijn met bodemtype en ecoregio in de zin dat parameter A en de hoogteschattingen bij (ecoregio's met) rijkere bodemtypen over het algemeen een hogere waarde hebben (wat intuïtief te verwachten was), maar hierbij was nog veel onverklaarbare variatie aanwezig.  Zo hadden dicht bij elkaar gelegen bossen soms afwijkende modellen terwijl we hier geen verklaring voor vonden.  Dit idee hebben we verlaten bij gebrek aan een duidelijke verklarende variabele voor de variatie tussen de modellen.
+**Wat als er niet genoeg metingen zijn om een basismodel te berekenen?**  Een eerste idee was om 'vergelijkbare' domeinen te clusteren, zodat niet voor elk domein een apart model moest opgesteld worden en modellen van 'vergelijkbare' domeinen zouden kunnen gebruikt worden om hoogtes te schatten voor domeinen met weinig metingen.  Maar wat is 'vergelijkbaar', op basis van welke variabele kunnen we de domeinen clusteren?  Hiervoor hebben we gezocht naar een correlatie tussen karakteristieken van de opgestelde modellen enerzijds (parameters A, B en C, en hoogteschattingen voor bepaalde omtrekklassen) en potentiële verklarende variabelen anderzijds: bodemtype, ecoregio, provincie (~ beheermethode) en ruimtelijke spreiding (getest door resultaten op kaart weer te geven).  Er bleek een vaag verband te zijn met bodemtype en ecoregio in de zin dat parameter A en de hoogteschattingen bij (ecoregio's met) rijkere bodemtypen over het algemeen een hogere waarde hebben (wat intuïtief te verwachten was), maar hierbij was nog veel onverklaarbare variatie aanwezig.  Zo hadden dicht bij elkaar gelegen bossen soms afwijkende modellen terwijl we hier geen verklaring voor vonden.  Dit idee hebben we verlaten bij gebrek aan een duidelijke verklarende variabele voor de variatie tussen de modellen.
 
 Wat wel een zinvolle methode bleek ingeval van te weinig metingen, is de curve van het Vlaams model (het overkoepelende soortspecifieke model van het basismodel) in hoogte te verschuiven zodat ze terechtkomt in de puntenwolk van de opgemeten punten van het domein.  Dit levert het volgende model op: 
 
@@ -353,13 +353,14 @@ Omdat de curvevorm berekend is op basis van het Vlaams model en de domeinspecifi
 
 Dus samengevat: de voorwaarden voor een afgeleid model zijn:
 
-- domeinen met 10-50 metingen in de omtrekklassen tussen 0,5 en 2,3 m voor boomsoorten waarvoor basismodel opgesteld is
+- onvoldoende metingen om deel uit te maken van een basismodel
+- domeinen met minstens 10 metingen in de omtrekklassen tussen 0,5 en 2,3 m
 - lagere omtrekklassen worden niet meegenomen om het model te berekenen
 
 
 ### Lokaal model
 
-_Wat als er voor een boomsoort geen 6 domeinen zijn om een basismodel te berekenen?_  Als er minder dan 6 domeinen zijn met genoeg gegevens om een basismodel te berekenen (> 50 metingen), dan is de kans groot dat het overkoepelende model (Vlaams model) sterk beïnvloed gaat worden door een of enkele domeinen met veel gegevens en bijgevolg niet representatief gaat zijn voor domeinen over heel Vlaanderen.  Dit heeft negatieve gevolgen voor zowel het basismodel zelf (het overkoepelend model gaat de modellen van de domeinen met minder gegevens sterk beïnvloeden) als de afgeleide modellen die hieruit berekend worden (deze worden rechtstreeks afgeleid uit dat minder representatieve Vlaams model).
+**Wat als er voor een boomsoort geen 6 domeinen zijn om een basismodel te berekenen?**  Als er minder dan 6 domeinen zijn met genoeg gegevens om een basismodel te berekenen (> 50 metingen), dan is de kans groot dat het overkoepelende model (Vlaams model) sterk beïnvloed gaat worden door een of enkele domeinen met veel gegevens en bijgevolg niet representatief gaat zijn voor domeinen over heel Vlaanderen.  Dit heeft negatieve gevolgen voor zowel het basismodel zelf (het overkoepelend model gaat de modellen van de domeinen met minder gegevens sterk beïnvloeden) als de afgeleide modellen die hieruit berekend worden (deze worden rechtstreeks afgeleid uit dat minder representatieve Vlaams model).
 
 In geval er van minder dan 6 domeinen voldoende gegevens zijn, is het basismodel onder de vorm van een mixed model bijgevolg niet aangewezen.  Voor de domeinen met meer dan 50 metingen, kan echter wel een 'gewoon' lineair model (fixed model zonder random factor) berekend worden op basis van enkel de gegevens van dat domein.  Hierbij vallen dan wel de voordelen weg dat het model gecorrigeerd wordt waar er weinig gegevens zijn (zie basismodel) en dat er voor deze boomsoort afgeleide modellen berekend kunnen worden.  Dit model, wat we lokaal model noemen, ziet er als volgt uit:
 
@@ -367,7 +368,8 @@ $$Hoogte_{lokaal} \sim A_{domein} + B_{domein}\log({Omtrek}) + C_{domein}\log(Om
 
 De voorwaarden voor dit lokaal model zijn:
 
-- boomsoorten met > 50 metingen per domein in de omtrekklassen tussen 0,5 en 2,3 m en < 6 domeinen
+- geen basismodel
+- minstens 50 metingen per domein in de omtrekklassen tussen 0,5 en 2,3 m
 - lagere omtrekklassen worden meegenomen om het model te berekenen
 
 ## Kwaliteitsbeoordeling
