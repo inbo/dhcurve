@@ -1,16 +1,18 @@
 context("test rmse")
 
-describe("rmse", {
+wd <- getwd()
 
-  wd <- getwd()
+test_wd <- tempdir()
 
-  test_wd <- tempdir()
+setwd(test_wd)
 
-  setwd(test_wd)
+library(dplyr)
 
-  library(dplyr)
+for (rmse in c(1, 3, 10)) {
 
-  Data <- dataAfwijkendeCurve()
+describe(sprintf("rmse", rmse), {
+
+  Data <- dataAfwijkendeCurve(nBomen = 10000, sd = rmse)
 
   Basisdata1 <- Data[["Basisdata"]]
   Lokaledata <- Data[["Lokaledata"]]
@@ -30,9 +32,9 @@ describe("rmse", {
                              rmseD = as.numeric(rmseD)) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(DOMEIN_ID = c("HM", "LM"),
-                            rmseD = 3,
+                            rmseD = rmse,
                             stringsAsFactors = FALSE),
-                 tolerance = 1)
+                 tolerance = 0.1)
   })
 
   it("De rmse wordt correct berekend voor het lokaal model", {
@@ -49,7 +51,7 @@ describe("rmse", {
                              rmseD = as.numeric(rmseD)) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(DOMEIN_ID = "HM",
-                            rmseD = 3,
+                            rmseD = rmse,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
     expect_equal(rmse.basis(Lokaledata %>%
@@ -59,35 +61,31 @@ describe("rmse", {
                              rmseD = as.numeric(rmseD)) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(DOMEIN_ID = "LM",
-                            rmseD = 3,
+                            rmseD = rmse,
                             stringsAsFactors = FALSE),
-                 tolerance = 1)
+                 tolerance = 0.1)
   })
 
 
-  Data <- dataAfgeleidmodel()
+  Data <-
+    dataAfgeleidmodel(nBomenBasis = 10000, nBomenAfgeleid = 10000, sd = rmse,
+                      Uitzonderingen =
+                        data.frame(DOMEIN_ID = "Klein", BMS = "testboom",
+                                   min_basis = 10001, min_afgeleid = NA,
+                                   stringsAsFactors = FALSE))
 
   Basisdata2 <- Data[["Basisdata"]]
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
-  # it(
-  #   "De rmse wordt correct berekend voor Vlaams model (Basismodel)", {
-  #     expect_equal(rmse.basis(Basisdata2, "Basis") %>%
-  #                    colnames(.),
-  #                  c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-  #                    "nBomenOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
-  #                    "maxResid"))
-  #     expect_equal(rmse.basis(Basisdata2, "Basis") %>%
-  #                    transmute(DOMEIN_ID,
-  #                              rmseVL = as.numeric(rmseVL)) %>%
-  #                    distinct() %>%
-  #                    as.data.frame(., stringsAsFactors = FALSE),
-  #                  data.frame(DOMEIN_ID = ...,
-  #                             rmseD = 3,
-  #                             stringsAsFactors = FALSE),
-  #                  tolerance = 1)
-  # })
+  it("De output van de functie is correct voor Vlaams model (Basismodel)", {
+    expect_equal(rmse.basis(Basisdata2, "Basis") %>%
+                   colnames(.),
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
+                   "nBomenOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
+                   "maxResid"))
+    expect_is(rmse.basis(Basisdata2, "Basis")$rmseVL, "numeric")
+  })
 
   it(
     "De rsme wordt correct berekend voor de verschuiving v h Afgeleid model", {
@@ -104,11 +102,13 @@ describe("rmse", {
                                  as.numeric(RmseVerschuiving)) %>%
                      as.data.frame(., stringsAsFactors = FALSE),
                    data.frame(DOMEIN_ID = "Klein",
-                              RmseVerschuiving = 3,
+                              RmseVerschuiving = rmse,
                               stringsAsFactors = FALSE),
-                   tolerance = 1)
+                   tolerance = 0.1)
   })
 
-  setwd(wd)
-
 })
+
+}
+
+setwd(wd)

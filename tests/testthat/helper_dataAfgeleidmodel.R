@@ -1,9 +1,14 @@
 
-dataAfgeleidmodel <- function() {
+dataAfgeleidmodel <-
+  function(nBomenBasis = 200, nBomenAfgeleid = 40, sd = 3,
+           Uitzonderingen  =
+             data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA,
+                        min_afgeleid = NA, stringsAsFactors = FALSE)) {
 
-  Metingen <- testdataset(rep(200, 6)) %>%
+  Metingen <- testdataset(rep(nBomenBasis, 6)) %>%
     bind_rows(
-      testdata1domein(nBomen = 40, minOmtrek = 50, A = 15) %>%
+      testdata1domein(nBomen = nBomenAfgeleid, minOmtrek = 50,
+                      A = 15, sd = sd) %>%
         mutate_(
           BMS = ~"testboom",
           IDbms = ~1,
@@ -14,7 +19,7 @@ dataAfgeleidmodel <- function() {
         )
     )
 
-  Datalijst <- initiatie(Metingen)
+  Datalijst <- initiatie(Metingen, Uitzonderingen)
 
   Data.basis <- Datalijst[["Basis"]]
   Basismodel <- fit.basis(Data.basis)
