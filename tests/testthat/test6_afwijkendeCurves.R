@@ -57,6 +57,10 @@ describe("afwijkendecurves", {
                  )
 
     )
+    expect_error(
+      afwijkendeCurves(Lokaalmodel),
+      "Bij opgave van een lokaal model moet je ook de dataset meegeven"
+    )
   })
 
   setwd(wd)
