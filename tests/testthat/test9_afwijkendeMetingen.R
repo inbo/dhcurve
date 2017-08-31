@@ -15,7 +15,7 @@ describe("afwijkendemetingen", {
     dataAfgeleidmodel(Extradata =
                         data.frame(BMS = "testboom",
                                    IDbms = 1,
-                                   DOMEIN_ID = rep(c(LETTERS[1:6], 'Klein'), 2),
+                                   DOMEIN_ID = rep(c(LETTERS[1:6], "Klein"), 2),
                                    BOS_BHI =
                                      rep(c(sprintf("Domein_%s", LETTERS[1:6]),
                                            "DOMEIN_Klein"),
