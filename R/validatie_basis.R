@@ -46,8 +46,6 @@ validatie.basis <-
 
   invoercontrole(Basismodel, "basismodel")
 
-  assert_that(is.count(AantalDomHogeRMSE))
-
   Rmse <- Basismodel %>%
     rowwise() %>%
     do_(

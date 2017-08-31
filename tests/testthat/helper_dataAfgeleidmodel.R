@@ -1,6 +1,7 @@
 
 dataAfgeleidmodel <-
   function(nBomenBasis = 200, nBomenAfgeleid = 40, sd = 3,
+           Extradata = NULL,
            Uitzonderingen  =
              data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA,
                         min_afgeleid = NA, stringsAsFactors = FALSE)) {
@@ -17,7 +18,8 @@ dataAfgeleidmodel <-
           Status = ~"Niet gecontroleerd",
           ID = ~as.character(as.integer(rownames(.)) + 1200)
         )
-    )
+    ) %>%
+    bind_rows(Extradata)
 
   Datalijst <- initiatie(Metingen, Uitzonderingen)
 
