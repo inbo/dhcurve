@@ -178,6 +178,26 @@ describe("afwijkendemetingen", {
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
                    "Q95", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+    expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
+                   colnames(.),
+                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
+                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                   "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
+                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95",
+                   "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
+                   "rmseVL", "rmseD", "HogeRmse", "Afwijkend")
+    )
+    expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
+                   colnames(.),
+                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                   "H_D_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
+                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "rmseD",
+                   "maxResid", "HogeRmse", "Afwijkend")
+    )
+  })
+
+  it("De afwijkende metingen worden correct geselecteerd", {
     expect_equal(afwijkendeMetingen(DatasetBasis, 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE, Afwijkend),
                  tibble(DOMEIN_ID =
@@ -188,14 +208,6 @@ describe("afwijkendemetingen", {
                         Afwijkend = TRUE
                  )
     )
-    expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
-                   colnames(.),
-                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95",
-                   "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
-                   "rmseVL", "rmseD", "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid, 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE),
                  tibble(DOMEIN_ID = "Klein",
@@ -204,13 +216,6 @@ describe("afwijkendemetingen", {
                         HOOGTE = c(1, 50)
                  )
     )
-    expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
-                   colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_D_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "rmseD",
-                   "maxResid", "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetLokaal, 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE),
                  tibble(DOMEIN_ID = "A",
@@ -219,9 +224,58 @@ describe("afwijkendemetingen", {
                         HOOGTE = c(1, 50)
                  )
     )
+  })
+
+  Metingen <- testdataset(rep(200, 10))
+
+  Datalijst <- initiatie(Metingen)
+
+  Data.basis <- Datalijst[["Basis"]]
+  Basismodel <- fit.basis(Data.basis)
+
+  Rmse <- Basismodel %>%
+    rowwise() %>%
+    do_(
+      ~rmse.basis(.$Model$data, "Basis")
+    ) %>%
+    ungroup()
+
+  Hoogteschatting <- Basismodel %>%
+    rowwise() %>%
+    do_(
+      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    ) %>%
+    ungroup()
+
+  Dataset <- Hoogteschatting %>%
+    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+               by = c("BMS", "DOMEIN_ID"))
+
+  it("Selectie AantalDomHogeRMSE werkt correct", {
     expect_error(
-      afwijkendeMetingen(DatasetBasis, -1),
+      afwijkendeMetingen(Dataset, -1),
       "AantalDomHogeRMSE moet een positief geheel getal zijn."
+    )
+    expect_equal((afwijkendeMetingen(Dataset, 2) %>%
+                   filter(HogeRmse) %>%
+                   select(DOMEIN_ID) %>%
+                   distinct() %>%
+                   summarise(n = n()))$n,
+                 2
+    )
+    expect_equal((afwijkendeMetingen(Dataset, 5) %>%
+                    filter(HogeRmse) %>%
+                    select(DOMEIN_ID) %>%
+                    distinct() %>%
+                    summarise(n = n()))$n,
+                 5
+    )
+    expect_equal((afwijkendeMetingen(Dataset, 8) %>%
+                    filter(HogeRmse) %>%
+                    select(DOMEIN_ID) %>%
+                    distinct() %>%
+                    summarise(n = n()))$n,
+                 8
     )
   })
 
