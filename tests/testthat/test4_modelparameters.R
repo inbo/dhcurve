@@ -2,6 +2,8 @@ context("test modelparameters")
 
 describe("modelparameters", {
 
+  set.seed(1635434355)
+
   wd <- getwd()
 
   test_wd <- tempdir()
