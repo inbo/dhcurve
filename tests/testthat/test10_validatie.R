@@ -51,15 +51,14 @@ describe("validatie", {
 
 
   it("De uitvoer van de functies is correct", {
-    expect_equal(validatie.basis(Basismodel, TypeRapport = "Statisch") %>%
+    expect_equal(validatie.basis(Basismodel) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
                    "Q95", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
-    expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel,
-                                    TypeRapport = "Statisch") %>%
+    expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
@@ -68,8 +67,7 @@ describe("validatie", {
                    "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
                    "rmseVL", "rmseD", "HogeRmse", "Afwijkend")
     )
-    expect_equal(validatie.lokaal(Lokaalmodel, Data.lokaal,
-                                  TypeRapport = "Statisch") %>%
+    expect_equal(validatie.lokaal(Lokaalmodel, Data.lokaal) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
@@ -80,8 +78,7 @@ describe("validatie", {
   })
 
   it("De afwijkende metingen worden correct geselecteerd", {
-    expect_equal(validatie.basis(Basismodel, AantalDomHogeRMSE = 0,
-                                 TypeRapport = "Statisch") %>%
+    expect_equal(validatie.basis(Basismodel, AantalDomHogeRMSE = 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE, Afwijkend),
                  tibble(DOMEIN_ID =
                           LETTERS[rep(1:6, each = 2)],
@@ -92,8 +89,7 @@ describe("validatie", {
                  )
     )
     expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel,
-                                    AantalDomHogeRMSE = 0,
-                                    TypeRapport = "Statisch") %>%
+                                    AantalDomHogeRMSE = 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE),
                  tibble(DOMEIN_ID = "Klein",
                         BMS = "testboom",
@@ -102,8 +98,7 @@ describe("validatie", {
                  )
     )
     expect_equal(validatie.lokaal(Lokaalmodel, Data.lokaal,
-                                  AantalDomHogeRMSE = 0,
-                                  TypeRapport = "Statisch") %>%
+                                  AantalDomHogeRMSE = 0) %>%
                    select(DOMEIN_ID, BMS, C13, HOOGTE),
                  tibble(DOMEIN_ID = "A",
                         BMS = "testboom",
@@ -126,24 +121,21 @@ describe("validatie", {
       validatie.basis(Basismodel, AantalDomHogeRMSE = -1),
       "AantalDomHogeRMSE moet een positief geheel getal zijn."
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 2,
-                                  TypeRapport = "Statisch") %>%
+    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 2) %>%
                    filter(HogeRmse) %>%
                    select(DOMEIN_ID) %>%
                    distinct() %>%
                    summarise(n = n()))$n,
                  2
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 5,
-                                  TypeRapport = "Statisch") %>%
+    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 5) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%
                     summarise(n = n()))$n,
                  5
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 8,
-                                  TypeRapport = "Statisch") %>%
+    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 8) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%
