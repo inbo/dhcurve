@@ -144,6 +144,29 @@ describe("resultaat", {
                         DOMEIN_ID = "A",
                         A = as.double(NA), B = as.double(NA), C = as.double(NA))
                  )
+    expect_equal(resultaat(Data.onbruikbaar =
+                             data.frame(
+                               BMS = "restboom",
+                               DOMEIN_ID = "A",
+                               nBomenInterval = 1,
+                               nBomenOmtrek05 = 0,
+                               IDbms = 20,
+                               BOS_BHI = "DOMEIN_A",
+                               C13 = 41,
+                               HOOGTE = 18,
+                               Status = "Niet gecontroleerd",
+                               ID = 3000,
+                               Omtrek = 0.45,
+                               logOmtrek = log(0.45),
+                               logOmtrek2 = log(0.45) ^ 2,
+                               nBomen = 5,
+                               Q5k = 0.25,
+                               Q95k = 0.45,
+                               stringsAsFactors = FALSE
+                             )) %>%
+                   select(BMS, DOMEIN_ID),
+                 data.frame(BMS = "restboom", DOMEIN_ID = "A",
+                            stringsAsFactors = FALSE))
   })
 
   setwd(wd)
