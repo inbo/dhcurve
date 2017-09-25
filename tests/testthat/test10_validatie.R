@@ -121,21 +121,21 @@ describe("validatie", {
       validatie.basis(Basismodel, AantalDomHogeRMSE = -1),
       "AantalDomHogeRMSE moet een positief geheel getal zijn."
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 2) %>%
+    expect_equal( (validatie.basis(Basismodel, AantalDomHogeRMSE = 2) %>%
                    filter(HogeRmse) %>%
                    select(DOMEIN_ID) %>%
                    distinct() %>%
                    summarise(n = n()))$n,
                  2
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 5) %>%
+    expect_equal( (validatie.basis(Basismodel, AantalDomHogeRMSE = 5) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%
                     summarise(n = n()))$n,
                  5
     )
-    expect_equal((validatie.basis(Basismodel, AantalDomHogeRMSE = 8) %>%
+    expect_equal( (validatie.basis(Basismodel, AantalDomHogeRMSE = 8) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%

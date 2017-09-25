@@ -256,21 +256,21 @@ describe("afwijkendemetingen", {
       afwijkendeMetingen(Dataset, -1),
       "AantalDomHogeRMSE moet een positief geheel getal zijn."
     )
-    expect_equal((afwijkendeMetingen(Dataset, 2) %>%
+    expect_equal( (afwijkendeMetingen(Dataset, 2) %>%
                    filter(HogeRmse) %>%
                    select(DOMEIN_ID) %>%
                    distinct() %>%
                    summarise(n = n()))$n,
                  2
     )
-    expect_equal((afwijkendeMetingen(Dataset, 5) %>%
+    expect_equal( (afwijkendeMetingen(Dataset, 5) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%
                     summarise(n = n()))$n,
                  5
     )
-    expect_equal((afwijkendeMetingen(Dataset, 8) %>%
+    expect_equal( (afwijkendeMetingen(Dataset, 8) %>%
                     filter(HogeRmse) %>%
                     select(DOMEIN_ID) %>%
                     distinct() %>%

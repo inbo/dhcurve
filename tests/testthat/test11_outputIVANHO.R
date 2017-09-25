@@ -32,8 +32,8 @@ describe("outputIVANHO", {
                    mutate(
                      Hoogte =
                        ifelse(DOMEIN_ID == "HM",
-                              20 + 7 * log(Omtrek) + 4 * log(Omtrek)^2,
-                              20 + 5 * log(Omtrek) - 6 * log(Omtrek)^2),
+                              20 + 7 * log(Omtrek) + 4 * log(Omtrek) ^ 2,
+                              20 + 5 * log(Omtrek) - 6 * log(Omtrek) ^ 2),
                      Modeltype = "basismodel"
                    ),
                  tolerance = 1)
@@ -54,8 +54,8 @@ describe("outputIVANHO", {
                    mutate(
                      Hoogte =
                        ifelse(DOMEIN_ID == "HM",
-                              20 + 7 * log(Omtrek) + 4 * log(Omtrek)^2,
-                              20 + 5 * log(Omtrek) - 6 * log(Omtrek)^2),
+                              20 + 7 * log(Omtrek) + 4 * log(Omtrek) ^ 2,
+                              20 + 5 * log(Omtrek) - 6 * log(Omtrek) ^ 2 ),
                      Modeltype = "lokaal model"
                    ),
                  tolerance = 1)
@@ -79,7 +79,7 @@ describe("outputIVANHO", {
                             Omtrek = seq(0.55, 2.35, 0.1),
                             stringsAsFactors = FALSE) %>%
                    mutate(
-                     Hoogte = 15 + 15 * log(Omtrek) + log(Omtrek)^2,
+                     Hoogte = 15 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
                      Modeltype = "afgeleid model"
                    ),
                  tolerance = 1)
