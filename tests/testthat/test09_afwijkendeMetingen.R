@@ -9,6 +9,7 @@ describe("afwijkendemetingen", {
   setwd(test_wd)
 
   library(dplyr)
+  library(tibble)
 
   #data genereren voor basismodel en afgeleid model
   Data <-

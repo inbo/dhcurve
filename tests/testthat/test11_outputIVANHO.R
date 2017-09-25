@@ -11,6 +11,7 @@ describe("outputIVANHO", {
   setwd(test_wd)
 
   library(dplyr)
+  library(tibble)
 
   Data <- dataAfwijkendeCurve()
 

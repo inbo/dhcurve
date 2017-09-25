@@ -9,6 +9,7 @@ describe("fit", {
   setwd(test_wd)
 
   library(dplyr)
+  library(tibble)
 
   Data <- testdataset() %>%
     bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
