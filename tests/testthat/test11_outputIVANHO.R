@@ -2,7 +2,7 @@ context("test outputIVANHO")
 
 describe("outputIVANHO", {
 
-  set.seed(8434556868)
+  set.seed(84345568)
 
   wd <- getwd()
 
@@ -41,6 +41,7 @@ describe("outputIVANHO", {
 
   it("De hoogtes worden correct berekend voor het Lokaal model", {
     expect_error(outputIVANHO(Lokaalmodel))
+    expect_error(outputIVANHO(Lokaalmodel = Lokaalmodel))
     expect_equal(outputIVANHO(Lokaalmodel = Lokaalmodel,
                               Data.lokaal = Lokaledata) %>%
                    select(-OmtrekklassetypeID, -Omtrekklasse) %>%
@@ -69,6 +70,7 @@ describe("outputIVANHO", {
 
   it("De hoogtes worden correct berekend voor Afgeleid model", {
     expect_error(outputIVANHO(Afgeleidmodel))
+    expect_error(outputIVANHO(Afgeleidmodel = Afgeleidmodel))
     expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
                    filter(Modeltype == "afgeleid model") %>%
                    select(-OmtrekklassetypeID, -Omtrekklasse) %>%
@@ -86,6 +88,7 @@ describe("outputIVANHO", {
   })
 
   it("De dataset wordt correct samengesteld", {
+    expect_message(outputIVANHO())
     expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
                               Lokaalmodel, Lokaledata) %>%
                    select(BMS, DOMEIN_ID, Modeltype) %>%
