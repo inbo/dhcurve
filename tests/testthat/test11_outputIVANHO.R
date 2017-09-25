@@ -2,7 +2,7 @@ context("test outputIVANHO")
 
 describe("outputIVANHO", {
 
-  set.seed(1635434355)
+  set.seed(8434556868)
 
   wd <- getwd()
 
