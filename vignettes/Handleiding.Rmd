@@ -12,8 +12,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4)
+```
+
+
 ```{r packages, include=FALSE, cache=FALSE}
+set.seed(51456844)
 library(knitr)
+library(dplyr)
+library(ggplot2)
+library(dhcurve)
 ```
 
 
@@ -320,6 +329,44 @@ Voor het basismodel starten we van het hierboven voorgestelde algemene model.  O
 $$Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} + B_{domein})\log({Omtrek}) + (C_{Vlaams} + C_{domein})\log(Omtrek)^2$$
 Dit model bevat dus een soortspecifiek overkoepelend model met parameters $A_{Vlaams}$, $B_{Vlaams}$ en $C_{Vlaams}$ (in vaktermen _fixed factor_ genoemd), wat we definiëren als '__Vlaams model__'.  Daarnaast bevat het model de domeinspecifieke parameters $A_{domein}$, $B_{domein}$ en $C_{domein}$ (in vaktermen _random factor_ genoemd), die gesommeerd met de overkoepelende parameters de parameters voor het domeinspecifieke model geven.
 
+```{r figBasismodel, echo=FALSE}
+
+Modellen <-
+  merge(
+    data.frame(
+      Type = "Domeinmodellen",
+      Domein = LETTERS[1:6],
+      A = rnorm(6, 20, 2),
+      B = rnorm(6, 15, 2),
+      C = rnorm(6, 1, 1)
+    ),
+    data.frame(
+      Omtrek = seq(0.25, 1.85, 0.1)
+    )
+  ) %>%
+  mutate(
+    Hoogte = A + B * log(Omtrek) + C * log(Omtrek) ^ 2
+  ) 
+
+Modellen %>%
+  group_by(Omtrek) %>%
+  summarise(Hoogte = mean(Hoogte)) %>%
+  ungroup() %>%
+  mutate(
+    Type = "Vlaams model",
+    Domein = "Vlaams model",
+    A = NA,
+    B = NA,
+    C = NA
+  ) %>%
+  rbind(Modellen) %>%
+  ggplot(aes(x = Omtrek, y = Hoogte, group = Domein, size = Type)) +
+  scale_size_manual(values = c(0.3, 1.5)) +
+  geom_line()
+    
+
+```
+
 Dit overkoepelend Vlaams model wordt berekend op basis van alle gegevens, waarbij domeinen met veel gegevens zwaarder doorwegen op het eindresultaat.  De domeinspecifieke modellen worden grotendeels berekend op basis van de gegevens van dat domein, maar er wordt ook gecorrigeerd op basis van het overkoepelende Vlaams model.  Hierbij zal de invloed van het Vlaams model zwaarder doorwegen in domeinen en/of specifieke omtrekklassen waar niet veel domeinspecifieke gegevens beschikbaar zijn.  Als er voldoende domeinspecifieke gegevens beschikbaar zijn, zal het domeinmodel vooral daarop gebaseerd zijn.
 
 Dit betekent dus dat het Vlaams model de domeinspecifieke modellen corrigeert waar onvoldoende gegevens beschikbaar zijn, wat vaak resulteert in een 'beter' model dat het nauwer aansluit bij het Vlaams model (dat meestal een goede curvevorm heeft is omdat het gebaseerd is op veel gegevens).
@@ -342,6 +389,31 @@ $\phantom{Hoogte_{afgeleid}}= \delta A + A_{Vlaams} + B_{Vlaams}\log(Omtrek) + C
 $\phantom{Hoogte_{afgeleid}}= A_{domein} + A_{Vlaams} + B_{Vlaams}\log(Omtrek) + C_{Vlaams} \log(Omtrek)^2$
 
 Wat in feite gebeurt, is dat de gemiddelde afstand tussen de meetpunten van het domein en de Vlaamse curve berekend wordt, en dat de Vlaamse curve vertikaal over deze hoogte verschoven wordt.  Deze 'verschuiving' is een domeinspecifieke parameter $A_{domein}$ die corrigeert voor de standplaats (arm/rijk) op basis van effectieve metingen van dat domein; de andere parameters zijn overgenomen uit het Vlaams model.  De curvevorm wordt dus overgenomen van het Vlaams model, dat berekend is op basis van een groot aantal gegevens uit verschillende domeinen.
+
+```{r figAfgeleidModel, echo=FALSE}
+
+merge(
+  data.frame(
+    Type = c("Vlaams model", "Afgeleid model"),
+    A = c(25, 15),
+    B = 15,
+    C = 1
+  ),
+  data.frame(
+    Omtrek = seq(0.55, 1.85, 0.1)
+  )
+) %>%
+mutate(
+  Hoogte = A + B * log(Omtrek) + C * log(Omtrek) ^ 2,
+  BeginPijl = 24 + B * log(Omtrek) + C * log(Omtrek) ^ 2,
+  EindePijl = 16 + B * log(Omtrek) + C * log(Omtrek) ^ 2
+)  %>%
+ggplot() +
+  geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), size = 1) +
+  geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl), arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
+
+```
+
 
 Om een zo goed mogelijk model te bekomen voor de omtrekklassen tussen 0,5 en 2,3 m, wordt het model berekend op basis van enkel de gegevens binnen deze omtrekklassen.  Het meenemen van lagere omtrekklassen kan immers als gevolg hebben dat het model een minder goede benadering geeft voor de omtrekklassen boven 0,5 m omdat de lagere omtrekklassen dan ook de gemiddelde afstand beïnvloeden.
 
@@ -392,7 +464,26 @@ Voor het __afgeleid model__, dat een verschuiving van het Vlaams model is, wordt
 
 We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het betrouwbaarheidsinterval van de schatting ligt (tussen schatting - 2,5 * RMSE en schatting + 2,5 * RMSE).
 
-<!-- figuur toevoegen met betrouwbaarheidsintervallen-->
+```{r figBetrouwbaarheidsinterval, echo=FALSE}
+
+Metingen <- testdata1domein(nBomen = 200) %>%
+  mutate(
+    Omtrek = floor(C13 / 10) / 10 + 0.05,
+    Model = 20 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
+    Hmax = Model + 2.5 * 2,
+    Hmin = Model - 2.5 * 2,
+    Afwijkend = HOOGTE > Hmax | HOOGTE < Hmin
+  ) %>%
+  rename(Hoogte = HOOGTE)
+
+ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) + 
+  geom_point(aes(colour = Afwijkend)) +
+  scale_colour_manual(values = c("black", "red")) +
+  geom_line(aes(x = Omtrek, y = Model)) +
+  geom_ribbon(aes(ymax = Hmax, ymin = Hmin), alpha = 0.1)
+
+```
+
 
 **Potentieel probleem?**  Bij modellen waarbij de RMSE hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële foute metingen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis/afgeleid/lokaal) voor de 20 domeinen met de hoogste RMSE minstens de 10 metingen met grootste afwijking geselecteerd.
 
