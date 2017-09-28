@@ -86,8 +86,8 @@ invoercontrole <- function(Data, Type) {
         has_name(Data, "nBomen"),
         msg = "De opgegeven dataframe heeft geen veld met naam nBomen"
       )
-      if (!all.equal(Data$nBomen, as.integer(Data$nBomen),
-                     check.attributes = FALSE)) {
+      if (!isTRUE(all.equal(Data$nBomen, as.integer(Data$nBomen),
+                     check.attributes = FALSE))) {
         stop("De waarden in de kolom nBomen moeten gehele getallen zijn")
       }
       if (!all(Data$nBomen >= 0)) {
@@ -97,8 +97,8 @@ invoercontrole <- function(Data, Type) {
       assert_that(has_name(Data, "nBomenInterval"),
                   msg = "De opgegeven dataframe heeft geen veld met naam
                   nBomenInterval")
-      if (!all.equal(Data$nBomenInterval, as.integer(Data$nBomenInterval),
-                     check.attributes = FALSE)) {
+      if (!isTRUE(all.equal(Data$nBomenInterval, as.integer(Data$nBomenInterval),
+                     check.attributes = FALSE))) {
         stop(
           "De waarden in de kolom nBomenInterval moeten gehele getallen zijn"
         )
@@ -110,8 +110,8 @@ invoercontrole <- function(Data, Type) {
       assert_that(has_name(Data, "nBomenOmtrek05"),
                   msg = "De opgegeven dataframe heeft geen veld met
                   naam nBomenOmtrek05")
-      if (!all.equal(Data$nBomenOmtrek05, as.integer(Data$nBomenOmtrek05),
-                     check.attributes = FALSE)) {
+      if (!isTRUE(all.equal(Data$nBomenOmtrek05, as.integer(Data$nBomenOmtrek05),
+                     check.attributes = FALSE))) {
         stop(
           "De waarden in de kolom nBomenOmtrek05 moeten gehele getallen zijn"
         )
@@ -143,8 +143,8 @@ invoercontrole <- function(Data, Type) {
                     msg = "De opgegeven dataframe heeft geen veld met naam
                     logOmtrek")
         assert_that(inherits(Data$logOmtrek, "numeric"))
-        if (!all.equal(Data$logOmtrek, log(Data$Omtrek),
-                       check.attributes = FALSE)) {
+        if (!isTRUE(all.equal(Data$logOmtrek, log(Data$Omtrek),
+                       check.attributes = FALSE))) {
           stop("logOmtrek is niet overal correct berekend")
         }
 
@@ -152,8 +152,8 @@ invoercontrole <- function(Data, Type) {
                     msg = "De opgegeven dataframe heeft geen veld met naam
                     logOmtrek2")
         assert_that(inherits(Data$logOmtrek2, "numeric"))
-        if (!all.equal(Data$logOmtrek2, Data$logOmtrek ^ 2,
-                       check.attributes = FALSE)) {
+        if (!isTRUE(all.equal(Data$logOmtrek2, Data$logOmtrek ^ 2,
+                       check.attributes = FALSE))) {
           stop("logOmtrek2 is niet overal correct berekend")
         }
       }
