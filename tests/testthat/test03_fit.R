@@ -12,7 +12,8 @@ describe("fit", {
   library(tibble)
 
   Data <- testdataset() %>%
-    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
+    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2)) %>%
+    filter(HOOGTE > 0)
 
   Datalijst <- initiatie(Data)
 
@@ -30,6 +31,28 @@ describe("fit", {
                    tibble(BMS = "testboom"))
       expect_is(fit.basis(Data.basis)$Model, "list")
       expect_s3_class(fit.basis(Data.basis)$Model[[1]], "lme")
+  })
+
+  Data.basis.fout <- Data.basis
+  Data.basis.fout$HOOGTE[1] <- -1
+
+  it("Foutcontrole in fit.basis gebeurt correct", {
+    expect_error(fit.basis(Data.basis %>% select(-BMS)))
+    expect_error(fit.basis(Data.basis %>% select(-DOMEIN_ID)))
+    expect_error(fit.basis(Data.basis %>% select(-HOOGTE)))
+    expect_error(fit.basis(Data.basis %>% mutate(HOOGTE = "foute invoer")))
+    expect_error(fit.basis(Data.basis.fout))
+    expect_error(fit.basis(Data.basis %>% select(-logOmtrek)))
+    expect_error(fit.basis(Data.basis %>% mutate(logOmtrek = logOmtrek - 1)))
+    expect_error(fit.basis(Data.basis %>% select(-logOmtrek2)))
+    expect_error(fit.basis(Data.basis %>% mutate(logOmtrek2 = logOmtrek2 - 1)))
+
+    expect_error(fit.basis(Data.basis %>% mutate(nBomenInterval = 101)))
+    expect_error(fit.basis(Data.basis %>% mutate(nBomenInterval = 101)))
+    expect_error(fit.basis(Data.basis %>%
+                             mutate(Omtrek =
+                                      ifelse(Omtrek == 0.35, 0.40, Omtrek))))
+    expect_error(fit.basis(Data.basis %>% mutate(Status = "foute invoer")))
   })
 
   Basismodel <- fit.basis(Data.basis)
@@ -65,6 +88,37 @@ describe("fit", {
                      select(setdiff(Kolomnamen, "H_VL_finaal")) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE))
+  })
+
+  Data.afgeleid.fout <- Data.afgeleid
+  Data.afgeleid.fout$HOOGTE[1] <- -1
+
+  it("Foutcontrole in fit.afgeleid gebeurt correct", {
+    expect_error(fit.afgeleid(Data.afgeleid %>% select(-BMS),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% select(-DOMEIN_ID),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% select(-HOOGTE),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% mutate(HOOGTE = "foute invoer"),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid.fout,
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% select(-logOmtrek),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>%
+                                mutate(logOmtrek = logOmtrek - 1),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% select(-logOmtrek2),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>%
+                                mutate(logOmtrek2 = logOmtrek2 - 1),
+                              Basismodel))
+
+    expect_error(fit.afgeleid(Data.afgeleid %>% mutate(nBomenInterval = 21),
+                              Basismodel))
+    expect_error(fit.afgeleid(Data.afgeleid %>% mutate(nBomenInterval = 21),
+                              Basismodel))
   })
 
   it(
