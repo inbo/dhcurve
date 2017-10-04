@@ -8,6 +8,7 @@ describe("validatie", {
 
   setwd(test_wd)
 
+  set.seed(5164665)
   library(dplyr)
   library(tibble)
 
