@@ -32,15 +32,15 @@ describe("fit", {
       expect_s3_class(fit.basis(Data.basis)$Model[[1]], "lme")
   })
 
-  Data.basis.fout <- Data.basis
-  Data.basis.fout$HOOGTE[1] <- -1
+  Data_basis_fout <- Data.basis
+  Data_basis_fout$HOOGTE[1] <- -1
 
   it("Foutcontrole in fit.basis gebeurt correct", {
     expect_error(fit.basis(Data.basis %>% select(-BMS)))
     expect_error(fit.basis(Data.basis %>% select(-DOMEIN_ID)))
     expect_error(fit.basis(Data.basis %>% select(-HOOGTE)))
     expect_error(fit.basis(Data.basis %>% mutate(HOOGTE = "foute invoer")))
-    expect_error(fit.basis(Data.basis.fout))
+    expect_error(fit.basis(Data_basis_fout))
     expect_error(fit.basis(Data.basis %>% select(-logOmtrek)))
     expect_error(fit.basis(Data.basis %>% mutate(logOmtrek = logOmtrek - 1)))
     expect_error(fit.basis(Data.basis %>% select(-logOmtrek2)))
@@ -89,8 +89,8 @@ describe("fit", {
                      as.data.frame(., stringsAsFactors = FALSE))
   })
 
-  Data.afgeleid.fout <- Data.afgeleid
-  Data.afgeleid.fout$HOOGTE[1] <- -1
+  Data_afgeleid_fout <- Data.afgeleid
+  Data_afgeleid_fout$HOOGTE[1] <- -1
 
   it("Foutcontrole in fit.afgeleid gebeurt correct", {
     expect_error(fit.afgeleid(Data.afgeleid %>% select(-BMS),
@@ -101,7 +101,7 @@ describe("fit", {
                               Basismodel))
     expect_error(fit.afgeleid(Data.afgeleid %>% mutate(HOOGTE = "foute invoer"),
                               Basismodel))
-    expect_error(fit.afgeleid(Data.afgeleid.fout,
+    expect_error(fit.afgeleid(Data_afgeleid_fout,
                               Basismodel))
     expect_error(fit.afgeleid(Data.afgeleid %>% select(-logOmtrek),
                               Basismodel))
