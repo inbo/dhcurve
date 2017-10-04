@@ -20,7 +20,7 @@
 #'
 
 testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
-                            A = 20, B = 15, C = 1, sd = 2) {
+                            A = 30, B = 15, C = 1, sd = 2) {
 
   assert_that(is.count(nBomen))
   assert_that(is.numeric(minOmtrek))
@@ -42,7 +42,8 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
     mutate_(
       HOOGTE = ~rnorm(n(),
                       A + B * log(Omtrek) + C * (log(Omtrek)) ^ 2,
-                      sd)
+                      sd),
+      HOOGTE = ~ifelse(HOOGTE <= 0, 0.1, HOOGTE)
     ) %>%
     ungroup() %>%
     select_(~-Omtrek)

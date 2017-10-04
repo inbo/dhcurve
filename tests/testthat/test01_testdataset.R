@@ -47,7 +47,7 @@ describe("testdataset", {
 
   it("Gegenereerde dataset heeft gevraagde modelparameters", {
     expect_equal(fixef(Model)[[1]],
-                 20, tolerance = 1)
+                 30, tolerance = 1)
     expect_equal(fixef(Model)[[2]],
                  15, tolerance = 1)
     expect_equal(fixef(Model)[[3]],

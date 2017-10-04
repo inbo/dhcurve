@@ -5,7 +5,7 @@ dataAfwijkendeCurve <- function(nBomen = 200, sd = 3) {
     data.frame(DOMEIN_ID = c("HM", "LM"),
                BOS_BHI = c("HoogMinimum", "LaagMaximum"), nBomen,
                minOmtrek = 20, maxOmtrek = 239,
-               A = 20, B = c(7, 5), C = c(4, -6), sd,
+               A = 30, B = c(7, 5), C = c(4, -6), sd,
                stringsAsFactors = FALSE) %>%
     group_by_(
       ~DOMEIN_ID, ~BOS_BHI

@@ -12,8 +12,7 @@ describe("fit", {
   library(tibble)
 
   Data <- testdataset() %>%
-    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2)) %>%
-    filter(HOOGTE > 0)
+    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
 
   Datalijst <- initiatie(Data)
 

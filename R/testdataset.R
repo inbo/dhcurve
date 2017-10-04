@@ -24,7 +24,7 @@ testdataset <-
 
   DOMEIN_ID <- LETTERS[1:length(nBomenDomein)]
   BOS_BHI <- paste("Domein", DOMEIN_ID, sep = "_")
-  A <- 20
+  A <- 30
   B <- 15
   C <- 1
   sd <- 2

@@ -59,6 +59,9 @@ invoercontrole <- function(Data, Type) {
         msg = "De opgegeven dataframe heeft geen veld met naam HOOGTE"
       )
       assert_that(inherits(Data$HOOGTE, "numeric"))
+      assert_that(all(is.na(Data$HOOGTE) |
+                        (!is.na(Data$HOOGTE) & Data$HOOGTE >= 0)),
+                  msg = "de opgegeven hoogtes moeten groter zijn dan 0")
 
       assert_that(
         has_name(Data, "Status"),

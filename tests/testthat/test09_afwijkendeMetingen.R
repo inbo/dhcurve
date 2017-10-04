@@ -22,7 +22,7 @@ describe("afwijkendemetingen", {
                                            "DOMEIN_Klein"),
                                          2),
                                    C13 = 200,
-                                   HOOGTE = c(rep(1, 7), rep(50, 7)),
+                                   HOOGTE = c(rep(1, 7), rep(60, 7)),
                                    Status = "Niet gecontroleerd",
                                    ID = as.character(2000:2013),
                                    stringsAsFactors = FALSE))
@@ -128,7 +128,7 @@ describe("afwijkendemetingen", {
                          DOMEIN_ID = "A",
                          BOS_BHI = "Domein_A",
                          C13 = 200,
-                         HOOGTE = c(1, 50),
+                         HOOGTE = c(1, 60),
                          Status = "Niet gecontroleerd",
                          ID = as.character(300:301),
                          stringsAsFactors = FALSE))
@@ -205,7 +205,7 @@ describe("afwijkendemetingen", {
                           LETTERS[rep(1:6, each = 2)],
                         BMS = "testboom",
                         C13 = 200,
-                        HOOGTE = rep(c(1, 50), 6),
+                        HOOGTE = rep(c(1, 60), 6),
                         Afwijkend = TRUE
                  )
     )
@@ -214,7 +214,7 @@ describe("afwijkendemetingen", {
                  tibble(DOMEIN_ID = "Klein",
                         BMS = "testboom",
                         C13 = 200,
-                        HOOGTE = c(1, 50)
+                        HOOGTE = c(1, 60)
                  )
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal, 0) %>%
@@ -222,7 +222,7 @@ describe("afwijkendemetingen", {
                  tibble(DOMEIN_ID = "A",
                         BMS = "testboom",
                         C13 = 200,
-                        HOOGTE = c(1, 50)
+                        HOOGTE = c(1, 60)
                  )
     )
   })

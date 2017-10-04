@@ -28,11 +28,11 @@ describe("modelparameters", {
                             DOMEIN_ID = c("HM", "LM"),
                             Q5k = 0.25,
                             Q95k = 2.35,
-                            Ad = 20,
+                            Ad = 30,
                             Bd = c(7, 5),
                             Cd = c(4, -6),
                             stringsAsFactors = FALSE),
-                 tolerance = 1)
+                 tolerance = 0.5)
   })
 
   it("De parameters worden correct berekend voor het Lokaal model", {
@@ -43,7 +43,7 @@ describe("modelparameters", {
                             DOMEIN_ID = c("HM", "LM"),
                             Q5k = 0.25,
                             Q95k = 2.35,
-                            Ad = 20,
+                            Ad = 30,
                             Bd = c(7, 5),
                             Cd = c(4, -6),
                             stringsAsFactors = FALSE),
@@ -64,7 +64,7 @@ describe("modelparameters", {
                             DOMEIN_ID = LETTERS[1:6],
                             Q5k = 0.25,
                             Q95k = 2.35,
-                            Avl = 20,
+                            Avl = 30,
                             Bvl = 15,
                             Cvl = 1,
                             stringsAsFactors = FALSE),
@@ -80,7 +80,7 @@ describe("modelparameters", {
                             Q5k = 0.25,
                             Q95k = 2.35,
                             Ad = -5,
-                            Avl = 20,
+                            Avl = 30,
                             Bvl = 15,
                             Cvl = 1,
                             stringsAsFactors = FALSE),
