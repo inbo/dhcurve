@@ -6,10 +6,16 @@ output:
   rmarkdown::html_vignette:
     toc: TRUE
     number_sections: TRUE
+  bookdown::pdf_book:
+    base_format: INBOmd::inbo_rapport
+    reportnr: "rapport nummer"
+    ordernr: "ANB opdrachtnr"
+    lof: FALSE
+    lot: FALSE
 vignette: >
   %\VignetteIndexEntry{Handleiding dhcurve}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r packages, include=FALSE, cache=FALSE}

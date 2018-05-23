@@ -1,0 +1,4 @@
+book_filename: "dh_curve"
+rmd_files: ["Handleiding.Rmd"]
+delete_merged_file: TRUE
+output_dir: "../inst"
