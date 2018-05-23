@@ -5,7 +5,7 @@
 \title{Stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport}
 \usage{
 validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-  Bestandsnaam = "Validatie.html", TypeRapport = c("Dynamisch", "Statisch"),
+  Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
   verbose = TRUE, PathWD = getwd())
 }
 \arguments{
