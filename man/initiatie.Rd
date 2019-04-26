@@ -7,8 +7,7 @@
 initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
   min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE),
   Bestandsnaam = "VerwijderdeGegevensInitiatie.html", verbose = TRUE,
-  PathWD = getwd(), min_basismodel = 50, min_domeinen_basismodel = 6,
-  min_afgeleidmodel = 10)
+  PathWD = getwd())
 }
 \arguments{
 \item{Data}{Dataframe met metingen van bomen die als basis moeten dienen om DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID (identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms (identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten, dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd worden.}
@@ -20,15 +19,9 @@ initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default wordt het in de op dat moment actieve working directory opgeslagen).}
-
-\item{min_basismodel}{tijdelijk toegevoegd voor testen}
-
-\item{min_domeinen_basismodel}{tijdelijk toegevoegd voor testen}
-
-\item{min_afgeleidmodel}{tijdelijk toegevoegd voor testen}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
+Als er gegevens verwijderd worden, genereert de functie een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 
 De functie geeft een list van dataframes terug, met in elke dataframe behalve de variabelen uit Data de berekende variabelen Omtrek (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval) en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met omtrek > 0.5 m)).
 

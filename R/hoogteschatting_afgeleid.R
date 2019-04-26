@@ -9,8 +9,16 @@
 #'
 #' @examples
 #' library(dplyr)
-#' #nog datasets toevoegen om deze voorbeelden te kunnen runnen
-#' \dontrun{
+#'
+#' #Datasets inladen en het basismodel en afgeleid model berekenen
+#' Data <- testdataset()
+#' Datalijst <- initiatie(Data)
+#' Data.basis <- Datalijst[["Basis"]]
+#' Basismodel <- fit.basis(Data.basis)
+#' Data.afgeleid <- Datalijst[["Afgeleid"]]
+#' Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
+#'
+#' #De hoogteschatting voor een afgeleid model
 #' Afgeleidmodel[[1]] %>%
 #'   inner_join(
 #'     Afgeleidmodel[[2]],
@@ -25,7 +33,6 @@
 #'                               select_(., ~-Model))
 #'   ) %>%
 #'   ungroup()
-#' }
 #'
 #' @export
 #'

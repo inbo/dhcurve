@@ -16,7 +16,7 @@ validatie.lokaal(Lokaalmodel, Data, AantalDomHogeRMSE = 20,
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
 }
 \value{
 De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren modellen.  De afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is het probleem ook woordelijk beschreven (zie ?validatierapport of vignette voor meer informatie).
