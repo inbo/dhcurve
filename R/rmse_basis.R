@@ -17,8 +17,27 @@
 #'
 #' @examples
 #' library(dplyr)
-#' #nog datasets toevoegen om deze voorbeelden te kunnen runnen
-#' \dontrun{
+#'
+#' #Dataset inladen voor het basismodel
+#' Data <- testdataset()
+#' Datalijst <- initiatie(Data)
+#' Data.basis <- Datalijst[["Basis"]]
+#'
+#' #De rmse berekenen voor een basismodel op basis van de dataset
+#' Data.basis %>%
+#'   group_by_(
+#'     ~BMS
+#'   ) %>%
+#'   do_(
+#'     ~rmse.basis(., "Basis")
+#'   ) %>%
+#'   ungroup()
+#'
+#' #Dataset inladen voor het lokaal model
+#' Data.lokaal <- Data.basis %>%
+#'   filter(DOMEIN_ID == "A")
+#'
+#' #De rmse berekenen voor een lokaal model
 #' Data.lokaal %>%
 #'   group_by_(
 #'     ~BMS,
@@ -29,13 +48,15 @@
 #'   ) %>%
 #'   ungroup()
 #'
+#' #Een alternatief is om te vertrekken van het berekende model,
+#' #waarbij ingeval van het basismodel de dataset opgeslagen is:
+#' Basismodel <- fit.basis(Data.basis)
 #' Basismodel %>%
 #'   rowwise() %>%
 #'   do_(
 #'     ~rmse.basis(.$Model$data, "Basis")
 #'   ) %>%
 #'   ungroup()
-#' }
 #'
 #' @export
 #'

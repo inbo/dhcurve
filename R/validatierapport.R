@@ -9,7 +9,7 @@
 #' @param AfwijkendeMetingen Lijst met afwijkende metingen (dataframe zoals gegenereerd door de functie afwijkendeMetingen).
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
 #' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
-#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen, items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.
+#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory) een rapport (html) met de te controleren modellen.  Hierin wordt per model (boomsoort-domeincombinatie) de volgende algemene informatie vermeld: boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de mogelijke problemen die bij het model optreden.
@@ -37,9 +37,11 @@
 
 validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-           Bestandsnaam = "Validatie.html", TypeRapport = "Dynamisch",
+           Bestandsnaam = "Validatie.html",
+           TypeRapport = c("Dynamisch", "Statisch"),
            verbose = TRUE, PathWD = getwd()){
 
+    TypeRapport <- match.arg(TypeRapport)
   assert_that(inherits(SlechtsteModellen, "data.frame"))
   assert_that(has_name(SlechtsteModellen, "BMS"))
   if (has_name(SlechtsteModellen, "Omtrek_Buigpunt")) {

@@ -23,7 +23,8 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
   assert_that(has_name(Dataset, "maxResid"))
   assert_that(inherits(Dataset$maxResid, "numeric"))
 
-  assert_that(is.count(AantalDomHogeRMSE))
+  assert_that(is.count(AantalDomHogeRMSE) | AantalDomHogeRMSE == 0,
+              msg = "AantalDomHogeRMSE moet een positief geheel getal zijn.")
 
   HogeRmse <- Dataset %>%
     select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%

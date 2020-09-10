@@ -25,13 +25,16 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 `r unique(SelectieModel$Q5k)` en 
 `r unique(SelectieModel$Q95k)` m
 
-```{r warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 
+SelectieModel$ID <- 
+  ifelse(suppressWarnings(is.null(SelectieModel$ID)),
+         "geen label", SelectieModel$ID)
 
 Grafiek <- 
   ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE, 
                              colour = ~TeControlerenAfwijking,
-                             label = ~rownames)) +
+                             label = ~ID)) +
   scale_colour_manual(values = alpha(c("red","black"))) +
   guides(fill = "none") +
   geom_jitter(width = 0.03, height = 0, size = 0.75) +
@@ -47,7 +50,7 @@ if (has_name(SelectieModel, "H_VL_finaal")) {
     geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams model"), colour = "black", size = 0.75)
 }
 
-ggplotly(Grafiek, tooltip = c("rownames", "HOOGTE"))
+ggplotly(Grafiek, tooltip = c("ID", "HOOGTE"))
 
 
   
