@@ -4,8 +4,13 @@
 \alias{testdataset}
 \title{Genereert testdataset}
 \usage{
-testdataset(nBomenDomein = c(200, 100, 500, 100, 100, 100, 50, 20, 8),
-  BMS = "testboom", IDbms = 1, minOmtrek = 20, maxOmtrek = 239)
+testdataset(
+  nBomenDomein = c(200, 100, 500, 100, 100, 100, 50, 20, 8),
+  BMS = "testboom",
+  IDbms = 1,
+  minOmtrek = 20,
+  maxOmtrek = 239
+)
 }
 \arguments{
 \item{nBomenDomein}{Vector met aantal gemeten bomen per domein}

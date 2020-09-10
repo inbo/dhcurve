@@ -4,15 +4,23 @@
 \alias{validatie.lokaal}
 \title{Validatie van het lokaal model}
 \usage{
-validatie.lokaal(Lokaalmodel, Data, AantalDomHogeRMSE = 20,
-  Bestandsnaam = "Default", TypeRapport = "Dynamisch")
+validatie.lokaal(
+  Lokaalmodel,
+  Data,
+  AantalDomHogeRMSE = 20,
+  Bestandsnaam = "Default",
+  TypeRapport = "Dynamisch"
+)
 }
 \arguments{
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).}
 
 \item{Data}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
+geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
+metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
+domeinen aan te passen.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 

@@ -4,8 +4,13 @@
 \alias{resultaat}
 \title{Berekent de modelparameters per domein}
 \usage{
-resultaat(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
-  Data.lokaal = NULL, Data.onbruikbaar = NULL)
+resultaat(
+  Basismodel = NULL,
+  Afgeleidmodel = NULL,
+  Lokaalmodel = NULL,
+  Data.lokaal = NULL,
+  Data.onbruikbaar = NULL
+)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}

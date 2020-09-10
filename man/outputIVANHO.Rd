@@ -4,8 +4,12 @@
 \alias{outputIVANHO}
 \title{Berekent de geschatte hoogtes per omtrekklasse}
 \usage{
-outputIVANHO(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
-  Data.lokaal = NULL)
+outputIVANHO(
+  Basismodel = NULL,
+  Afgeleidmodel = NULL,
+  Lokaalmodel = NULL,
+  Data.lokaal = NULL
+)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}

@@ -4,8 +4,13 @@
 \alias{validatie.afgeleid}
 \title{Validatie van het afgeleid model}
 \usage{
-validatie.afgeleid(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
-  Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch")
+validatie.afgeleid(
+  Basismodel,
+  Afgeleidmodel,
+  AantalDomHogeRMSE = 20,
+  Bestandsnaam = "Validatie_Afgeleid.html",
+  TypeRapport = "Dynamisch"
+)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)}
@@ -13,7 +18,10 @@ validatie.afgeleid(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
 \item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.
 #@param Data.afgeleid dataframe 10-50}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
+geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
+metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
+domeinen aan te passen.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
