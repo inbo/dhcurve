@@ -8,8 +8,8 @@ output:
     number_sections: TRUE
   bookdown::pdf_book:
     base_format: INBOmd::inbo_rapport
-    reportnr: "rapport nummer"
-    ordernr: "ANB opdrachtnr"
+    reportnr: "Rapporten van het Instituut voor Natuur- en Bosonderzoek 2018 (66)"
+    ordernr: "ANB besteknummer: ANB/BPM/2015/DH1"
     lof: FALSE
     lot: FALSE
 vignette: >
@@ -422,7 +422,7 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
 
 (Nota: Een buigpunt doet zich voor waar de tweede afgeleide van de functie 0 is, wat in dit geval is bij een omtrek van $e^{\frac{1-B}{2 C}}$.  En een richtingscoëfficiënt (rico) kan berekend worden op basis van de eerste afgeleide, dus voor een welbepaalde omtrek is de rico $\frac{2 C \log({Omtrek}) + B}{Omtrek}$.)
 
-
+\newpage
 ## Berekening resultaat
 
 ### outputIVANHO

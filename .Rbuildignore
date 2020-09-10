@@ -2,4 +2,6 @@
 ^\.Rproj\.user$
 ^\.lintr$
 ^wercker\.yml$
-^inst\tijdelijk$
+^inst/tijdelijk$
+^inst/dh_curve.pdf
+^inst/RenderHandleiding.R
