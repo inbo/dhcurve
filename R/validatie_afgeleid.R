@@ -45,7 +45,6 @@ validatie.afgeleid <-
 
   invoercontrole(Basismodel, "basismodel")
   invoercontrole(Afgeleidmodel, "afgeleidmodel")
-  assert_that(is.count(AantalDomHogeRMSE))
 
   AModel <- Afgeleidmodel[[1]]
 

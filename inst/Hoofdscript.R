@@ -21,7 +21,7 @@ connectieGegs <- odbcConnectAccess2007(
 #voor Ivanho moeten de queries aangepast worden!
 
 queryBosdat <-
-  "SELECT rownames, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms,
+  "SELECT rownames AS ID, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms,
      BMS_bosdat AS BMS, TYPE_METING, C13,HOOGTE, JAAR, StaandLiggend, Status
    FROM tblBosdatMetingen"
 TreesBosdat <-
@@ -76,7 +76,7 @@ updatequeryBosdat <-
   WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
 
 IDafwijkendeMetingen <-
-  paste(unique(AfwijkendeMetingen$rownames, na.rm = TRUE), collapse = "','")
+  paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
 query <- sprintf(updatequeryBosdat, IDafwijkendeMetingen)
 
 connectieGegs <- odbcConnectAccess2007(

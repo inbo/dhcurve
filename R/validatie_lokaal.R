@@ -47,8 +47,6 @@ validatie.lokaal <-
   invoercontrole(Lokaalmodel, "lokaalmodel")
   invoercontrole(Data, "fit")
 
-  assert_that(is.count(AantalDomHogeRMSE))
-
   Rmse <- Data %>%
     group_by_(
       ~BMS,
