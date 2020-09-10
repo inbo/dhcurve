@@ -50,6 +50,5 @@ for (Poutliers in unique(Selectie$maxResid)) {
 ```{r output, results='asis'}
 
 cat(Uitvoer, sep = "\n")
-
 ```
 
