@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 dhcurve.Rproj
+inst/tijdelijk
+inst/dbpath
+inst/wdpath
+inst/dh_curve.pdf
