@@ -1,10 +1,15 @@
 #' Hulpfunctie die ingevoerd object controleert
 #'
-#' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is deze interne functie ontwikkeld die voor de vaak voorkomende parameters van de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
+#' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is
+#' deze interne functie ontwikkeld die voor de vaak voorkomende parameters van
+#' de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
 #'
 #' @param Data Het object dat moet gecontroleerd worden (dataframe of list)
 #'
-#' @param Type Het type controle dat moet gebeuren, verwijzend naar de functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn: 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en 'afgeleidedata'
+#' @param Type Het type controle dat moet gebeuren, verwijzend naar de
+#' functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn:
+#' 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en
+#' 'afgeleidedata'
 #'
 #' @return Een foutmelding of de geteste dataframe.
 #'

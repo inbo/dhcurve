@@ -1,6 +1,7 @@
 #' Genereert testdata voor 1 boomsoort-domeincombinatie
 #'
-#' Deze functie genereert een testdataset voor 1 domein die voldoet aan de opgegeven vereisten.
+#' Deze functie genereert een testdataset voor 1 domein die voldoet aan de
+#' opgegeven vereisten.
 #'
 #' @param nBomen  Aantal gemeten bomen voor het domein
 #' @param minOmtrek  Minimale omtrek voor de data
@@ -10,7 +11,8 @@
 #' @param C  Parameter voor de 2de-graadsfunctie
 #' @param sd  foutenmarge t.o.v. model voor de data
 #'
-#' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
+#' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden
+#' C13 en HOOGTE.
 #'
 #' @export
 #'

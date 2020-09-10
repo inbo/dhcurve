@@ -1,19 +1,34 @@
 #' Berekent modelparameters voor opgegeven model
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven basismodel, lokaal model of afgeleid model.  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.
+#' Functie die de modelparameters berekent op basis van een opgegeven
+#' basismodel, lokaal model of afgeleid model.  Ze berekent de parameters voor
+#' het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en
+#' geeft ook de grenzen van het bruikbaar interval.
 #'
-#' (Deze functie verwijst naar de interne functies modelparameters.basis, modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de situatie)
+#' (Deze functie verwijst naar de interne functies modelparameters.basis,
+#' modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de
+#' situatie)
 #'
-#' @param Basismodel model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (lokaalmodel)
+#' @param Basismodel model per boomsoort (basismodel) of model per
+#' boomsoort-domein-combinatie (lokaalmodel)
 #' @param Data meetgegevens (enkel nodig voor lokaal model)
-#' @param Afgeleidmodel voor de berekening van de modelparameters van het afgeleid model moeten zowel het basismodel als het afgeleid model gegeven worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de andere modellen mag dit argument niet toegevoegd worden.
+#' @param Afgeleidmodel voor de berekening van de modelparameters van het
+#' afgeleid model moeten zowel het basismodel als het afgeleid model gegeven
+#' worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de
+#' andere modellen mag dit argument niet toegevoegd worden.
 #'
-#' @return Dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl).  Ingeval van een afgeleid model worden de parameters voor het Vlaams model gegeven (Avl, Bvl en Cvl), en een parameter Ad die de verschuiving van het Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra intercept)
+#' @return Dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval
+#' van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl).
+#' Ingeval van een afgeleid model worden de parameters voor het Vlaams model
+#' gegeven (Avl, Bvl en Cvl), en een parameter Ad die de verschuiving van het
+#' Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra
+#' intercept)
 #'
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% rowwise do_ inner_join group_by_ ungroup select_ distinct_
+#' @importFrom dplyr %>% rowwise do_ inner_join group_by_ ungroup select_
+#' distinct_
 #'
 
 modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {

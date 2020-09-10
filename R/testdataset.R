@@ -1,6 +1,7 @@
 #' Genereert testdataset
 #'
-#' Deze functie genereert een testdataset die voldoet aan de opgegeven vereisten.
+#' Deze functie genereert een testdataset die voldoet aan de opgegeven
+#' vereisten.
 #'
 #' @param nBomenDomein Vector met aantal gemeten bomen per domein
 #' @param BMS Naam van boomsoort

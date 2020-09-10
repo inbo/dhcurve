@@ -1,10 +1,13 @@
 #' Modelparameters berekenen voor opgegeven basismodel
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
+#' Functie die de modelparameters berekent op basis van een opgegeven
+#' basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor
+#' het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
 #'
 #' @param Soortmodel model van boomsoort
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en parameters voor Vlaams model (Avl, Bvl en Cvl)
+#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
+#' parameters voor Vlaams model (Avl, Bvl en Cvl)
 #'
 #' @importFrom dplyr %>% select_ distinct_ left_join
 #' @importFrom nlme fixef

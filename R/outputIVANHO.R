@@ -1,12 +1,21 @@
 #' Berekent de geschatte hoogtes per omtrekklasse
 #'
-#' De functie outputIVANHO voert de berekeningen uit die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt aangehouden.)
+#' De functie outputIVANHO voert de berekeningen uit die leiden tot de
+#' gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
+#' domein en omtrekklasse een schatting van de hoogte.  Als de curve een
+#' maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
+#' maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de
+#' omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten
+#' daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
+#' aangehouden.)
 #'
-#' Voor deze functie worden volgende hulpfuncties aangeroepen: hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
+#' Voor deze functie worden volgende hulpfuncties aangeroepen:
+#' hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
 #'
 #' @inheritParams resultaat
 #'
-#' @return Dataframe met geschatte hoogtes per domein en per boomsoort met velden:
+#' @return Dataframe met geschatte hoogtes per domein en per boomsoort met
+#' velden:
 #'
 #' - DOMEIN_ID: domeincode
 #'
@@ -16,11 +25,17 @@
 #'
 #' - BMS: boomsoort
 #'
-#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
+#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+#' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+#' basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+#' omdat niet relevant) / 'lokaal model'(= apart model voor 1
+#' boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
+#' waarvoor geen model berekend kan worden))
 #'
 #' - Omtrek: klassemidden van omtrekklasse
 #'
-#' - OmtrekklassetypeID: het overeenkomstige identificatienummer van de omtrekklasse
+#' - OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+#' omtrekklasse
 #'
 #' - Omtrekklasse
 #'
@@ -28,7 +43,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% select_ filter_ rowwise do_ ungroup mutate_ bind_rows group_by_ transmute_ distinct_ inner_join left_join
+#' @importFrom dplyr %>% select_ filter_ rowwise do_ ungroup mutate_ bind_rows
+#' group_by_ transmute_ distinct_ inner_join left_join
 #'
 
 outputIVANHO <-
