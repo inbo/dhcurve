@@ -165,7 +165,7 @@ invoercontrole <- function(Data, Type) {
                             check.attributes = FALSE))) {
         stop("logOmtrek is niet overal correct berekend")
       }
-      
+
       assert_that(has_name(Data, "logOmtrek2"),
                   msg = "De opgegeven dataframe heeft geen veld met naam
                     logOmtrek2")
