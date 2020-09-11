@@ -178,7 +178,8 @@ updatequeryBosdat <-
   SET Status = 'Te controleren'
   WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
 
-# Lijst maken met alle id's (die in dit geval overeenkomen met 'rownames' in de databank) van de records die aangepast moeten worden
+# Lijst maken met alle id's (die in dit geval overeenkomen met 'rownames' in de
+# databank) van de records die aangepast moeten worden
 IDafwijkendeMetingen <-
   paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
 
@@ -417,7 +418,8 @@ mutate(
 )  %>%
 ggplot() +
   geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), size = 1) +
-  geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl), arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
+  geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl),
+               arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
 
 ```
 

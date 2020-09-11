@@ -35,7 +35,8 @@
 #'
 #' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
 #' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-#' basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+#' basismodel) /
+#' ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
 #' omdat niet relevant) / 'lokaal model'(= eigen model voor 1
 #' boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
 #' waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
@@ -55,7 +56,8 @@
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 #' boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
-#' DomeinID leeg gelaten wordt of een specifieke waarde ‘Vlaams model’ krijgt
+#' DomeinID leeg gelaten wordt of een specifieke waarde
+#' ‘Vlaams model’ krijgt
 #'
 #' @export
 #'

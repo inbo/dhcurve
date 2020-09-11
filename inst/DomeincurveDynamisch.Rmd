@@ -35,7 +35,7 @@ Grafiek <-
   ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE,
                              colour = ~TeControlerenAfwijking,
                              label = ~ID)) +
-  scale_colour_manual(values = alpha(c("red","black"))) +
+  scale_colour_manual(values = alpha(c("red", "black"))) +
   guides(fill = "none") +
   geom_jitter(width = 0.03, height = 0, size = 0.75) +
   geom_line(

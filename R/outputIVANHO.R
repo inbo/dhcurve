@@ -27,7 +27,8 @@
 #'
 #' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
 #' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-#' basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+#' basismodel) /
+#' ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
 #' omdat niet relevant) / 'lokaal model'(= apart model voor 1
 #' boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
 #' waarvoor geen model berekend kan worden))

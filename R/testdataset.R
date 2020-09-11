@@ -23,7 +23,7 @@ testdataset <-
            BMS = "testboom", IDbms = 1,
            minOmtrek = 20, maxOmtrek = 239) {
 
-  DOMEIN_ID <- LETTERS[1:length(nBomenDomein)]
+  DOMEIN_ID <- LETTERS[1:length(nBomenDomein)]  #nolint
   BOS_BHI <- paste("Domein", DOMEIN_ID, sep = "_")
   A <- 30
   B <- 15

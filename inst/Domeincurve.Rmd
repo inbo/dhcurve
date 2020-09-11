@@ -41,7 +41,7 @@ Grafiek <-
   # geom_vline(xintercept = SelectieModel$Q95) +
   scale_x_continuous(minor_breaks = seq(0.05, 2.35, 0.1))#+
   # geom_vline(xintercept = SelectieModel$Omtrek_Buigpunt, colour = "red") +
-  # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red")
+  # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red") #nolint
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
   Grafiek <- Grafiek +
