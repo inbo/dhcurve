@@ -1,4 +1,4 @@
-library(RODBC)
+library(RODBC)  #nolint
 library(readr)
 library(dplyr)
 library(tidyr)
@@ -13,8 +13,8 @@ if (!is.null(wdpath)) {
 }
 
 #ophalen gegevens
-connectieGegs <- odbcConnectAccess2007(
-  paste0(dbpath, "DiamHoogteMetingen.accdb")
+connectieGegs <- odbcConnectAccess2007(   #nolint
+  paste0(dbpath, "DiamHoogteMetingen.accdb")  #nolint
 )
 
 #Deze queries zijn om de gedetailleerde groepen te analyseren,
@@ -25,14 +25,14 @@ queryBosdat <-
      BMS_bosdat AS BMS, TYPE_METING, C13,HOOGTE, JAAR, StaandLiggend, Status
    FROM tblBosdatMetingen"
 TreesBosdat <-
-  sqlQuery(connectieGegs, queryBosdat, stringsAsFactors = FALSE)
+  sqlQuery(connectieGegs, queryBosdat, stringsAsFactors = FALSE)  #nolint
 
 queryNieuweMetingen <-
   "SELECT DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
    C13, HOOGTE, JAAR, StaandLiggend, Status
    FROM tblNieuweHoogtemetingen"
 TreesNieuweMetingen <-
-  sqlQuery(connectieGegs, queryNieuweMetingen, stringsAsFactors = FALSE)
+  sqlQuery(connectieGegs, queryNieuweMetingen, stringsAsFactors = FALSE)  #nolint
 
 odbcClose(connectieGegs)
 
