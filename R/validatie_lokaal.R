@@ -1,6 +1,8 @@
 #' Validatie van het lokaal model
 #'
-#' Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en een overzicht geeft van de afwijkende metingen en slechte curves (zodat de gebruiker deze kan valideren).
+#' Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en
+#' een overzicht geeft van de afwijkende metingen en slechte curves (zodat de
+#' gebruiker deze kan valideren).
 #'
 #' De functie roept meerdere hulpfuncties op:
 #'
@@ -12,10 +14,15 @@
 #'
 #' - validatierapport
 #'
-#' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
+#' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
+#' slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+#' afwijkende curves).
 #'
 #'
-#' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).
+#' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven
+#' door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
+#' en Model (lm-object met het gefit lineair model voor die
+#' boomsoort-domeincombinatie).
 #' @param Data Dataset op basis waarvan het opgegeven lokaal model berekend is.
 #'
 #' @inheritParams afwijkendeMetingen
@@ -23,11 +30,17 @@
 #'
 #' @return
 #'
-#' De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren modellen.  De afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is het probleem ook woordelijk beschreven (zie ?validatierapport of vignette voor meer informatie).
+#' De functie genereert een validatierapport (html-bestand) in de working
+#' directory met informatie en grafieken van de te controleren modellen.  De
+#' afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
+#' het probleem ook woordelijk beschreven (zie ?validatierapport of vignette
+#' voor meer informatie).
 #'
-#' De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
+#' De functie geeft een dataframe terug met de te controleren metingen, met
+#' behalve de informatie uit de databank een aantal berekende waarden:
 #'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
+#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+#' domeinmodel
 #'
 #' - rmseD: de foutenschatting voor het domeinmodel
 #'
@@ -35,13 +48,14 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join filter_ select_ mutate_ distinct_ group_by_ summarise_ ungroup bind_rows do_ rowwise
+#' @importFrom dplyr %>% inner_join filter_ select_ mutate_ distinct_ group_by_
+#' summarise_ ungroup bind_rows do_ rowwise
 #' @importFrom assertthat assert_that has_name is.count
 #'
 
 validatie.lokaal <-
   function(Lokaalmodel, Data, AantalDomHogeRMSE = 20,
-           Bestandsnaam = "Default", TypeRapport = "Dynamisch"){
+           Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
 
 
   invoercontrole(Lokaalmodel, "lokaalmodel")

@@ -27,33 +27,35 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 
 ```{r, message=FALSE, warning=FALSE}
 
-SelectieModel$ID <- 
+SelectieModel$ID <-
   ifelse(suppressWarnings(is.null(SelectieModel$ID)),
          "geen label", SelectieModel$ID)
 
-Grafiek <- 
-  ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE, 
+Grafiek <-
+  ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE,
                              colour = ~TeControlerenAfwijking,
                              label = ~ID)) +
-  scale_colour_manual(values = alpha(c("red","black"))) +
+  scale_colour_manual(values = alpha(c("red", "black"))) +
   guides(fill = "none") +
   geom_jitter(width = 0.03, height = 0, size = 0.75) +
-  geom_line(aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domeinmodel"), size = 0.75) +
-  geom_point(aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white", size = 2, stroke = 0.75) +
-  scale_linetype_manual(name = "Metingen en modellen", 
-                        values = c("Vlaams model" = "dashed", "Domeinmodel" = "solid")) +
-  scale_x_continuous(breaks = seq(0.05,2.35,0.1)) +
+  geom_line(
+    aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domeinmodel"),
+    size = 0.75) +
+  geom_point(
+    aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white",
+    size = 2, stroke = 0.75) +
+  scale_linetype_manual(
+    name = "Metingen en modellen",
+    values = c("Vlaams model" = "dashed", "Domeinmodel" = "solid")) +
+  scale_x_continuous(breaks = seq(0.05, 2.35, 0.1)) +
   labs(x = "Midden omtrekklasse (m)", y = "Hoogte (m)")
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
   Grafiek <- Grafiek +
-    geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams model"), colour = "black", size = 0.75)
+    geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams model"),
+              colour = "black", size = 0.75)
 }
 
 ggplotly(Grafiek, tooltip = c("ID", "HOOGTE"))
-
-
-  
-
 ```
 

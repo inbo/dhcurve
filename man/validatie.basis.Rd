@@ -4,13 +4,20 @@
 \alias{validatie.basis}
 \title{Validatie van het basismodel}
 \usage{
-validatie.basis(Basismodel, AantalDomHogeRMSE = 20,
-  Bestandsnaam = "Default", TypeRapport = "Dynamisch")
+validatie.basis(
+  Basismodel,
+  AantalDomHogeRMSE = 20,
+  Bestandsnaam = "Default",
+  TypeRapport = "Dynamisch"
+)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.}
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
+geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
+metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
+domeinen aan te passen.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 

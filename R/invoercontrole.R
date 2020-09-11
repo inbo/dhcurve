@@ -1,10 +1,15 @@
 #' Hulpfunctie die ingevoerd object controleert
 #'
-#' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is deze interne functie ontwikkeld die voor de vaak voorkomende parameters van de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
+#' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is
+#' deze interne functie ontwikkeld die voor de vaak voorkomende parameters van
+#' de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
 #'
 #' @param Data Het object dat moet gecontroleerd worden (dataframe of list)
 #'
-#' @param Type Het type controle dat moet gebeuren, verwijzend naar de functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn: 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en 'afgeleidedata'
+#' @param Type Het type controle dat moet gebeuren, verwijzend naar de
+#' functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn:
+#' 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en
+#' 'afgeleidedata'
 #'
 #' @return Een foutmelding of de geteste dataframe.
 #'
@@ -143,32 +148,32 @@ invoercontrole <- function(Data, Type) {
              (geldige omtrekklassen zijn 0.25, 0.35, 0.45,... t.e.m. 2.35)")
       }
 
-      if (Type == "fit") {
-        assert_that(has_name(Data, "logOmtrek"),
-                    msg = "De opgegeven dataframe heeft geen veld met naam
-                    logOmtrek")
-        assert_that(inherits(Data$logOmtrek, "numeric"))
-        if (!isTRUE(all.equal(Data$logOmtrek, log(Data$Omtrek),
-                       check.attributes = FALSE))) {
-          stop("logOmtrek is niet overal correct berekend")
-        }
-
-        assert_that(has_name(Data, "logOmtrek2"),
-                    msg = "De opgegeven dataframe heeft geen veld met naam
-                    logOmtrek2")
-        assert_that(inherits(Data$logOmtrek2, "numeric"))
-        if (!isTRUE(all.equal(Data$logOmtrek2, Data$logOmtrek ^ 2,
-                       check.attributes = FALSE))) {
-          stop("logOmtrek2 is niet overal correct berekend")
-        }
-      }
-
       assert_that(has_name(Data, "Q5k"),
                   msg = "De opgegeven dataframe heeft geen veld met naam Q5k")
       assert_that(inherits(Data$Q5k, "numeric"))
       assert_that(has_name(Data, "Q95k"),
                   msg = "De opgegeven dataframe heeft geen veld met naam Q95k")
       assert_that(inherits(Data$Q95k, "numeric"))
+    }
+
+    if (Type == "fit") {
+      assert_that(has_name(Data, "logOmtrek"),
+                  msg = "De opgegeven dataframe heeft geen veld met naam
+                    logOmtrek")
+      assert_that(inherits(Data$logOmtrek, "numeric"))
+      if (!isTRUE(all.equal(Data$logOmtrek, log(Data$Omtrek),
+                            check.attributes = FALSE))) {
+        stop("logOmtrek is niet overal correct berekend")
+      }
+
+      assert_that(has_name(Data, "logOmtrek2"),
+                  msg = "De opgegeven dataframe heeft geen veld met naam
+                    logOmtrek2")
+      assert_that(inherits(Data$logOmtrek2, "numeric"))
+      if (!isTRUE(all.equal(Data$logOmtrek2, Data$logOmtrek ^ 2,
+                            check.attributes = FALSE))) {
+        stop("logOmtrek2 is niet overal correct berekend")
+      }
     }
 
   #controle van veld model in 'basismodel' en 'lokaalmodel'

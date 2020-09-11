@@ -57,7 +57,7 @@ describe("outputIVANHO", {
                      Hoogte =
                        ifelse(DOMEIN_ID == "HM",
                               20 + 7 * log(Omtrek) + 4 * log(Omtrek) ^ 2,
-                              20 + 5 * log(Omtrek) - 6 * log(Omtrek) ^ 2 ),
+                              20 + 5 * log(Omtrek) - 6 * log(Omtrek) ^ 2),
                      Modeltype = "lokaal model"
                    ),
                  tolerance = 1)

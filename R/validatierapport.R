@@ -1,28 +1,51 @@
 #' Stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport
 #'
-#' De functie genereert een validatierapport (html-bestand) in de working directory (of opgegeven directory) met informatie en grafieken van de te controleren modellen.  De afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is het probleem ook woordelijk beschreven.
+#' De functie genereert een validatierapport (html-bestand) in de working
+#' directory (of opgegeven directory) met informatie en grafieken van de te
+#' controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
+#' aangeduid; boven de curve is het probleem ook woordelijk beschreven.
 #'
-#' Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
+#' Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van
+#' de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als
+#' child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
 #'
 #'
-#' @param SlechtsteModellen Lijst van de slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen.  Deze dataframe moet volgende velden bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van afwijkingen, om weer te geven boven grafiek).
-#' @param AfwijkendeMetingen Lijst met afwijkende metingen (dataframe zoals gegenereerd door de functie afwijkendeMetingen).
-#' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
-#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
-#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.
+#' @param SlechtsteModellen Lijst van de slechtste modellen, dit zijn modellen
+#' met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
+#' modellen met afwijkende metingen.  Deze dataframe moet volgende velden
+#' bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van
+#' afwijkingen, om weer te geven boven grafiek).
+#' @param AfwijkendeMetingen Lijst met afwijkende metingen (dataframe zoals
+#' gegenereerd door de functie afwijkendeMetingen).
+#' @param Dataset Dataset met gemeten waarden en geschatte waarde voor
+#' domeinmodel en Vlaams model (inclusief RMSE)
+#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het
+#' html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+#' erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
+#' uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+#' 'Statisch', waarbij de figuren vast zijn.
 #' @inheritParams initiatie
 #'
-#' @return De functie genereert in de working directory (of opgegeven directory) een rapport (html) met de te controleren modellen.  Hierin wordt per model (boomsoort-domeincombinatie) de volgende algemene informatie vermeld: boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de mogelijke problemen die bij het model optreden.
+#' @return De functie genereert in de working directory (of opgegeven directory)
+#' een rapport (html) met de te controleren modellen.  Hierin wordt per model
+#' (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
+#' boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
+#' mogelijke problemen die bij het model optreden.
 #'
 #' Daaronder wordt telkens grafisch volgende info weergegeven:
 #'
-#' - een puntenwolk die de metingen voorstelt (geen individuele metingen, maar een jitter)
+#' - een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
+#' een jitter)
 #'
-#' - curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal model)
+#' - curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
+#' model)
 #'
 #' - curve van het domeinmodel
 #'
-#' - grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens die overeenkomen met deze grenzen)
+#' - grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
+#' die overeenkomen met deze grenzen)
 #'
 #' - afwijkende metingen: in rood (andere metingen in zwart)
 #'
@@ -30,7 +53,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_ desc
+#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_
+#' bind_rows group_by_ arrange_ ungroup summarise_ desc
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag has_name
 #'
@@ -39,7 +63,7 @@ validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
            Bestandsnaam = "Validatie.html",
            TypeRapport = c("Dynamisch", "Statisch"),
-           verbose = TRUE, PathWD = getwd()){
+           verbose = TRUE, PathWD = getwd()) {
 
     TypeRapport <- match.arg(TypeRapport)
   assert_that(inherits(SlechtsteModellen, "data.frame"))
@@ -112,8 +136,8 @@ validatierapport <-
   if (has_name(Selectie, "Omtrek_Buigpunt")) {
     Selectie2 <- Selectie %>%
       mutate_(
-        Omtrek_BP = ~ ( ( (Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
-        Omtrek_Max = ~ ( ( (Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_BP = ~ (((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_Max = ~ (((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
         CurveSlecht =
           ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
                   FALSE),

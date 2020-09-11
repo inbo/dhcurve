@@ -1,9 +1,18 @@
 #' Berekent RMSE van afgeleid model
 #'
-#' Deze functie berekent de rmse op basis van verschil tussen de hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de rmse van het Vlaams model (basismodel) in rekening gebracht worden.   Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
+#' Deze functie berekent de rmse op basis van verschil tussen de
+#' hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor
+#' omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het
+#' afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de
+#' rmse van het Vlaams model (basismodel) in rekening gebracht worden.
+#' Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze
+#' functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een
+#' methode om deze functie te kunnen toepassen vertrekkend van het berekende
+#' model.
 #'
 #'
-#' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie (lm-object)
+#' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie
+#' (lm-object)
 #' @param Boomsoort BMS
 #' @param Domein DOMEIN_ID
 #'
@@ -20,7 +29,8 @@
 #' Data.afgeleid <- Datalijst[["Afgeleid"]]
 #' Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 #'
-#' #De rmse berekenen voor de verschuiving van het Vlaams model naar een afgeleid model
+#' # De rmse berekenen voor de verschuiving van het Vlaams model naar een
+#' # afgeleid model
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
 #'   do_(
@@ -37,7 +47,7 @@
 #' @importFrom assertthat assert_that
 #'
 
-rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein){
+rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein) {
 
   assert_that(inherits(Verschovenmodel, "lm"),
               msg = "Domeinsoortmodel moet een lineair model zijn (zie

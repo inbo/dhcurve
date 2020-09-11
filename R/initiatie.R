@@ -1,35 +1,81 @@
 #' Initiatiestap met opsplitsen van dataset volgens modeltypen
 #'
-#' De functie initiatie maakt de dataset klaar voor de verdere stappen van het opstellen van DH-curves: ze berekent de noodzakelijke variabelen en splitst de dataset op basis van het aantal metingen per boomsoort-domeincombinatie in 4 delen: 3 delen die als parameter meegegeven kunnen worden voor de fit-functies per modeltype (basismodel, afgeleid model en lokaal model), en een 4de deel met de resterende gegevens.
+#' De functie initiatie maakt de dataset klaar voor de verdere stappen van het
+#' opstellen van DH-curves: ze berekent de noodzakelijke variabelen en splitst
+#' de dataset op basis van het aantal metingen per boomsoort-domeincombinatie
+#' in 4 delen: 3 delen die als parameter meegegeven kunnen worden voor de
+#' fit-functies per modeltype (basismodel, afgeleid model en lokaal model), en
+#' een 4de deel met de resterende gegevens.
 #'
 #'
-#' @param Data Dataframe met metingen van bomen die als basis moeten dienen om DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID (identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms (identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten, dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd worden.
-#' @param Uitzonderingen Lijst met boomsoort-domeincombinaties waarvoor uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.  De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.
-#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
-#' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)
-#' @param PathWD Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default wordt het in de op dat moment actieve working directory opgeslagen).
+#' @param Data Dataframe met metingen van bomen die als basis moeten dienen om
+#' DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID
+#' (identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms
+#' (identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in
+#' centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten
+#' en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij
+#' rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens
+#' met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten,
+#' dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd
+#' worden.
+#' @param Uitzonderingen Lijst met boomsoort-domeincombinaties waarvoor
+#' uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
+#' De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde
+#' voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.
+#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat
+#' boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)
+#' @param PathWD Het path van de working directory, dus het path waarin het
+#' validatierapport opgeslagen moet worden (default wordt het in de op dat
+#' moment actieve working directory opgeslagen).
 #'
 #' @return
 #'
-#' Als er gegevens verwijderd worden, genereert de functie een validatierapport (html-bestand) waarin een overzicht gegeven wordt van de verwijderde gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
+#' Als er gegevens verwijderd worden, genereert de functie een validatierapport
+#' (html-bestand) waarin een overzicht gegeven wordt van de verwijderde
+#' gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 #'
-#' De functie geeft een list van dataframes terug, met in elke dataframe behalve de variabelen uit Data de berekende variabelen Omtrek (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval) en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met omtrek > 0.5 m)).
+#' De functie geeft een list van dataframes terug, met in elke dataframe
+#' behalve de variabelen uit Data de berekende variabelen Omtrek
+#' (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
+#' bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
+#' gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval)
+#' en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
+#' omtrek > 0.5 m)).
 #'
 #' De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 #'
-#' - [["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen (binnen het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in minimum 6 domeinen, waarbij enkel gegevens worden opgenomen van de domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en domeinspecifieke modellen.
+#' - [["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen (binnen
+#' het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in minimum 6
+#' domeinen, waarbij enkel gegevens worden opgenomen van de domeinen waarvoor
+#' minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een
+#' basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
+#' domeinspecifieke modellen.
 #'
-#' - [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis waarvan een afgeleid model berekend kan worden.
+#' - [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen
+#' binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor
+#' een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
+#' voorkomen), op basis waarvan een afgeleid model berekend kan worden.
 #'
-#' - [["Lokaal"]] gegevens van domeinen met veel metingen voor een boomsoort (> 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domeincombinaties kan een lokaal model berekend worden.
+#' - [["Lokaal"]] gegevens van domeinen met veel metingen voor een boomsoort
+#' (> 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) waarvan er
+#' te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op
+#' te stellen.  Voor deze boomsoort-domeincombinaties kan een lokaal model
+#' berekend worden.
 #'
-#' - [["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot de 3 voorgaande categorieën behoren en waar dus geen model voor opgesteld kan worden.
+#' - [["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot de 3
+#' voorgaande categorieën behoren en waar dus geen model voor opgesteld kan
+#' worden.
 #'
-#' Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen met omtrek <= 0,5 m weggelaten.
+#' Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
+#' weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
+#' met omtrek <= 0,5 m weggelaten.
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join summarise_
+#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_
+#' distinct_ anti_join summarise_
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that has_name noNA is.flag
 #'
@@ -210,7 +256,7 @@ initiatie <-
   #en tenslotte de dataset opsplitsen
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
-      ~ ( (nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
+      ~ ((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
         (!is.na(min_basis) & nBomenOmtrek05 > min_basis))
     ) %>%
     select_(
@@ -254,7 +300,7 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter_(
-      ~ ( (nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
+      ~ ((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
         (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
       ~Omtrek > 0.5
     ) %>%

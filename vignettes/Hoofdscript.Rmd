@@ -31,8 +31,7 @@ OutputIvanho <-
 write.csv2(OutputIvanho, "IVANHO.csv")
 
 #voor een lijst met de modelparameters en foutenmarge (RMSE):
-Resultaat <- 
+Resultaat <-
   resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
 write.csv2(Resultaat, "DHcurves.csv")
-
 ```

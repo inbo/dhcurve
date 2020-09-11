@@ -1,6 +1,8 @@
 #' Validatie van het afgeleid model
 #'
-#' Functie die de validatie uitvoert op het verschoven Vlaams model en een overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan valideren).
+#' Functie die de validatie uitvoert op het verschoven Vlaams model en een
+#' overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan
+#' valideren).
 #'
 #' validatie.afgeleid roept meerdere hulpfuncties op:
 #'
@@ -10,24 +12,34 @@
 #'
 #' - validatierapport
 #'
-#' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
+#' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
+#' slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
 #'
-#' @param Basismodel Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)
-#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.
+#' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
+#' fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
+#' gefit mixed model voor die boomsoort)
+#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven
+#' door de functie fit.afgeleid: list met 2 tibbles.
 #' #@param Data.afgeleid dataframe 10-50
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #'
-#' @return De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren metingen.  De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of vignette voor meer informatie).
+#' @return De functie genereert een validatierapport (html-bestand) in de
+#' working directory met informatie en grafieken van de te controleren metingen.
+#' De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of
+#' vignette voor meer informatie).
 #'
-#' De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
+#' De functie geeft een dataframe terug met de te controleren metingen, met
+#' behalve de informatie uit de databank een aantal berekende waarden:
 #'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
+#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+#' domeinmodel
 #'
 #' - rsmeD: de foutenschatting voor het domeinmodel
 #'
-#' - H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams model waarvan het domeinmodel afgeleid is
+#' - H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams
+#' model waarvan het domeinmodel afgeleid is
 #'
 #' - rmseVL: de foutenschatting voor dit Vlaams model
 #'
@@ -35,13 +47,15 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows group_by_ summarise_ ungroup inner_join
+#' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows
+#' group_by_ summarise_ ungroup inner_join
 #' @importFrom assertthat assert_that is.count
 #'
 
 validatie.afgeleid <-
   function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
-           Bestandsnaam = "Validatie_Afgeleid.html", TypeRapport = "Dynamisch"){
+           Bestandsnaam = "Validatie_Afgeleid.html",
+           TypeRapport = "Dynamisch") {
 
   invoercontrole(Basismodel, "basismodel")
   invoercontrole(Afgeleidmodel, "afgeleidmodel")

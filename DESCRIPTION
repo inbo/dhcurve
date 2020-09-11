@@ -14,11 +14,13 @@ Imports:
     plotly,
     rmarkdown,
     assertthat,
-    DT,
-    knitr
+    DT
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
-Suggests: testthat, tibble
+RoxygenNote: 7.1.1
+Suggests:
+    testthat,
+    knitr,
+    tibble
 VignetteBuilder: knitr

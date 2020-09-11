@@ -55,11 +55,9 @@ Hier is er geen probleem wat betreft het aantal bomen, op basis van de overblijv
 
 ```{r voorModel, results='asis'}
 
-datatable(DataRapport %>% 
+datatable(DataRapport %>%
             filter_(~nInterval > 50) %>%
             arrange_(~desc(percTeDik)))
-  
-
 ```
 
 ## 10-50 gegevens binnen interval
@@ -70,11 +68,9 @@ In elk geval moet de focus liggen op betrouwbaarheid en representativiteit, zoal
 
 ```{r voorAfgeleidModel, results='asis'}
 
-datatable(DataRapport %>% 
+datatable(DataRapport %>%
             filter_(~nInterval <= 50 & nInterval >= 10) %>%
             arrange_(~desc(percTeDik)))
-  
-
 ```
 
 ##Te weinig gegevens binnen interval
@@ -85,11 +81,9 @@ Zoals bij de andere groepen willen we in de eerste plaats zeker zijn dat de meti
 
 ```{r teWeinig, results='asis'}
 
-datatable(DataRapport %>% 
+datatable(DataRapport %>%
             filter_(~nInterval < 10) %>%
             arrange_(~desc(percTeDik)))
-  
-
 ```
 
 

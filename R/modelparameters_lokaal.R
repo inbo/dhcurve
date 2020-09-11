@@ -1,6 +1,8 @@
 #' Modelparameters berekenen voor opgegeven lokaal model
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven lokaal model.  Ze berekent de parameters voor het domeinmodel en geeft de grenzen van het bruikbaar interval
+#' Functie die de modelparameters berekent op basis van een opgegeven lokaal
+#' model.  Ze berekent de parameters voor het domeinmodel en geeft de grenzen
+#' van het bruikbaar interval
 #'
 #' @param Soortmodel model voor boomsoort-domein-combinatie
 #'

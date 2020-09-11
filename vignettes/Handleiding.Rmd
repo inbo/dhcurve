@@ -6,10 +6,16 @@ output:
   rmarkdown::html_vignette:
     toc: TRUE
     number_sections: TRUE
+  bookdown::pdf_book:
+    base_format: INBOmd::inbo_rapport
+    reportnr: "Rapporten van het Instituut voor Natuur- en Bosonderzoek 2018 (66)"
+    ordernr: "ANB besteknummer: ANB/BPM/2015/DH1"
+    lof: FALSE
+    lot: FALSE
 vignette: >
   %\VignetteIndexEntry{Handleiding dhcurve}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r}
@@ -172,11 +178,13 @@ updatequeryBosdat <-
   SET Status = 'Te controleren'
   WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
 
-# Lijst maken met alle id's (die in dit geval overeenkomen met 'rownames' in de databank) van de records die aangepast moeten worden
+# Lijst maken met alle id's (die in dit geval overeenkomen met 'rownames' in de
+# databank) van de records die aangepast moeten worden
 IDafwijkendeMetingen <-
   paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
 
-# Deze lijst in de query plakken (sprintf vervangt %s in de string 'updatequeryBosdat' door de inhoud van IDafwijkendemetingen)
+# Deze lijst in de query plakken (sprintf vervangt %s in de string
+# 'updatequeryBosdat' door de inhoud van IDafwijkendemetingen)
 query <- sprintf(updatequeryBosdat, IDafwijkendeMetingen)
 
 #connecteren met de databank en de query uitvoeren
@@ -217,7 +225,7 @@ Onderstaand voorbeeld toont hoe de limiet van het aantal bomen voor Zomereik in 
 ```{r limieten_aanpassen, echo=TRUE, eval=FALSE}
 
 # dataframe aanmaken met nieuwe limiet(en)
-Uitzonderingen <- data.frame(DOMEIN_ID = "DomWVL09033", 
+Uitzonderingen <- data.frame(DOMEIN_ID = "DomWVL09033",
                              BMS = "Zomereik",
                              min_basis = 65, min_afgeleid = NA,
                              stringsAsFactors = FALSE)
@@ -346,7 +354,7 @@ Modellen <-
   ) %>%
   mutate(
     Hoogte = A + B * log(Omtrek) + C * log(Omtrek) ^ 2
-  ) 
+  )
 
 Modellen %>%
   group_by(Omtrek) %>%
@@ -410,7 +418,8 @@ mutate(
 )  %>%
 ggplot() +
   geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), size = 1) +
-  geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl), arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
+  geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl),
+               arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
 
 ```
 
@@ -476,12 +485,11 @@ Metingen <- testdata1domein(nBomen = 200) %>%
   ) %>%
   rename(Hoogte = HOOGTE)
 
-ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) + 
+ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) +
   geom_point(aes(colour = Afwijkend)) +
   scale_colour_manual(values = c("black", "red")) +
   geom_line(aes(x = Omtrek, y = Model), size = 1) +
   geom_ribbon(aes(ymax = Hmax, ymin = Hmin), alpha = 0.1)
-
 ```
 
 
@@ -507,7 +515,7 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
 
 (Nota: Een buigpunt doet zich voor waar de tweede afgeleide van de functie 0 is, wat in dit geval is bij een omtrek van $e^{\frac{1-B}{2 C}}$.  En een richtingscoëfficiënt (rico) kan berekend worden op basis van de eerste afgeleide, dus voor een welbepaalde omtrek is de rico $\frac{2 C \log({Omtrek}) + B}{Omtrek}$.)
 
-
+\newpage
 ## Berekening resultaat
 
 ### outputIVANHO

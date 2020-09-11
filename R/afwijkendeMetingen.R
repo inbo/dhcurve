@@ -1,19 +1,32 @@
 #' Geeft de afwijkende metingen uit een gegeven model
 #'
-#' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 * rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden minstens 10 meetresultaten geselecteerd als 'afwijkend' (nl. de 10 meetresultaten met de hoogste error).
+#' Berekent afwijkende metingen, dit zijn metingen met een afwijking
+#' > 2,5 * rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20
+#' domeinen met de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden
+#' minstens 10 meetresultaten geselecteerd als 'afwijkend' (nl. de 10
+#' meetresultaten met de hoogste error).
 #'
-#' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze dataframe moet dezelfde velden bevatten als de dataframes in de list teruggegeven in de functie initiatie, en daarnaast de velden H_D_finaal, rmseD en maxResid.
-#' @param AantalDomHogeRMSE Standaard worden de 20 domeinen met de hoogste RMSE geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20 domeinen aan te passen.
+#' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het
+#' domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze
+#' dataframe moet dezelfde velden bevatten als de dataframes in de list
+#' teruggegeven in de functie initiatie, en daarnaast de velden H_D_finaal,
+#' rmseD en maxResid.
+#' @param AantalDomHogeRMSE Standaard worden de 20 domeinen met de hoogste RMSE
+#' geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
+#' metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
+#' domeinen aan te passen.
 #'
-#' @return Lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit databank
+#' @return Lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit
+#' databank
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join mutate_ group_by_ arrange_ slice_ ungroup desc
+#' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join
+#' mutate_ group_by_ arrange_ slice_ ungroup desc
 #' @importFrom assertthat assert_that has_name is.count
 #'
 
-afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20){
+afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
 
   invoercontrole(Dataset, "afgeleidedata")
   assert_that(has_name(Dataset, "H_D_finaal"))

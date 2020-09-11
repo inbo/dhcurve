@@ -4,10 +4,14 @@
 \alias{initiatie}
 \title{Initiatiestap met opsplitsen van dataset volgens modeltypen}
 \usage{
-initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
-  min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE),
-  Bestandsnaam = "VerwijderdeGegevensInitiatie.html", verbose = TRUE,
-  PathWD = getwd())
+initiatie(
+  Data,
+  Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA, min_afgeleid =
+    NA, stringsAsFactors = FALSE),
+  Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
+  verbose = TRUE,
+  PathWD = getwd()
+)
 }
 \arguments{
 \item{Data}{Dataframe met metingen van bomen die als basis moeten dienen om DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID (identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms (identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten, dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd worden.}
