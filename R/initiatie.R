@@ -146,8 +146,9 @@ initiatie <-
                 msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
   }
 
-  #eerst een overzichtrapport maken met aantal bomen per domein-bms-comb: ----
-  #met nteDik, nTeDun (worden verwijderd in verdere analyse), nInterval (worden behouden)
+  #eerst een overzichtsrapport maken met aantal bomen per domein-bms-comb: ----
+     #nteDik, nTeDun (worden verwijderd in verdere analyse), 
+     #nInterval (worden behouden)
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
