@@ -93,13 +93,13 @@ initiatie <-
   min_domeinen_basismodel <- 6
   min_afgeleidmodel <- 10
 
-  #variabelen 'gebruiken' om lintr-foutmelding weg te werken
+  #variabelen 'gebruiken' om lintr-foutmelding weg te werken ----
   assert_that(is.count(min_basismodel))
   assert_that(is.count(min_domeinen_basismodel))
   assert_that(is.count(min_afgeleidmodel))
 
 
-  #controle op invoer
+  #controle op invoer ----
   invoercontrole(Data, "initiatie")
 
   assert_that(inherits(Uitzonderingen, "data.frame"))
@@ -146,7 +146,8 @@ initiatie <-
                 msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
   }
 
-  #eerst een rapport maken van de gegevens die verwijderd worden
+  #eerst een overzichtrapport maken met aantal bomen per domein-bms-comb: ----
+  #met nteDik, nTeDun (worden verwijderd in verdere analyse), nInterval (worden behouden)
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
@@ -185,7 +186,9 @@ initiatie <-
     }
   }
 
-  #dan de extra variabelen berekenen
+  #dan de aanmaak van de verder te gebruiken dataset: ----
+        # extra variabelen berekenen (Q5 en Q95)
+        # wegfilteren van te dikke/dunne bomen en bomen buiten Q5-Q95
   Data2 <- Data %>%
     filter_(~HOOGTE != 0) %>%
     mutate_(
@@ -195,7 +198,7 @@ initiatie <-
       logOmtrek2 = ~logOmtrek ^ 2
     ) %>%
     filter_(
-      ~Omtrek < 2.40
+      ~Omtrek < 2.40   # er werden geen te dunne bomen opgemeten (< 0.2 )
     ) %>%
     group_by_(
       ~BMS,
@@ -253,7 +256,9 @@ initiatie <-
     )
 
 
-  #en tenslotte de dataset opsplitsen
+  #en tenslotte de dataset opsplitsen ----
+  
+  # 1) alle bms-domeincombinaties met min. 50 metingen -----
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
       ~ ((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
@@ -263,7 +268,7 @@ initiatie <-
       ~-min_basis, ~-min_afgeleid
     )
 
-
+  # 1A) alle bms-domeincombinaties met min. 50 metingen Ã©n 6 domeinen van die bms ----
   Basisdata <- Data_Selectie_50 %>%
     select_(
       ~BMS,
@@ -282,13 +287,14 @@ initiatie <-
       by = c("DOMEIN_ID", "BMS")
     )
 
-
+  # 1B) alle bms-domeincombinaties met min. 50 metingen Ã©n gÃ©Ã©n 6 domeinen van die bms ----
   Lokaledata <- Data_Selectie_50 %>%
     filter_(
       ~!BMS %in% unique(Basisdata$BMS)
     )
-
-
+  
+  # 2) alle bms-domeincombinaties met géén 50 metingen, maar wel een basismodel ----
+      # (basismodel: 6 andere domein met > 50 metingen van die bms)
   Data.afgeleid <- Data.aantallen %>%
     filter_(
       ~BMS %in% unique(Basisdata$BMS)
@@ -311,6 +317,7 @@ initiatie <-
       ~-min_basis, ~-min_afgeleid
     )
 
+  # 3) alle bms-domeincombinaties waar géén model voor kan opgesteld worden ----
   Data.rest <- Data.aantallen %>%
     anti_join(
       Data_Selectie_50 %>%
