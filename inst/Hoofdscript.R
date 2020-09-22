@@ -21,14 +21,14 @@ connectieGegs <- odbcConnectAccess2007(
 #voor Ivanho moeten de queries aangepast worden!
 
 queryBosdat <-
-  "SELECT rownames AS ID, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms,
+  "SELECT ID, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms,
      BMS_bosdat AS BMS, TYPE_METING, C13,HOOGTE, JAAR, StaandLiggend, Status
    FROM tblBosdatMetingen"
 TreesBosdat <-
   sqlQuery(connectieGegs, queryBosdat, stringsAsFactors = FALSE)
 
 queryNieuweMetingen <-
-  "SELECT DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
+  "SELECT ID, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
    C13, HOOGTE, JAAR, StaandLiggend, Status
    FROM tblNieuweHoogtemetingen"
 TreesNieuweMetingen <-
