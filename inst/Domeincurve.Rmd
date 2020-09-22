@@ -10,7 +10,7 @@ library(ggplot2)
 library(assertthat)
 ```
 
-##Boomsoort: `r unique(SelectieModel$BMS)`; Domein: `r unique(SelectieModel$BOS_BHI)`
+## Boomsoort: `r unique(SelectieModel$BMS)`; Domein: `r unique(SelectieModel$BOS_BHI)`
 
 DOMEIN_ID: `r unique(SelectieModel$DOMEIN_ID)`
 
