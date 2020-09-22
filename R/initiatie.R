@@ -259,7 +259,7 @@ initiatie <-
 
   #en tenslotte de dataset opsplitsen ----
   
-  # 1) alle bms-domeincombinaties met min. 50 metingen -----
+  # 1) alle bms-domeincombinaties met min. 50 metingen (omtrek > 0.5m) -----
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
       ~ ((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
