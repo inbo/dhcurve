@@ -43,7 +43,7 @@ Data <- TreesBosdat %>%
               mutate(TYPE_METING = "Nieuw")) %>%
   filter(
     StaandLiggend == "staand",
-    Status != "Afgekeurd"
+    !Status %in% c("Afgekeurd","Meetfout")
   )
 
 
