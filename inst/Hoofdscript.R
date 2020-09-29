@@ -12,7 +12,7 @@ if (!is.null(wdpath)) {
   setwd(wdpath)
 }
 
-#ophalen gegevens
+#ophalen gegevens ----
 connectieGegs <- odbcConnectAccess2007(
   paste0(dbpath, "DiamHoogteMetingen.accdb")
 )
@@ -47,7 +47,9 @@ Data <- TreesBosdat %>%
   )
 
 
-#hier beginnen de functies
+#hier beginnen de functies ----
+
+# initiatie ----
 Datalijst <- initiatie(Data)
 
 #voorbeeld als je de limiet voor gebruik van de gegevens van cultuurpopulier in
@@ -64,12 +66,16 @@ Data.afgeleid <- Datalijst[["Afgeleid"]]
 Data.lokaal <- Datalijst[["Lokaal"]]
 Data.rest <- Datalijst[["Rest"]]
 
+
+# FIT - basis ----
 Basismodel <- fit.basis(Data.basis)
 AfwijkendeMetingen <- validatie.basis(Basismodel)
 write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
-#methode om status aan te passen in de db (enkel uitgewerkt voor 'Bosdat'-gegs):
+#methode om status aan te passen in de db
+
+# 1) Bosdat 
 updatequeryBosdat <-
   "UPDATE tblBosdatMetingen
   SET Status = 'Te controleren'
@@ -87,11 +93,36 @@ Test <-
 odbcClose(connectieGegs)
 
 
+# 2) Nieuwe hoogtemetingen
+updatequeryNieuweMetingen <-
+  "UPDATE tblNieuweHoogtemetingen
+  SET Status = 'Te controleren'
+  WHERE Status = 'Niet gecontroleerd' AND ID IN ('%s')"
+
+IDafwijkendeMetingen <-
+  paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
+
+query <- sprintf(updatequeryNieuweMetingen, IDafwijkendeMetingen)
+
+connectieGegs <- odbcConnectAccess2007(
+  paste0(dbpath, "DiamHoogteMetingen.accdb")
+)
+
+Test <-
+  sqlQuery(connectieGegs, query)
+
+odbcClose(connectieGegs)
+
+
+
+# FIT - afgeleid ----
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 AfwijkendeMetingen2 <- validatie.afgeleid(Basismodel, Afgeleidmodel)
 write.csv2(AfwijkendeMetingen2, "AfwijkendeMetingenAfgeleid.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
+
+# FIT - lokaal ----
 #De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus
 #berekend worden zonder dat de voorgaande berekend zijn
 Lokaalmodel <- fit.lokaal(Data.lokaal)
@@ -99,10 +130,14 @@ AfwijkendeMetingen3 <- validatie.lokaal(Lokaalmodel, Data.lokaal)
 write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
+
+# IVANHO Output ----
 OutputIvanho <-
   outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
 write.csv2(OutputIvanho, "IVANHO.csv")
 
+
+# Modelparameters per domein-bms -----
 #voor een lijst met de modelparameters en foutenmarge (RMSE):
 Resultaat <-
   resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal, Data.rest)
