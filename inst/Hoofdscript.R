@@ -79,7 +79,7 @@ write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
 updatequeryBosdat <-
   "UPDATE tblBosdatMetingen
   SET Status = 'Te controleren'
-  WHERE Status = 'Niet gecontroleerd' AND rownames IN ('%s')"
+  WHERE Status = 'Niet gecontroleerd' AND ID IN ('%s')"
 
 IDafwijkendeMetingen <-
   paste(unique(AfwijkendeMetingen$ID, na.rm = TRUE), collapse = "','")
@@ -122,6 +122,10 @@ write.csv2(AfwijkendeMetingen2, "AfwijkendeMetingenAfgeleid.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
 
 
+
+
+
+
 # FIT - lokaal ----
 #De volgende modellen zijn onafhankelijk van de voorgaande en kunnen dus
 #berekend worden zonder dat de voorgaande berekend zijn
@@ -129,6 +133,48 @@ Lokaalmodel <- fit.lokaal(Data.lokaal)
 AfwijkendeMetingen3 <- validatie.lokaal(Lokaalmodel, Data.lokaal)
 write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #metingen nakijken en vlaggen in de databank vooraleer verder te gaan!
+
+#methode om status aan te passen in de db
+
+
+# 1) Bosdat 
+updatequeryBosdat <-
+  "UPDATE tblBosdatMetingen
+  SET Status = 'Te controleren'
+  WHERE Status = 'Niet gecontroleerd' AND ID IN ('%s')"
+
+IDAfwijkendeMetingen3 <-
+  paste(unique(AfwijkendeMetingen3$ID, na.rm = TRUE), collapse = "','")
+query <- sprintf(updatequeryBosdat, IDAfwijkendeMetingen3)
+
+connectieGegs <- odbcConnectAccess2007(
+  paste0(dbpath, "DiamHoogteMetingen.accdb")
+)
+Test <-
+  sqlQuery(connectieGegs, query)
+odbcClose(connectieGegs)
+
+
+# 2) Nieuwe hoogtemetingen
+updatequeryNieuweMetingen <-
+  "UPDATE tblNieuweHoogtemetingen
+  SET Status = 'Te controleren'
+  WHERE Status = 'Niet gecontroleerd' AND ID IN ('%s')"
+
+IDAfwijkendeMetingen3 <-
+  paste(unique(AfwijkendeMetingen3$ID, na.rm = TRUE), collapse = "','")
+
+query <- sprintf(updatequeryNieuweMetingen, IDAfwijkendeMetingen3)
+
+connectieGegs <- odbcConnectAccess2007(
+  paste0(dbpath, "DiamHoogteMetingen.accdb")
+)
+
+Test <-
+  sqlQuery(connectieGegs, query)
+
+odbcClose(connectieGegs)
+
 
 
 # IVANHO Output ----
