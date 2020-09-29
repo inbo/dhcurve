@@ -5,10 +5,6 @@ library(tidyr)
 library(dhcurve)
 library(lintr)
 
-lintr::lint_package()
-
-
-
 dbpath <- leesFile("dbpath")
 
 wdpath <- leesFile("wdpath")
