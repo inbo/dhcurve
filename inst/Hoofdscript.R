@@ -3,6 +3,11 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(dhcurve)
+library(lintr)
+
+lintr::lint_package()
+
+
 
 dbpath <- leesFile("dbpath")
 
@@ -43,7 +48,7 @@ Data <- TreesBosdat %>%
               mutate(TYPE_METING = "Nieuw")) %>%
   filter(
     StaandLiggend == "staand",
-    !Status %in% c("Afgekeurd","Meetfout")
+    !Status %in% c("Afgekeurd", "Meetfout")
   )
 
 
@@ -75,7 +80,7 @@ write.csv2(AfwijkendeMetingen, "AfwijkendeMetingenBasis.csv")
 
 #methode om status aan te passen in de db
 
-# 1) Bosdat 
+# 1) Bosdat
 updatequeryBosdat <-
   "UPDATE tblBosdatMetingen
   SET Status = 'Te controleren'
@@ -137,7 +142,7 @@ write.csv2(AfwijkendeMetingen3, "AfwijkendeMetingenLokaal.csv")
 #methode om status aan te passen in de db
 
 
-# 1) Bosdat 
+# 1) Bosdat
 updatequeryBosdat <-
   "UPDATE tblBosdatMetingen
   SET Status = 'Te controleren'
