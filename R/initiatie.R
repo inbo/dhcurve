@@ -146,9 +146,9 @@ initiatie <-
                 msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
   }
 
-  #eerst een overzichtsrapport maken met aantal bomen per domein-bms-comb: ----  
-     #nteDik, nTeDun (worden verwijderd in verdere analyse),   
-     #nInterval (worden behouden)  
+  #eerst een overzichtsrapp. maken met aantal bomen per domein-bms-comb: ----
+  #nteDik, nTeDun (worden verwijderd in verdere analyse)
+      #nInterval (worden behouden)
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
@@ -258,7 +258,7 @@ initiatie <-
 
 
   #en tenslotte de dataset opsplitsen ----
-  
+
   # 1) alle bms-domeincombinaties met min. 50 metingen (omtrek > 0.5m) -----
   Data_Selectie_50 <- Data.aantallen %>%
     filter_(
@@ -288,13 +288,13 @@ initiatie <-
       by = c("DOMEIN_ID", "BMS")
     )
 
-  # 1B) alle bms-domeincombinaties met min. 50 metingen, maar geen 6 domeinen ----
+  # 1B) alle bms-domeincomb's met min. 50 metingen, géén 6 domeinen ----
   Lokaledata <- Data_Selectie_50 %>%
     filter_(
       ~!BMS %in% unique(Basisdata$BMS)
     )
-  
-  # 2) alle bms-domeincombinaties met géén 50 metingen, wel een basismodel ----  
+
+  # 2) alle bms-domeincomb's met géén 50 metingen, wel een basismodel ----
       # (basismodel: 6 andere domein met > 50 metingen van die bms)
   Data.afgeleid <- Data.aantallen %>%
     filter_(
