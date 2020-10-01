@@ -142,7 +142,6 @@ validatie.lokaal <-
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
                    Bestandsnaam, TypeRapport)
 
-  out <- list(AfwijkendeMetingen, AfwijkendeCurves)
-  return(out)
+  return(AfwijkendeMetingen)
 
 }
