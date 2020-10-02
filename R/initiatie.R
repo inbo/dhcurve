@@ -199,7 +199,7 @@ initiatie <-
       logOmtrek2 = ~logOmtrek ^ 2
     ) %>%
     filter_(
-      ~Omtrek < 2.40   # er werden geen te dunne bomen opgemeten (< 0.2 )
+      ~Omtrek < 2.40
     ) %>%
     group_by_(
       ~BMS,
