@@ -76,6 +76,7 @@
 #'
 #' @importFrom dplyr %>% group_by ungroup transmute mutate bind_rows
 #' summarise arrange row_number
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats predict
