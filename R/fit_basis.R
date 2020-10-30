@@ -25,6 +25,8 @@
 #'
 #' @importFrom nlme lme lmeControl
 #' @importFrom dplyr %>% group_by select ungroup
+#' @importFrom tidyr nest
+#' @importFrom purrr map
 #' @importFrom rlang .data
 #'
 
@@ -32,18 +34,24 @@ fit.basis <- function(Data.basis) {
 
   invoercontrole(Data.basis, "fit")
 
+  mod_fun <- function(df) {
+    lme(
+      HOOGTE ~ logOmtrek + logOmtrek2,
+      random = ~ (logOmtrek + logOmtrek2) | DOMEIN_ID,
+      data = df,
+      control = lmeControl(opt = "optim", singular.ok = TRUE,
+                           returnObject = TRUE)
+    )
+  }
+  
   Basismodel <- Data.basis %>%
-    do_(
-      Model = ~ lme(
-        HOOGTE ~ logOmtrek + logOmtrek2,
-        random = ~ (logOmtrek + logOmtrek2) | DOMEIN_ID,
-        data = .,
-        control = lmeControl(opt = "optim", singular.ok = TRUE,
-                                         returnObject = TRUE)
-      )
     group_by(.data$BMS) %>%
+    nest() %>%
+    mutate(
+      Model = map(.data$data, mod_fun)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    select(-.data$data)
 
   return(Basismodel)
 }

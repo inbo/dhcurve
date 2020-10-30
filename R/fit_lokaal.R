@@ -25,21 +25,29 @@
 #' @importFrom dplyr %>% group_by do ungroup
 #' @importFrom plyr .
 #' @importFrom rlang .data
+#' @importFrom tidyr nest
+#' @importFrom purrr map
 #'
 
 fit.lokaal <- function(Data.lokaal) {
 
   invoercontrole(Data.lokaal, "fit")
 
+  mod_fun <- function(df) {
+    lm(
+      HOOGTE ~ logOmtrek + logOmtrek2,
+      data = df
+    )
+  }
+  
   Lokaalmodel <- Data.lokaal %>%
-    do_(
-      Model = ~ lm(
-        HOOGTE ~ logOmtrek + logOmtrek2,
-        data = .
-      )
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    nest() %>%
+    mutate(
+      Model = map(.data$data, mod_fun)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    select(-.data$data)
 
   return(Lokaalmodel)
 }

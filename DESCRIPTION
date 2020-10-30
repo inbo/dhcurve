@@ -9,6 +9,8 @@ Depends:
 Imports:
     dplyr,
     rlang,
+    tidyr,
+    purrr,
     plyr,
     nlme,
     stats,

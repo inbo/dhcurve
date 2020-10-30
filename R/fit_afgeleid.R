@@ -37,6 +37,8 @@
 #' @importFrom dplyr %>% inner_join group_by do ungroup select filter
 #' @importFrom plyr .
 #' @importFrom rlang .data
+#' @importFrom tidyr nest
+#' @importFrom purrr map
 #'
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
@@ -64,16 +66,22 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ungroup() %>%
     select(-.data$H_D_finaal)
 
+  mod_fun <- function(df) {
+    lm(
+      HOOGTE ~ 1 + offset(H_VL_finaal),
+      data = df
+    )
+  }
+
   Afgeleidmodel <- Hoogteschatting %>%
-    do_(
-      Model = ~ lm(
-        HOOGTE ~ 1 + offset(H_VL_finaal),
-        data = .
-      )
     filter(!is.na(.data$HOOGTE)) %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    nest() %>%
+    mutate(
+      Model = map(.data$data, mod_fun)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    select(-.data$data)
 
   return(list(Afgeleidmodel, Hoogteschatting))
 }
