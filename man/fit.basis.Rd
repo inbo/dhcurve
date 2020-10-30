@@ -7,11 +7,26 @@
 fit.basis(Data.basis)
 }
 \arguments{
-\item{Data.basis}{De dataframe "Basis" uit de list die teruggegeven wordt bij de functie initiatie.  (Een dataframe met minimaal de velden BMS (boomsoort), IDbms (identificatienummer van de boomsoort), DOMEIN_ID (identificatienummer van het domein), BOS_BHI (domeinnaam), HOOGTE, Omtrek, logOmtrek, logOmtrek2, Status (van data: niet gecontroleerd, gecontroleerd,...), nBomen (aantal bomen per boomsoort-domeincombinatie), nBomenInterval (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar interval), nBomenOmtrek05 (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ('bruikbaar interval').)}
+\item{Data.basis}{De dataframe "Basis" uit de list die teruggegeven wordt
+bij de functie initiatie.  (Een dataframe met minimaal de velden BMS
+(boomsoort), IDbms (identificatienummer van de boomsoort), DOMEIN_ID
+(identificatienummer van het domein), BOS_BHI (domeinnaam), HOOGTE, Omtrek,
+logOmtrek, logOmtrek2, Status (van data: niet gecontroleerd,
+gecontroleerd,...), nBomen (aantal bomen per boomsoort-domeincombinatie),
+nBomenInterval (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar
+interval), nBomenOmtrek05 (aantal bomen per boomsoort-domeincombinatie
+binnen bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ('bruikbaar
+interval').)}
 }
 \value{
-Dataframe (tibble) met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)
+Dataframe (tibble) met de velden BMS (boomsoort) en Model (lme-object
+met het gefit mixed model voor die boomsoort)
 }
 \description{
-Functie die het lineair mixed model \eqn{Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} + B_{domein}) \log({Omtrek}) + (C_{Vlaams} + C_{domein}) \log(Omtrek)^2}{Hoogte(basis) ~ A(Vlaams) + A(domein) + (B(Vlaams) + B(domein)).log(Omtrek) + (C(Vlaams) + C(domein)).log(Omtrek)^2} fit op basis van de opgegeven dataset.
+Functie die het lineair mixed model
+\eqn{Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} +
+B_{domein}) \log({Omtrek}) + (C_{Vlaams} + C_{domein}) \log(Omtrek)^2}
+{Hoogte(basis) ~ A(Vlaams) + A(domein) + (B(Vlaams) + B(domein)).log(Omtrek)
++ (C(Vlaams) + C(domein)).log(Omtrek)^2} fit op basis van de opgegeven
+dataset.
 }

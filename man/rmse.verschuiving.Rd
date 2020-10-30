@@ -7,7 +7,8 @@
 rmse.verschuiving(Verschovenmodel, Boomsoort, Domein)
 }
 \arguments{
-\item{Verschovenmodel}{Afgeleid model voor één boomsoort-domein-combinatie (lm-object)}
+\item{Verschovenmodel}{Afgeleid model voor één boomsoort-domein-combinatie
+(lm-object)}
 
 \item{Boomsoort}{BMS}
 
@@ -17,7 +18,15 @@ rmse.verschuiving(Verschovenmodel, Boomsoort, Domein)
 Dataframe met BMS(boomsoort), DOMEIN_ID, RmseVerschuiving
 }
 \description{
-Deze functie berekent de rmse op basis van verschil tussen de hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de rmse van het Vlaams model (basismodel) in rekening gebracht worden.   Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een methode om deze functie te kunnen toepassen vertrekkend van het berekende model.
+Deze functie berekent de rmse op basis van verschil tussen de
+hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor
+omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het
+afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de
+rmse van het Vlaams model (basismodel) in rekening gebracht worden.
+Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze
+functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een
+methode om deze functie te kunnen toepassen vertrekkend van het berekende
+model.
 }
 \examples{
 library(dplyr)
@@ -30,11 +39,12 @@ Basismodel <- fit.basis(Data.basis)
 Data.afgeleid <- Datalijst[["Afgeleid"]]
 Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 
-#De rmse berekenen voor de verschuiving van het Vlaams model naar een afgeleid model
+# De rmse berekenen voor de verschuiving van het Vlaams model naar een
+# afgeleid model
 Afgeleidmodel[[1]] \%>\%
   rowwise() \%>\%
-  do_(
-    ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+  do(
+    rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
   ) \%>\%
   ungroup()
 #Nota: voor een berekening van de volledige RMSE van een afgeleid model

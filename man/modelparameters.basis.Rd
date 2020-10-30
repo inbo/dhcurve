@@ -4,14 +4,19 @@
 \alias{modelparameters.basis}
 \title{Modelparameters berekenen voor opgegeven basismodel}
 \usage{
-modelparameters.basis(Soortmodel)
+modelparameters.basis(Soortmodel, BMS)
 }
 \arguments{
 \item{Soortmodel}{model van boomsoort}
+
+\item{BMS}{boomsoort}
 }
 \value{
-dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en parameters voor Vlaams model (Avl, Bvl en Cvl)
+dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
+parameters voor Vlaams model (Avl, Bvl en Cvl)
 }
 \description{
-Functie die de modelparameters berekent op basis van een opgegeven basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
+Functie die de modelparameters berekent op basis van een opgegeven
+basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor
+het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
 }

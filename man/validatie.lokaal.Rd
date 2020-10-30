@@ -13,7 +13,10 @@ validatie.lokaal(
 )
 }
 \arguments{
-\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).}
+\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
+door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
+en Model (lm-object met het gefit lineair model voor die
+boomsoort-domeincombinatie).}
 
 \item{Data}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
 
@@ -22,23 +25,36 @@ geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
 metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
 domeinen aan te passen.}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het
+html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
+uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+'Statisch', waarbij de figuren vast zijn.}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren modellen.  De afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is het probleem ook woordelijk beschreven (zie ?validatierapport of vignette voor meer informatie).
+De functie genereert een validatierapport (html-bestand) in de working
+directory met informatie en grafieken van de te controleren modellen.  De
+afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
+het probleem ook woordelijk beschreven (zie ?validatierapport of vignette
+voor meer informatie).
 
-De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
+De functie geeft een dataframe terug met de te controleren metingen, met
+behalve de informatie uit de databank een aantal berekende waarden:
 
-- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
+- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+domeinmodel
 
 - rmseD: de foutenschatting voor het domeinmodel
 
 - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
 }
 \description{
-Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en een overzicht geeft van de afwijkende metingen en slechte curves (zodat de gebruiker deze kan valideren).
+Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en
+een overzicht geeft van de afwijkende metingen en slechte curves (zodat de
+gebruiker deze kan valideren).
 }
 \details{
 De functie roept meerdere hulpfuncties op:
@@ -51,5 +67,7 @@ De functie roept meerdere hulpfuncties op:
 
 - validatierapport
 
-Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en afwijkende curves).
+Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
+slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+afwijkende curves).
 }
