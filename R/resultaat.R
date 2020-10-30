@@ -245,7 +245,7 @@ resultaat <-
         Modeltype = "lokaal model"
       )
 
-    if (exists("Modellen")) {
+    if (exists("Modellen") & !is.null(Basismodel)) {
       Modellen <- Modellen %>%
         bind_rows(Modellen.lokaal)
     } else {
