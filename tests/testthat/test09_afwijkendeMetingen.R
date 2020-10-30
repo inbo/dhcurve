@@ -139,9 +139,9 @@ describe("afwijkendemetingen", {
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
   Rmse <- Data.lokaal %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      BMS,
+      DOMEIN_ID
     ) %>%
     do(
       rmse.basis(., "Lokaal", .data$BMS)
@@ -153,9 +153,9 @@ describe("afwijkendemetingen", {
       Data.lokaal,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      BMS,
+      DOMEIN_ID
     ) %>%
     do(
       hoogteschatting.basis(.$Model[[1]],
@@ -165,7 +165,7 @@ describe("afwijkendemetingen", {
     ungroup()
 
   DatasetLokaal <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+    inner_join(Rmse %>% select(BMS, DOMEIN_ID, rmseD, maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
 
@@ -249,7 +249,7 @@ describe("afwijkendemetingen", {
     ungroup()
 
   Dataset <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+    inner_join(Rmse %>% select(BMS, DOMEIN_ID, rmseD, maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
   it("Selectie AantalDomHogeRMSE werkt correct", {
