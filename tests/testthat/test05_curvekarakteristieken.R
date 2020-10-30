@@ -22,7 +22,8 @@ describe("curvekarakteristieken", {
     expect_equal(curvekarakteristieken(Basismodel) %>%
                    filter(!(Omtrek_Extr_Hoogte.d > 0.1 &
                             Omtrek_Extr_Hoogte.d < 2.4)) %>%
-                   select(DOMEIN_ID),
+                   select(DOMEIN_ID) %>%
+                   as_tibble(),
                  tibble(DOMEIN_ID = LETTERS[1:6]))
   })
 
@@ -30,11 +31,13 @@ describe("curvekarakteristieken", {
     expect_equal(curvekarakteristieken(Basismodel) %>%
                    filter(Omtrek_Extr_Hoogte.d > 0.1 &
                             Omtrek_Extr_Hoogte.d < 2.4) %>%
-                   select(DOMEIN_ID),
+                   select(DOMEIN_ID) %>%
+                   as_tibble(),
                  tibble(DOMEIN_ID = c("HM", "LM")))
     expect_equal(curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
                    filter(Omtrek_Extr_Hoogte.d > 0.2) %>%
-                   select(DOMEIN_ID),
+                   select(DOMEIN_ID) %>%
+                   as_tibble(),
                  tibble(DOMEIN_ID = c("HM", "LM")))
   })
 
@@ -55,51 +58,52 @@ describe("curvekarakteristieken", {
     select(Ad, Bd, Cd)
 
   it("De relevante variabelen voor hoog maximum worden correct berekend", {
+    resultaat <- curvekarakteristieken(Basismodel) %>%
+        filter(DOMEIN_ID == "HM") %>%
+        select(DOMEIN_ID,
+               Omtrek_Extr_Hoogte.d,
+               Extr_Hoogte.d,
+               Hoogteverschil.d) %>%
+        as_tibble()
+    attr(resultaat$Hoogteverschil.d, "names") <- NULL
     expect_equal(
-      as.data.frame(
-        curvekarakteristieken(Basismodel) %>%
-          filter(DOMEIN_ID == "HM") %>%
-          select(DOMEIN_ID,
-                 Omtrek_Extr_Hoogte.d,
-                 Extr_Hoogte.d,
-                 Hoogteverschil.d)),
-      as.data.frame(
-        tibble(DOMEIN_ID = "HM",
+      resultaat,
+      tibble(DOMEIN_ID = "HM",
                Omtrek_Extr_Hoogte.d = exp(-HMB$Bd / (2 * HMB$Cd)),
                Extr_Hoogte.d =
                  HMB$Ad + HMB$Bd * log(Omtrek_Extr_Hoogte.d) +
                  HMB$Cd * (log(Omtrek_Extr_Hoogte.d)) ^ 2,
                Hoogteverschil.d =
                  Extr_Hoogte.d -
-                 (HMB$Ad + HMB$Bd * log(2.35) + HMB$Cd * (log(2.35)) ^ 2))))
-    expect_equal(as.data.frame(curvekarakteristieken(Lokaalmodel,
-                                                     Lokaledata) %>%
-                                 filter(DOMEIN_ID == "HM") %>%
-                                 select(DOMEIN_ID,
-                                        Omtrek_Extr_Hoogte.d,
-                                        Extr_Hoogte.d,
-                                        Hoogteverschil.d)),
-                 as.data.frame(tibble(DOMEIN_ID = "HM",
-                                      Omtrek_Extr_Hoogte.d =
-                                        exp(-HML$Bd / (2 * HML$Cd)),
-                                      Extr_Hoogte.d =
-                                        HML$Ad +
-                                        HML$Bd * log(Omtrek_Extr_Hoogte.d) +
-                                        HML$Cd *
-                                        (log(Omtrek_Extr_Hoogte.d)) ^ 2,
-                                      Hoogteverschil.d =
-                                        Extr_Hoogte.d -
-                                        (HML$Ad + HML$Bd * log(2.35) +
-                                           HML$Cd * (log(2.35)) ^ 2))))
+                 (HMB$Ad + HMB$Bd * log(2.35) + HMB$Cd * (log(2.35)) ^ 2)))
+    resultaat <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
+      filter(DOMEIN_ID == "HM") %>%
+      select(DOMEIN_ID,
+              Omtrek_Extr_Hoogte.d,
+              Extr_Hoogte.d,
+              Hoogteverschil.d)
+    attr(resultaat$Hoogteverschil.d, "names") <- NULL
+    expect_equal(resultaat,
+                 tibble(DOMEIN_ID = "HM",
+                        Omtrek_Extr_Hoogte.d = exp(-HML$Bd / (2 * HML$Cd)),
+                        Extr_Hoogte.d =
+                          HML$Ad + HML$Bd * log(Omtrek_Extr_Hoogte.d) +
+                          HML$Cd * (log(Omtrek_Extr_Hoogte.d)) ^ 2,
+                        Hoogteverschil.d = Extr_Hoogte.d -
+                          (HML$Ad + HML$Bd * log(2.35) +
+                             HML$Cd * (log(2.35)) ^ 2)))
   })
 
   it("De relevante variabelen voor laag minimum worden correct berekend", {
-    expect_equal(curvekarakteristieken(Basismodel) %>%
-                   filter(DOMEIN_ID == "LM") %>%
-                   select(DOMEIN_ID,
-                          Omtrek_Extr_Hoogte.d,
-                          Omtrek_Buigpunt.d,
-                          Verschil_rico_BP_Q5.d),
+    resultaat <- curvekarakteristieken(Basismodel) %>%
+       filter(DOMEIN_ID == "LM") %>%
+       select(DOMEIN_ID,
+              Omtrek_Extr_Hoogte.d,
+              Omtrek_Buigpunt.d,
+              Verschil_rico_BP_Q5.d) %>%
+      as_tibble()
+    attr(resultaat$Verschil_rico_BP_Q5.d, "names") <- NULL
+    expect_equal(resultaat,
                  tibble(DOMEIN_ID = "LM",
                         Omtrek_Extr_Hoogte.d = exp(-LMB$Bd / (2 * LMB$Cd)),
                         Omtrek_Buigpunt.d = exp(1 - LMB$Bd / (2 * LMB$Cd)),
@@ -107,12 +111,14 @@ describe("curvekarakteristieken", {
                           (2 * LMB$Cd * log(Omtrek_Buigpunt.d) + LMB$Bd) /
                           Omtrek_Buigpunt.d -
                           (2 * LMB$Cd * log(0.25) + LMB$Bd) / 0.25))
-    expect_equal(curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
-                   filter(DOMEIN_ID == "LM") %>%
-                   select(DOMEIN_ID,
-                          Omtrek_Extr_Hoogte.d,
-                          Omtrek_Buigpunt.d,
-                          Verschil_rico_BP_Q5.d),
+    resultaat <- curvekarakteristieken(Lokaalmodel, Lokaledata) %>%
+       filter(DOMEIN_ID == "LM") %>%
+       select(DOMEIN_ID,
+              Omtrek_Extr_Hoogte.d,
+              Omtrek_Buigpunt.d,
+              Verschil_rico_BP_Q5.d)
+    attr(resultaat$Verschil_rico_BP_Q5.d, "names") <- NULL
+    expect_equal(resultaat,
                  tibble(DOMEIN_ID = "LM",
                         Omtrek_Extr_Hoogte.d = exp(-LML$Bd / (2 * LML$Cd)),
                         Omtrek_Buigpunt.d = exp(1 - LML$Bd / (2 * LML$Cd)),

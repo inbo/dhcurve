@@ -88,6 +88,12 @@ describe("initiatie", {
       Output <- initiatie(Dataset),
       "list"
     )
+    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+      attr(Output[[i]]$Q5, "names") <- NULL
+      attr(Output[[i]]$Q5k, "names") <- NULL
+      attr(Output[[i]]$Q95, "names") <- NULL
+      attr(Output[[i]]$Q95k, "names") <- NULL
+    }
     expect_equal(as.data.frame(Output[["Basis"]]),
                  data.frame(BMS = "SoortModel",
                             DOMEIN_ID = c(rep("Bos1", 55),
@@ -169,6 +175,12 @@ describe("initiatie", {
                                      stringsAsFactors = FALSE)),
       "list"
     )
+    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+      attr(Output[[i]]$Q5, "names") <- NULL
+      attr(Output[[i]]$Q5k, "names") <- NULL
+      attr(Output[[i]]$Q95, "names") <- NULL
+      attr(Output[[i]]$Q95k, "names") <- NULL
+    }
     expect_equal(as.data.frame(Output[["Basis"]]),
                  data.frame(BMS = "SoortModel",
                             DOMEIN_ID = c(rep("Bos1", 55),
@@ -262,6 +274,12 @@ describe("initiatie", {
       Output <- initiatie(Dataset),
       "list"
     )
+    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+      attr(Output[[i]]$Q5, "names") <- NULL
+      attr(Output[[i]]$Q5k, "names") <- NULL
+      attr(Output[[i]]$Q95, "names") <- NULL
+      attr(Output[[i]]$Q95k, "names") <- NULL
+    }
     expect_equal(as.data.frame(Output[["Basis"]]),
                  data.frame(BMS = "SoortModel",
                             DOMEIN_ID = c(rep("Bos1", 55),
