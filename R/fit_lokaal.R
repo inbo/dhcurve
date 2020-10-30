@@ -23,6 +23,7 @@
 #'
 #' @importFrom stats lm
 #' @importFrom dplyr %>% group_by do ungroup
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #'
 

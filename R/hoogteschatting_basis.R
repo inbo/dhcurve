@@ -60,6 +60,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter mutate select distinct full_join
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats predict

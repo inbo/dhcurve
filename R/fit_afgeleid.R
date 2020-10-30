@@ -35,6 +35,7 @@
 #'
 #' @importFrom stats lm
 #' @importFrom dplyr %>% inner_join group_by do ungroup select filter
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #'
 

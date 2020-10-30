@@ -63,6 +63,7 @@
 #'
 #' @importFrom dplyr %>% select left_join rowwise do ungroup rename mutate
 #' bind_rows group_by
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #'
 

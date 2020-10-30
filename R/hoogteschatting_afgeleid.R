@@ -46,6 +46,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% mutate
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom stats predict
 #' @importFrom assertthat assert_that

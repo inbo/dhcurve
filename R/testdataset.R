@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% mutate group_by ungroup do
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom stats rnorm
 #' @importFrom assertthat assert_that is.count

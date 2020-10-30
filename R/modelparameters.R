@@ -29,6 +29,7 @@
 #' @importFrom assertthat has_name
 #' @importFrom dplyr %>% rowwise do inner_join group_by ungroup select
 #' distinct
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #'
 

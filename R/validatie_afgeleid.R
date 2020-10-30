@@ -49,6 +49,7 @@
 #'
 #' @importFrom dplyr %>% filter rowwise do select distinct mutate bind_rows
 #' group_by summarise ungroup inner_join
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that is.count
 #'

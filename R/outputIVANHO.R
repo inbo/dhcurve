@@ -46,6 +46,7 @@
 #'
 #' @importFrom dplyr %>% select filter rowwise do ungroup mutate bind_rows
 #' group_by transmute distinct inner_join left_join
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #'
 

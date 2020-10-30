@@ -50,6 +50,7 @@
 #'
 #' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
 #' summarise ungroup bind_rows do rowwise
+#' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
 #'

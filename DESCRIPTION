@@ -9,6 +9,7 @@ Depends:
 Imports:
     dplyr,
     rlang,
+    plyr,
     nlme,
     stats,
     ggplot2,
