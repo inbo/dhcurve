@@ -33,8 +33,10 @@ testdataset <-
   sd <- 2
 
   for (nBomen in nBomenDomein) {
-    assert_that(is.count(nBomen),
-                msg = "Alle waarden in nBomenDomein moeten positieve gehele getallen zijn") #nolint
+    assert_that(
+      is.count(nBomen),
+      msg = "Alle waarden in nBomenDomein moeten positieve gehele getallen zijn"
+    )
   }
   assert_that(is.character(as.character(BMS)))
   assert_that(length(BMS) == 1)
