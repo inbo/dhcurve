@@ -58,10 +58,10 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       .data$BMS,
       .data$DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.basis(.$Model[[1]],
-                             select_(., ~-Model),
-                             "Basis")
+    do(
+      hoogteschatting.basis(.$Model[[1]],
+                             select(., -.data$Model),
+                             "Basis", unique(.data$BMS))
     ) %>%
     ungroup() %>%
     select(-.data$H_D_finaal)

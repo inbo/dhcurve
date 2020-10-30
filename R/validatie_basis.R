@@ -64,15 +64,15 @@ validatie.basis <-
 
   Rmse <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    do(
+      hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 

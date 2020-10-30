@@ -68,8 +68,8 @@ validatie.lokaal <-
       .data$BMS,
       .data$DOMEIN_ID
     ) %>%
-    do_(
-      ~rmse.basis(., "Lokaal")
+    do(
+      rmse.basis(., "Lokaal", .data$BMK)
     ) %>%
     ungroup()
 
@@ -82,10 +82,10 @@ validatie.lokaal <-
       .data$BMS,
       .data$DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.basis(.$Model[[1]],
-                              select_(., ~-Model),
-                              "Lokaal")
+    do(
+      hoogteschatting.basis(.$Model[[1]],
+                              select(., -.data$Model),
+                              "Lokaal", .$BMS)
     ) %>%
     ungroup()
 

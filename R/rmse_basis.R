@@ -24,6 +24,7 @@
 #' zoals de dataframes die in de list teruggegeven worden door de functie
 #' initiatie)
 #' @param Typemodel 'Basis' of 'Lokaal'?
+#' @param BMS Boomsoort
 #'
 #' @return Dataframe met rmse_domein (rmseD), rmse_Vlaams (rmseVL, niet voor
 #' lokaal model) en maxResid
@@ -66,8 +67,8 @@
 #' Basismodel <- fit.basis(Data.basis)
 #' Basismodel %>%
 #'   rowwise() %>%
-#'   do_(
-#'     ~rmse.basis(.$Model$data, "Basis")
+#'   do(
+#'     rmse.basis(.$Model$data, "Basis", .$BMK)
 #'   ) %>%
 #'   ungroup()
 #'
@@ -81,7 +82,7 @@
 #' @importFrom assertthat assert_that
 #'
 
-rmse.basis <- function(Data, Typemodel) {
+rmse.basis <- function(Data, Typemodel, BMS) {
 
   #controle
   assert_that(is.character(Typemodel))
@@ -89,8 +90,6 @@ rmse.basis <- function(Data, Typemodel) {
   assert_that(Typemodel %in% c("basis", "lokaal"))
 
   invoercontrole(Data, "fit")
-  assert_that(length(unique(Data$BMS)) == 1,
-              msg = "De dataset Data mag maar 1 boomsoort bevatten")
   if (Typemodel == "lokaal") {
     assert_that(length(unique(Data$DOMEIN_ID)) == 1,
                 msg = "Voor een lokaal model mag de dataset Data maar 1
@@ -99,10 +98,11 @@ rmse.basis <- function(Data, Typemodel) {
 
   #testgroepen aanmaken in dataset
   Soortdata <- Data %>%
-    arrange_(~BMS, ~DOMEIN_ID, ~Omtrek, ~HOOGTE) %>%
-    mutate_(
-      Testgroep = ~ (row_number(DOMEIN_ID) - 1) %% 6 + 1
-    )
+    arrange(.data$DOMEIN_ID, .data$Omtrek, .data$HOOGTE) %>%
+    mutate(
+      Testgroep = (row_number(.data$DOMEIN_ID) - 1) %% 6 + 1
+    ) %>%
+    mutate(BMS = BMS)
 
 
   #model fitten voor de 6 testgroepen

@@ -75,8 +75,8 @@ outputIVANHO <-
     #hoogtes van basismodel schatten
     Hoogteschatting <- Basismodel %>%
       rowwise() %>%
-      do_(
-        ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+      do(
+        hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
       ) %>%
       ungroup() %>%
       mutate(

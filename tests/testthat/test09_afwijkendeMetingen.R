@@ -31,15 +31,15 @@ describe("afwijkendemetingen", {
   Basismodel <- Data[["Basismodel"]]
   Rmse <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    do(
+      hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
@@ -56,8 +56,8 @@ describe("afwijkendemetingen", {
   RmseVL <- Basismodel %>%
     filter(BMS %in% unique(AModel$BMS)) %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup() %>%
     mutate(
@@ -143,8 +143,8 @@ describe("afwijkendemetingen", {
       ~BMS,
       ~DOMEIN_ID
     ) %>%
-    do_(
-      ~rmse.basis(., "Lokaal")
+    do(
+      rmse.basis(., "Lokaal", .data$BMS)
     ) %>%
     ungroup()
 
@@ -157,10 +157,10 @@ describe("afwijkendemetingen", {
       ~BMS,
       ~DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.basis(.$Model[[1]],
-                             select_(., ~-Model),
-                             "Lokaal")
+    do(
+      hoogteschatting.basis(.$Model[[1]],
+                             select(., -.data$Model),
+                             "Lokaal", .$BMS)
     ) %>%
     ungroup()
 
@@ -174,11 +174,11 @@ describe("afwijkendemetingen", {
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeMetingen(DatasetBasis) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
@@ -190,11 +190,11 @@ describe("afwijkendemetingen", {
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_D_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "rmseD",
-                   "maxResid", "HogeRmse", "Afwijkend")
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                   "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
+                   "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
+                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend")
     )
   })
 
@@ -236,15 +236,15 @@ describe("afwijkendemetingen", {
 
   Rmse <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    do(
+      hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 

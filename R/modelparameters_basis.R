@@ -5,6 +5,7 @@
 #' het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
 #'
 #' @param Soortmodel model van boomsoort
+#' @param BMS boomsoort
 #'
 #' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
 #' parameters voor Vlaams model (Avl, Bvl en Cvl)
@@ -15,9 +16,9 @@
 #' @importFrom stats coef
 #'
 
-modelparameters.basis <- function(Soortmodel) {
+modelparameters.basis <- function(Soortmodel, BMS) {
 
-  Parameters.soort <- data.frame(BMS = unique(Soortmodel$data$BMS),
+  Parameters.soort <- data.frame(BMS = BMS,
                                  DOMEIN_ID = rownames(coef(Soortmodel)),
                                  Ad = coef(Soortmodel)[[1]],
                                  Bd = coef(Soortmodel)[[2]],

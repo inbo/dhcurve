@@ -77,8 +77,8 @@ resultaat <-
     select(-.data$Q5k, -.data$Q95k) %>%
     left_join(Basismodel %>%
                 rowwise() %>%
-                do_(
-                  ~rmse.basis(.$Model$data, "Basis")
+                do(
+                  rmse.basis(.$Model$data, "Basis", .$BMS)
                 ) %>%
                 ungroup(),
               c("BMS", "DOMEIN_ID")) %>%
@@ -223,8 +223,8 @@ resultaat <-
                     .data$BMS,
                     .data$DOMEIN_ID
                   ) %>%
-                  do_(
-                    ~rmse.basis(., "Lokaal")
+                  do(
+                    rmse.basis(., "Lokaal", .data$BMS)
                   ) %>%
                   ungroup(),
                 c("BMS", "DOMEIN_ID")) %>%
