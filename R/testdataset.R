@@ -13,7 +13,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% mutate_ group_by_ ungroup do_
+#' @importFrom dplyr %>% mutate group_by ungroup do
+#' @importFrom rlang .data
 #' @importFrom stats rnorm
 #' @importFrom assertthat assert_that is.count
 #'
@@ -54,27 +55,27 @@ testdataset <-
   Metingen <-
     data.frame(BMS, IDbms, DOMEIN_ID, BOS_BHI, nBomen = nBomenDomein,
                minOmtrek, maxOmtrek, stringsAsFactors = FALSE) %>%
-    group_by_(
-      ~BMS, ~IDbms
+    group_by(
+      .data$BMS, .data$IDbms
     ) %>%
-    mutate_(
-      A = ~rnorm(length(nBomenDomein), A, 5),
-      B = ~rnorm(length(nBomenDomein), B, 1),
-      C = ~rnorm(length(nBomenDomein), C, 1),
-      sd = ~rnorm(length(nBomenDomein), sd, 0.5)
+    mutate(
+      A = rnorm(length(nBomenDomein), A, 5),
+      B = rnorm(length(nBomenDomein), B, 1),
+      C = rnorm(length(nBomenDomein), C, 1),
+      sd = rnorm(length(nBomenDomein), sd, 0.5)
     ) %>%
     ungroup() %>%
-    group_by_(
-      ~BMS, ~IDbms, ~DOMEIN_ID, ~BOS_BHI
+    group_by(
+      .data$BMS, .data$IDbms, .data$DOMEIN_ID, .data$BOS_BHI
     ) %>%
-    do_(
-      ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
+    do(
+      testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
                        .$A, .$B, .$C, .$sd)
     ) %>%
     ungroup() %>%
-    mutate_(
-      Status = ~"Niet gecontroleerd",
-      ID = ~rownames(.)
+    mutate(
+      Status = "Niet gecontroleerd",
+      ID = rownames(.)
     )
 
   return(Metingen)

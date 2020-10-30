@@ -22,7 +22,8 @@
 #' @export
 #'
 #' @importFrom stats lm
-#' @importFrom dplyr %>% group_by_ do_ ungroup
+#' @importFrom dplyr %>% group_by do ungroup
+#' @importFrom rlang .data
 #'
 
 fit.lokaal <- function(Data.lokaal) {
@@ -30,12 +31,12 @@ fit.lokaal <- function(Data.lokaal) {
   invoercontrole(Data.lokaal, "fit")
 
   Lokaalmodel <- Data.lokaal %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
     do_(
       Model = ~ lm(
         HOOGTE ~ logOmtrek + logOmtrek2,
         data = .
       )
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
     ) %>%
     ungroup()
 

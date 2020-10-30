@@ -47,8 +47,9 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ rowwise do_ select_ distinct_ mutate_ bind_rows
-#' group_by_ summarise_ ungroup inner_join
+#' @importFrom dplyr %>% filter rowwise do select distinct mutate bind_rows
+#' group_by summarise ungroup inner_join
+#' @importFrom rlang .data
 #' @importFrom assertthat assert_that is.count
 #'
 
@@ -64,37 +65,37 @@ validatie.afgeleid <-
 
   #Rmse van Vlaams model berekenen
   RmseVL <- Basismodel %>%
-    filter_(~BMS %in% unique(AModel$BMS)) %>%
+    filter(.data$BMS %in% unique(AModel$BMS)) %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup() %>%
-    mutate_(
-      sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
+    mutate(
+      sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
     ) %>%
-    group_by_(~BMS) %>%
-    summarise_(
-      nBomen = ~sum(nBomen),
-      nBomenInterval = ~sum(nBomenInterval),
-      nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-      rmseVL = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+    group_by(.data$BMS) %>%
+    summarise(
+      nBomen = sum(.data$nBomen),
+      nBomenInterval = sum(.data$nBomenInterval),
+      nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
+      rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
     ) %>%
     ungroup()
 
   #Rmse van verschuiving berekenen en combineren met die van Vlaams model
   Rmse <- AModel %>%
     rowwise() %>%
-    do_(
-      ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+    do(
+      rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
     ) %>%
     ungroup() %>%
     inner_join(
-      RmseVL %>% select_(~BMS, ~rmseVL),
+      RmseVL %>% select(.data$BMS, .data$rmseVL),
       by = c("BMS")
     ) %>%
-    mutate_(
-      rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
+    mutate(
+      rmseD = sqrt(.data$rmseVL ^ 2 + .data$RmseVerschuiving ^ 2)
     )
 
 
@@ -103,25 +104,25 @@ validatie.afgeleid <-
       Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.afgeleid(.$Model[[1]],
-                                select_(., ~-Model))
+    do(
+      hoogteschatting.afgeleid(.$Model[[1]],
+                                select(., -.data$Model))
     ) %>%
     ungroup() %>%
-    mutate_(
-      ResidD2 = ~ (HOOGTE - H_D_finaal) ^ 2
+    mutate(
+      ResidD2 = (.data$HOOGTE - .data$H_D_finaal) ^ 2
     )
 
   Dataset <- Hoogteschatting %>%
-    select_(~BMS, ~DOMEIN_ID, ~ResidD2) %>%
-    filter_(~!is.na(ResidD2)) %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    summarise_(
-      maxResid = ~max(c(ResidD2))
+    select(.data$BMS, .data$DOMEIN_ID, .data$ResidD2) %>%
+    filter(!is.na(.data$ResidD2)) %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    summarise(
+      maxResid = max(c(.data$ResidD2))
     ) %>%
     ungroup() %>%
     inner_join(
@@ -137,30 +138,30 @@ validatie.afgeleid <-
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
-    filter_(~HogeRmse & Status != "Goedgekeurd") %>%
-    select_(~DOMEIN_ID, ~BMS) %>%
-    distinct_() %>%
-    mutate_(
-      Reden = ~"hoge RMSE"
+    filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
+    select(.data$DOMEIN_ID, .data$BMS) %>%
+    distinct() %>%
+    mutate(
+      Reden = "hoge RMSE"
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%
-        filter_(
-          ~Status != "Goedgekeurd"
+        filter(
+          .data$Status != "Goedgekeurd"
         ) %>%
-        select_(
-          ~BMS, ~DOMEIN_ID
+        select(
+          .data$BMS, .data$DOMEIN_ID
         ) %>%
-        distinct_() %>%
-        mutate_(
-          Reden = ~"afwijkende metingen"
+        distinct() %>%
+        mutate(
+          Reden = "afwijkende metingen"
         )
     ) %>%
-    group_by_(
-      ~BMS, ~DOMEIN_ID
+    group_by(
+      .data$BMS, .data$DOMEIN_ID
     ) %>%
-    summarise_(
-      Reden = ~paste(Reden, collapse = ", ")
+    summarise(
+      Reden = paste(.data$Reden, collapse = ", ")
     ) %>%
     ungroup()
 

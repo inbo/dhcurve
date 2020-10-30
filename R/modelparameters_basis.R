@@ -9,7 +9,8 @@
 #' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
 #' parameters voor Vlaams model (Avl, Bvl en Cvl)
 #'
-#' @importFrom dplyr %>% select_ distinct_ left_join
+#' @importFrom dplyr %>% select distinct left_join
+#' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats coef
 #'
@@ -27,19 +28,19 @@ modelparameters.basis <- function(Soortmodel) {
                                  stringsAsFactors = FALSE)
 
   Soortparameters <- Soortmodel$data %>%
-    select_(
-      ~DOMEIN_ID,
-      ~Q5k,
-      ~Q95k
+    select(
+      .data$DOMEIN_ID,
+      .data$Q5k,
+      .data$Q95k
     ) %>%
-    distinct_() %>%
+    distinct() %>%
     left_join(
       Parameters.soort,
       by = c("DOMEIN_ID")
     ) %>%
-    select_(
-      ~"BMS", ~"DOMEIN_ID", ~"Q5k", ~"Q95k",
-      ~"Ad", ~"Bd", ~"Cd", ~"Avl", ~"Bvl", ~"Cvl"
+    select(
+      "BMS", "DOMEIN_ID", "Q5k", "Q95k",
+      "Ad", "Bd", "Cd", "Avl", "Bvl", "Cvl"
     )
 
   return(Soortparameters)

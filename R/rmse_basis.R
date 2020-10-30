@@ -38,11 +38,11 @@
 #'
 #' #De rmse berekenen voor een basismodel op basis van de dataset
 #' Data.basis %>%
-#'   group_by_(
-#'     ~BMS
+#'   group_by(
+#'     BMS
 #'   ) %>%
-#'   do_(
-#'     ~rmse.basis(., "Basis")
+#'   do(
+#'     rmse.basis(., "Basis", .data$BMS)
 #'   ) %>%
 #'   ungroup()
 #'
@@ -52,12 +52,12 @@
 #'
 #' #De rmse berekenen voor een lokaal model
 #' Data.lokaal %>%
-#'   group_by_(
-#'     ~BMS,
-#'     ~DOMEIN_ID
+#'   group_by(
+#'     BMS,
+#'     DOMEIN_ID
 #'   ) %>%
-#'   do_(
-#'     ~rmse.basis(., "Lokaal")
+#'   do(
+#'     rmse.basis(., "Lokaal", .data$BMS)
 #'   ) %>%
 #'   ungroup()
 #'
@@ -73,8 +73,9 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by_ ungroup transmute_ mutate_ bind_rows
-#' summarise_ arrange_ row_number
+#' @importFrom dplyr %>% group_by ungroup transmute mutate bind_rows
+#' summarise arrange row_number
+#' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats predict
 #' @importFrom assertthat assert_that
@@ -117,21 +118,21 @@ rmse.basis <- function(Data, Typemodel) {
     }
 
     Data_Boomsoort <- Data_test %>%
-      mutate_(
-        H_Dmodel = ~predict(Model, newdata = .),
-        ResidD = ~HOOGTE - H_Dmodel,
-        ResidD2 = ~ResidD ^ 2,
-        ResidVL2 = ~0
+      mutate(
+        H_Dmodel = predict(Model, newdata = .),
+        ResidD = .data$HOOGTE - .data$H_Dmodel,
+        ResidD2 = .data$ResidD ^ 2,
+        ResidVL2 = 0
       )
 
     if (grepl(Typemodel, "basis")) {
       Data_Boomsoort <- Data_Boomsoort %>%
-        mutate_(
-          H_VLmodel = ~as.numeric(fixef(Model)[1]) +
-            as.numeric(fixef(Model)[2]) * logOmtrek +
-            as.numeric(fixef(Model)[3]) * logOmtrek2,
-          ResidVL = ~HOOGTE - H_VLmodel,
-          ResidVL2 = ~ResidVL ^ 2
+        mutate(
+          H_VLmodel = as.numeric(fixef(Model)[1]) +
+            as.numeric(fixef(Model)[2]) * .data$logOmtrek +
+            as.numeric(fixef(Model)[3]) * .data$logOmtrek2,
+          ResidVL = .data$HOOGTE - .data$H_VLmodel,
+          ResidVL2 = .data$ResidVL ^ 2
         )
     }
 
@@ -142,32 +143,32 @@ rmse.basis <- function(Data, Typemodel) {
 
   #rmse berekenen
   Rmse.soort <- Data_result[Data_result$Omtrek > 0.50, ] %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID,
-      ~nBomen,
-      ~nBomenInterval,
-      ~nBomenOmtrek05,
-      ~Q5k,
-      ~Q95k
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID,
+      .data$nBomen,
+      .data$nBomenInterval,
+      .data$nBomenOmtrek05,
+      .data$Q5k,
+      .data$Q95k
     ) %>%
-    summarise_(
-      sseD = ~sum(c(ResidD2)),
-      sseVL = ~sum(c(ResidVL2)),
-      maxResid = ~max(c(ResidD2))
+    summarise(
+      sseD = sum(c(.data$ResidD2)),
+      sseVL = sum(c(.data$ResidVL2)),
+      maxResid = max(c(.data$ResidD2))
     ) %>%
     ungroup() %>%
-    transmute_(
-      ~BMS,
-      ~DOMEIN_ID,
-      ~nBomen,
-      ~nBomenInterval,
-      ~nBomenOmtrek05,
-      ~Q5k,
-      ~Q95k,
-      rmseD = ~sqrt(sseD / (nBomenOmtrek05 - 2)),
-      rmseVL = ~sqrt(sseVL / (nBomenOmtrek05 - 2)),
-      ~maxResid
+    transmute(
+      .data$BMS,
+      .data$DOMEIN_ID,
+      .data$nBomen,
+      .data$nBomenInterval,
+      .data$nBomenOmtrek05,
+      .data$Q5k,
+      .data$Q95k,
+      rmseD = sqrt(.data$sseD / (.data$nBomenOmtrek05 - 2)),
+      rmseVL = sqrt(.data$sseVL / (.data$nBomenOmtrek05 - 2)),
+      .data$maxResid
     )
 
   #voor lokaal model het Vlaams model verwijderen (is gelijkgesteld aan 0)

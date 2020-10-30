@@ -34,7 +34,8 @@
 #' @export
 #'
 #' @importFrom stats lm
-#' @importFrom dplyr %>% inner_join group_by_ do_ ungroup select_ filter_
+#' @importFrom dplyr %>% inner_join group_by do ungroup select filter
+#' @importFrom rlang .data
 #'
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
@@ -50,9 +51,9 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       Data.afgeleid,
       by = c("BMS")
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
     do_(
       ~hoogteschatting.basis(.$Model[[1]],
@@ -60,16 +61,16 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
                              "Basis")
     ) %>%
     ungroup() %>%
-    select_(~-H_D_finaal)
+    select(-.data$H_D_finaal)
 
   Afgeleidmodel <- Hoogteschatting %>%
-    filter_(~!is.na(HOOGTE)) %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
     do_(
       Model = ~ lm(
         HOOGTE ~ 1 + offset(H_VL_finaal),
         data = .
       )
+    filter(!is.na(.data$HOOGTE)) %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
     ) %>%
     ungroup()
 

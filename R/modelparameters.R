@@ -27,8 +27,9 @@
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% rowwise do_ inner_join group_by_ ungroup select_
-#' distinct_
+#' @importFrom dplyr %>% rowwise do inner_join group_by ungroup select
+#' distinct
+#' @importFrom rlang .data
 #'
 
 modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
@@ -47,20 +48,20 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
         Afgeleidmodel[[2]],
         by = c("BMS", "DOMEIN_ID")
       ) %>%
-      group_by_(
-        ~BMS,
-        ~DOMEIN_ID,
-        ~Q5k,
-        ~Q95k
+      group_by(
+        .data$BMS,
+        .data$DOMEIN_ID,
+        .data$Q5k,
+        .data$Q95k
       ) %>%
-      do_(
-        ~modelparameters.afgeleid(.$Model[[1]])
+      do(
+        modelparameters.afgeleid(.$Model[[1]])
       ) %>%
       ungroup() %>%
       inner_join(
         modelparameters(Basismodel) %>%
-          select_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
-          distinct_(),
+          select(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
+          distinct(),
         by = c("BMS")
       )
   } else {
@@ -70,23 +71,23 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
           Data,
           by = c("BMS", "DOMEIN_ID")
         ) %>%
-        group_by_(
-          ~BMS,
-          ~DOMEIN_ID,
-          ~Q5k,
-          ~Q95k
+        group_by(
+          .data$BMS,
+          .data$DOMEIN_ID,
+          .data$Q5k,
+          .data$Q95k
         ) %>%
-        do_(
-          ~modelparameters.lokaal(.$Model[[1]])
+        do(
+          modelparameters.lokaal(.$Model[[1]])
         ) %>%
         ungroup()
     } else {
       Parameters <- Basismodel %>%
         rowwise() %>%
-        do_(
-          ~modelparameters.basis(.$Model)
+        do(
+          modelparameters.basis(.$Model, .$BMS)
         )
-    }
+     }
   }
 
 

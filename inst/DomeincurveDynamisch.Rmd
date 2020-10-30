@@ -39,10 +39,10 @@ Grafiek <-
   guides(fill = "none") +
   geom_jitter(width = 0.03, height = 0, size = 0.75) +
   geom_line(
-    aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domeinmodel"),
+    aes(y = H_D_finaal, colour = CurveSlecht, linetype = "Domeinmodel"),
     size = 0.75) +
   geom_point(
-    aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white",
+    aes(y = H_D_finaal, colour = CurveSlecht), shape = 21, fill = "white",
     size = 2, stroke = 0.75) +
   scale_linetype_manual(
     name = "Metingen en modellen",
@@ -52,7 +52,7 @@ Grafiek <-
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
   Grafiek <- Grafiek +
-    geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams model"),
+    geom_line(aes(y = H_VL_finaal, linetype = "Vlaams model"),
               colour = "black", size = 0.75)
 }
 

@@ -24,7 +24,8 @@
 #' @export
 #'
 #' @importFrom nlme lme lmeControl
-#' @importFrom dplyr %>% group_by_ do_ ungroup
+#' @importFrom dplyr %>% group_by select ungroup
+#' @importFrom rlang .data
 #'
 
 fit.basis <- function(Data.basis) {
@@ -32,7 +33,6 @@ fit.basis <- function(Data.basis) {
   invoercontrole(Data.basis, "fit")
 
   Basismodel <- Data.basis %>%
-    group_by_(~BMS) %>%
     do_(
       Model = ~ lme(
         HOOGTE ~ logOmtrek + logOmtrek2,
@@ -41,6 +41,7 @@ fit.basis <- function(Data.basis) {
         control = lmeControl(opt = "optim", singular.ok = TRUE,
                                          returnObject = TRUE)
       )
+    group_by(.data$BMS) %>%
     ) %>%
     ungroup()
 

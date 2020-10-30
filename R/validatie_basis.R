@@ -49,8 +49,10 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join filter_ select_ mutate_ distinct_ group_by_
-#' summarise_ ungroup bind_rows do_ rowwise
+#' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
+#' summarise ungroup bind_rows do rowwise
+#' @importFrom plyr .
+#' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
 #'
 
@@ -75,8 +77,11 @@ validatie.basis <-
     ungroup()
 
   Dataset <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
-               by = c("BMS", "DOMEIN_ID"))
+    inner_join(
+      Rmse %>%
+        select(.data$BMS, .data$DOMEIN_ID, .data$rmseD, .data$maxResid),
+      by = c("BMS", "DOMEIN_ID")
+    )
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
@@ -84,42 +89,44 @@ validatie.basis <-
   AfwijkendeCurves <- afwijkendeCurves(Basismodel)
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
-    filter_(~HogeRmse & Status != "Goedgekeurd") %>%
-    select_(~DOMEIN_ID, ~BMS) %>%
-    distinct_() %>%
-    mutate_(
-      Reden = ~"hoge RMSE"
+    filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
+    select(.data$DOMEIN_ID, .data$BMS) %>%
+    distinct() %>%
+    mutate(
+      Reden = "hoge RMSE"
     ) %>%
     bind_rows(
       AfwijkendeCurves
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%
-        filter_(
-          ~Status != "Goedgekeurd"
+        filter(
+          .data$Status != "Goedgekeurd"
         ) %>%
-        select_(
-          ~BMS, ~DOMEIN_ID
+        select(
+          .data$BMS, .data$DOMEIN_ID
         ) %>%
-        distinct_() %>%
-        mutate_(
-          Reden = ~"afwijkende metingen"
+        distinct() %>%
+        mutate(
+          Reden = "afwijkende metingen"
         )
     ) %>%
-    mutate_(
+    mutate(
       Omtrek_Buigpunt.d =
-        ~ifelse(is.na(Omtrek_Buigpunt.d), "", Omtrek_Buigpunt.d),
-      Omtrek_Extr_Hoogte.d = ~ifelse(is.na(Omtrek_Extr_Hoogte.d), "",
-                                     Omtrek_Extr_Hoogte.d)
+        ifelse(is.na(.data$Omtrek_Buigpunt.d), "", .data$Omtrek_Buigpunt.d),
+      Omtrek_Extr_Hoogte.d =
+        ifelse(
+          is.na(.data$Omtrek_Extr_Hoogte.d), "", .data$Omtrek_Extr_Hoogte.d)
     ) %>%
-    group_by_(
-      ~BMS, ~DOMEIN_ID
+    group_by(
+      .data$BMS, .data$DOMEIN_ID
     ) %>%
-    summarise_(
-      Reden = ~paste(Reden, collapse = ", "),
-      Omtrek_Buigpunt = ~as.numeric(paste(Omtrek_Buigpunt.d, collapse = "")),
+    summarise(
+      Reden = paste(.data$Reden, collapse = ", "),
+      Omtrek_Buigpunt =
+        as.numeric(paste(.data$Omtrek_Buigpunt.d, collapse = "")),
       Omtrek_Extr_Hoogte =
-        ~as.numeric(paste(Omtrek_Extr_Hoogte.d, collapse = ""))
+        as.numeric(paste(.data$Omtrek_Extr_Hoogte.d, collapse = ""))
     ) %>%
     ungroup()
 

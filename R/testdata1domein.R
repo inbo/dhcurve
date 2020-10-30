@@ -16,7 +16,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% mutate_ group_by_ ungroup
+#' @importFrom dplyr %>% mutate group_by ungroup
+#' @importFrom rlang .data
 #' @importFrom stats runif rnorm
 #' @importFrom assertthat assert_that is.count
 #'
@@ -37,18 +38,22 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
 
   Metingen <-
     data.frame(C13 = round(runif(nBomen, minOmtrek, maxOmtrek))) %>%
-    mutate_(
-      Omtrek = ~floor(C13 / 10) / 10 + 0.05
+    mutate(
+      Omtrek = floor(.data$C13 / 10) / 10 + 0.05
     ) %>%
-    group_by_(~Omtrek) %>%
-    mutate_(
-      HOOGTE = ~rnorm(n(),
-                      A + B * log(Omtrek) + C * (log(Omtrek)) ^ 2,
-                      sd),
-      HOOGTE = ~ifelse(HOOGTE <= 0, 0.1, HOOGTE)
+    group_by(.data$Omtrek) %>%
+    mutate(
+      HOOGTE =
+        rnorm(
+          n(),
+          A + B * log(.data$Omtrek) +
+            C * (log(.data$Omtrek)) ^ 2,
+          sd
+        ),
+      HOOGTE = ifelse(.data$HOOGTE <= 0, 0.1, .data$HOOGTE)
     ) %>%
     ungroup() %>%
-    select_(~-Omtrek)
+    select(-.data$Omtrek)
 
   return(Metingen)
 }

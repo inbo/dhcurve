@@ -33,19 +33,20 @@
 #'     Afgeleidmodel[[2]],
 #'     by = c("BMS", "DOMEIN_ID")
 #'   ) %>%
-#'   group_by_(
-#'     ~BMS,
-#'     ~DOMEIN_ID
+#'   group_by(
+#'     .data$BMS,
+#'     .data$DOMEIN_ID
 #'   ) %>%
-#'   do_(
-#'     ~hoogteschatting.afgeleid(.$Model[[1]],
-#'                               select_(., ~-Model))
+#'   do(
+#'     hoogteschatting.afgeleid(.$Model[[1]],
+#'                               select(., -.data$Model))
 #'   ) %>%
 #'   ungroup()
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% mutate_
+#' @importFrom dplyr %>% mutate
+#' @importFrom rlang .data
 #' @importFrom stats predict
 #' @importFrom assertthat assert_that
 #'
@@ -63,8 +64,8 @@ hoogteschatting.afgeleid <- function(Domeinsoortmodel, Domeinsoortdata) {
               msg = "De dataset Domeinsoortdata maar 1 domein bevatten")
 
   Schatting <- Domeinsoortdata %>%
-    mutate_(
-      H_D_finaal = ~predict(Domeinsoortmodel, newdata = .)
+    mutate(
+      H_D_finaal = predict(Domeinsoortmodel, newdata = .)
     )
 
   return(Schatting)

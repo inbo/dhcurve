@@ -45,9 +45,9 @@
 #'     Data.lokaal,
 #'     by = c("BMS", "DOMEIN_ID")
 #'   ) %>%
-#'   group_by_(
-#'     ~BMS,
-#'     ~DOMEIN_ID
+#'   group_by(
+#'     BMS,
+#'     DOMEIN_ID
 #'   ) %>%
 #'   do_(
 #'     ~hoogteschatting.basis(.$Model[[1]],
@@ -59,10 +59,11 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ select_ distinct_ full_join
+#' @importFrom dplyr %>% filter mutate select distinct full_join
+#' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats predict
-#' @importFrom assertthat assert_that
+#' @importFrom assertthat assert_that has_name
 #'
 
 hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
@@ -99,37 +100,37 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
     distinct_()
 
   Schatting.soort <- merge(Schatting.soort, AlleKlassen) %>%
-    filter_(
-      ~y >= (100 * Q5k) - 1,
-      ~y <= (100 * Q95k) + 1
+    filter(
+      .data$y >= (100 * .data$Q5k) - 1,
+      .data$y <= (100 * .data$Q95k) + 1
     ) %>%
-    mutate_(
-      Omtrek = ~y / 100,
-      logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek ^ 2
+    mutate(
+      Omtrek = .data$y / 100,
+      logOmtrek = log(.data$Omtrek),
+      logOmtrek2 = .data$logOmtrek ^ 2
     ) %>%
-    mutate_(
-      H_D_finaal = ~predict(Soortmodel, newdata = .)
+    mutate(
+      H_D_finaal = predict(Soortmodel, newdata = .)
     )
 
   #Voor basismodel ook hoogtes voor Vlaams model schatten
   if (grepl(Typemodel, "basis")) {
     Schatting.soort <- Schatting.soort %>%
-      mutate_(
-        H_VL_finaal = ~as.numeric(fixef(Soortmodel)[1]) +
-          as.numeric(fixef(Soortmodel)[2]) * logOmtrek +
-          as.numeric(fixef(Soortmodel)[3]) * logOmtrek2
+      mutate(
+        H_VL_finaal = as.numeric(fixef(Soortmodel)[1]) +
+          as.numeric(fixef(Soortmodel)[2]) * .data$logOmtrek +
+          as.numeric(fixef(Soortmodel)[3]) * .data$logOmtrek2
       )
   }
 
   #resultaten koppelen aan dataset met meetgegevens
   Schatting.soort <- Schatting.soort %>%
-    select_(~-logOmtrek, ~-logOmtrek2) %>%
+    select(-.data$logOmtrek, -.data$logOmtrek2) %>%
     full_join(
       Soortdata %>%
-        mutate_(y = ~as.integer(round(100 * Omtrek))) %>%
-        select_(~-Omtrek),
       by = c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+        mutate(y = as.integer(round(100 * .data$Omtrek))) %>%
+        select(-.data$Omtrek),
              "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "y")
     ) %>%
     select_(~-y)

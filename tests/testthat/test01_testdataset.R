@@ -30,12 +30,12 @@ describe("testdataset", {
   })
 
   Data <- testdataset(nBomenDomein) %>%
-    mutate_(
-      Omtrek = ~ floor(C13 / 10) / 10 + 0.05,
-      Rijnr = ~seq_along(C13),
-      logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek ^ 2,
-      Testgroep = ~ (row_number(DOMEIN_ID) - 1) %% 6 + 1
+    mutate(
+      Omtrek = floor(C13 / 10) / 10 + 0.05,
+      Rijnr = seq_along(C13),
+      logOmtrek = log(Omtrek),
+      logOmtrek2 = logOmtrek ^ 2,
+      Testgroep = (row_number(DOMEIN_ID) - 1) %% 6 + 1
     )
 
   Model <-
