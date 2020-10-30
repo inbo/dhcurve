@@ -79,6 +79,7 @@
 #' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that has_name noNA is.flag
+#' @importFrom stats quantile
 #'
 
 initiatie <-
