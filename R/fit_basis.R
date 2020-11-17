@@ -43,7 +43,7 @@ fit.basis <- function(Data.basis) {
                            returnObject = TRUE)
     )
   }
-  
+
   Basismodel <- Data.basis %>%
     group_by(.data$BMS) %>%
     nest() %>%

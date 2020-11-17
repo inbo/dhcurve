@@ -88,7 +88,7 @@ describe("initiatie", {
       Output <- initiatie(Dataset),
       "list"
     )
-    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+    for (i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
       attr(Output[[i]]$Q5, "names") <- NULL
       attr(Output[[i]]$Q5k, "names") <- NULL
       attr(Output[[i]]$Q95, "names") <- NULL
@@ -175,7 +175,7 @@ describe("initiatie", {
                                      stringsAsFactors = FALSE)),
       "list"
     )
-    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+    for (i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
       attr(Output[[i]]$Q5, "names") <- NULL
       attr(Output[[i]]$Q5k, "names") <- NULL
       attr(Output[[i]]$Q95, "names") <- NULL
@@ -274,7 +274,7 @@ describe("initiatie", {
       Output <- initiatie(Dataset),
       "list"
     )
-    for(i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
+    for (i in c("Basis", "Afgeleid", "Lokaal", "Rest")) {
       attr(Output[[i]]$Q5, "names") <- NULL
       attr(Output[[i]]$Q5k, "names") <- NULL
       attr(Output[[i]]$Q95, "names") <- NULL

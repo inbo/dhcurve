@@ -39,7 +39,7 @@ fit.lokaal <- function(Data.lokaal) {
       data = df
     )
   }
-  
+
   Lokaalmodel <- Data.lokaal %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
     nest() %>%
