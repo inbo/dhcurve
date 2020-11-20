@@ -27,10 +27,6 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 
 ```{r, message=FALSE, warning=FALSE}
 
-SelectieModel$ID <-
-  ifelse(suppressWarnings(is.null(SelectieModel$ID)),
-         "geen label", SelectieModel$ID)
-
 Grafiek <-
   ggplot(SelectieModel, aes(x = Omtrek, y = HOOGTE,
                              colour = TeControlerenAfwijking,

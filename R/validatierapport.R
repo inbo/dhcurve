@@ -100,6 +100,7 @@ validatierapport <-
   assert_that(inherits(Dataset$rmseD, "numeric"))
   assert_that(has_name(Dataset, "maxResid"))          #nolint
   assert_that(inherits(Dataset$maxResid, "numeric"))
+  assert_that(has_name(Dataset, "ID"))
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
