@@ -29,7 +29,7 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 Grafiek <-
   ggplot(SelectieModel,
          aes(x = Omtrek, y = HOOGTE, colour = TeControlerenAfwijking)) +
-  scale_colour_manual(values = alpha(c("red", "black"))) +
+  scale_colour_manual(values = alpha(c("black", "red"))) +
   geom_jitter(width = 0.03, height = 0) +
   geom_line(aes(y = H_D_finaal, colour = CurveSlecht, linetype = "Domein"),
             size = 1) +

@@ -128,8 +128,8 @@ validatierapport <-
       TeControlerenAfwijking =
         factor(ifelse(is.na(.data$TeControlerenAfwijking),
                        FALSE, .data$TeControlerenAfwijking),
-                levels = c(TRUE, FALSE),
-                labels = c("Te controleren", "OK"))
+                levels = c(FALSE, TRUE),
+                labels = c("OK", "Te controleren"))
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
@@ -163,8 +163,8 @@ validatierapport <-
   }
 
   Selectie$CurveSlecht <-
-    factor(Selectie$CurveSlecht, levels = c(TRUE, FALSE),
-           labels = c("Te controleren", "OK"))
+    factor(Selectie$CurveSlecht, levels = c(FALSE, TRUE),
+           labels = c("OK", "Te controleren"))
 
 
   Selectie <- Selectie %>%
