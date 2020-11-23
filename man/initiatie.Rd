@@ -80,6 +80,10 @@ worden.
 Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
 weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
 met omtrek <= 0,5 m weggelaten.
+
+In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
+[["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+validatierapport.
 }
 \description{
 De functie initiatie maakt de dataset klaar voor de verdere stappen van het
