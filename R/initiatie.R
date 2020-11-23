@@ -178,7 +178,8 @@ initiatie <-
     ) %>%
     ungroup() %>%
     filter(
-      .data$nTotaal >= 10
+      .data$nTotaal >= 10,
+      .data$nTotaal != .data$nInterval
     )
 
   if (nrow(DataRapport > 0)) {
