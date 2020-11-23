@@ -154,7 +154,7 @@ outputIVANHO <-
       do(
         hoogteschatting.basis(.$Model[[1]],
                                select(., -.data$Model),
-                               "Lokaal", .$BMS)
+                               "Lokaal", unique(.$BMS))
       ) %>%
       ungroup() %>%
       mutate(
