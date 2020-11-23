@@ -31,6 +31,9 @@ modelparameters.basis <- function(Soortmodel, BMS) {
   Soortparameters <- Soortmodel$data %>%
     select(
       .data$DOMEIN_ID,
+      .data$BOS_BHI,
+      .data$nBomenInterval,
+      .data$nBomenOmtrek05,
       .data$Q5k,
       .data$Q95k
     ) %>%
@@ -40,7 +43,8 @@ modelparameters.basis <- function(Soortmodel, BMS) {
       by = c("DOMEIN_ID")
     ) %>%
     select(
-      "BMS", "DOMEIN_ID", "Q5k", "Q95k",
+      "BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+      "Q5k", "Q95k",
       "Ad", "Bd", "Cd", "Avl", "Bvl", "Cvl"
     )
 

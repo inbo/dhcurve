@@ -109,7 +109,11 @@ validatie.lokaal <-
       Reden = "hoge RMSE"
     ) %>%
     bind_rows(
-      AfwijkendeCurves
+      AfwijkendeCurves %>%
+        select(
+          .data$DOMEIN_ID, .data$BMS, .data$Reden,
+          .data$Omtrek_Buigpunt.d, .data$Omtrek_Extr_Hoogte.d
+        )
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%

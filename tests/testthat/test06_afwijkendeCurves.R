@@ -36,9 +36,12 @@ describe("afwijkendecurves", {
 
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeCurves(Basismodel) %>%
-                   as_tibble(),
+                   as_tibble() %>%
+                   select(-nBomenOmtrek05),
                  tibble(DOMEIN_ID = c("HM", "LM"),
                         BMS = "testboom",
+                        BOS_BHI = c("HoogMinimum", "LaagMaximum"),
+                        nBomenInterval = 200,
                         Omtrek_Buigpunt.d =
                           c(exp(1 - HMB$Bd / (2 * HMB$Cd)), NA),
                         Reden = c("curvevorm hol bij lage omtrekklassen",
@@ -47,9 +50,12 @@ describe("afwijkendecurves", {
                           c(NA, exp(-LMB$Bd / (2 * LMB$Cd)))
         )
     )
-    expect_equal(afwijkendeCurves(Lokaalmodel, Lokaledata),
+    expect_equal(afwijkendeCurves(Lokaalmodel, Lokaledata) %>%
+                   select(-nBomenOmtrek05),
                  tibble(DOMEIN_ID = c("HM", "LM"),
                         BMS = "andereboom",
+                        BOS_BHI = c("HoogMinimum", "LaagMaximum"),
+                        nBomenInterval = 200,
                         Omtrek_Buigpunt.d =
                           c(exp(1 - HML$Bd / (2 * HML$Cd)), NA),
                         Reden = c("curvevorm hol bij lage omtrekklassen",

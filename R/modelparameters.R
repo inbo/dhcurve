@@ -52,6 +52,9 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
       group_by(
         .data$BMS,
         .data$DOMEIN_ID,
+        .data$BOS_BHI,
+        .data$nBomenInterval,
+        .data$nBomenOmtrek05,
         .data$Q5k,
         .data$Q95k
       ) %>%
@@ -75,6 +78,9 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
         group_by(
           .data$BMS,
           .data$DOMEIN_ID,
+          .data$BOS_BHI,
+          .data$nBomenInterval,
+          .data$nBomenOmtrek05,
           .data$Q5k,
           .data$Q95k
         ) %>%

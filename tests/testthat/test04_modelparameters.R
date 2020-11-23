@@ -28,9 +28,12 @@ describe("modelparameters", {
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
     attr(resultaat, "groups") <- NULL
-    expect_equal(resultaat,
+    expect_equal(resultaat %>%
+                   select(-nBomenOmtrek05),
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = c("HM", "LM"),
+                            BOS_BHI = c("HoogMinimum", "LaagMaximum"),
+                            nBomenInterval = 200,
                             Q5k = 0.25,
                             Q95k = 2.35,
                             Ad = 30,
@@ -47,9 +50,12 @@ describe("modelparameters", {
                    as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
-    expect_equal(resultaat,
+    expect_equal(resultaat %>%
+                   select(-nBomenOmtrek05),
                  data.frame(BMS = "andereboom",
                             DOMEIN_ID = c("HM", "LM"),
+                            BOS_BHI = c("HoogMinimum", "LaagMaximum"),
+                            nBomenInterval = 200,
                             Q5k = 0.25,
                             Q95k = 2.35,
                             Ad = 30,
@@ -73,9 +79,11 @@ describe("modelparameters", {
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
     attr(resultaat, "groups") <- NULL
-    expect_equal(resultaat,
+    expect_equal(resultaat %>%
+                   select(-BOS_BHI, -nBomenOmtrek05),
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = LETTERS[1:6],
+                            nBomenInterval = 200,
                             Q5k = 0.25,
                             Q95k = 2.35,
                             Avl = 30,
@@ -92,9 +100,12 @@ describe("modelparameters", {
                    as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
-    expect_equal(resultaat,
+    expect_equal(resultaat %>%
+                   select(-nBomenOmtrek05),
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = "Klein",
+                            BOS_BHI = "DOMEIN_Klein",
+                            nBomenInterval = 40,
                             Q5k = 0.25,
                             Q95k = 2.35,
                             Ad = -5,

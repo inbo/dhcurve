@@ -22,6 +22,13 @@ velden:
 
 - DOMEIN_ID
 
+- BOS_BHI
+
+- nBomenInterval:  aantal metingen waarop model gebaseerd is
+
+- nBomenOmtrek05: aantal metingen > 0.5 m, dus waarop rmse-berekening
+gebaseerd is
+
 - Reden: reden waarom de curve afwijkend is
 
 - Omtrek_buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve

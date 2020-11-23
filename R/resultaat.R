@@ -74,7 +74,10 @@ resultaat <-
   if (!is.null(Basismodel)) {
     invoercontrole(Basismodel, "basismodel")
     Modellen.basis <- modelparameters(Basismodel) %>%
-    select(-.data$Q5k, -.data$Q95k) %>%
+    select(
+      -.data$BOS_BHI, -.data$nBomenInterval, -.data$nBomenOmtrek05,
+      -.data$Q5k, -.data$Q95k
+    ) %>%
     left_join(Basismodel %>%
                 rowwise() %>%
                 do(
@@ -178,7 +181,10 @@ resultaat <-
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             left_join(
-              modelparameters(Basismodel, Afgeleidmodel = Afgeleidmodel),
+              modelparameters(Basismodel, Afgeleidmodel = Afgeleidmodel) %>%
+                select(
+                  -.data$BOS_BHI, -.data$nBomenInterval, -.data$nBomenOmtrek05
+                ),
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             transmute(
@@ -217,7 +223,10 @@ resultaat <-
 
     Modellen.lokaal <-
       modelparameters(Lokaalmodel, Data.lokaal) %>%
-      select(-.data$Q5k, -.data$Q95k) %>%
+      select(
+        -.data$BOS_BHI, -.data$nBomenInterval, -.data$nBomenOmtrek05,
+        -.data$Q5k, -.data$Q95k
+      ) %>%
       left_join(Data.lokaal %>%
                   group_by(
                     .data$BMS,
