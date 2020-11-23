@@ -346,7 +346,7 @@ initiatie <-
 
 
   return(
-    if (DataRapport > 0) {
+    if (nrow(DataRapport > 0)) {
       list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
               Rest = Data.rest, VerwijderdeGegevens = DataRapport)
     }
