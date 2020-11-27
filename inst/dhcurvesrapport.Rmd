@@ -1,0 +1,39 @@
+---
+title: "Rapport met dh-curves"
+author: "Els Lommelen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(dplyr)
+library(dhcurve)
+library(knitr)
+
+```
+
+```{r, warning=FALSE, results='asis', include=FALSE}
+
+Uitvoer <- NULL
+
+  for (Boomsoort in unique(Dataset$BMS)) {
+    DataSoort <- Dataset %>%
+      filter(BMS == Boomsoort)
+    for (Domein in unique(DataSoort$DOMEIN_ID)) {
+      DataModel <- DataSoort %>%
+        filter(DOMEIN_ID == Domein)
+      Uitvoer <- c(Uitvoer, knit_child("dhcurve.Rmd"))
+    }
+  }
+
+```
+
+```{r output, results='asis'}
+
+cat(Uitvoer, sep = "\n")
+```
+
