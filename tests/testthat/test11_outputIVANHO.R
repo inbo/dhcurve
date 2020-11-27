@@ -19,10 +19,20 @@ describe("outputIVANHO", {
   Lokaledata <- Data[["Lokaledata"]]
   Lokaalmodel <- Data[["Lokaalmodel"]]
 
+  it("De uitgevoerde dataset heeft de juiste kolommen", {
+    expect_equal(
+      outputIVANHO(Basismodel = Basismodel1, Data.lokaal = Lokaledata,
+                   Lokaalmodel = Lokaalmodel) %>%
+        colnames(.),
+      c("BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
+        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
+    )
+  })
+
   it("De hoogtes worden correct berekend voor domeinen van het Basismodel", {
     expect_equal(outputIVANHO(Basismodel1) %>%
                    filter(DOMEIN_ID %in% c("HM", "LM")) %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse) %>%
+                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = rep(c("HM", "LM"), 22),
@@ -45,7 +55,7 @@ describe("outputIVANHO", {
     expect_error(outputIVANHO(Lokaalmodel = Lokaalmodel))
     expect_equal(outputIVANHO(Lokaalmodel = Lokaalmodel,
                               Data.lokaal = Lokaledata) %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse) %>%
+                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "andereboom",
                             DOMEIN_ID = rep(c("HM", "LM"), each = 22),
@@ -68,13 +78,21 @@ describe("outputIVANHO", {
   Basismodel2 <- Data[["Basismodel"]]
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
+  it("De uitgevoerde dataset heeft de juiste kolommen voor afgeleid model", {
+    expect_equal(
+      outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
+        colnames(.),
+      c("BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
+        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
+    )
+  })
 
   it("De hoogtes worden correct berekend voor Afgeleid model", {
     expect_error(outputIVANHO(Afgeleidmodel))
     expect_error(outputIVANHO(Afgeleidmodel = Afgeleidmodel))
     expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
                    filter(Modeltype == "afgeleid model") %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse) %>%
+                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = "Klein",
