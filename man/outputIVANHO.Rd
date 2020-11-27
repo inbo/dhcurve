@@ -55,6 +55,8 @@ omtrekklasse
 - Omtrekklasse
 
 - Hoogte: de geschatte hoogte
+
+- RMSE (root mean square error, zie vignette voor meer info)
 }
 \description{
 De functie outputIVANHO voert de berekeningen uit die leiden tot de
