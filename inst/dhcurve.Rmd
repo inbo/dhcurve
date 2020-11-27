@@ -17,12 +17,13 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 `r unique(DataModel$Q95k)` m
 
 ```{r warning=FALSE}
-alpha = 1/log(unique(DataModel$nBomen))
+alpha <- 1 / log(unique(DataModel$nBomen))
 Grafiek <-
   ggplot(DataModel, aes(x = Omtrek, y = HOOGTE)) +
   geom_jitter(width = 0.03, height = 0, alpha = alpha, colour = "darkgreen") +
   #geom_line(aes(y = Hoogte), size = 1) +
-  geom_linerange(aes(y = Hoogte, xmin = Omtrek - 0.03, xmax = Omtrek + 0.03), size = 2) +
+  geom_linerange(aes(y = Hoogte, xmin = Omtrek - 0.03, xmax = Omtrek + 0.03),
+                 size = 2) +
   scale_x_continuous(minor_breaks = seq(0.05, 2.35, 0.1))
 
 print(Grafiek)
