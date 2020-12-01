@@ -24,7 +24,7 @@ describe("outputIVANHO", {
       outputIVANHO(Basismodel = Basismodel1, Data.lokaal = Lokaledata,
                    Lokaalmodel = Lokaalmodel) %>%
         colnames(.),
-      c("BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
+      c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
         "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
     )
   })
@@ -35,6 +35,7 @@ describe("outputIVANHO", {
                    select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
+                            IDbms = 1,
                             DOMEIN_ID = rep(c("HM", "LM"), 22),
                             BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
                                             22),
@@ -58,6 +59,7 @@ describe("outputIVANHO", {
                    select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "andereboom",
+                            IDbms = 2,
                             DOMEIN_ID = rep(c("HM", "LM"), each = 22),
                             BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
                                           each = 22),
@@ -82,7 +84,7 @@ describe("outputIVANHO", {
     expect_equal(
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
         colnames(.),
-      c("BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
+      c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
         "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
     )
   })
@@ -95,6 +97,7 @@ describe("outputIVANHO", {
                    select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
+                            IDbms = 1,
                             DOMEIN_ID = "Klein",
                             BOS_BHI = "DOMEIN_Klein",
                             Omtrek = seq(0.55, 2.35, 0.1),

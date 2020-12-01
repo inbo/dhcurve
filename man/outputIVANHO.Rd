@@ -35,7 +35,7 @@ velden:
 
 - BOS_BHI: domeinnaam
 
-- IDbms (nog toe te voegen!!!)
+- IDbms (identificatienummer van de boomsoort)
 
 - BMS: boomsoort
 

@@ -21,7 +21,7 @@
 #'
 #' - BOS_BHI: domeinnaam
 #'
-#' - IDbms (nog toe te voegen!!!)
+#' - IDbms (identificatienummer van de boomsoort)
 #'
 #' - BMS: boomsoort
 #'
@@ -140,7 +140,12 @@ outputIVANHO <-
         bind_rows(
           Afgeleidmodel[[1]] %>%
             inner_join(
-              Afgeleidmodel[[2]],
+              Afgeleidmodel[[2]] %>%
+                group_by(.data$BMS) %>%
+                mutate(
+                  IDbms = max(.data$IDbms, na.rm = TRUE)
+                ) %>%
+                ungroup(),
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             group_by(
@@ -240,6 +245,7 @@ outputIVANHO <-
     Hoogteschatting <- Hoogteschatting %>%
       transmute(
         .data$BMS,
+        .data$IDbms,
         .data$DOMEIN_ID,
         .data$BOS_BHI,
         .data$Omtrek,

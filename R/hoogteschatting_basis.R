@@ -138,7 +138,15 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
              "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "y")
     ) %>%
     select(-.data$y) %>%
-    mutate(BMS = BMS)
+    mutate(
+      BMS = BMS,
+      IDbms =
+        ifelse(
+          is.na(.data$IDbms),
+          max(Soortdata$IDbms, na.rm = TRUE),
+          .data$IDbms
+        )
+    )
 
   return(Schatting.soort)
 }
