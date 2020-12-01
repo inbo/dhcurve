@@ -29,7 +29,7 @@ TreesBosdat <-
   sqlQuery(connectieGegs, queryBosdat, stringsAsFactors = FALSE)
 
 queryNieuweMetingen <-
-  "SELECT ID, DOMEIN_ID, BOS_BHI, IDbms_bosdat AS IDbms, BMS_bosdat AS BMS,
+  "SELECT ID, DOMEIN_ID, BOS_BHI, ID_BosBMSNieuw AS IDbms, BMS,
    C13, HOOGTE, JAAR, StaandLiggend, Status
    FROM tblNieuweHoogtemetingen"
 TreesNieuweMetingen <-
