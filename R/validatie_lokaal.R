@@ -27,6 +27,7 @@
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
+#' @inheritParams validatie.basis
 #'
 #' @return
 #'
@@ -56,9 +57,8 @@
 #'
 
 validatie.lokaal <-
-  function(Lokaalmodel, Data, AantalDomHogeRMSE = 20,
+  function(Lokaalmodel, Data, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
-
 
   invoercontrole(Lokaalmodel, "lokaalmodel")
   invoercontrole(Data, "fit")
@@ -101,6 +101,19 @@ validatie.lokaal <-
   #afwijkende curves
   AfwijkendeCurves <- afwijkendeCurves(Lokaalmodel, Data)
 
+  if (!is.null(ExtraCurvesRapport)) {
+    assert_that(has_name(ExtraCurvesRapport, "DOMEIN_ID"))
+    assert_that(has_name(ExtraCurvesRapport, "BMS"))
+    ZonderJoin <- ExtraCurvesRapport %>%
+      anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
+    if (nrow(ZonderJoin) > 0) {
+      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model") #nolint
+    }
+  } else {
+    ExtraCurvesRapport <-
+      data.frame(DOMEIN_ID = character(0), BMS = character(0))
+  }
+
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
     select(.data$DOMEIN_ID, .data$BMS) %>%
@@ -122,6 +135,12 @@ validatie.lokaal <-
         distinct() %>%
         mutate(
           Reden = "afwijkende metingen"
+        )
+    ) %>%
+    bind_rows(
+      ExtraCurvesRapport %>%
+        mutate(
+          Reden = "opgegeven als extra curve"
         )
     ) %>%
     mutate(

@@ -22,6 +22,10 @@
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
 #' fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
 #' gefit mixed model voor die boomsoort).
+#' @param ExtraCurvesRapport Optie om een lijst met extra domein-BMS-combinaties
+#' op te geven waardoor de curve getoond moet worden in het validatierapport.
+#' Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
+#' met benamingen die overeenkomen met deze in de opgegeven dataset.
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
@@ -57,7 +61,7 @@
 #'
 
 validatie.basis <-
-  function(Basismodel, AantalDomHogeRMSE = 20,
+  function(Basismodel, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
 
   invoercontrole(Basismodel, "basismodel")
@@ -88,6 +92,19 @@ validatie.basis <-
   #afwijkende curves
   AfwijkendeCurves <- afwijkendeCurves(Basismodel)
 
+  if (!is.null(ExtraCurvesRapport)) {
+    assert_that(has_name(ExtraCurvesRapport, "DOMEIN_ID"))
+    assert_that(has_name(ExtraCurvesRapport, "BMS"))
+    ZonderJoin <- ExtraCurvesRapport %>%
+      anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
+    if (nrow(ZonderJoin) > 0) {
+      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een basismodel") #nolint
+    }
+  } else {
+    ExtraCurvesRapport <-
+      data.frame(DOMEIN_ID = character(0), BMS = character(0))
+  }
+
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
     select(.data$DOMEIN_ID, .data$BMS) %>%
@@ -109,6 +126,12 @@ validatie.basis <-
         distinct() %>%
         mutate(
           Reden = "afwijkende metingen"
+        )
+    ) %>%
+    bind_rows(
+      ExtraCurvesRapport %>%
+        mutate(
+          Reden = "opgegeven als extra curve"
         )
     ) %>%
     mutate(

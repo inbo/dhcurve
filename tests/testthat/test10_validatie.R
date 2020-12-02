@@ -146,6 +146,72 @@ describe("validatie", {
     )
   })
 
+  it("Selectie ExtraCurvesRapport werkt correct", {
+    expect_warning(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een basismodel"
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "A", BMS = "testboom")
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_warning(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model"
+    )
+    expect_equal(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.afgeleid(Basismodel, Afgeleidmodel)
+    )
+    expect_equal(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Klein", BMS = "testboom")
+      ),
+      validatie.afgeleid(Basismodel, Afgeleidmodel)
+    )
+    expect_warning(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "A", BMS = "testboom")
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
+    )
+  })
+
   setwd(wd)
 
 })

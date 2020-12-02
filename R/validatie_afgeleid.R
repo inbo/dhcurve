@@ -24,6 +24,7 @@
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
+#' @inheritParams validatie.basis
 #'
 #' @return De functie genereert een validatierapport (html-bestand) in de
 #' working directory met informatie en grafieken van de te controleren metingen.
@@ -56,7 +57,7 @@
 
 validatie.afgeleid <-
   function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
-           Bestandsnaam = "Validatie_Afgeleid.html",
+           ExtraCurvesRapport = NULL, Bestandsnaam = "Validatie_Afgeleid.html",
            TypeRapport = "Dynamisch") {
 
   invoercontrole(Basismodel, "basismodel")
@@ -138,6 +139,19 @@ validatie.afgeleid <-
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
 
+  if (!is.null(ExtraCurvesRapport)) {
+    assert_that(has_name(ExtraCurvesRapport, "DOMEIN_ID"))
+    assert_that(has_name(ExtraCurvesRapport, "BMS"))
+    ZonderJoin <- ExtraCurvesRapport %>%
+      anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
+    if (nrow(ZonderJoin) > 0) {
+      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model") #nolint
+    }
+  } else {
+    ExtraCurvesRapport <-
+      data.frame(DOMEIN_ID = character(0), BMS = character(0))
+  }
+
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
     select(.data$DOMEIN_ID, .data$BMS) %>%
@@ -156,6 +170,12 @@ validatie.afgeleid <-
         distinct() %>%
         mutate(
           Reden = "afwijkende metingen"
+        )
+    ) %>%
+    bind_rows(
+      ExtraCurvesRapport %>%
+        mutate(
+          Reden = "opgegeven als extra curve"
         )
     ) %>%
     group_by(

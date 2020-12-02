@@ -8,6 +8,7 @@ validatie.lokaal(
   Lokaalmodel,
   Data,
   AantalDomHogeRMSE = 20,
+  ExtraCurvesRapport = NULL,
   Bestandsnaam = "Default",
   TypeRapport = "Dynamisch"
 )
@@ -24,6 +25,11 @@ boomsoort-domeincombinatie).}
 geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
 metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
 domeinen aan te passen.}
+
+\item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
+op te geven waardoor de curve getoond moet worden in het validatierapport.
+Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
+met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
