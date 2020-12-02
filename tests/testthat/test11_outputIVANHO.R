@@ -25,14 +25,18 @@ describe("outputIVANHO", {
                    Lokaalmodel = Lokaalmodel) %>%
         colnames(.),
       c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
-        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
+        "Omtrekklasse", "Hoogte", "RMSE", "BI_ondergrens", "BI_bovengrens",
+        "Modeltype")
     )
   })
 
   it("De hoogtes worden correct berekend voor domeinen van het Basismodel", {
     expect_equal(outputIVANHO(Basismodel1) %>%
                    filter(DOMEIN_ID %in% c("HM", "LM")) %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
+                   select(
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
+                     -BI_ondergrens, -BI_bovengrens
+                   ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             IDbms = 1,
@@ -56,7 +60,10 @@ describe("outputIVANHO", {
     expect_error(outputIVANHO(Lokaalmodel = Lokaalmodel))
     expect_equal(outputIVANHO(Lokaalmodel = Lokaalmodel,
                               Data.lokaal = Lokaledata) %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
+                   select(
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
+                     -BI_ondergrens, -BI_bovengrens
+                   ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "andereboom",
                             IDbms = 2,
@@ -85,7 +92,8 @@ describe("outputIVANHO", {
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
         colnames(.),
       c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
-        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
+        "Omtrekklasse", "Hoogte", "RMSE", "BI_ondergrens", "BI_bovengrens",
+        "Modeltype")
     )
   })
 
@@ -94,7 +102,10 @@ describe("outputIVANHO", {
     expect_error(outputIVANHO(Afgeleidmodel = Afgeleidmodel))
     expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
                    filter(Modeltype == "afgeleid model") %>%
-                   select(-OmtrekklassetypeID, -Omtrekklasse, -RMSE) %>%
+                   select(
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
+                     -BI_ondergrens, -BI_bovengrens
+                   ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             IDbms = 1,
