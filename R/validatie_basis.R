@@ -26,6 +26,15 @@
 #' op te geven waardoor de curve getoond moet worden in het validatierapport.
 #' Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
 #' met benamingen die overeenkomen met deze in de opgegeven dataset.
+#' @param GoedgekeurdeAfwijkendeCurves Optie om goedgekeurde afwijkende curves
+#' niet meer te tonen in het validatierapport zolang er geen extra metingen
+#' toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
+#' te keuren curves in het rapport over te houden). De goedgekeurde en dus te
+#' negeren curves moeten opgegeven worden in een dataframe met velden DOMEIN_ID,
+#' BMS en nBomenTerugTonen, met nBomenTerugTonen het aantal bomen in de
+#' domein-BMS-combinatie vanaf wanneer de curve terug getoond moet worden.
+#' (In dit geval wordt de curve uiteraard enkel terug getoond als ze nog steeds
+#' afwijkend is.)
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
@@ -54,7 +63,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
-#' summarise ungroup bind_rows do rowwise
+#' summarise ungroup bind_rows do rowwise anti_join left_join
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
@@ -62,6 +71,7 @@
 
 validatie.basis <-
   function(Basismodel, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
+           GoedgekeurdeAfwijkendeCurves = NULL,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
 
   invoercontrole(Basismodel, "basismodel")
@@ -104,6 +114,30 @@ validatie.basis <-
     ExtraCurvesRapport <-
       data.frame(DOMEIN_ID = character(0), BMS = character(0))
   }
+  if (!is.null(GoedgekeurdeAfwijkendeCurves)) {
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "DOMEIN_ID"))
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "BMS"))
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "nBomenTerugTonen"))
+    assert_that(is.count(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen))
+    ZonderJoin <- GoedgekeurdeAfwijkendeCurves %>%
+      anti_join(AfwijkendeCurves, by = c("DOMEIN_ID", "BMS"))
+    if (nrow(ZonderJoin) > 0) {
+      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint
+    }
+    AfwijkendeCurvesNegeren <- GoedgekeurdeAfwijkendeCurves %>%
+      left_join(
+        Dataset %>%
+          select(.data$DOMEIN_ID, .data$BMS, .data$nBomenInterval) %>%
+          distinct(),
+        by = c("DOMEIN_ID", "BMS")
+      ) %>%
+      filter(
+        .data$nBomenInterval < .data$nBomenTerugTonen
+      )
+  } else {
+    AfwijkendeCurvesNegeren <-
+      data.frame(DOMEIN_ID = character(0), BMS = character(0))
+  }
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
@@ -113,7 +147,11 @@ validatie.basis <-
       Reden = "hoge RMSE"
     ) %>%
     bind_rows(
-      AfwijkendeCurves
+      AfwijkendeCurves %>%
+        anti_join(
+          AfwijkendeCurvesNegeren,
+          by = c("DOMEIN_ID", "BMS")
+        )
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%

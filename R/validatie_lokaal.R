@@ -50,7 +50,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
-#' summarise ungroup bind_rows do rowwise
+#' summarise ungroup bind_rows do rowwise anti_join left_join
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
@@ -58,6 +58,7 @@
 
 validatie.lokaal <-
   function(Lokaalmodel, Data, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
+           GoedgekeurdeAfwijkendeCurves = NULL,
            Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
 
   invoercontrole(Lokaalmodel, "lokaalmodel")
@@ -113,6 +114,30 @@ validatie.lokaal <-
     ExtraCurvesRapport <-
       data.frame(DOMEIN_ID = character(0), BMS = character(0))
   }
+  if (!is.null(GoedgekeurdeAfwijkendeCurves)) {
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "DOMEIN_ID"))
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "BMS"))
+    assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "nBomenTerugTonen"))
+    assert_that(is.count(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen))
+    ZonderJoin <- GoedgekeurdeAfwijkendeCurves %>%
+      anti_join(AfwijkendeCurves, by = c("DOMEIN_ID", "BMS"))
+    if (nrow(ZonderJoin) > 0) {
+      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint
+    }
+    AfwijkendeCurvesNegeren <- GoedgekeurdeAfwijkendeCurves %>%
+      left_join(
+        Dataset %>%
+          select(.data$DOMEIN_ID, .data$BMS, .data$nBomenInterval) %>%
+          distinct(),
+        by = c("DOMEIN_ID", "BMS")
+      ) %>%
+      filter(
+        .data$nBomenInterval < .data$nBomenTerugTonen
+      )
+  } else {
+    AfwijkendeCurvesNegeren <-
+      data.frame(DOMEIN_ID = character(0), BMS = character(0))
+  }
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
@@ -122,7 +147,11 @@ validatie.lokaal <-
       Reden = "hoge RMSE"
     ) %>%
     bind_rows(
-      AfwijkendeCurves
+      AfwijkendeCurves %>%
+        anti_join(
+          AfwijkendeCurvesNegeren,
+          by = c("DOMEIN_ID", "BMS")
+        )
     ) %>%
     bind_rows(
       AfwijkendeMetingen %>%

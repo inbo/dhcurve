@@ -212,6 +212,41 @@ describe("validatie", {
     )
   })
 
+  it("Toevoegen GoedgekeurdeAfwijkendeCurves werkt correct", {
+    expect_warning(
+      validatie.basis(
+        Basismodel,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_warning(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
+    )
+  })
+
   setwd(wd)
 
 })
