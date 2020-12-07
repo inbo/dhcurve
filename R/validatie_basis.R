@@ -31,10 +31,10 @@
 #' toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
 #' te keuren curves in het rapport over te houden). De goedgekeurde en dus te
 #' negeren curves moeten opgegeven worden in een dataframe met velden DOMEIN_ID,
-#' BMS en nBomenTerugTonen, met nBomenTerugTonen het aantal bomen in de
-#' domein-BMS-combinatie vanaf wanneer de curve terug getoond moet worden.
-#' (In dit geval wordt de curve uiteraard enkel terug getoond als ze nog steeds
-#' afwijkend is.)
+#' BMS en nBomenTerugTonen, met nBomenTerugTonen het aantal bomen
+#' (nBomenInterval) in de domein-BMS-combinatie vanaf wanneer de curve terug
+#' getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
+#' getoond als ze nog steeds afwijkend is.)
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
