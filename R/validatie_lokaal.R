@@ -118,7 +118,24 @@ validatie.lokaal <-
     assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "DOMEIN_ID"))
     assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "BMS"))
     assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "nBomenTerugTonen"))
-    assert_that(is.count(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen))
+    assert_that(
+      inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, c("integer", "numeric")),
+      msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint
+    )
+    if (inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen -
+              as.integer(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+        , msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een geheel getal zijn" #nolint
+      )
+      GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen <-
+        as.integer(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen)
+    }
     ZonderJoin <- GoedgekeurdeAfwijkendeCurves %>%
       anti_join(AfwijkendeCurves, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
