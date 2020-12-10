@@ -119,7 +119,8 @@ validatie.basis <-
     assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "BMS"))
     assert_that(has_name(GoedgekeurdeAfwijkendeCurves, "nBomenTerugTonen"))
     assert_that(
-      inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, c("integer", "numeric")),
+      inherits(
+        GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, c("integer", "numeric")),
       msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint
     )
     if (inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, "numeric")) {
