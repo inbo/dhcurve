@@ -33,17 +33,15 @@ moment actieve working directory opgeslagen).}
 De functie genereert in de working directory (of opgegeven directory)
 een rapport (html) met de te controleren modellen.  Hierin wordt per model
 (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-boomsoort, domein (+ ID), aantal metingen, rmse en bruikbaar interval.
+boomsoort, domein (+ ID), modeltype, aantal metingen, rmse en bruikbaar
+interval.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
 
 - een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
 een jitter)
 
-- curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
-model)
-
-- curve van het domeinmodel
+- curve van het domeinmodel, aangeduid met zwarte ruiten
 
 - grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
 die overeenkomen met deze grenzen)
