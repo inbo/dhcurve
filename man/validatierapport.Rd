@@ -15,40 +15,66 @@ validatierapport(
 )
 }
 \arguments{
-\item{SlechtsteModellen}{Lijst van de slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen.  Deze dataframe moet volgende velden bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van afwijkingen, om weer te geven boven grafiek).}
+\item{SlechtsteModellen}{Lijst van de slechtste modellen, dit zijn modellen
+met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
+modellen met afwijkende metingen.  Deze dataframe moet volgende velden
+bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van
+afwijkingen, om weer te geven boven grafiek).}
 
-\item{AfwijkendeMetingen}{Lijst met afwijkende metingen (dataframe zoals gegenereerd door de functie afwijkendeMetingen).}
+\item{AfwijkendeMetingen}{Lijst met afwijkende metingen (dataframe zoals
+gegenereerd door de functie afwijkendeMetingen).}
 
-\item{Dataset}{Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)}
+\item{Dataset}{Dataset met gemeten waarden en geschatte waarde voor
+domeinmodel en Vlaams model (inclusief RMSE)}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het
+html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
+uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+'Statisch', waarbij de figuren vast zijn.}
 
-\item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
+\item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
+boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
 
-\item{PathWD}{Het path van de working directory, dus het path waarin het validatierapport opgeslagen moet worden (default wordt het in de op dat moment actieve working directory opgeslagen).}
+\item{PathWD}{Het path van de working directory, dus het path waarin het
+validatierapport opgeslagen moet worden (default wordt het in de op dat
+moment actieve working directory opgeslagen).}
 }
 \value{
-De functie genereert in de working directory (of opgegeven directory) een rapport (html) met de te controleren modellen.  Hierin wordt per model (boomsoort-domeincombinatie) de volgende algemene informatie vermeld: boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de mogelijke problemen die bij het model optreden.
+De functie genereert in de working directory (of opgegeven directory)
+een rapport (html) met de te controleren modellen.  Hierin wordt per model
+(boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
+boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
+mogelijke problemen die bij het model optreden.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
 
-- een puntenwolk die de metingen voorstelt (geen individuele metingen, maar een jitter)
+- een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
+een jitter)
 
-- curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal model)
+- curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
+model)
 
 - curve van het domeinmodel
 
-- grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens die overeenkomen met deze grenzen)
+- grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
+die overeenkomen met deze grenzen)
 
 - afwijkende metingen: in rood (andere metingen in zwart)
 
 - afwijkende deel van een curve in rood (rest van curve in zwart)
 }
 \description{
-De functie genereert een validatierapport (html-bestand) in de working directory (of opgegeven directory) met informatie en grafieken van de te controleren modellen.  De afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is het probleem ook woordelijk beschreven.
+De functie genereert een validatierapport (html-bestand) in de working
+directory (of opgegeven directory) met informatie en grafieken van de te
+controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
+aangeduid; boven de curve is het probleem ook woordelijk beschreven.
 }
 \details{
-Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
+Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van
+de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als
+child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
 }

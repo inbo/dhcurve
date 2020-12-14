@@ -30,8 +30,10 @@ testdata1domein(
 \item{sd}{foutenmarge t.o.v. model voor de data}
 }
 \value{
-Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden C13 en HOOGTE.
+Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden
+C13 en HOOGTE.
 }
 \description{
-Deze functie genereert een testdataset voor 1 domein die voldoet aan de opgegeven vereisten.
+Deze functie genereert een testdataset voor 1 domein die voldoet aan de
+opgegeven vereisten.
 }

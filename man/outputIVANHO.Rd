@@ -12,16 +12,24 @@ outputIVANHO(
 )
 }
 \arguments{
-\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
+fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
+gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.}
+\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+door de functie fit.afgeleid: list met 2 tibbles.}
 
-\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).}
+\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
+door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
+en Model (lm-object met het gefit lineair model voor die
+boomsoort-domeincombinatie).}
 
-\item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
+\item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
+berekend is.}
 }
 \value{
-Dataframe met geschatte hoogtes per domein en per boomsoort met velden:
+Dataframe met geschatte hoogtes per domein en per boomsoort met
+velden:
 
 - DOMEIN_ID: domeincode
 
@@ -31,19 +39,34 @@ Dataframe met geschatte hoogtes per domein en per boomsoort met velden:
 
 - BMS: boomsoort
 
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= apart model voor 1 boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie waarvoor geen model berekend kan worden))
+- Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+basismodel) /
+‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+omdat niet relevant) / 'lokaal model'(= apart model voor 1
+boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
+waarvoor geen model berekend kan worden))
 
 - Omtrek: klassemidden van omtrekklasse
 
-- OmtrekklassetypeID: het overeenkomstige identificatienummer van de omtrekklasse
+- OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+omtrekklasse
 
 - Omtrekklasse
 
 - Hoogte: de geschatte hoogte
 }
 \description{
-De functie outputIVANHO voert de berekeningen uit die leiden tot de gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort, domein en omtrekklasse een schatting van de hoogte.  Als de curve een maximum hoogte vertoont binnen het bestudeerde interval, wordt deze maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt aangehouden.)
+De functie outputIVANHO voert de berekeningen uit die leiden tot de
+gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
+domein en omtrekklasse een schatting van de hoogte.  Als de curve een
+maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
+maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de
+omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten
+daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
+aangehouden.)
 }
 \details{
-Voor deze functie worden volgende hulpfuncties aangeroepen: hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
+Voor deze functie worden volgende hulpfuncties aangeroepen:
+hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
 }
