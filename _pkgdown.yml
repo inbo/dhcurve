@@ -6,6 +6,11 @@ navbar:
     href: news/index.html
   - text: Functions
     href: reference/index.html
+  - text: Articles
+    href: articles/index.html
+    menu:
+    - text: Handleiding
+      href: articles/Handleiding.html
   - text: Contributing
     href: CONTRIBUTING.html
   right:
