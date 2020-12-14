@@ -5,3 +5,4 @@
 ^inst/tijdelijk$
 ^inst/dh_curve.pdf
 ^inst/RenderHandleiding.R
+^codemeta\.json$
