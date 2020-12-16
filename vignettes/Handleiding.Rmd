@@ -478,7 +478,7 @@ We beschouwen een meting als afwijkend als de afwijking van het model groter is 
 Metingen <- testdata1domein(nBomen = 200) %>%
   mutate(
     Omtrek = floor(C13 / 10) / 10 + 0.05,
-    Model = 20 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
+    Model = 30 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
     Hmax = Model + 2.5 * 2,
     Hmin = Model - 2.5 * 2,
     Afwijkend = HOOGTE > Hmax | HOOGTE < Hmin
