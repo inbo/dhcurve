@@ -55,11 +55,11 @@ describe("validatie", {
   it("De uitvoer van de functies is correct", {
     expect_equal(validatie.basis(Basismodel) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
     expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
@@ -71,11 +71,11 @@ describe("validatie", {
     )
     expect_equal(validatie.lokaal(Lokaalmodel, Data.lokaal) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_D_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "rmseD",
-                   "maxResid", "HogeRmse", "Afwijkend")
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                   "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
+                   "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
+                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend")
     )
   })
 
@@ -143,6 +143,107 @@ describe("validatie", {
                     distinct() %>%
                     summarise(n = n()))$n,
                  8
+    )
+  })
+
+  it("Selectie ExtraCurvesRapport werkt correct", {
+    expect_warning(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een basismodel"
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "A", BMS = "testboom")
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_warning(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model"
+    )
+    expect_equal(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.afgeleid(Basismodel, Afgeleidmodel)
+    )
+    expect_equal(
+      validatie.afgeleid(
+        Basismodel, Afgeleidmodel,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Klein", BMS = "testboom")
+      ),
+      validatie.afgeleid(Basismodel, Afgeleidmodel)
+    )
+    expect_warning(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        ExtraCurvesRapport = data.frame(DOMEIN_ID = "A", BMS = "testboom")
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
+    )
+  })
+
+  it("Toevoegen GoedgekeurdeAfwijkendeCurves werkt correct", {
+    expect_warning(
+      validatie.basis(
+        Basismodel,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+    )
+    expect_equal(
+      validatie.basis(
+        Basismodel,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      validatie.basis(Basismodel)
+    )
+    expect_warning(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+    )
+    expect_equal(
+      validatie.lokaal(
+        Lokaalmodel, Data.lokaal,
+        GoedgekeurdeAfwijkendeCurves =
+          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      ),
+      validatie.lokaal(Lokaalmodel, Data.lokaal)
     )
   })
 

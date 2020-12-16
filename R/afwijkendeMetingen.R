@@ -21,8 +21,9 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ select_ distinct_ arrange_ transmute_ left_join
-#' mutate_ group_by_ arrange_ slice_ ungroup desc
+#' @importFrom dplyr %>% filter select distinct arrange transmute left_join
+#' mutate group_by arrange slice ungroup desc
+#' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
 #'
 
@@ -40,14 +41,14 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
               msg = "AantalDomHogeRMSE moet een positief geheel getal zijn.")
 
   HogeRmse <- Dataset %>%
-    select_(~BMS, ~DOMEIN_ID, ~rmseD) %>%
-    distinct_() %>%
-    arrange_(~ desc(rmseD)) %>%
-    slice_(~ seq_len(AantalDomHogeRMSE)) %>%
-    transmute_(
-      ~DOMEIN_ID,
-      ~BMS,
-      HogeRmse = ~TRUE
+    select(.data$BMS, .data$DOMEIN_ID, .data$rmseD) %>%
+    distinct() %>%
+    arrange(desc(.data$rmseD)) %>%
+    slice(seq_len(AantalDomHogeRMSE)) %>%
+    transmute(
+      .data$DOMEIN_ID,
+      .data$BMS,
+      HogeRmse = TRUE
     )
 
   Dataset <- Dataset %>%
@@ -58,34 +59,39 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
 
   #voor domeinen met hoge RMSE nemen we de 10 hoogste afwijkingen
   CorrectieHogeRMSE <- Dataset %>%
-    filter_(~HogeRmse) %>%
-    mutate_(
-      error = ~abs(HOOGTE - H_D_finaal),
-      HogeAfwijking = ~TRUE
+    filter(.data$HogeRmse) %>%
+    mutate(
+      error = abs(.data$HOOGTE - .data$H_D_finaal),
+      HogeAfwijking = TRUE
     ) %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    arrange_(~ desc(error)) %>%
-    slice_(~1:10) %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    arrange(desc(.data$error)) %>%
+    slice(1:10) %>%
     ungroup() %>%
-    select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE, ~HogeAfwijking) %>%
-    distinct_()
+    select(
+      .data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE, .data$HogeAfwijking
+    ) %>%
+    distinct()
 
   Dataset <- Dataset %>%
     left_join(
       CorrectieHogeRMSE,
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
     ) %>%
-    mutate_(
+    mutate(
       Afwijkend =
-        ~ifelse(!is.na(HogeAfwijking) & HogeAfwijking, HogeAfwijking,
-                (HOOGTE > (H_D_finaal + 2.5 * rmseD)) |
-                  (HOOGTE < (H_D_finaal - 2.5 * rmseD))),
-      HogeAfwijking = ~NULL
+        ifelse(
+          !is.na(.data$HogeAfwijking) & .data$HogeAfwijking,
+          .data$HogeAfwijking,
+          (.data$HOOGTE > (.data$H_D_finaal + 2.5 * .data$rmseD)) |
+            (.data$HOOGTE < (.data$H_D_finaal - 2.5 * .data$rmseD))
+        ),
+      HogeAfwijking = NULL
     )
 
   Afwijkend <- Dataset %>%
-    filter_(
-      ~Afwijkend
+    filter(
+      .data$Afwijkend
     )
 
   return(Afwijkend)

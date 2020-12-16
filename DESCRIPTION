@@ -8,6 +8,10 @@ Depends:
     R (>= 3.3.0)
 Imports:
     dplyr,
+    rlang,
+    tidyr,
+    purrr,
+    plyr,
     nlme,
     stats,
     ggplot2,

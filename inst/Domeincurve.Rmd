@@ -28,12 +28,12 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 
 Grafiek <-
   ggplot(SelectieModel,
-         aes_(x = ~Omtrek, y = ~HOOGTE, colour = ~TeControlerenAfwijking)) +
-  scale_colour_manual(values = alpha(c("red", "black"))) +
+         aes(x = Omtrek, y = HOOGTE, colour = TeControlerenAfwijking)) +
+  scale_colour_manual(values = alpha(c("black", "red"))) +
   geom_jitter(width = 0.03, height = 0) +
-  geom_line(aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domein"),
+  geom_line(aes(y = H_D_finaal, colour = CurveSlecht, linetype = "Domein"),
             size = 1) +
-  geom_point(aes_(y = ~H_D_finaal, colour = ~CurveSlecht),
+  geom_point(aes(y = H_D_finaal, colour = CurveSlecht),
              shape = 21, fill = "white", size = 2, stroke = 1) +
   scale_linetype_manual(name = "Model",
                         values = c("Vlaams" = "dashed", "Domein" = "solid")) +
@@ -45,7 +45,7 @@ Grafiek <-
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
   Grafiek <- Grafiek +
-    geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams"),
+    geom_line(aes(y = H_VL_finaal, linetype = "Vlaams"),
               colour = "black", size = 1)
 }
 

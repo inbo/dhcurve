@@ -8,14 +8,18 @@ validatie.afgeleid(
   Basismodel,
   Afgeleidmodel,
   AantalDomHogeRMSE = 20,
+  ExtraCurvesRapport = NULL,
   Bestandsnaam = "Validatie_Afgeleid.html",
   TypeRapport = "Dynamisch"
 )
 }
 \arguments{
-\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort)}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
+fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
+gefit mixed model voor die boomsoort)}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.
+\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+door de functie fit.afgeleid: list met 2 tibbles.
 #@param Data.afgeleid dataframe 10-50}
 
 \item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
@@ -23,27 +27,45 @@ geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
 metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
 domeinen aan te passen.}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+\item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
+op te geven waardoor de curve getoond moet worden in het validatierapport.
+Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
+met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het html-bestand kunnen worden aangepast (meetgegevens weergeven door muis erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is 'Statisch', waarbij de figuren vast zijn.}
+\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+
+\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het
+html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
+uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+'Statisch', waarbij de figuren vast zijn.}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) in de working directory met informatie en grafieken van de te controleren metingen.  De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of vignette voor meer informatie).
+De functie genereert een validatierapport (html-bestand) in de
+working directory met informatie en grafieken van de te controleren metingen.
+De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of
+vignette voor meer informatie).
 
-De functie geeft een dataframe terug met de te controleren metingen, met behalve de informatie uit de databank een aantal berekende waarden:
+De functie geeft een dataframe terug met de te controleren metingen, met
+behalve de informatie uit de databank een aantal berekende waarden:
 
-- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het domeinmodel
+- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+domeinmodel
 
 - rsmeD: de foutenschatting voor het domeinmodel
 
-- H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams model waarvan het domeinmodel afgeleid is
+- H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams
+model waarvan het domeinmodel afgeleid is
 
 - rmseVL: de foutenschatting voor dit Vlaams model
 
 - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
 }
 \description{
-Functie die de validatie uitvoert op het verschoven Vlaams model en een overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan valideren).
+Functie die de validatie uitvoert op het verschoven Vlaams model en een
+overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan
+valideren).
 }
 \details{
 validatie.afgeleid roept meerdere hulpfuncties op:
@@ -54,5 +76,6 @@ validatie.afgeleid roept meerdere hulpfuncties op:
 
 - validatierapport
 
-Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
+Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
+slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
 }

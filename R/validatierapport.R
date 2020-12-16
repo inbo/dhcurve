@@ -53,8 +53,9 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_
-#' bind_rows group_by_ arrange_ ungroup summarise_ desc
+#' @importFrom dplyr %>% inner_join mutate left_join select distinct filter
+#' bind_rows group_by arrange ungroup summarise desc
+#' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag has_name
 #'
@@ -99,6 +100,7 @@ validatierapport <-
   assert_that(inherits(Dataset$rmseD, "numeric"))
   assert_that(has_name(Dataset, "maxResid"))          #nolint
   assert_that(inherits(Dataset$maxResid, "numeric"))
+  assert_that(has_name(Dataset, "ID"))
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
@@ -117,39 +119,41 @@ validatierapport <-
     ) %>%
     left_join(
       AfwijkendeMetingen %>%
-        filter_(~Status != "Goedgekeurd") %>%
-        select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE) %>%
-        distinct_() %>%
-        mutate_(TeControlerenAfwijking = ~TRUE),
+        filter(.data$Status != "Goedgekeurd") %>%
+        select(.data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE) %>%
+        distinct() %>%
+        mutate(TeControlerenAfwijking = TRUE),
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
     ) %>%
-    mutate_(
+    mutate(
       TeControlerenAfwijking =
-        ~factor(ifelse(is.na(TeControlerenAfwijking),
-                       FALSE, TeControlerenAfwijking),
-                levels = c(TRUE, FALSE),
-                labels = c("Te controleren", "OK"))
+        factor(ifelse(is.na(.data$TeControlerenAfwijking),
+                       FALSE, .data$TeControlerenAfwijking),
+                levels = c(FALSE, TRUE),
+                labels = c("OK", "Te controleren"))
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
   #buigpunten berekend zijn)
   if (has_name(Selectie, "Omtrek_Buigpunt")) {
     Selectie2 <- Selectie %>%
-      mutate_(
-        Omtrek_BP = ~ (((Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
-        Omtrek_Max = ~ (((Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
+      mutate(
+        Omtrek_BP = (((.data$Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_Max = (((.data$Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
         CurveSlecht =
-          ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
-                  FALSE),
+          ifelse(!is.na(.data$Omtrek_BP) & (.data$Omtrek <= .data$Omtrek_BP),
+                 TRUE, FALSE),
         CurveSlecht =
-          ~ifelse(!is.na(Omtrek_Max) & (Omtrek >= Omtrek_Max),
-                  TRUE, CurveSlecht)
+          ifelse(!is.na(.data$Omtrek_Max) & (.data$Omtrek >= .data$Omtrek_Max),
+                  TRUE, .data$CurveSlecht)
       )
 
     Selectie <- Selectie2 %>%
-      filter_(~Omtrek == Omtrek_BP | Omtrek == Omtrek_Max) %>%
-      mutate_(
-        CurveSlecht = ~FALSE
+      filter(
+        .data$Omtrek == .data$Omtrek_BP | .data$Omtrek == .data$Omtrek_Max
+      ) %>%
+      mutate(
+        CurveSlecht = FALSE
       ) %>%
       bind_rows(
         Selectie2
@@ -160,12 +164,12 @@ validatierapport <-
   }
 
   Selectie$CurveSlecht <-
-    factor(Selectie$CurveSlecht, levels = c(TRUE, FALSE),
-           labels = c("Te controleren", "OK"))
+    factor(Selectie$CurveSlecht, levels = c(FALSE, TRUE),
+           labels = c("OK", "Te controleren"))
 
 
   Selectie <- Selectie %>%
-    arrange_(~ desc(maxResid))
+    arrange(desc(.data$maxResid))
 
 
   render(system.file("Validatierapport.Rmd", package = "dhcurve"),

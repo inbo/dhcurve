@@ -33,8 +33,8 @@
 #' # afgeleid model
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
-#'   do_(
-#'     ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+#'   do(
+#'     rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
 #'   ) %>%
 #'   ungroup()
 #' #Nota: voor een berekening van de volledige RMSE van een afgeleid model
@@ -42,7 +42,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% mutate_ summarise_ select_
+#' @importFrom dplyr %>% mutate summarise select n
+#' @importFrom rlang .data
 #' @importFrom stats influence
 #' @importFrom assertthat assert_that
 #'
@@ -54,19 +55,21 @@ rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein) {
               documentatie)")
 
   Rmse <- data.frame(RMSE = influence(Verschovenmodel)$sigma) %>%
-    mutate_(
-      RMSE2 = ~RMSE ^ 2
+    mutate(
+      RMSE2 = .data$RMSE ^ 2
     ) %>%
-    summarise_(
-      RMSE2 = ~sum(RMSE2),
-      nBomenModel = ~n()
+    summarise(
+      RMSE2 = sum(.data$RMSE2),
+      nBomenModel = n()
     ) %>%
-    mutate_(
-      RmseVerschuiving = ~sqrt(RMSE2 / (nBomenModel - 2)),
-      BMS = ~Boomsoort,
-      DOMEIN_ID = ~Domein
+    mutate(
+      RmseVerschuiving = sqrt(.data$RMSE2 / (.data$nBomenModel - 2)),
+      BMS = Boomsoort,
+      DOMEIN_ID = Domein
     ) %>%
-    select_(~BMS, ~DOMEIN_ID, ~nBomenModel, ~RmseVerschuiving)
+    select(
+      .data$BMS, .data$DOMEIN_ID, .data$nBomenModel, .data$RmseVerschuiving
+    )
 
   return(Rmse)
 

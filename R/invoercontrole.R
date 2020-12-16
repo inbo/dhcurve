@@ -36,8 +36,10 @@ invoercontrole <- function(Data, Type) {
   #controle voor alle andere invoertypes
     assert_that(inherits(Data, "data.frame"))
     assert_that(nrow(Data) > 0, msg = "De opgegeven dataframe is leeg")
-    assert_that(has_name(Data, "BMS"),
+    if (Type != "fit") {
+      assert_that(has_name(Data, "BMS"),
                 msg = "De opgegeven dataframe heeft geen veld met naam BMS")
+    }
 
     if (Type != "basismodel") {
       assert_that(

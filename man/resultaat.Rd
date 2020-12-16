@@ -13,15 +13,25 @@ resultaat(
 )
 }
 \arguments{
-\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het gefit mixed model voor die boomsoort).}
+\item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
+fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
+gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven door de functie fit.afgeleid: list met 2 tibbles.}
+\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+door de functie fit.afgeleid: list met 2 tibbles.}
 
-\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID en Model (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).}
+\item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
+door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
+en Model (lm-object met het gefit lineair model voor die
+boomsoort-domeincombinatie).}
 
-\item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
+\item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
+berekend is.}
 
-\item{Data.onbruikbaar}{Evt. lijst met meetresultaten van domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de vorm van een dataframe zoals de dataframe "Rest" uit de list die door de funtie initiatie teruggegeven wordt.}
+\item{Data.onbruikbaar}{Evt. lijst met meetresultaten van
+domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
+vorm van een dataframe zoals de dataframe "Rest" uit de list die door de
+funtie initiatie teruggegeven wordt.}
 }
 \value{
 Dataframe met modellen per domein en per boomsoort met velden:
@@ -30,7 +40,13 @@ Dataframe met modellen per domein en per boomsoort met velden:
 
 - BMS (boomsoort)
 
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) / ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit basismodel) / ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd omdat niet relevant) / 'lokaal model'(= eigen model voor 1 boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
+- Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+basismodel) /
+‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+omdat niet relevant) / 'lokaal model'(= eigen model voor 1
+boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
+waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
 
 - paramaters A, B en C (zie description)
 
@@ -42,15 +58,24 @@ Dataframe met modellen per domein en per boomsoort met velden:
 
 - nBomenInterval (aantal metingen waarop model gebaseerd is)
 
-- nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening gebaseerd is)
+- nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
+gebaseerd is)
 
-evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij DomeinID leeg gelaten wordt of een specifieke waarde ‘Vlaams model’ krijgt
+evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
+boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
+DomeinID leeg gelaten wordt of een specifieke waarde
+‘Vlaams model’ krijgt
 }
 \description{
-De functie resultaat berekent op basis van de opgegeven modellen voor elke boomsoort-domeincombinatie de modelparameters A, B en C voor een model van de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A + B.log(Omtrek) + C.log(Omtrek)^2}.
+De functie resultaat berekent op basis van de opgegeven modellen voor elke
+boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
+de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
+B.log(Omtrek) + C.log(Omtrek)^2}.
 }
 \details{
-Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters, rsme.basis en rsme.afgeleid
+Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters,
+rsme.basis en rsme.afgeleid
 
-Verder worden parameters A, B en C uit het model gehaald (coef) en een aantal in de functie initiatie berekende gegevens toegevoegd .
+Verder worden parameters A, B en C uit het model gehaald (coef) en een
+aantal in de functie initiatie berekende gegevens toegevoegd .
 }

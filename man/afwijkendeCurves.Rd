@@ -24,7 +24,7 @@ velden:
 
 - Reden: reden waarom de curve afwijkend is
 
-- Omtrek_buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
+- Omtrek_Buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
 van het domeinmodel ligt
 
 - Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin het maximum van de

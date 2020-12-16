@@ -72,12 +72,18 @@
 #' weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
 #' met omtrek <= 0,5 m weggelaten.
 #'
+#' In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
+#' [["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+#' validatierapport.
+#'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_
-#' distinct_ anti_join summarise_
+#' @importFrom dplyr %>% filter mutate group_by ungroup inner_join select
+#' distinct anti_join summarise n
+#' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that has_name noNA is.flag
+#' @importFrom stats quantile
 #'
 
 initiatie <-
@@ -157,22 +163,23 @@ initiatie <-
   }
 
   DataRapport <- Data %>%
-    group_by_(
-      ~DOMEIN_ID,
-      ~BOS_BHI,
-      ~BMS
+    group_by(
+      .data$DOMEIN_ID,
+      .data$BOS_BHI,
+      .data$BMS
     ) %>%
-    summarise_(
-      nTotaal = ~n(), #nolint
-      nTeDun = ~sum(C13 < 20),
-      percTeDun = ~round(nTeDun * 100 / nTotaal, digits = 1),
-      nTeDik = ~sum(C13 > 240),
-      percTeDik = ~round(nTeDik * 100 / nTotaal, digits = 1),
-      nInterval = ~nTotaal - nTeDun - nTeDik
+    summarise(
+      nTotaal = n(),
+      nTeDun = sum(.data$C13 < 20),
+      percTeDun = round(.data$nTeDun * 100 / .data$nTotaal, digits = 1),
+      nTeDik = sum(.data$C13 > 240),
+      percTeDik = round(.data$nTeDik * 100 / .data$nTotaal, digits = 1),
+      nInterval = .data$nTotaal - .data$nTeDun - .data$nTeDik
     ) %>%
     ungroup() %>%
-    filter_(
-      ~nTotaal >= 10
+    filter(
+      .data$nTotaal >= 10,
+      .data$nTotaal != .data$nInterval
     )
 
   if (nrow(DataRapport > 0)) {
@@ -191,60 +198,60 @@ initiatie <-
         # extra variabelen berekenen (Q5 en Q95)
         # wegfilteren van te dikke/dunne bomen en bomen buiten Q5-Q95
   Data2 <- Data %>%
-    filter_(~HOOGTE != 0) %>%
-    mutate_(
-      Omtrek = ~ floor(C13 / 10) / 10 + 0.05,
-      Rijnr = ~seq_along(C13),       #nummert de rijen oplopend
-      logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek ^ 2
+    filter(.data$HOOGTE != 0) %>%
+    mutate(
+      Omtrek = floor(.data$C13 / 10) / 10 + 0.05,
+      Rijnr = seq_along(.data$C13),       #nummert de rijen oplopend
+      logOmtrek = log(.data$Omtrek),
+      logOmtrek2 = .data$logOmtrek ^ 2
     ) %>%
-    filter_(
-      ~Omtrek < 2.40
+    filter(
+      .data$Omtrek < 2.40
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    mutate_(
-      nBomen = ~n(),
-      Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
+    mutate(
+      nBomen = n(),
+      Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
       #het klassemidden van Q5:
-      Q5k = ~ pmax(floor(Q5 * 10) / 10 + 0.05, 0.25),
-      Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
+      Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
+      Q95 = quantile(.data$Omtrek, probs = 0.95) + 0.1,
       #het klassemidden van Q95:
-      Q95k = ~ pmin(floor(Q95 * 10) / 10 + 0.05, 2.35)
+      Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
     ) %>%
     ungroup() %>%
-    filter_(
-      ~Omtrek > Q5k - 0.05,
-      ~Omtrek < Q95 + 0.05
+    filter(
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95 + 0.05
     )
 
   Data.aantallen <- Data2 %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    summarise_(
-      nBomenInterval = ~n()
+    summarise(
+      nBomenInterval = n()
     ) %>%
     ungroup() %>%
     inner_join(
       Data2,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    filter_(
-      ~Omtrek > 0.5,
-      ~Omtrek > Q5k - 0.05,
-      ~Omtrek < Q95k + 0.05
+    filter(
+      .data$Omtrek > 0.5,
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95k + 0.05
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID,
-      ~nBomenInterval
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID,
+      .data$nBomenInterval
     ) %>%
-    summarise_(
-      nBomenOmtrek05 = ~n()
+    summarise(
+      nBomenOmtrek05 = n()
     ) %>%
     ungroup() %>%
     inner_join(
@@ -261,26 +268,26 @@ initiatie <-
 
   # 1) alle bms-domeincombinaties met min. 50 metingen (omtrek > 0.5m) -----
   Data_Selectie_50 <- Data.aantallen %>%
-    filter_(
-      ~ ((nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
-        (!is.na(min_basis) & nBomenOmtrek05 > min_basis))
+    filter(
+      ((.data$nBomenOmtrek05 > min_basismodel & is.na(.data$min_basis)) |
+        (!is.na(.data$min_basis) & .data$nBomenOmtrek05 > .data$min_basis))
     ) %>%
-    select_(
-      ~-min_basis, ~-min_afgeleid
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
   # 1A) alle bms-domeincombinaties met min. 50 metingen in 6 domeinen ----
   Basisdata <- Data_Selectie_50 %>%
-    select_(
-      ~BMS,
-      ~DOMEIN_ID
+    select(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    distinct_() %>%
-    group_by_(
-      ~BMS
+    distinct() %>%
+    group_by(
+      .data$BMS
     ) %>%
-    filter_(
-      ~n() >= min_domeinen_basismodel
+    filter(
+      n() >= min_domeinen_basismodel
     ) %>%
     ungroup() %>%
     inner_join(
@@ -290,53 +297,63 @@ initiatie <-
 
   # 1B) alle bms-domeincomb's met min. 50 metingen, géén 6 domeinen ----
   Lokaledata <- Data_Selectie_50 %>%
-    filter_(
-      ~!BMS %in% unique(Basisdata$BMS)
+    filter(
+      !.data$BMS %in% unique(Basisdata$BMS)
     )
 
   # 2) alle bms-domeincomb's met géén 50 metingen, wel een basismodel ----
       # (basismodel: 6 andere domein met > 50 metingen van die bms)
   Data.afgeleid <- Data.aantallen %>%
-    filter_(
-      ~BMS %in% unique(Basisdata$BMS)
+    filter(
+      .data$BMS %in% unique(Basisdata$BMS)
     ) %>%
     anti_join(
       Basisdata %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    filter_(
-      ~ ((nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
-        (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
-      ~Omtrek > 0.5
+    filter(
+      ((.data$nBomenOmtrek05 > min_afgeleidmodel &
+          is.na(.data$min_afgeleid)) |
+        (!is.na(.data$min_afgeleid) &
+           .data$nBomenOmtrek05 > .data$min_afgeleid)),
+      .data$Omtrek > 0.5
     ) %>%
-    mutate_(
-      Q5k = ~ifelse(Q5k > 0.5, Q5k, 0.55)
+    mutate(
+      Q5k = ifelse(.data$Q5k > 0.5, .data$Q5k, 0.55)
     ) %>%
-    select_(
-      ~-min_basis, ~-min_afgeleid
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
   # 3) alle bms-domeincombinaties waar géén model voor lukt ----
   Data.rest <- Data.aantallen %>%
     anti_join(
       Data_Selectie_50 %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     anti_join(
       Data.afgeleid %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    select_(
-      ~-min_basis, ~-min_afgeleid
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
 
-  return(list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
-              Rest = Data.rest))
+  return(
+    if (nrow(DataRapport > 0)) {
+      list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
+              Rest = Data.rest, VerwijderdeGegevens = DataRapport)
+    }
+    else {
+      list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
+           Rest = Data.rest)
+    }
+    )
 }

@@ -27,5 +27,6 @@ testdataset(
 Dataframe met testdata voor 1 boomsoort met velden ...
 }
 \description{
-Deze functie genereert een testdataset die voldoet aan de opgegeven vereisten.
+Deze functie genereert een testdataset die voldoet aan de opgegeven
+vereisten.
 }

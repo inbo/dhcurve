@@ -21,7 +21,7 @@
 #'
 #' - BOS_BHI: domeinnaam
 #'
-#' - IDbms (nog toe te voegen!!!)
+#' - IDbms (identificatienummer van de boomsoort)
 #'
 #' - BMS: boomsoort
 #'
@@ -42,10 +42,18 @@
 #'
 #' - Hoogte: de geschatte hoogte
 #'
+#' - RMSE (root mean square error, zie vignette voor meer info)
+#'
+#' - BI_ondergrens en BI_bovengrens: ondergrens en bovengrens van het
+#' betrouwbaarheidsinterval op de schatting, berekend als
+#' schatting - of + 2,5 * RMSE (zie vignette voor meer info)
+#'
 #' @export
 #'
-#' @importFrom dplyr %>% select_ filter_ rowwise do_ ungroup mutate_ bind_rows
-#' group_by_ transmute_ distinct_ inner_join left_join
+#' @importFrom dplyr %>% select filter rowwise do ungroup mutate bind_rows
+#' group_by transmute distinct inner_join left_join summarise
+#' @importFrom plyr .
+#' @importFrom rlang .data
 #'
 
 outputIVANHO <-
@@ -58,55 +66,105 @@ outputIVANHO <-
     #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan
     #hogere omtrekklassen
     MaxCurveBasis <- curvekarakteristieken(Basismodel) %>%
-      filter_(
-        ~Omtrek_Extr_Hoogte.d > 0.1,
-        ~Omtrek_Extr_Hoogte.d < Q95k,
-        ~Hoogteverschil.d > 0
+      filter(
+        .data$Omtrek_Extr_Hoogte.d > 0.1,
+        .data$Omtrek_Extr_Hoogte.d < .data$Q95k,
+        .data$Hoogteverschil.d > 0
       ) %>%
-      select_(
-        ~DOMEIN_ID,
-        ~BMS,
-        ~Omtrek_Extr_Hoogte.d,
-        ~Extr_Hoogte.d
+      select(
+        .data$DOMEIN_ID,
+        .data$BMS,
+        .data$Omtrek_Extr_Hoogte.d,
+        .data$Extr_Hoogte.d
       )
+
+    #rsme_basis berekenen
+    rmse_basis <- Basismodel %>%
+      rowwise() %>%
+      do(
+        rmse.basis(.$Model$data, "Basis", .$BMS)
+      ) %>%
+      ungroup()
 
     #hoogtes van basismodel schatten
     Hoogteschatting <- Basismodel %>%
       rowwise() %>%
-      do_(
-        ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+      do(
+        hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
       ) %>%
       ungroup() %>%
-      mutate_(
-        Modeltype = ~"basismodel"
+      mutate(
+        Modeltype = "basismodel"
       ) %>%
       left_join(
         MaxCurveBasis,
         by = c("BMS", "DOMEIN_ID")
+      ) %>%
+      left_join(
+        rmse_basis %>%
+          transmute(
+            .data$BMS, .data$DOMEIN_ID,
+            RMSE = .data$rmseD
+          ),
+        c("BMS", "DOMEIN_ID")
       )
 
     if (!is.null(Afgeleidmodel)) {
       invoercontrole(Afgeleidmodel, "afgeleidmodel")
 
+      #Rmse van Vlaams model berekenen
+      RmseVL <- rmse_basis %>%
+        mutate(
+          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
+        ) %>%
+        group_by(.data$BMS) %>%
+        summarise(
+          nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
+          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
+        ) %>%
+        ungroup()
+
+      #Rmse van verschuiving berekenen en combineren met die van Vlaams model
+      RmseAfg <- Afgeleidmodel[[1]] %>%
+        rowwise() %>%
+        do(
+          rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+        ) %>%
+        ungroup() %>%
+        inner_join(
+          RmseVL %>% select(.data$BMS, .data$rmseVL),
+          by = c("BMS")
+        ) %>%
+        transmute(
+          .data$BMS, .data$DOMEIN_ID,
+          RMSE = sqrt(.data$rmseVL ^ 2 + .data$RmseVerschuiving ^ 2)
+        )
+
       Hoogteschatting <- Hoogteschatting %>%
         bind_rows(
           Afgeleidmodel[[1]] %>%
             inner_join(
-              Afgeleidmodel[[2]],
+              Afgeleidmodel[[2]] %>%
+                group_by(.data$BMS) %>%
+                mutate(
+                  IDbms = max(.data$IDbms, na.rm = TRUE)
+                ) %>%
+                ungroup(),
               by = c("BMS", "DOMEIN_ID")
             ) %>%
-            group_by_(
-              ~BMS,
-              ~DOMEIN_ID
+            group_by(
+              .data$BMS,
+              .data$DOMEIN_ID
             ) %>%
-            do_(
-              ~hoogteschatting.afgeleid(.$Model[[1]],
-                                        select_(., ~-Model))
+            do(
+              hoogteschatting.afgeleid(.$Model[[1]],
+                                       select(., -.data$Model))
             ) %>%
             ungroup() %>%
-            mutate_(
-              Modeltype = ~"afgeleid model"
-            )
+            mutate(
+              Modeltype = "afgeleid model"
+            ) %>%
+            left_join(RmseAfg, by = c("BMS", "DOMEIN_ID"))
         )
     }
 
@@ -128,16 +186,16 @@ outputIVANHO <-
     #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan
     #hogere omtrekklassen
     MaxCurveLokaal <- curvekarakteristieken(Lokaalmodel, Data.lokaal) %>%
-      filter_(
-        ~Omtrek_Extr_Hoogte.d > 0.1,
-        ~Omtrek_Extr_Hoogte.d < Q95k,
-        ~Hoogteverschil.d > 0
+      filter(
+        .data$Omtrek_Extr_Hoogte.d > 0.1,
+        .data$Omtrek_Extr_Hoogte.d < .data$Q95k,
+        .data$Hoogteverschil.d > 0
       ) %>%
-      select_(
-        ~DOMEIN_ID,
-        ~BMS,
-        ~Omtrek_Extr_Hoogte.d,
-        ~Extr_Hoogte.d
+      select(
+        .data$DOMEIN_ID,
+        .data$BMS,
+        .data$Omtrek_Extr_Hoogte.d,
+        .data$Extr_Hoogte.d
       )
 
     Hoogte.lokaal <- Lokaalmodel %>%
@@ -145,22 +203,38 @@ outputIVANHO <-
         Data.lokaal,
         by = c("BMS", "DOMEIN_ID")
       ) %>%
-      group_by_(
-        ~BMS,
-        ~DOMEIN_ID
+      group_by(
+        .data$BMS,
+        .data$DOMEIN_ID
       ) %>%
-      do_(
-        ~hoogteschatting.basis(.$Model[[1]],
-                               select_(., ~-Model),
-                               "Lokaal")
+      do(
+        hoogteschatting.basis(.$Model[[1]],
+                               select(., -.data$Model),
+                               "Lokaal", unique(.$BMS))
       ) %>%
       ungroup() %>%
-      mutate_(
-        Modeltype = ~"lokaal model"
+      mutate(
+        Modeltype = "lokaal model"
       ) %>%
       left_join(
         MaxCurveLokaal,
         by = c("BMS", "DOMEIN_ID")
+      ) %>%
+      left_join(
+        Data.lokaal %>%
+          group_by(
+            .data$BMS,
+            .data$DOMEIN_ID
+          ) %>%
+          do(
+            rmse.basis(., "Lokaal", .data$BMS)
+          ) %>%
+          ungroup()  %>%
+          transmute(
+            .data$BMS, .data$DOMEIN_ID,
+            RMSE = .data$rmseD
+          ),
+        c("BMS", "DOMEIN_ID")
       )
 
     if (exists("Hoogteschatting")) {
@@ -173,20 +247,26 @@ outputIVANHO <-
 
   if (exists("Hoogteschatting")) {
     Hoogteschatting <- Hoogteschatting %>%
-      transmute_(
-        ~BMS,
-        ~DOMEIN_ID,
-        ~BOS_BHI,
-        ~Omtrek,
-        OmtrekklassetypeID = ~as.integer(Omtrek * 10 + 1.5),
-        Omtrekklasse = ~paste(Omtrek * 100 - 5, Omtrek * 100 + 5, sep = " - "),
+      transmute(
+        .data$BMS,
+        .data$IDbms,
+        .data$DOMEIN_ID,
+        .data$BOS_BHI,
+        .data$Omtrek,
+        OmtrekklassetypeID = as.integer(.data$Omtrek * 10 + 1.5),
+        Omtrekklasse =
+          paste(.data$Omtrek * 100 - 5, .data$Omtrek * 100 + 5, sep = " - "),
         Hoogte =
-          ~ifelse(!is.na(Omtrek_Extr_Hoogte.d) & Omtrek > Omtrek_Extr_Hoogte.d,
-                  Extr_Hoogte.d,
-                  H_D_finaal),
-        ~Modeltype
+          ifelse(!is.na(.data$Omtrek_Extr_Hoogte.d) &
+                   .data$Omtrek > .data$Omtrek_Extr_Hoogte.d,
+                 .data$Extr_Hoogte.d,
+                 .data$H_D_finaal),
+        .data$RMSE,
+        BI_ondergrens = .data$Hoogte - 2.5 * .data$RMSE,
+        BI_bovengrens = .data$Hoogte + 2.5 * .data$RMSE,
+        .data$Modeltype
       ) %>%
-      distinct_()
+      distinct()
 
     return(Hoogteschatting)
   } else {

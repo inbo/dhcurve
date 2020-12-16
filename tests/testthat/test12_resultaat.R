@@ -20,10 +20,14 @@ describe("resultaat", {
   Lokaalmodel <- Data[["Lokaalmodel"]]
 
   it("De parameters worden correct berekend voor domeinen van het Basismodel", {
-    expect_equal(resultaat(Basismodel1) %>%
-                   filter(DOMEIN_ID %in% c("HM", "LM")) %>%
-                   select(-nBomenInterval, -nBomenOmtrek05) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+    resultaat <- resultaat(Basismodel1) %>%
+      filter(DOMEIN_ID %in% c("HM", "LM")) %>%
+      select(-nBomenInterval, -nBomenOmtrek05) %>%
+      as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    attr(resultaat, "groups") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = c("HM", "LM"),
                             A = 20,
@@ -41,10 +45,13 @@ describe("resultaat", {
   it("De parameters worden correct berekend voor het Lokaal model", {
     expect_error(resultaat(Lokaalmodel))
     expect_error(resultaat(Lokaalmodel = Lokaalmodel))
-    expect_equal(resultaat(Lokaalmodel = Lokaalmodel,
-                           Data.lokaal = Lokaledata) %>%
-                   select(-nBomenInterval, -nBomenOmtrek05) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+    resultaat <-
+      resultaat(Lokaalmodel = Lokaalmodel, Data.lokaal = Lokaledata) %>%
+      select(-nBomenInterval, -nBomenOmtrek05) %>%
+      as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    expect_equal(resultaat,
                  data.frame(DOMEIN_ID = c("HM", "LM"),
                             BMS = "andereboom",
                             A = 20,
@@ -68,10 +75,14 @@ describe("resultaat", {
   it("De parameters worden correct berekend voor Afgeleid model", {
     expect_error(resultaat(Afgeleidmodel))
     expect_error(resultaat(Afgeleidmodel = Afgeleidmodel))
-    expect_equal(resultaat(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
-                   filter(Modeltype == "afgeleid model") %>%
-                   select(-nBomenInterval, -nBomenOmtrek05, -RMSE) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+    resultaat <- resultaat(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
+      filter(Modeltype == "afgeleid model") %>%
+      select(-nBomenInterval, -nBomenOmtrek05, -RMSE) %>%
+      as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    attr(resultaat, "groups") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = "Klein",
                             A = 15,
@@ -110,7 +121,8 @@ describe("resultaat", {
                                stringsAsFactors = FALSE
                              )) %>%
                    select(BMS, DOMEIN_ID, Modeltype) %>%
-                   distinct(),
+                   distinct() %>%
+                   as_tibble(),
                  tibble(BMS = c(rep("testboom", 7), rep("andereboom", 2),
                                 "restboom"),
                         DOMEIN_ID = c(LETTERS[1:6], "Klein", "HM", "LM", "A"),
@@ -139,7 +151,8 @@ describe("resultaat", {
                                stringsAsFactors = FALSE
                              )) %>%
                    filter(BMS == "restboom") %>%
-                   select(BMS, DOMEIN_ID, A, B, C),
+                   select(BMS, DOMEIN_ID, A, B, C) %>%
+                   as_tibble(),
                  tibble(BMS = "restboom",
                         DOMEIN_ID = "A",
                         A = as.double(NA), B = as.double(NA), C = as.double(NA))

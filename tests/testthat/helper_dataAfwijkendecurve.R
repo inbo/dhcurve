@@ -7,11 +7,11 @@ dataAfwijkendeCurve <- function(nBomen = 200, sd = 3) {
                minOmtrek = 20, maxOmtrek = 239,
                A = 30, B = c(7, 5), C = c(4, -6), sd,
                stringsAsFactors = FALSE) %>%
-    group_by_(
-      ~DOMEIN_ID, ~BOS_BHI
+    group_by(
+      DOMEIN_ID, BOS_BHI
     ) %>%
-    do_(
-      ~testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
+    do(
+      testdata1domein(.$nBomen, .$minOmtrek, .$maxOmtrek,
                        .$A, .$B, .$C, .$sd)
     ) %>%
     ungroup()
@@ -22,9 +22,9 @@ dataAfwijkendeCurve <- function(nBomen = 200, sd = 3) {
                  stringsAsFactors = FALSE),
       Metingen
     ) %>%
-    mutate_(
-      Status = ~"Niet gecontroleerd",
-      ID = ~as.character(as.integer(rownames(.)) + 6 * nBomen)
+    mutate(
+      Status = "Niet gecontroleerd",
+      ID = as.character(as.integer(rownames(.)) + 6 * nBomen)
     ) %>%
     bind_rows(testdataset(rep(nBomen, 6)))
 
