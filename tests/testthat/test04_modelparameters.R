@@ -20,10 +20,15 @@ describe("modelparameters", {
 
 
   it("De parameters worden correct berekend voor domeinen van het Basismodel", {
-    expect_equal(modelparameters(Basismodel1) %>%
+    resultaat <-
+      modelparameters(Basismodel1) %>%
                    filter(DOMEIN_ID %in% c("HM", "LM")) %>%
                    select(-Avl, -Bvl, -Cvl) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+                   as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    attr(resultaat, "groups") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = c("HM", "LM"),
                             Q5k = 0.25,
@@ -37,8 +42,12 @@ describe("modelparameters", {
 
   it("De parameters worden correct berekend voor het Lokaal model", {
     expect_error(modelparameters(Lokaalmodel))
-    expect_equal(modelparameters(Lokaalmodel, Lokaledata) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+    resultaat <-
+      modelparameters(Lokaalmodel, Lokaledata) %>%
+                   as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "andereboom",
                             DOMEIN_ID = c("HM", "LM"),
                             Q5k = 0.25,
@@ -57,9 +66,14 @@ describe("modelparameters", {
 
 
   it("De parameters worden correct berekend voor Vlaams model (Basismodel)", {
-    expect_equal(modelparameters(Basismodel2) %>%
+    resultaat <-
+      modelparameters(Basismodel2) %>%
                    select(-Ad, -Bd, -Cd) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+                   as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    attr(resultaat, "groups") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = LETTERS[1:6],
                             Q5k = 0.25,
@@ -73,8 +87,12 @@ describe("modelparameters", {
 
   it("De parameters worden correct berekend voor Afgeleid model", {
     expect_error(modelparameters(Afgeleidmodel))
-    expect_equal(modelparameters(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
-                   as.data.frame(., stringsAsFactors = FALSE),
+    resultaat <-
+      modelparameters(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
+                   as.data.frame(., stringsAsFactors = FALSE)
+    attr(resultaat$Q5k, "names") <- NULL
+    attr(resultaat$Q95k, "names") <- NULL
+    expect_equal(resultaat,
                  data.frame(BMS = "testboom",
                             DOMEIN_ID = "Klein",
                             Q5k = 0.25,

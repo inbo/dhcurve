@@ -13,6 +13,7 @@
 #' @param Soortdata meetgegevens van boomsoort (basis) of
 #' domein-boomsoort-combinatie (lokaal)
 #' @param Typemodel 'Basis' of 'Lokaal'?
+#' @param BMS Boomsoort
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes
 #' voor het domeinmodel en de Vlaamse model
@@ -29,8 +30,8 @@
 #' #De hoogteschatting voor een basismodel
 #' Basismodel %>%
 #'   rowwise() %>%
-#'   do_(
-#'     ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+#'   do(
+#'     hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
 #'   ) %>%
 #'   ungroup()
 #'
@@ -45,27 +46,29 @@
 #'     Data.lokaal,
 #'     by = c("BMS", "DOMEIN_ID")
 #'   ) %>%
-#'   group_by_(
-#'     ~BMS,
-#'     ~DOMEIN_ID
+#'   group_by(
+#'     BMS,
+#'     DOMEIN_ID
 #'   ) %>%
-#'   do_(
-#'     ~hoogteschatting.basis(.$Model[[1]],
-#'                            select_(., ~-Model),
-#'                            "Lokaal")
+#'   do(
+#'     hoogteschatting.basis(.$Model[[1]],
+#'                            select(., -Model),
+#'                            "Lokaal", .$BMS)
 #'   ) %>%
 #'   ungroup()
 #'
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ select_ distinct_ full_join
+#' @importFrom dplyr %>% filter mutate select distinct full_join
+#' @importFrom plyr .
+#' @importFrom rlang .data
 #' @importFrom nlme fixef
 #' @importFrom stats predict
-#' @importFrom assertthat assert_that
+#' @importFrom assertthat assert_that has_name
 #'
 
-hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
+hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
   #controle invoer
   assert_that(is.character(Typemodel))
@@ -74,8 +77,6 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
 
 
   invoercontrole(Soortdata, "fit")
-  assert_that(length(unique(Soortdata$BMS)) == 1,
-              msg = "De dataset Soortdata mag maar 1 boomsoort bevatten")
   if (Typemodel == "lokaal") {
     assert_that(length(unique(Soortdata$DOMEIN_ID)) == 1,
                 msg = "Voor een lokaal model mag de dataset Soortdata maar 1
@@ -88,51 +89,64 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel) {
                 msg = "Soortmodel moet een lineair mixed model zijn (zie
                 documentatie)")
   }
+  if (has_name(Soortdata, "BMS")) {
+    Soortdata <- Soortdata %>%
+      select(-.data$BMS)
+  }
 
 
   #Hoogtes schatten voor alle omtrekklassen binnen bruikbaar interval
   AlleKlassen <- seq(15, 245, 10)
 
   Schatting.soort <- Soortdata %>%
-    select_(~BMS, ~DOMEIN_ID, ~BOS_BHI, ~nBomenInterval, ~nBomenOmtrek05,
-            ~nBomen, ~Q5k, ~Q95k) %>%
-    distinct_()
+    select(.data$DOMEIN_ID, .data$BOS_BHI, .data$nBomenInterval,
+           .data$nBomenOmtrek05, .data$nBomen, .data$Q5k, .data$Q95k) %>%
+    distinct()
 
   Schatting.soort <- merge(Schatting.soort, AlleKlassen) %>%
-    filter_(
-      ~y >= (100 * Q5k) - 1,
-      ~y <= (100 * Q95k) + 1
+    filter(
+      .data$y >= (100 * .data$Q5k) - 1,
+      .data$y <= (100 * .data$Q95k) + 1
     ) %>%
-    mutate_(
-      Omtrek = ~y / 100,
-      logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek ^ 2
+    mutate(
+      Omtrek = .data$y / 100,
+      logOmtrek = log(.data$Omtrek),
+      logOmtrek2 = .data$logOmtrek ^ 2
     ) %>%
-    mutate_(
-      H_D_finaal = ~predict(Soortmodel, newdata = .)
+    mutate(
+      H_D_finaal = predict(Soortmodel, newdata = .)
     )
 
   #Voor basismodel ook hoogtes voor Vlaams model schatten
   if (grepl(Typemodel, "basis")) {
     Schatting.soort <- Schatting.soort %>%
-      mutate_(
-        H_VL_finaal = ~as.numeric(fixef(Soortmodel)[1]) +
-          as.numeric(fixef(Soortmodel)[2]) * logOmtrek +
-          as.numeric(fixef(Soortmodel)[3]) * logOmtrek2
+      mutate(
+        H_VL_finaal = as.numeric(fixef(Soortmodel)[1]) +
+          as.numeric(fixef(Soortmodel)[2]) * .data$logOmtrek +
+          as.numeric(fixef(Soortmodel)[3]) * .data$logOmtrek2
       )
   }
 
   #resultaten koppelen aan dataset met meetgegevens
   Schatting.soort <- Schatting.soort %>%
-    select_(~-logOmtrek, ~-logOmtrek2) %>%
+    select(-.data$logOmtrek, -.data$logOmtrek2) %>%
     full_join(
       Soortdata %>%
-        mutate_(y = ~as.integer(round(100 * Omtrek))) %>%
-        select_(~-Omtrek),
-      by = c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+        mutate(y = as.integer(round(100 * .data$Omtrek))) %>%
+        select(-.data$Omtrek),
+      by = c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
              "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "y")
     ) %>%
-    select_(~-y)
+    select(-.data$y) %>%
+    mutate(
+      BMS = BMS,
+      IDbms =
+        ifelse(
+          is.na(.data$IDbms),
+          max(Soortdata$IDbms, na.rm = TRUE),
+          .data$IDbms
+        )
+    )
 
   return(Schatting.soort)
 }

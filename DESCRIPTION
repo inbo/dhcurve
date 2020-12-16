@@ -29,8 +29,12 @@ Imports:
     ggplot2,
     nlme,
     plotly,
+    plyr,
+    purrr,
+    rlang,
     rmarkdown,
-    stats
+    stats,
+    tidyr
 Suggests:
     knitr,
     testthat,

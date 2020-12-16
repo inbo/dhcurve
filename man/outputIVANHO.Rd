@@ -35,7 +35,7 @@ velden:
 
 - BOS_BHI: domeinnaam
 
-- IDbms (nog toe te voegen!!!)
+- IDbms (identificatienummer van de boomsoort)
 
 - BMS: boomsoort
 
@@ -55,6 +55,12 @@ omtrekklasse
 - Omtrekklasse
 
 - Hoogte: de geschatte hoogte
+
+- RMSE (root mean square error, zie vignette voor meer info)
+
+- BI_ondergrens en BI_bovengrens: ondergrens en bovengrens van het
+betrouwbaarheidsinterval op de schatting, berekend als
+schatting - of + 2,5 * RMSE (zie vignette voor meer info)
 }
 \description{
 De functie outputIVANHO voert de berekeningen uit die leiden tot de

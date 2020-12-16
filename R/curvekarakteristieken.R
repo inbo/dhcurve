@@ -40,7 +40,8 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% mutate_
+#' @importFrom dplyr %>% mutate
+#' @importFrom rlang .data
 #' @importFrom assertthat has_name
 #'
 
@@ -59,36 +60,40 @@ curvekarakteristieken <- function(Basismodel, Data = NULL) {
   }
 
   Parameters <- modelparameters(Basismodel, Data) %>%
-    mutate_(
-      Omtrek_Extr_Hoogte.d = ~exp(-Bd / (2 * Cd)),
+    mutate(
+      Omtrek_Extr_Hoogte.d = exp(-.data$Bd / (2 * .data$Cd)),
       Extr_Hoogte.d =
-        ~Ad + Bd * log(Omtrek_Extr_Hoogte.d) +
-        Cd * (log(Omtrek_Extr_Hoogte.d)) ^ 2,
+        .data$Ad + .data$Bd * log(.data$Omtrek_Extr_Hoogte.d) +
+        .data$Cd * (log(.data$Omtrek_Extr_Hoogte.d)) ^ 2,
       Hoogteverschil.d =
-        ~Extr_Hoogte.d - (Ad + Bd * log(Q95k) + Cd * (log(Q95k)) ^ 2),
-      Omtrek_Buigpunt.d = ~exp(1 - Bd / (2 * Cd)),
+        .data$Extr_Hoogte.d - (.data$Ad + .data$Bd * log(.data$Q95k) +
+                                 .data$Cd * (log(.data$Q95k)) ^ 2),
+      Omtrek_Buigpunt.d = exp(1 - .data$Bd / (2 * .data$Cd)),
       Verschil_rico_BP_Q5.d =
-        ~ (2 * Cd * log(Omtrek_Buigpunt.d) + Bd) / Omtrek_Buigpunt.d -
-        (2 * Cd * log(Q5k) + Bd) / Q5k,
+        (2 * .data$Cd * log(.data$Omtrek_Buigpunt.d) + .data$Bd) /
+          .data$Omtrek_Buigpunt.d -
+          (2 * .data$Cd * log(.data$Q5k) + .data$Bd) / .data$Q5k,
       Verschil_rico_BP_Q5_per_omtrek.d =
-        ~Verschil_rico_BP_Q5.d * (Omtrek_Buigpunt.d - Q5k)
+        .data$Verschil_rico_BP_Q5.d * (.data$Omtrek_Buigpunt.d - .data$Q5k)
     )
 
   if (!has_name(Basismodel, "DOMEIN_ID")) {
     Parameters <- Parameters %>%
-      mutate_(
-        Omtrek_Extr_Hoogte.vl = ~exp(-Bvl / (2 * Cvl)),
+      mutate(
+        Omtrek_Extr_Hoogte.vl = exp(-.data$Bvl / (2 * .data$Cvl)),
         Extr_Hoogte.vl =
-          ~Avl + Bvl * log(Omtrek_Extr_Hoogte.vl) +
-          Cvl * (log(Omtrek_Extr_Hoogte.vl)) ^ 2,
+          .data$Avl + .data$Bvl * log(.data$Omtrek_Extr_Hoogte.vl) +
+            .data$Cvl * (log(.data$Omtrek_Extr_Hoogte.vl)) ^ 2,
         Hoogteverschil.vl =
-          ~Extr_Hoogte.vl - (Avl + Bvl * log(Q95k) + Cvl * (log(Q95k)) ^ 2),
-        Omtrek_Buigpunt.vl = ~exp(1 - Bvl / (2 * Cvl)),
+          .data$Extr_Hoogte.vl - (.data$Avl + .data$Bvl * log(.data$Q95k) +
+                                    .data$Cvl * (log(.data$Q95k)) ^ 2),
+        Omtrek_Buigpunt.vl = exp(1 - .data$Bvl / (2 * .data$Cvl)),
         Verschil_rico_BP_Q5.vl =
-          ~ (2 * Cvl * log(Omtrek_Buigpunt.vl) + Bvl) / Omtrek_Buigpunt.vl -
-          (2 * Cvl * log(Q5k) + Bvl) / Q5k,
+          (2 * .data$Cvl * log(.data$Omtrek_Buigpunt.vl) + .data$Bvl) /
+            .data$Omtrek_Buigpunt.vl -
+            (2 * .data$Cvl * log(.data$Q5k) + .data$Bvl) / .data$Q5k,
         Verschil_rico_BP_Q5_per_omtrek.vl =
-          ~Verschil_rico_BP_Q5.vl * (Omtrek_Buigpunt.vl - Q5k)
+          .data$Verschil_rico_BP_Q5.vl * (.data$Omtrek_Buigpunt.vl - .data$Q5k)
       )
   }
 

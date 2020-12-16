@@ -43,13 +43,13 @@ Afgeleidmodel[[1]] \%>\%
     Afgeleidmodel[[2]],
     by = c("BMS", "DOMEIN_ID")
   ) \%>\%
-  group_by_(
-    ~BMS,
-    ~DOMEIN_ID
+  group_by(
+    .data$BMS,
+    .data$DOMEIN_ID
   ) \%>\%
-  do_(
-    ~hoogteschatting.afgeleid(.$Model[[1]],
-                              select_(., ~-Model))
+  do(
+    hoogteschatting.afgeleid(.$Model[[1]],
+                              select(., -.data$Model))
   ) \%>\%
   ungroup()
 

@@ -10,13 +10,13 @@ dataAfgeleidmodel <-
     bind_rows(
       testdata1domein(nBomen = nBomenAfgeleid, minOmtrek = 50,
                       A = 15, sd = sd) %>%
-        mutate_(
-          BMS = ~"testboom",
-          IDbms = ~1,
-          DOMEIN_ID = ~"Klein",
-          BOS_BHI = ~"DOMEIN_Klein",
-          Status = ~"Niet gecontroleerd",
-          ID = ~as.character(as.integer(rownames(.)) + 1200)
+        mutate(
+          BMS = "testboom",
+          IDbms = 1,
+          DOMEIN_ID = "Klein",
+          BOS_BHI = "DOMEIN_Klein",
+          Status = "Niet gecontroleerd",
+          ID = as.character(as.integer(rownames(.)) + 1200)
         )
     ) %>%
     bind_rows(Extradata)

@@ -238,7 +238,7 @@ Datalijst_nieuw <- initiatie(Data, Uitzonderingen)
 
 Qua workflow zou het zinvol kunnen zijn om deze uitzonderingen op te slaan in een spreadsheet of databank, eerder dan dit hard te coderen in een script.
 
-Als geen van de afwijkende (rode) curves in het validatierapport een probleem zijn, mag je verdergaan (ondanks het feit dat het validatierapport nog niet leeg is).
+Als geen van de afwijkende (rode) curves in het validatierapport een probleem zijn, mag je verdergaan (ondanks het feit dat het validatierapport nog niet leeg is).  Eventueel kan gekozen worden om deze afwijkende curves tijdelijk niet meer in het rapport te tonen door gebruik te maken van de parameter `GoedgekeurdeAfwijkendeCurves` (functies `validatie.basis()` en `validatie.lokaal()`).  Het gebruik van deze parameter is gelijkaardig aan `uitzonderingen` in de zin dat opgegeven moet worden vanaf hoeveel metingen een curve terug getoond moet worden (als deze nog steeds afwijkend is).
 
 __OPMERKING__  Er kunnen ook andere problemen optreden waarop niet expliciet wordt gevalideerd, bijvoorbeeld een slechte verdeling van de bomen over de verschillende omtrekklassen.  Bij het basismodel gaat hier de curve sterk aanleunen tegen het Vlaams model, bij het lokaal model gaat hier de curve recht door de weinige aanwezige metingen (die niet per definitie 'gemiddeld' zijn).  Ook hier kan beslist worden om het model voorlopig niet te gebruiken (in afwachting van meer metingen) door bovenstaande methode.
 <!-- evt. nog inwerken in package? -->

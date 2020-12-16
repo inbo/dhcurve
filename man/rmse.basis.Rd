@@ -4,7 +4,7 @@
 \alias{rmse.basis}
 \title{Berekent RMSE van basismodel}
 \usage{
-rmse.basis(Data, Typemodel)
+rmse.basis(Data, Typemodel, BMS)
 }
 \arguments{
 \item{Data}{Meetgegevens van één boomsoort-domein-combinatie (dataframe
@@ -12,6 +12,8 @@ zoals de dataframes die in de list teruggegeven worden door de functie
 initiatie)}
 
 \item{Typemodel}{'Basis' of 'Lokaal'?}
+
+\item{BMS}{Boomsoort}
 }
 \value{
 Dataframe met rmse_domein (rmseD), rmse_Vlaams (rmseVL, niet voor
@@ -49,11 +51,11 @@ Data.basis <- Datalijst[["Basis"]]
 
 #De rmse berekenen voor een basismodel op basis van de dataset
 Data.basis \%>\%
-  group_by_(
-    ~BMS
+  group_by(
+    BMS
   ) \%>\%
-  do_(
-    ~rmse.basis(., "Basis")
+  do(
+    rmse.basis(., "Basis", .data$BMS)
   ) \%>\%
   ungroup()
 
@@ -63,12 +65,12 @@ Data.lokaal <- Data.basis \%>\%
 
 #De rmse berekenen voor een lokaal model
 Data.lokaal \%>\%
-  group_by_(
-    ~BMS,
-    ~DOMEIN_ID
+  group_by(
+    BMS,
+    DOMEIN_ID
   ) \%>\%
-  do_(
-    ~rmse.basis(., "Lokaal")
+  do(
+    rmse.basis(., "Lokaal", .data$BMS)
   ) \%>\%
   ungroup()
 
@@ -77,8 +79,8 @@ Data.lokaal \%>\%
 Basismodel <- fit.basis(Data.basis)
 Basismodel \%>\%
   rowwise() \%>\%
-  do_(
-    ~rmse.basis(.$Model$data, "Basis")
+  do(
+    rmse.basis(.$Model$data, "Basis", .$BMK)
   ) \%>\%
   ungroup()
 

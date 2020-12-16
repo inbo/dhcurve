@@ -43,8 +43,8 @@ Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 # afgeleid model
 Afgeleidmodel[[1]] \%>\%
   rowwise() \%>\%
-  do_(
-    ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+  do(
+    rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
   ) \%>\%
   ungroup()
 #Nota: voor een berekening van de volledige RMSE van een afgeleid model

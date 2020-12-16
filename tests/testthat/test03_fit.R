@@ -56,9 +56,9 @@ describe("fit", {
 
   Basismodel <- fit.basis(Data.basis)
   Kolomnamen <-
-    c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
-      "nBomen", "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13",
-      "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95")
+    c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05", "nBomen",
+      "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
+      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "BMS")
 
   it("Output van fit.afgeleid is correct (list met 2 tibbles)", {
       expect_error(fit.afgeleid(Data.afgeleid),
@@ -66,10 +66,10 @@ describe("fit", {
       expect_is(fit.afgeleid(Data.afgeleid, Basismodel), "list")
       expect_is(fit.afgeleid(Data.afgeleid, Basismodel)[[1]], "data.frame")
       expect_equal(colnames(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]),
-                   c("BMS", "DOMEIN_ID", "Model"))
+                   c("DOMEIN_ID", "BMS", "Model"))
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[1]] %>%
                      select(BMS, DOMEIN_ID),
-                   tibble(BMS = "testboom", DOMEIN_ID = c("H", "G")))
+                   tibble(BMS = "testboom", DOMEIN_ID = c("G", "H")))
       expect_type(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model,
                   "list")
       expect_s3_class(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model[[1]],
@@ -79,12 +79,12 @@ describe("fit", {
                      colnames(.),
                    Kolomnamen)
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[2]] %>%
-                     select(-H_VL_finaal) %>%
+                     select(-H_VL_finaal, -BMS) %>%
                      filter(!is.na(C13)) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE),
                    Data.afgeleid %>%
-                     select(setdiff(Kolomnamen, "H_VL_finaal")) %>%
+                     select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE))
   })

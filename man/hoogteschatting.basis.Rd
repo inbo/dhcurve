@@ -4,7 +4,7 @@
 \alias{hoogteschatting.basis}
 \title{Hoogteschatting op basis van opgegeven basismodel}
 \usage{
-hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
+hoogteschatting.basis(Soortmodel, Soortdata, Typemodel, BMS)
 }
 \arguments{
 \item{Soortmodel}{model voor één boomsoort (basis) of één
@@ -14,6 +14,8 @@ boomsoort-domein-combinatie (lokaal)}
 domein-boomsoort-combinatie (lokaal)}
 
 \item{Typemodel}{'Basis' of 'Lokaal'?}
+
+\item{BMS}{Boomsoort}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes
@@ -40,8 +42,8 @@ Basismodel <- fit.basis(Data.basis)
 #De hoogteschatting voor een basismodel
 Basismodel \%>\%
   rowwise() \%>\%
-  do_(
-    ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+  do(
+    hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
   ) \%>\%
   ungroup()
 
@@ -56,14 +58,14 @@ Lokaalmodel \%>\%
     Data.lokaal,
     by = c("BMS", "DOMEIN_ID")
   ) \%>\%
-  group_by_(
-    ~BMS,
-    ~DOMEIN_ID
+  group_by(
+    BMS,
+    DOMEIN_ID
   ) \%>\%
-  do_(
-    ~hoogteschatting.basis(.$Model[[1]],
-                           select_(., ~-Model),
-                           "Lokaal")
+  do(
+    hoogteschatting.basis(.$Model[[1]],
+                           select(., -Model),
+                           "Lokaal", .$BMS)
   ) \%>\%
   ungroup()
 

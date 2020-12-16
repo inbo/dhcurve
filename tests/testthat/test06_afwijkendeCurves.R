@@ -35,7 +35,8 @@ describe("afwijkendecurves", {
 
 
   it("De uitvoer van de functie is correct", {
-    expect_equal(afwijkendeCurves(Basismodel),
+    expect_equal(afwijkendeCurves(Basismodel) %>%
+                   as_tibble(),
                  tibble(DOMEIN_ID = c("HM", "LM"),
                         BMS = "testboom",
                         Omtrek_Buigpunt.d =

@@ -4,10 +4,12 @@
 \alias{modelparameters.basis}
 \title{Modelparameters berekenen voor opgegeven basismodel}
 \usage{
-modelparameters.basis(Soortmodel)
+modelparameters.basis(Soortmodel, BMS)
 }
 \arguments{
 \item{Soortmodel}{model van boomsoort}
+
+\item{BMS}{boomsoort}
 }
 \value{
 dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en

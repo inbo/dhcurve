@@ -31,20 +31,20 @@ describe("afwijkendemetingen", {
   Basismodel <- Data[["Basismodel"]]
   Rmse <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    do(
+      hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   DatasetBasis <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+    inner_join(Rmse %>% select(BMS, DOMEIN_ID, rmseD, maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
   #Rmse en hoogteschatting berekenen voor afgeleid model
@@ -54,36 +54,36 @@ describe("afwijkendemetingen", {
   AModel <- Afgeleidmodel[[1]]
 
   RmseVL <- Basismodel %>%
-    filter_(~BMS %in% unique(AModel$BMS)) %>%
+    filter(BMS %in% unique(AModel$BMS)) %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup() %>%
-    mutate_(
-      sseVL = ~ (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
+    mutate(
+      sseVL = (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
     ) %>%
-    group_by_(~BMS) %>%
-    summarise_(
-      nBomen = ~sum(nBomen),
-      nBomenInterval = ~sum(nBomenInterval),
-      nBomenOmtrek05VL = ~sum(nBomenOmtrek05),
-      rmseVL = ~sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+    group_by(BMS) %>%
+    summarise(
+      nBomen = sum(nBomen),
+      nBomenInterval = sum(nBomenInterval),
+      nBomenOmtrek05VL = sum(nBomenOmtrek05),
+      rmseVL = sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
     ) %>%
     ungroup()
 
   Rmse <- AModel %>%
     rowwise() %>%
-    do_(
-      ~rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
+    do(
+      rmse.verschuiving(.$Model, .$BMS, .$DOMEIN_ID)
     ) %>%
     ungroup() %>%
     inner_join(
-      RmseVL %>% select_(~BMS, ~rmseVL),
+      RmseVL %>% select(BMS, rmseVL),
       by = c("BMS")
     ) %>%
-    mutate_(
-      rmseD = ~sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
+    mutate(
+      rmseD = sqrt(rmseVL ^ 2 + RmseVerschuiving ^ 2)
     )
 
   Hoogteschatting <- AModel %>%
@@ -91,25 +91,25 @@ describe("afwijkendemetingen", {
       Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      BMS,
+      DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.afgeleid(.$Model[[1]],
-                                select_(., ~-Model))
+    do(
+      hoogteschatting.afgeleid(.$Model[[1]],
+                                select(., -.data$Model))
     ) %>%
     ungroup() %>%
-    mutate_(
-      ResidD2 = ~ (HOOGTE - H_D_finaal) ^ 2
+    mutate(
+      ResidD2 = (HOOGTE - H_D_finaal) ^ 2
     )
 
   DatasetAfgeleid <- Hoogteschatting %>%
-    select_(~BMS, ~DOMEIN_ID, ~ResidD2) %>%
-    filter_(~!is.na(ResidD2)) %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    summarise_(
-      maxResid = ~max(c(ResidD2))
+    select(BMS, DOMEIN_ID, ResidD2) %>%
+    filter(!is.na(ResidD2)) %>%
+    group_by(BMS, DOMEIN_ID) %>%
+    summarise(
+      maxResid = max(c(ResidD2))
     ) %>%
     ungroup() %>%
     inner_join(
@@ -139,12 +139,12 @@ describe("afwijkendemetingen", {
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
   Rmse <- Data.lokaal %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      BMS,
+      DOMEIN_ID
     ) %>%
-    do_(
-      ~rmse.basis(., "Lokaal")
+    do(
+      rmse.basis(., "Lokaal", .data$BMS)
     ) %>%
     ungroup()
 
@@ -153,19 +153,19 @@ describe("afwijkendemetingen", {
       Data.lokaal,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      BMS,
+      DOMEIN_ID
     ) %>%
-    do_(
-      ~hoogteschatting.basis(.$Model[[1]],
-                             select_(., ~-Model),
-                             "Lokaal")
+    do(
+      hoogteschatting.basis(.$Model[[1]],
+                             select(., -.data$Model),
+                             "Lokaal", .$BMS)
     ) %>%
     ungroup()
 
   DatasetLokaal <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+    inner_join(Rmse %>% select(BMS, DOMEIN_ID, rmseD, maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
 
@@ -174,11 +174,11 @@ describe("afwijkendemetingen", {
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeMetingen(DatasetBasis) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
@@ -190,11 +190,11 @@ describe("afwijkendemetingen", {
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_D_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "rmseD",
-                   "maxResid", "HogeRmse", "Afwijkend")
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                   "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
+                   "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
+                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend")
     )
   })
 
@@ -236,20 +236,20 @@ describe("afwijkendemetingen", {
 
   Rmse <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~rmse.basis(.$Model$data, "Basis")
+    do(
+      rmse.basis(.$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Hoogteschatting <- Basismodel %>%
     rowwise() %>%
-    do_(
-      ~hoogteschatting.basis(.$Model, .$Model$data, "Basis")
+    do(
+      hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
     ) %>%
     ungroup()
 
   Dataset <- Hoogteschatting %>%
-    inner_join(Rmse %>% select_(~BMS, ~DOMEIN_ID, ~rmseD, ~maxResid),
+    inner_join(Rmse %>% select(BMS, DOMEIN_ID, rmseD, maxResid),
                by = c("BMS", "DOMEIN_ID"))
 
   it("Selectie AantalDomHogeRMSE werkt correct", {

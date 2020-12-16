@@ -23,7 +23,7 @@
 #'
 #' - Reden: reden waarom de curve afwijkend is
 #'
-#' - Omtrek_buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
+#' - Omtrek_Buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
 #' van het domeinmodel ligt
 #'
 #' - Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin het maximum van de
@@ -31,66 +31,55 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ transmute_ mutate_ bind_rows
+#' @importFrom dplyr %>% filter transmute mutate bind_rows
+#' @importFrom rlang .data
 #' @importFrom assertthat has_name
 #'
 
 afwijkendeCurves <- function(Basismodel, Data = NULL) {
 
-  #controle invoer
-  if (has_name(Basismodel, "DOMEIN_ID")) {
-    invoercontrole(Basismodel, "lokaalmodel")
-    if (is.null(Data)) {
-      stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
-    } else {
-      invoercontrole(Data, "fit")
-    }
-  } else {
-    invoercontrole(Basismodel, "basismodel")
-  }
-
   #berekeningen
   Parameters_Extr <- curvekarakteristieken(Basismodel, Data) %>%
-    filter_(
-      ~Omtrek_Extr_Hoogte.d > 0.1,
-      ~Omtrek_Extr_Hoogte.d < Q95k
+    filter(
+      .data$Omtrek_Extr_Hoogte.d > 0.1,
+      .data$Omtrek_Extr_Hoogte.d < .data$Q95k
     )
 
   #hoog minimum domeinmodel
   HoogMin <- Parameters_Extr %>%
-    filter_(
-      ~Omtrek_Extr_Hoogte.d > 0.1,
-      ~Hoogteverschil.d < 0,
-      ~Omtrek_Buigpunt.d > Q5k,
-      ~Verschil_rico_BP_Q5.d > 1
+    filter(
+      .data$Omtrek_Extr_Hoogte.d > 0.1,
+      .data$Hoogteverschil.d < 0,
+      .data$Omtrek_Buigpunt.d > .data$Q5k,
+      .data$Verschil_rico_BP_Q5.d > 1
     ) %>%
-    transmute_(
-      ~DOMEIN_ID,
-      ~BMS,
-      ~Omtrek_Buigpunt.d
+    transmute(
+      .data$DOMEIN_ID,
+      .data$BMS,
+      .data$Omtrek_Buigpunt.d
     )
 
   #laag maximum domeinmodel
   LaagMax <- Parameters_Extr %>%
-    filter_(
-      ~Omtrek_Extr_Hoogte.d < Q95k,
-      ~Hoogteverschil.d > 0
+    filter(
+      .data$Omtrek_Extr_Hoogte.d < .data$Q95k,
+      .data$Hoogteverschil.d > 0
     ) %>%
-    transmute_(
-      ~DOMEIN_ID,
-      ~BMS,
-      ~Omtrek_Extr_Hoogte.d
+    transmute(
+      .data$DOMEIN_ID,
+      .data$BMS,
+      .data$Omtrek_Extr_Hoogte.d
     )
 
 
   AfwijkendeCurves <- HoogMin %>%
-    mutate_(
-      Reden = ~"curvevorm hol bij lage omtrekklassen"
+    mutate(
+      Reden = "curvevorm hol bij lage omtrekklassen"
     ) %>%
     bind_rows(
       LaagMax %>%
-        mutate_(
-          Reden = ~"curve daalt terug bij hoge omtrekklassen"
+        mutate(
+          Reden = "curve daalt terug bij hoge omtrekklassen"
         )
     )
 
