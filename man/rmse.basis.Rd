@@ -74,14 +74,4 @@ Data.lokaal \%>\%
   ) \%>\%
   ungroup()
 
-#Een alternatief is om te vertrekken van het berekende model,
-#waarbij ingeval van het basismodel de dataset opgeslagen is:
-Basismodel <- fit.basis(Data.basis)
-Basismodel \%>\%
-  rowwise() \%>\%
-  do(
-    rmse.basis(.$Model$data, "Basis", .$BMK)
-  ) \%>\%
-  ungroup()
-
 }
