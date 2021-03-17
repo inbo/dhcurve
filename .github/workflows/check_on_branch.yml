@@ -84,12 +84,14 @@ jobs:
 
       - name: Check documentation
         run: checklist::check_documentation()
+      - name: give documentation error
         if: failure()
         run: echo '::error ::Error in the documentation, please check the error message above'
         shell: Rscript {0}
 
       - name: Check description
         run: checklist::check_description()
+      - name: give description error
         if: failure()
         run: echo '::error ::Error in the desciption file, please check the error message above'
         shell: Rscript {0}
