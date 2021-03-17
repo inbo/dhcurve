@@ -91,8 +91,8 @@ jobs:
           fi
 
       - name: Check description
-        run: checklist::check_description()
-        shell: Rscript {0}
-      - name: give description error
-        if: ${{ failure() }}
-        run: echo '::error ::Error in the desciption file, please check the error message above'
+        run: |
+          Rscript --no-save --no-restore -e 'checklist::check_description()'
+          if [ $? -ne 0 ]; then
+            echo '\nError in the desciption file, please check the error message above.\n';
+            exit 1
