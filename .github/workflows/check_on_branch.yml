@@ -85,9 +85,10 @@ jobs:
       - name: Check documentation
         run: |
           Rscript --no-save --no-restore -e 'checklist::check_documentation()'
-      - name: give documentation error
-        if: [ $? -ne 0 ]
-        run: echo '::error ::Failure'
+          if [ $? -ne 0 ]; then
+            echo '\nThe documentation is not always correct. Please check the error message above.\n';
+            exit 1
+          fi
 
       - name: Check description
         run: checklist::check_description()
