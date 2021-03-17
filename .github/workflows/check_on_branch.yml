@@ -85,3 +85,7 @@ jobs:
       - name: Check documentation
         run: checklist::check_documentation()
         shell: Rscript {0}
+
+      - name: Check description
+        run: checklist::check_description()
+        shell: Rscript {0}
