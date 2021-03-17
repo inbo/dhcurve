@@ -10,7 +10,7 @@ body {
 }
 
 a {
-  color: #c04384;
+  color: #487524;
 }
 a:hover {
   color: #c2c444;
@@ -20,7 +20,7 @@ a:hover {
 .navbar,
 .label-default,
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-  background-color: #c04384;
+  background-color: #487524;
 }
 
 .navbar-default .navbar-link,
@@ -71,7 +71,7 @@ a:hover {
 }
 
 code.sourceCode.diff span.st {
-  background-color: #C04384;
+  background-color: #487524;
   color: #FFFFFF;
   font-weight: bold;
 }
