@@ -87,7 +87,7 @@ jobs:
           Rscript --no-save --no-restore -e 'checklist::check_documentation()'
       - name: give documentation error
         if: [ $? -ne 0 ]
-        run: echo '::error ::${{ env.fail }}'
+        run: echo '::error ::Failure'
 
       - name: Check description
         run: checklist::check_description()
