@@ -55,6 +55,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_github("inbo/checklist")
+          remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Session info
@@ -95,5 +96,13 @@ jobs:
           Rscript --no-save --no-restore -e 'checklist::check_description()'
           if [ $? -ne 0 ]; then
             echo '\nError in the desciption file, please check the error message above.\n';
+            exit 1
+          fi
+
+      - name: Check code coverage
+        run: |
+          Rscript --no-save --no-restore -e 'result <- covr::codecov(quiet = FALSE, commit="'$GITHUB_SHA'"); message(result$message)'
+          if [ $? -ne 0 ]; then
+            echo '\nChecking code coverage failed, please check the error message above.\n';
             exit 1
           fi
