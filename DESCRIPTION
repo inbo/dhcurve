@@ -23,6 +23,8 @@ Authors@R:
 Description: Model diameter height curves for individual tree species and
     forests.
 License: GPL-3
+URL: https://inbo.github.io/dhcurve, https://github.com/inbo/dhcurve
+BugReports: https://github.com/inbo/dhcurve/issues
 Depends:
     R (>= 3.3.0)
 Imports:
