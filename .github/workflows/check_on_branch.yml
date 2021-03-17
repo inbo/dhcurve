@@ -83,7 +83,9 @@ jobs:
           path: check
 
       - name: Check documentation
-        run: checklist::check_documentation()
+        run: |
+          checklist::check_documentation()
+          echo '::error'
         shell: Rscript {0}
 
       - name: Check description
