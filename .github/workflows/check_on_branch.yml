@@ -83,11 +83,13 @@ jobs:
           path: check
 
       - name: Check documentation
-        run: checklist::check_documentation()
+        run: |
+          x <- checklist::check_documentation()
+          echo "docu=x" >> $GITHUB_ENV
         shell: Rscript {0}
       - name: give documentation error
-        if: ${{ failure() }}
-        run: echo '::error ::Error in the documentation, please check the error message above'
+        if: ${{ env.docu$fail }}
+        run: echo '::error ::${{ env.docu$fail }}'
 
       - name: Check description
         run: checklist::check_description()
