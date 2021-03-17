@@ -41,7 +41,7 @@ afwijkendeCurves <- function(Basismodel, Data = NULL) {
   #berekeningen
   Parameters_Extr <- curvekarakteristieken(Basismodel, Data) %>%
     filter(
-      .data$Omtrek_Extr_Hoogte.d >0.1,
+      .data$Omtrek_Extr_Hoogte.d > 0.1,
       .data$Omtrek_Extr_Hoogte.d < .data$Q95k
     )
 
