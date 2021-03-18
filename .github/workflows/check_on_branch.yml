@@ -94,7 +94,9 @@ jobs:
       - name: Check description
         run: |
           check <- checklist::check_description()
-          if(check$fail) {stop("Error!!!")}'
+          if(check$fail) {
+            stop("Error!!!")
+          }
         shell: Rscript {0}
       - name: Check description2
         run: |
