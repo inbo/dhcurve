@@ -93,9 +93,9 @@ jobs:
 
       - name: Check description
         run: |
-          check <- checklist::check_description()
-          if(check$fail) {
-            stop("Error!!!")
+          checklist::check_description()
+          if(checklist::check_description()$fail) {
+            stop("Error in the desciption file, please check the error message above.")
           }
         shell: Rscript {0}
       - name: Check description2
