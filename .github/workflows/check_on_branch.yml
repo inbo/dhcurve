@@ -93,11 +93,13 @@ jobs:
 
       - name: Check description
         run: |
-          checklist::check_description()
-          if(checklist::check_description()$fail) {
-            stop("Error in the desciption file, please check the error message above.")
-          }
-        shell: Rscript {0}
+          Rscript --no-save --no-restore -e 'checklist::check_description()'
+          Rscript --no-save --no-restore -e 'if(checklist::check_description()$fail) {  stop("Error in the desciption file, please check the error message above.") }'
+          if [ $? -ne 0 ]; then
+            echo '\nError in the desciption file, please check the error message above.\n';
+            exit 1
+          fi
+        shell: bash
       - name: Check description2
         run: |
           Rscript --no-save --no-restore -e 'if(checklist::check_description()$fail) {stop("Error!!!")}'
