@@ -103,8 +103,6 @@ jobs:
 
       - name: Check code coverage
         run: |
-          Rscript --no-save --no-restore -e 'result <- covr::codecov(quiet = FALSE, commit="'$GITHUB_SHA'"); message(result$message)'
-          if [ $? -ne 0 ]; then
-            echo '\nChecking code coverage failed, please check the error message above.\n';
-            exit 1
-          fi
+          result <- covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
+          message(result$message)
+        shell: Rscript {0}
