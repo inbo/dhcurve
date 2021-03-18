@@ -85,11 +85,11 @@ jobs:
 
       - name: Check documentation
         run: |
-          Rscript --no-save --no-restore -e 'checklist::check_documentation()'
-          if [ $? -ne 0 ]; then
-            echo '\nThe documentation is not always correct. Please check the error message above.\n';
-            exit 1
-          fi
+          test <- checklist::check_documentation()
+          test
+          if(test$fail) {
+            stop("The documentation is not always correct. Please check the error message above.")
+          }
 
       - name: Check description
         run: |
