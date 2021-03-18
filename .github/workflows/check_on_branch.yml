@@ -90,7 +90,7 @@ jobs:
           if(test$fail) {
             stop("The documentation is not always correct. Please check the error message above.")
           }
-        shell:: Rscript {0}
+        shell: Rscript {0}
 
       - name: Check description
         run: |
