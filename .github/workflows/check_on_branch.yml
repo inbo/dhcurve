@@ -93,14 +93,12 @@ jobs:
 
       - name: Check description
         run: |
-          checklist::check_description()
-          if(checklist::check_description()$fail) {
-            stop("Error in the desciption file, please check the error message above.")
-          }
-          #if [ $? -ne 0 ]; then
-            #echo '\nError in the desciption file, please check the error message above.\n';
-            #exit 1
-          #fi
+          test <- checklist::check_description()
+          test
+          # error desactivated as long as copyright holder has to be INBO
+          #if(test$fail) {
+          #  stop("Error in the desciption file, please check the error message above.")
+          #}
         shell: Rscript {0}
 
       - name: Check code coverage
