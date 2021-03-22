@@ -95,6 +95,17 @@ jobs:
 
       - name: Check description
         run: |
+          x <- "."
+          if (!inherits(x, "Checklist") || !"checklist" %in% x$get_checked) {
+            x <- read_checklist(x = x)
+          }
+          repo <- git2r::repository(x$get_path)
+          repo
+          description <- description$new(
+            file = file.path(x$get_path, "DESCRIPTION")
+          )
+          version <- as.character(description$get_version())
+          version
           test <- checklist::check_description()
           test
           # error desactivated as long as copyright holder has to be INBO
