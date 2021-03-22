@@ -85,9 +85,8 @@ jobs:
 
       - name: Check documentation
         run: |
-          test <- checklist::check_documentation()
-          test
-          if(test$fail) {
+          checklist::check_documentation()
+          if(checklist::check_documentation()$fail) {
             stop("The documentation is not always correct. Please check the error message above.")
           }
         shell: Rscript {0}
