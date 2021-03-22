@@ -11,9 +11,101 @@ jobs:
   check-package:
     runs-on: ubuntu-latest
     name: "check package"
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      _R_CHECK_SYSTEM_CLOCK_: false
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
     steps:
-      - uses: inbo/actions/check_pkg@master
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
         with:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
-          token: ${{ secrets.pat }}
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install system dependencies
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          remotes::install_github("inbo/checklist")
+          remotes::install_cran("covr")
+        shell: Rscript {0}
+
+      - name: Session info
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
+
+      - name: Check
+        env:
+          _R_CHECK_CRAN_INCOMING_: false
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
+      - name: Check documentation
+        run: |
+          #probleem met path: Loaded and on-disk path mismatch (errors disabled)
+          test <- checklist::check_documentation()
+          test
+          #if(test$fail) {
+          #  stop("The documentation is not always correct. Please check the error message above.")
+          #}
+        shell: Rscript {0}
+
+      - name: Check description
+        run: |
+          test <- checklist::check_description()
+          test
+          # error desactivated as long as copyright holder has to be INBO
+          #if(test$fail) {
+          #  stop("Error in the desciption file, please check the error message above.")
+          #}
+        shell: Rscript {0}
+
+      - name: Check code coverage
+        run: |
+          result <- covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
+          message(result$message)
+        shell: Rscript {0}
