@@ -101,7 +101,7 @@ jobs:
           }
           repo <- git2r::repository(x$get_path)
           repo
-          description <- description$new(
+          description <- desc::description$new(
             file = file.path(x$get_path, "DESCRIPTION")
           )
           version <- as.character(description$get_version())
