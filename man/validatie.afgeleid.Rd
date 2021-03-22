@@ -10,7 +10,8 @@ validatie.afgeleid(
   AantalDomHogeRMSE = 20,
   ExtraCurvesRapport = NULL,
   Bestandsnaam = "Validatie_Afgeleid.html",
-  TypeRapport = "Dynamisch"
+  TypeRapport = "Dynamisch",
+  PathWD = getwd()
 )
 }
 \arguments{
@@ -40,6 +41,10 @@ html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
 uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 'Statisch', waarbij de figuren vast zijn.}
+
+\item{PathWD}{Het path van de working directory, dus het path waarin het
+validatierapport opgeslagen moet worden (default wordt het in de op dat
+moment actieve working directory opgeslagen).}
 }
 \value{
 De functie genereert een validatierapport (html-bestand) in de
