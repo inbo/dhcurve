@@ -1,0 +1,17 @@
+on:
+  push:
+    branches-ignore:
+      - master
+      - ghpages
+
+name: "check codecov"
+
+jobs:
+  check-package:
+    runs-on: ubuntu-latest
+    name: "check codecov"
+    steps:
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
