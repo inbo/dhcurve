@@ -105,6 +105,7 @@ jobs:
 
       - name: Check code coverage
         run: |
-          result <- covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
-          message(result$message)
+          #result <-
+            covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
+          #message(result$message)
         shell: Rscript {0}
