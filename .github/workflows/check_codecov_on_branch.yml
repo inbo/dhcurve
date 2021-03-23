@@ -12,6 +12,14 @@ jobs:
     name: "check codecov"
     steps:
       - uses: actions/checkout@master
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+
       - uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: true
