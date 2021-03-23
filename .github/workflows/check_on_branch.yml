@@ -108,5 +108,5 @@ jobs:
           #result <-
             covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
           #message(result$message)
-          CODECOV_TOKEN
+          '$CODECOV_TOKEN'
         shell: Rscript {0}
