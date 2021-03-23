@@ -102,7 +102,7 @@ dhcurvesrapport <-
     stop("De bestandnaam moet eindigen op '.html'")
   }
 
-  Dataset <- Datalijst[["Basis"]] %>%
+  Dataset <- Datalijst[["Basis"]] %>%  #nolint
     mutate(
       Modeltype = "basismodel"
     ) %>%
