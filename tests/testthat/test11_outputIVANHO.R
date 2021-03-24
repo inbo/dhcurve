@@ -25,8 +25,7 @@ describe("outputIVANHO", {
                    Lokaalmodel = Lokaalmodel) %>%
         colnames(.),
       c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
-        "Omtrekklasse", "Hoogte", "RMSE", "BI_ondergrens", "BI_bovengrens",
-        "Modeltype")
+        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
     )
   })
 
@@ -34,8 +33,7 @@ describe("outputIVANHO", {
     expect_equal(outputIVANHO(Basismodel1) %>%
                    filter(DOMEIN_ID %in% c("HM", "LM")) %>%
                    select(
-                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
-                     -BI_ondergrens, -BI_bovengrens
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE
                    ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
@@ -61,8 +59,7 @@ describe("outputIVANHO", {
     expect_equal(outputIVANHO(Lokaalmodel = Lokaalmodel,
                               Data.lokaal = Lokaledata) %>%
                    select(
-                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
-                     -BI_ondergrens, -BI_bovengrens
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE
                    ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "andereboom",
@@ -92,8 +89,7 @@ describe("outputIVANHO", {
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
         colnames(.),
       c("BMS", "IDbms", "DOMEIN_ID", "BOS_BHI", "Omtrek", "OmtrekklassetypeID",
-        "Omtrekklasse", "Hoogte", "RMSE", "BI_ondergrens", "BI_bovengrens",
-        "Modeltype")
+        "Omtrekklasse", "Hoogte", "RMSE", "Modeltype")
     )
   })
 
@@ -103,8 +99,7 @@ describe("outputIVANHO", {
     expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
                    filter(Modeltype == "afgeleid model") %>%
                    select(
-                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE,
-                     -BI_ondergrens, -BI_bovengrens
+                     -OmtrekklassetypeID, -Omtrekklasse, -RMSE
                    ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",

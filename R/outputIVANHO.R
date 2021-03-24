@@ -44,10 +44,6 @@
 #'
 #' - RMSE (root mean square error, zie vignette voor meer info)
 #'
-#' - BI_ondergrens en BI_bovengrens: ondergrens en bovengrens van het
-#' betrouwbaarheidsinterval op de schatting, berekend als
-#' schatting - of + 2,5 * RMSE (zie vignette voor meer info)
-#'
 #' @export
 #'
 #' @importFrom dplyr %>% select filter rowwise do ungroup mutate bind_rows
@@ -262,8 +258,6 @@ outputIVANHO <-
                  .data$Extr_Hoogte.d,
                  .data$H_D_finaal),
         .data$RMSE,
-        BI_ondergrens = .data$Hoogte - 2.5 * .data$RMSE,
-        BI_bovengrens = .data$Hoogte + 2.5 * .data$RMSE,
         .data$Modeltype
       ) %>%
       distinct()
