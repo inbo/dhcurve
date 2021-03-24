@@ -56,7 +56,8 @@ omtrekklasse
 
 - Hoogte: de geschatte hoogte
 
-- RMSE (root mean square error, zie vignette voor meer info)
+- RMSE (root mean square error, zie vignette voor meer info:
+\code{vignette("Handleiding", package = "dhcurve")})
 }
 \description{
 De functie outputIVANHO voert de berekeningen uit die leiden tot de
