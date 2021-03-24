@@ -110,3 +110,6 @@ jobs:
           #message(result$message)
           Sys.getenv("CODECOV_TOKEN")
         shell: Rscript {0}
+      - name: Check code coverage 2
+        run: |
+          Rscript --no-save --no-restore -e 'result <- covr::codecov(quiet = FALSE, commit="'$GITHUB_SHA'"); message(result$message)'
