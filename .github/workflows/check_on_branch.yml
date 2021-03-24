@@ -106,6 +106,6 @@ jobs:
       - name: Check code coverage
         run: |
           #result <-
-            covr::codecov(quiet = FALSE)
+            covr::codecov(quiet = FALSE, function_exclusions = "R/dhcurvesrapport.R")
           #message(result$message)
         shell: Rscript {0}
