@@ -8,3 +8,4 @@ inst/dbpath
 inst/wdpath
 inst/dh_curve.pdf
 docs
+.github/*.html
