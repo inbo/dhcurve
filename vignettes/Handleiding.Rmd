@@ -493,7 +493,7 @@ data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
 
 ### Afwijkende metingen
 
-We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het betrouwbaarheidsinterval van de schatting ligt (tussen schatting - 2,5 * RMSE en schatting + 2,5 * RMSE).
+We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het interval ligt dat begrensd wordt door schatting - 2,5 * RMSE en schatting + 2,5 * RMSE.
 
 ```{r figBetrouwbaarheidsinterval, echo=FALSE}
 
