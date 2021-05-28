@@ -20,6 +20,6 @@ navbar:
     href: https://www.facebook.com/natuurenbos/
 
 authors:
-  Research Institute for Nature and Forest:
-    href: "https://www.inbo.be/en"
-    html: "<img src='https://inbo.github.io/checklist/reference/figures/logo-en.png' height=24>"
+  Agentschap voor Natuur en Bos:
+    href: "https://www.natuurenbos.be/"
+    html: "<img src='man/figures/name.png' height=24>"
