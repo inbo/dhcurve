@@ -14,10 +14,10 @@ navbar:
   - text: Contributing
     href: CONTRIBUTING.html
   right:
-  - icon: fa-twitter fa-lg
-    href: https://twitter.com/INBOVlaanderen
-  - icon: fa-facebook fg-lg
-    href: https://www.facebook.com/pg/INBOVlaanderen
+  - icon: "fa fa-twitter"
+    href: https://twitter.com/natuurenbos
+  - icon: "fa fa-facebook"
+    href: https://www.facebook.com/natuurenbos/
 
 authors:
   Research Institute for Nature and Forest:
