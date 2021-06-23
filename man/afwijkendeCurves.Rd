@@ -2,7 +2,7 @@
 % Please edit documentation in R/afwijkendeCurves.R
 \name{afwijkendeCurves}
 \alias{afwijkendeCurves}
-\title{Geeft de afwijkende metingen uit een gegeven model}
+\title{Lijst de afwijkende curves op}
 \usage{
 afwijkendeCurves(Basismodel, Data = NULL)
 }

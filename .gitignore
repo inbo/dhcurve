@@ -1,9 +1,13 @@
-.Rproj.user
-.Rhistory
+*.html
+.github/*.html
+.httr-oauth
 .RData
+.Rhistory
+.Rproj.user
 .Ruserdata
 dhcurve.Rproj
-inst/tijdelijk
+docs
 inst/dbpath
-inst/wdpath
 inst/dh_curve.pdf
+inst/tijdelijk
+inst/wdpath

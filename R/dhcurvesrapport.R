@@ -45,6 +45,7 @@ dhcurvesrapport <-
            Bestandsnaam = "dhcurves.html",
            verbose = TRUE, PathWD = getwd()) {
 
+  # nocov start
   assert_that(inherits(OutputIVANHO, "data.frame"))
   assert_that(has_name(OutputIVANHO, "BMS"))
   assert_that(has_name(OutputIVANHO, "DOMEIN_ID"))
@@ -102,7 +103,7 @@ dhcurvesrapport <-
     stop("De bestandnaam moet eindigen op '.html'")
   }
 
-  Dataset <- Datalijst[["Basis"]] %>%
+  Dataset <- Datalijst[["Basis"]] %>%  #nolint
     mutate(
       Modeltype = "basismodel"
     ) %>%
@@ -145,5 +146,6 @@ dhcurvesrapport <-
     message(sprintf("Het rapport is opgeslagen in de working directory: %s",
                     getwd()))
   }
+  # nocov end
 
 }

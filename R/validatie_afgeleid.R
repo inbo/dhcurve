@@ -25,6 +25,7 @@
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #' @inheritParams validatie.basis
+#' @inheritParams initiatie
 #'
 #' @return De functie genereert een validatierapport (html-bestand) in de
 #' working directory met informatie en grafieken van de te controleren metingen.
@@ -58,7 +59,7 @@
 validatie.afgeleid <-
   function(Basismodel, Afgeleidmodel, AantalDomHogeRMSE = 20,
            ExtraCurvesRapport = NULL, Bestandsnaam = "Validatie_Afgeleid.html",
-           TypeRapport = "Dynamisch") {
+           TypeRapport = "Dynamisch", PathWD = getwd()) {
 
   invoercontrole(Basismodel, "basismodel")
   invoercontrole(Afgeleidmodel, "afgeleidmodel")
@@ -187,7 +188,7 @@ validatie.afgeleid <-
     ungroup()
 
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   Bestandsnaam, TypeRapport)
+                   Bestandsnaam, TypeRapport, PathWD = PathWD)
 
   return(AfwijkendeMetingen)
 

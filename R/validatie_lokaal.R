@@ -28,6 +28,7 @@
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #' @inheritParams validatie.basis
+#' @inheritParams initiatie
 #'
 #' @return
 #'
@@ -59,7 +60,8 @@
 validatie.lokaal <-
   function(Lokaalmodel, Data, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
            GoedgekeurdeAfwijkendeCurves = NULL,
-           Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
+           Bestandsnaam = "Default", TypeRapport = "Dynamisch", PathWD = getwd()
+           ) {
 
   invoercontrole(Lokaalmodel, "lokaalmodel")
   invoercontrole(Data, "fit")
@@ -212,7 +214,7 @@ validatie.lokaal <-
                          "Validatie_Lokaal.html",
                          Bestandsnaam)
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   Bestandsnaam, TypeRapport)
+                   Bestandsnaam, TypeRapport, PathWD = PathWD)
 
   return(AfwijkendeMetingen)
 

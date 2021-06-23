@@ -1,4 +1,4 @@
-#' Geeft de afwijkende metingen uit een gegeven model
+#' Lijst de afwijkende curves op
 #'
 #' Functie die op basis van de curvekarakteristieken van de modellen (extremen
 #' en buigpunten) de mogelijk slechtste modellen oplijst met de reden.  Deze

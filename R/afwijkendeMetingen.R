@@ -1,10 +1,10 @@
 #' Geeft de afwijkende metingen uit een gegeven model
 #'
-#' Berekent afwijkende metingen, dit zijn metingen met een afwijking
-#' > 2,5 * rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20
-#' domeinen met de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden
-#' minstens 10 meetresultaten geselecteerd als 'afwijkend' (nl. de 10
-#' meetresultaten met de hoogste error).
+#' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 *
+#' rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
+#' de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden minstens 10
+#' meetresultaten geselecteerd als 'afwijkend' (nl. de 10 meetresultaten met de
+#' hoogste error).
 #'
 #' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het
 #' domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze

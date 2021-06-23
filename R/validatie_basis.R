@@ -38,6 +38,7 @@
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
+#' @inheritParams initiatie
 #'
 #' @return
 #'
@@ -72,7 +73,8 @@
 validatie.basis <-
   function(Basismodel, AantalDomHogeRMSE = 20, ExtraCurvesRapport = NULL,
            GoedgekeurdeAfwijkendeCurves = NULL,
-           Bestandsnaam = "Default", TypeRapport = "Dynamisch") {
+           Bestandsnaam = "Default", TypeRapport = "Dynamisch", PathWD = getwd()
+           ) {
 
   invoercontrole(Basismodel, "basismodel")
 
@@ -213,7 +215,7 @@ validatie.basis <-
                          "Validatie_Basis.html",
                          Bestandsnaam)
   validatierapport(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-                   Bestandsnaam, TypeRapport)
+                   Bestandsnaam, TypeRapport, PathWD = PathWD)
 
   return(AfwijkendeMetingen)
 
