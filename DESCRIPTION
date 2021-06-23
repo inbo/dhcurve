@@ -17,7 +17,7 @@ Authors@R:
              role = "ctb",
              email = "anja.leyman@inbo.be",
              comment = c(ORCID = "0000-0002-0292-6582")),
-      person(family = "Agentschap voor Natuur en Bos",
+      person(given = "Agentschap voor Natuur en Bos",
              role = "cph",
              email = "anb@vlaanderen.be"))
 Description: Model diameter height curves for individual tree species and
