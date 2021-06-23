@@ -21,5 +21,6 @@ navbar:
 
 authors:
   Agentschap voor Natuur en Bos:
-    href: "https://www.natuurenbos.be/"
-    html: "<img src='man/figures/name.png' height=24>"
+    href: https://www.natuurenbos.be/
+    image:
+      src: man/figures/name.png
