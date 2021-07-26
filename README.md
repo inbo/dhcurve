@@ -11,4 +11,3 @@ The `dhcurve` package bundles a number of functions that allow to model 'Diamete
 The package is written in Dutch.
 
 An English poster on this package, presented at the International Statistical Ecology Conference in the University of St. Andrews in 2018, is available [here](https://www.vlaanderen.be/inbo/en-GB/publications/estimating-tree-height-for-a-given-girth).
-
