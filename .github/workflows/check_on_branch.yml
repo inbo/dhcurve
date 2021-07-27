@@ -54,7 +54,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          remotes::install_cran("textshaping")
+          install.packages("textshaping")
           remotes::install_github("inbo/checklist")
           remotes::install_cran("covr")
         shell: Rscript {0}
