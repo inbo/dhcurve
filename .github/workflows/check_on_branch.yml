@@ -55,6 +55,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          install.packages("codemetar")
           options(repos = c(inbo = "https://inbo.r-universe.dev", CRAN = "https://cloud.r-project.org"))
           install.packages("checklist")
           remotes::install_cran("covr")
