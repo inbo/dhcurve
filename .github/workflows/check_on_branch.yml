@@ -98,7 +98,13 @@ jobs:
 
       - name: Check description
         run: |
-          test <- checklist::check_description()
+          library(checklist)
+          checkfunction <- function(x = ".") {
+            x <- check_description(x)
+            print(x)
+            return(invisible(x))
+          }
+          test <- checkfunction()
           test
           if(test$fail) {
             stop("Error in the desciption file, please check the error message above.")
