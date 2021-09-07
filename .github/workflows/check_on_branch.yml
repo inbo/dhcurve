@@ -106,11 +106,11 @@ jobs:
             print(x$.__enclos_env__$private$errors)
             print(x$.__enclos_env__$private$errors$DESCRIPTION)
             print(length(x$.__enclos_env__$private$errors$DESCRIPTION))
-            print(x$.__enclos_env__$private$warnings))
+            print(x$.__enclos_env__$private$warnings)
             print(x$.__enclos_env__$private$allowed_warnings)
             print(x$.__enclos_env__$private$notes)
             print(x$.__enclos_env__$private$allowed_notes)
-            if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+            if (length(x$.__enclos_env__$private$errors$DESCRIPTION)) > 0 |
                 length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
                 length(x$.__enclos_env__$private$notes) > length(x$.__enclos_env__$private$allowed_notes)
             ) {
