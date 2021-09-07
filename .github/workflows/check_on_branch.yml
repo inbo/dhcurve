@@ -56,8 +56,9 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_github("ropensci/codemetar")
-          options(repos = c(inbo = "https://inbo.r-universe.dev", CRAN = "https://cloud.r-project.org"))
-          install.packages("checklist")
+          remotes::install_github("inbo/checklist")
+          #options(repos = c(inbo = "https://inbo.r-universe.dev", CRAN = "https://cloud.r-project.org"))
+          #install.packages("checklist")
           remotes::install_cran("covr")
         shell: Rscript {0}
 
