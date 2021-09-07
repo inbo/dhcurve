@@ -103,13 +103,13 @@ jobs:
           checkfunction <- function(x = ".") {
             x <- check_description(x)
             print(x)
+            print(x$fail)
+            if (x$fail) {
+              stop("Error in the desciption file, please check the error message above.")
+            }
             return(invisible(x))
           }
-          test <- checkfunction()
-          test
-          if(test$fail) {
-            stop("Error in the desciption file, please check the error message above.")
-          }
+          checkfunction()
         shell: Rscript {0}
 
       - name: Check code coverage
