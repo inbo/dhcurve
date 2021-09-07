@@ -103,6 +103,11 @@ jobs:
           checkfunction <- function(x = ".") {
             x <- check_description(x)
             print(x)
+            print(length(x$.__enclos_env__$private$errors))
+            print(length(x$.__enclos_env__$private$warnings))
+            print(length(x$.__enclos_env__$private$allowed_warnings))
+            print(length(x$.__enclos_env__$private$notes))
+            print(length(x$.__enclos_env__$private$allowed_notes))
             if (length(x$.__enclos_env__$private$errors) > 0 |
                 length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
                 length(x$.__enclos_env__$private$notes) > length(x$.__enclos_env__$private$allowed_notes)
