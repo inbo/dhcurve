@@ -99,8 +99,7 @@ jobs:
 
       - name: Check description
         run: |
-          library(checklist)
-          x <- check_description()
+          x <- checklist::check_description()
           print(x)
           if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
               length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
