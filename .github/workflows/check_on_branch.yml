@@ -102,8 +102,8 @@ jobs:
           x <- checklist::check_description()
           print(x)
           if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
-              length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
-              length(x$.__enclos_env__$private$notes) > length(x$.__enclos_env__$private$allowed_notes)
+              length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) |
+              length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
             stop("Error in the desciption file, please check the error message above.")
           }
