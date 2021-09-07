@@ -100,25 +100,14 @@ jobs:
       - name: Check description
         run: |
           library(checklist)
-          checkfunction <- function(x = ".") {
-            x <- check_description(x)
-            print(x)
-            print(x$.__enclos_env__$private$errors)
-            print(x$.__enclos_env__$private$errors$DESCRIPTION)
-            print(length(x$.__enclos_env__$private$errors$DESCRIPTION))
-            print(x$.__enclos_env__$private$warnings)
-            print(x$.__enclos_env__$private$allowed_warnings)
-            print(x$.__enclos_env__$private$notes)
-            print(x$.__enclos_env__$private$allowed_notes)
-            if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
-                length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
-                length(x$.__enclos_env__$private$notes) > length(x$.__enclos_env__$private$allowed_notes)
-            ) {
-              stop("Error in the desciption file, please check the error message above.")
-            }
-            return(invisible(x))
+          x <- check_description()
+          print(x)
+          if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+              length(x$.__enclos_env__$private$warnings) > length(x$.__enclos_env__$private$allowed_warnings) |
+              length(x$.__enclos_env__$private$notes) > length(x$.__enclos_env__$private$allowed_notes)
+          ) {
+            stop("Error in the desciption file, please check the error message above.")
           }
-          checkfunction()
         shell: Rscript {0}
 
       - name: Check code coverage
