@@ -103,7 +103,7 @@ jobs:
           checkfunction <- function(x = ".") {
             x <- check_description(x)
             print(x)
-            print(x$fail)
+            print(invisible(x)$fail)
             if (x$fail) {
               stop("Error in the desciption file, please check the error message above.")
             }
