@@ -98,10 +98,12 @@ jobs:
         run: |
           test <- checklist::check_description()
           test
-          # error desactivated as long as copyright holder has to be INBO
-          #if(test$fail) {
-          #  stop("Error in the desciption file, please check the error message above.")
-          #}
+          if (length(test$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+              length(test$.__enclos_env__$private$warnings) > length(test$.__enclos_env__$private$allowed_warnings) |
+              length(test$.__enclos_env__$private$notes) > length(test$.__enclos_env__$private$allowed_notes)
+          ) {
+            stop("Error in the desciption file, please check the error message above.")
+          }
         shell: Rscript {0}
 
       - name: Check code coverage
