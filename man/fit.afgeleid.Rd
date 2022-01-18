@@ -35,9 +35,9 @@ List met 2 tibbles:
 Functie die op basis van de opgegeven dataset een model opstelt per
 domein-boomsoortcombinatie door verschuiving van het Vlaams model voor die
 boomsoort (afgeleid uit het basismodel). Dit komt overeen met het fitten van
-het lineair model \eqn{Hoogte_{afgeleid} \sim \delta A + Hoogte_{Vlaams})}
-{Hoogte(afgeleid) ~ \delta A + Hoogte(Vlaams)} op basis van de opgegeven
-dataset, waarbij \eqn{Hoogte_{Vlaams})}{Hoogte(Vlaams)} de hoogteschatting
+het lineair model \eqn{Hoogte_{afgeleid} \sim \delta A + Hoogte_{Vlaams}}{%
+Hoogte(afgeleid) ~ \delta A + Hoogte(Vlaams)} op basis van de opgegeven
+dataset, waarbij \eqn{Hoogte_{Vlaams}}{Hoogte(Vlaams)} de hoogteschatting
 is volgens het
 Vlaams model.
 }

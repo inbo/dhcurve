@@ -18,7 +18,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r}
+```{r include=FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4)
 ```
 
@@ -469,16 +469,38 @@ We berekenen de RMSE voor het __basismodel__ en het __lokaal model__ door cross-
 
 Voor het __afgeleid model__, dat een verschuiving van het Vlaams model is, wordt voor de RMSE beide toegepaste modellen in rekening gebracht: $$RMSE = \sqrt{RMSE_{Vlaams}^2 + RMSE_{Verschuiving}^2}$$  Hierbij wordt $RMSE_{Vlaams}$ berekend volgens de hierboven beschreven methode (waarbij de hoogte geschat wordt op basis van het Vlaams model en alle metingen die gebruikt zijn om het basismodel in kwestie op te stellen).  Voor $RMSE_{Verschuiving}$ wordt omwille van het beperkt aantal records voor de boomsoort-domeincombinatie voor elk punt een schatting gemaakt op basis van van een model dat opgesteld is op basis van de dataset zonder dat ene punt, waarna de RMSE op dezelfde manier berekend wordt.  (Voor deze laatste berekening is de functie `rmse.verschuiving` ontwikkeld.)
 
+Op basis van de RMSE kan een __betrouwbaarheidsinterval (BI)__ berekend worden voor een voorspelde _gemiddelde_ boomhoogte:
+
+$BI_{gemidd.Hoogte} = [Hoogte_{geschat} - \frac{1.96 * RMSE}{\sqrt{n}}, Hoogte_{geschat} + \frac{1.96 * RMSE}{\sqrt{n}}]$
+
+met n het aantal bomen van dezelfde diameter waarvoor het BI berekend wordt en 1.96 een benaderende waarde die in R het meest accuraat berekend wordt met `qnorm(0.975)`.
+
+De werkelijke hoogte van individuele bomen kan overschat of onderschat worden, wat resulteert in een relatief breed BI.
+Het gemiddelde van meerdere bomen zal echter een kleinere spreiding hebben dan een individuele boom, omdat deze bomen een mix zijn van onderschattingen en overschattingen.
+Hoe groter het aantal bomen waarvoor de voorspelling gebeurt, hoe beter de onder- en overschattingen uitgemiddeld worden en hoe kleiner het BI, wat geïllustreerd wordt in onderstaande grafiek.
+
+```{r figBIbomen, echo=FALSE}
+data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
+  mutate(
+    Hmin = Hoogte - qnorm(0.975) * RMSE / sqrt(n),
+    Hmax = Hoogte + qnorm(0.975) * RMSE / sqrt(n)
+  ) %>%
+  ggplot(aes(x = factor(n), y = Hoogte, ymin = Hmin, ymax = Hmax)) +
+  geom_point() +
+  geom_errorbar() +
+  xlab("n (aantal bomen)")
+```
+
 ### Afwijkende metingen
 
-We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het betrouwbaarheidsinterval van de schatting ligt (tussen schatting - 2,5 * RMSE en schatting + 2,5 * RMSE).
+We beschouwen een meting als afwijkend als de afwijking van het model groter is dan 2,5 * RMSE, dus als de meting buiten het interval ligt dat begrensd wordt door schatting - 2,5 * RMSE en schatting + 2,5 * RMSE.
 
 ```{r figBetrouwbaarheidsinterval, echo=FALSE}
 
 Metingen <- testdata1domein(nBomen = 200) %>%
   mutate(
     Omtrek = floor(C13 / 10) / 10 + 0.05,
-    Model = 20 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
+    Model = 30 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
     Hmax = Model + 2.5 * 2,
     Hmin = Model - 2.5 * 2,
     Afwijkend = HOOGTE > Hmax | HOOGTE < Hmin
