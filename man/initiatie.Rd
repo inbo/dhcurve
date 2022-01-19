@@ -2,48 +2,94 @@
 % Please edit documentation in R/initiatie.R
 \name{initiatie}
 \alias{initiatie}
-\title{Initiatiestap met opsplitsen van dataset op basis van aantal metingen per domein}
+\title{Initiatiestap met opsplitsen van dataset volgens modeltypen}
 \usage{
-initiatie(Data, Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
-  min_basis = NA, min_afgeleid = NA, stringsAsFactors = FALSE),
-  min_basismodel = 50, min_domeinen_basismodel = 6,
-  min_afgeleidmodel = 10)
+initiatie(
+  Data,
+  Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA, min_afgeleid =
+    NA, stringsAsFactors = FALSE),
+  Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
+  verbose = TRUE,
+  PathWD = getwd()
+)
 }
 \arguments{
-\item{Data}{dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.}
+\item{Data}{Dataframe met metingen van bomen die als basis moeten dienen om
+DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID
+(identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms
+(identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in
+centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten
+en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij
+rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens
+met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten,
+dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd
+worden.}
 
-\item{Uitzonderingen}{lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)}
+\item{Uitzonderingen}{Lijst met boomsoort-domeincombinaties waarvoor
+uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
+De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde
+voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.}
 
-\item{min_basismodel}{tijdelijk toegevoegd voor testen}
+\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{min_domeinen_basismodel}{tijdelijk toegevoegd voor testen}
+\item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
+boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
 
-\item{min_afgeleidmodel}{tijdelijk toegevoegd voor testen}
+\item{PathWD}{Het path van de working directory, dus het path waarin het
+validatierapport opgeslagen moet worden (default wordt het in de op dat
+moment actieve working directory opgeslagen).}
 }
 \value{
-Een list van dataframes:
+Als er gegevens verwijderd worden, genereert de functie een validatierapport
+(html-bestand) waarin een overzicht gegeven wordt van de verwijderde
+gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 
-- dataframe > 50 metingen en min. 6 domeinen
+De functie geeft een list van dataframes terug, met in elke dataframe
+behalve de variabelen uit Data de berekende variabelen Omtrek
+(= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
+bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
+gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval)
+en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
+omtrek > 0.5 m)).
 
-- dataframe 10-50
+De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 
-- dataframe > 50 metingen en < 6 domeinen
+- [["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen (binnen
+het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in minimum 6
+domeinen, waarbij enkel gegevens worden opgenomen van de domeinen waarvoor
+minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een
+basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
+domeinspecifieke modellen.
 
-- dataframe met metingen van domeinen en boomsoorten waar geen model voor opgesteld kan worden
+- [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen
+binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor
+een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
+voorkomen), op basis waarvan een afgeleid model berekend kan worden.
+
+- [["Lokaal"]] gegevens van domeinen met veel metingen voor een boomsoort
+(> 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) waarvan er
+te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op
+te stellen.  Voor deze boomsoort-domeincombinaties kan een lokaal model
+berekend worden.
+
+- [["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot de 3
+voorgaande categorieën behoren en waar dus geen model voor opgesteld kan
+worden.
+
+Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
+weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
+met omtrek <= 0,5 m weggelaten.
+
+In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
+[["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+validatierapport.
 }
 \description{
-Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.
-}
-\details{
-Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden:
-
-(1) boomsoorten waarvoor op minimum 6 domeinen veel metingen uitgevoerd zijn (> 50 metingen), op basis waarvan betrouwbare domeinmodellen en een betrouwbaar Vlaams model berekend kan worden (= basismodel),
-
-(2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model),
-
-(3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)(= lokaal model), en
-
-(4) metingen van de domein-boomsoort-combinaties die niet tot de 3 voorgaande categorieën behoren en waar dus geen model voor opgesteld kan worden.
-
-De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
+De functie initiatie maakt de dataset klaar voor de verdere stappen van het
+opstellen van DH-curves: ze berekent de noodzakelijke variabelen en splitst
+de dataset op basis van het aantal metingen per boomsoort-domeincombinatie
+in 4 delen: 3 delen die als parameter meegegeven kunnen worden voor de
+fit-functies per modeltype (basismodel, afgeleid model en lokaal model), en
+een 4de deel met de resterende gegevens.
 }

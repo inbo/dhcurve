@@ -1,20 +1,47 @@
-#' Modelparameters berekenen voor opgegeven model
+#' Berekent modelparameters voor opgegeven model
 #'
-#' Functie die de modelparameters berekent op basis van een opgegeven basismodel, lokaal model of afgeleid model (verschoven Vlaams model).  Ze berekent de parameters voor het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en geeft ook de grenzen van het bruikbaar interval.  (Deze functie verwijst naar de functies modelparameters.basis, modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de situatie)
+#' Functie die de modelparameters berekent op basis van een opgegeven
+#' basismodel, lokaal model of afgeleid model.  Ze berekent de parameters voor
+#' het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en
+#' geeft ook de grenzen van het bruikbaar interval.
 #'
-#' @param Basismodel model per boomsoort (basismodel) of model per boomsoort-domein-combinatie (lokaalmodel)
-#' @param Data meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)
-#' @param Afgeleidmodel voor de berekening van de modelparameters van het afgeleid model (verschoven Vlaams model) moeten zowel het basismodel als het afgeleid model gegeven worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de andere modellen mag dit argument niet toegevoegd worden.
+#' (Deze functie verwijst naar de interne functies modelparameters.basis,
+#' modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de
+#' situatie)
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl).  Ingeval van een afgeleid model worden de parameters voor het Vlaams model gegeven (Avl, Bvl en Cvl), en een parameter Ad die de verschuiving van het Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra intercept)
+#' @param Basismodel model per boomsoort (basismodel) of model per
+#' boomsoort-domein-combinatie (lokaalmodel)
+#' @param Data meetgegevens (enkel nodig voor lokaal model)
+#' @param Afgeleidmodel voor de berekening van de modelparameters van het
+#' afgeleid model moeten zowel het basismodel als het afgeleid model gegeven
+#' worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de
+#' andere modellen mag dit argument niet toegevoegd worden.
+#'
+#' @return Dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en ingeval
+#' van het basismodel de parameters voor Vlaams model (Avl, Bvl en Cvl).
+#' Ingeval van een afgeleid model worden de parameters voor het Vlaams model
+#' gegeven (Avl, Bvl en Cvl), en een parameter Ad die de verschuiving van het
+#' Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra
+#' intercept)
 #'
 #' @export
 #'
 #' @importFrom assertthat has_name
-#' @importFrom dplyr %>% rowwise do_ inner_join group_by_ ungroup select_ distinct_
+#' @importFrom dplyr %>% rowwise do inner_join group_by ungroup select
+#' distinct
+#' @importFrom plyr .
+#' @importFrom rlang .data
 #'
 
 modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
+
+  invoercontrole(Basismodel, "basismodel")
+  if (!is.null(Data)) {
+    invoercontrole(Data, "fit")
+  }
+  if (!is.null(Afgeleidmodel)) {
+    invoercontrole(Afgeleidmodel, "afgeleidmodel")
+  }
 
   if (!is.null(Afgeleidmodel)) {
     Parameters <- Afgeleidmodel[[1]] %>%
@@ -22,20 +49,20 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
         Afgeleidmodel[[2]],
         by = c("BMS", "DOMEIN_ID")
       ) %>%
-      group_by_(
-        ~BMS,
-        ~DOMEIN_ID,
-        ~Q5k,
-        ~Q95k
+      group_by(
+        .data$BMS,
+        .data$DOMEIN_ID,
+        .data$Q5k,
+        .data$Q95k
       ) %>%
-      do_(
-        ~modelparameters.afgeleid(.$Model[[1]])
+      do(
+        modelparameters.afgeleid(.$Model[[1]])
       ) %>%
       ungroup() %>%
       inner_join(
         modelparameters(Basismodel) %>%
-          select_(~BMS, ~Avl, ~Bvl, ~Cvl) %>%
-          distinct_(),
+          select(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
+          distinct(),
         by = c("BMS")
       )
   } else {
@@ -45,23 +72,23 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
           Data,
           by = c("BMS", "DOMEIN_ID")
         ) %>%
-        group_by_(
-          ~BMS,
-          ~DOMEIN_ID,
-          ~Q5k,
-          ~Q95k
+        group_by(
+          .data$BMS,
+          .data$DOMEIN_ID,
+          .data$Q5k,
+          .data$Q95k
         ) %>%
-        do_(
-          ~modelparameters.lokaal(.$Model[[1]])
+        do(
+          modelparameters.lokaal(.$Model[[1]])
         ) %>%
         ungroup()
     } else {
       Parameters <- Basismodel %>%
         rowwise() %>%
-        do_(
-          ~modelparameters.basis(.$Model)
+        do(
+          modelparameters.basis(.$Model, .$BMS)
         )
-    }
+     }
   }
 
 

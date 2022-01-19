@@ -1,43 +1,106 @@
-#' stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport
+#' Stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport
 #'
-#' Deze functie rendert een Rmd-file.  In de Rmd-file wordt voor elk model uit de lijst een grafiek van dezelfde vorm gemaakt, op basis van aparte functie of child-rmd _maakGrafiek_ die voor elk item uit de lijst opnieuw opgeroepen wordt.
+#' De functie genereert een validatierapport (html-bestand) in de working
+#' directory (of opgegeven directory) met informatie en grafieken van de te
+#' controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
+#' aangeduid; boven de curve is het probleem ook woordelijk beschreven.
 #'
-#' Op de grafieken moet volgende info getoond worden:
+#' Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van
+#' de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als
+#' child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
 #'
-#' - puntenwolk metingen
 #'
-#' - curve Vlaams model
+#' @param SlechtsteModellen Lijst van de slechtste modellen, dit zijn modellen
+#' met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
+#' modellen met afwijkende metingen.  Deze dataframe moet volgende velden
+#' bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van
+#' afwijkingen, om weer te geven boven grafiek).
+#' @param AfwijkendeMetingen Lijst met afwijkende metingen (dataframe zoals
+#' gegenereerd door de functie afwijkendeMetingen).
+#' @param Dataset Dataset met gemeten waarden en geschatte waarde voor
+#' domeinmodel en Vlaams model (inclusief RMSE)
+#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het
+#' html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+#' erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
+#' uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+#' 'Statisch', waarbij de figuren vast zijn.
+#' @inheritParams initiatie
 #'
-#' - curve domeinmodel of verschoven Vlaams model (dus domeinspecifieke curve)
+#' @return De functie genereert in de working directory (of opgegeven directory)
+#' een rapport (html) met de te controleren modellen.  Hierin wordt per model
+#' (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
+#' boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
+#' mogelijke problemen die bij het model optreden.
 #'
-#' - extremen en buigpunten waar aanwezig (met vertikale stippellijn?)
+#' Daaronder wordt telkens grafisch volgende info weergegeven:
 #'
-#' - grenzen van bruikbaar interval
+#' - een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
+#' een jitter)
 #'
-#' - vermelding van boomsoort, domein, aantal waarnemingen, rmse, evt. parameters A, B en C
+#' - curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
+#' model)
 #'
-#' - eventueel afwijkende metingen
+#' - curve van het domeinmodel
 #'
-#' Idee is dat in de grafieken een afwijkende kleur het probleem aangeeft: afwijkende meting, buigpunt,...  Daarnaast wordt het probleem ook tekstueel weergegeven
+#' - grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
+#' die overeenkomen met deze grenzen)
 #'
-#' @param SlechtsteModellen lijst van de slechtste modellen, dit zijn modellen met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of modellen met afwijkende metingen.  Deze bevat ook de info om weer te geven bij de grafieken (parameters)
-#' @param AfwijkendeMetingen lijst met afwijkende metingen (zoals gegenereerd door de functie afwijkendeMetingen)
-#' @param Dataset Dataset met gemeten waarden en geschatte waarde voor domeinmodel en Vlaams model (inclusief RMSE)
-#' @param Bestandsnaam Een naam voor het html-bestand dat gegenereerd wordt, bestaande uit een string die eindigt op '.html'
-#' @param verbose geeft de toestand van het systeem aan, om te zorgen dat boodschappen niet onnodig gegeven worden
+#' - afwijkende metingen: in rood (andere metingen in zwart)
 #'
-#' @return document (html/pdf) met te controleren curves (incl. aantal metingen per curve)
+#' - afwijkende deel van een curve in rood (rest van curve in zwart)
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join mutate_ left_join select_ distinct_ filter_ bind_rows group_by_ arrange_ ungroup summarise_ desc
+#' @importFrom dplyr %>% inner_join mutate left_join select distinct filter
+#' bind_rows group_by arrange ungroup summarise desc
+#' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag has_name
 #'
 
 validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
-           Bestandsnaam = "Validatie.html", verbose = TRUE){
+           Bestandsnaam = "Validatie.html",
+           TypeRapport = c("Dynamisch", "Statisch"),
+           verbose = TRUE, PathWD = getwd()) {
+
+    TypeRapport <- match.arg(TypeRapport)
+  assert_that(inherits(SlechtsteModellen, "data.frame"))
+  assert_that(has_name(SlechtsteModellen, "BMS"))
+  if (has_name(SlechtsteModellen, "Omtrek_Buigpunt")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Buigpunt, "numeric"))
+  }
+  assert_that(has_name(SlechtsteModellen, "Reden"))
+  if (has_name(SlechtsteModellen, "Omtrek_Extr_Hoogte")) {
+    assert_that(inherits(SlechtsteModellen$Omtrek_Extr_Hoogte, "numeric"))
+  }
+
+  assert_that(inherits(AfwijkendeMetingen, "data.frame"))
+  assert_that(has_name(AfwijkendeMetingen, "BMS"))
+  assert_that(has_name(AfwijkendeMetingen, "DOMEIN_ID"))
+  assert_that(has_name(AfwijkendeMetingen, "C13"))
+  assert_that(inherits(AfwijkendeMetingen$C13, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "HOOGTE"))
+  assert_that(inherits(AfwijkendeMetingen$HOOGTE, "numeric"))
+  assert_that(has_name(AfwijkendeMetingen, "Status"),
+              msg = "De opgegeven dataframe heeft geen veld met naam Status")
+  if (!all(AfwijkendeMetingen$Status %in%
+           c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
+    stop("De kolom Status in de dataframe heeft niet voor alle records een
+         geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd',
+         'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten.")
+  }
+
+  invoercontrole(Dataset, "afgeleidedata")
+  assert_that(has_name(Dataset, "H_D_finaal"))
+  assert_that(inherits(Dataset$H_D_finaal, "numeric"))
+  assert_that(has_name(Dataset, "rmseD"))
+  assert_that(inherits(Dataset$rmseD, "numeric"))
+  assert_that(has_name(Dataset, "maxResid"))          #nolint
+  assert_that(inherits(Dataset$maxResid, "numeric"))
+  assert_that(has_name(Dataset, "ID"))
 
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
@@ -45,6 +108,9 @@ validatierapport <-
   if (!grepl(".html$", Bestandsnaam)) {
     stop("De bestandnaam moet eindigen op '.html'")
   }
+  assert_that(is.character(TypeRapport))
+  TypeRapport <- tolower(TypeRapport)
+  assert_that(TypeRapport %in% c("dynamisch", "statisch"))
 
   Selectie <- Dataset %>%
     inner_join(
@@ -53,34 +119,41 @@ validatierapport <-
     ) %>%
     left_join(
       AfwijkendeMetingen %>%
-        select_(~BMS, ~DOMEIN_ID, ~C13, ~HOOGTE) %>%
-        distinct_() %>%
-        mutate_(Afwijkend = ~TRUE),
+        filter(.data$Status != "Goedgekeurd") %>%
+        select(.data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE) %>%
+        distinct() %>%
+        mutate(TeControlerenAfwijking = TRUE),
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")
     ) %>%
-    mutate_(
-      Afwijkend = ~ifelse(is.na(Afwijkend), FALSE, Afwijkend)
+    mutate(
+      TeControlerenAfwijking =
+        factor(ifelse(is.na(.data$TeControlerenAfwijking),
+                       FALSE, .data$TeControlerenAfwijking),
+                levels = c(FALSE, TRUE),
+                labels = c("OK", "Te controleren"))
     )
 
   #om curves bij afwijkingen een andere kleur te geven (enkel nodig waar
   #buigpunten berekend zijn)
   if (has_name(Selectie, "Omtrek_Buigpunt")) {
     Selectie2 <- Selectie %>%
-      mutate_(
-        Omtrek_BP = ~ ( ( (Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
-        Omtrek_Max = ~ ( ( (Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
+      mutate(
+        Omtrek_BP = (((.data$Omtrek_Buigpunt * 100) %/% 10) * 10 + 5) / 100,
+        Omtrek_Max = (((.data$Omtrek_Extr_Hoogte * 100) %/% 10) * 10 + 5) / 100,
         CurveSlecht =
-          ~ifelse(!is.na(Omtrek_BP) & (Omtrek <= Omtrek_BP), TRUE,
-                  FALSE),
+          ifelse(!is.na(.data$Omtrek_BP) & (.data$Omtrek <= .data$Omtrek_BP),
+                 TRUE, FALSE),
         CurveSlecht =
-          ~ifelse(!is.na(Omtrek_Max) & (Omtrek >= Omtrek_Max),
-                  TRUE, CurveSlecht)
+          ifelse(!is.na(.data$Omtrek_Max) & (.data$Omtrek >= .data$Omtrek_Max),
+                  TRUE, .data$CurveSlecht)
       )
 
     Selectie <- Selectie2 %>%
-      filter_(~Omtrek == Omtrek_BP | Omtrek == Omtrek_Max) %>%
-      mutate_(
-        CurveSlecht = ~FALSE
+      filter(
+        .data$Omtrek == .data$Omtrek_BP | .data$Omtrek == .data$Omtrek_Max
+      ) %>%
+      mutate(
+        CurveSlecht = FALSE
       ) %>%
       bind_rows(
         Selectie2
@@ -90,28 +163,18 @@ validatierapport <-
     Selectie$CurveSlecht <- FALSE
   }
 
+  Selectie$CurveSlecht <-
+    factor(Selectie$CurveSlecht, levels = c(FALSE, TRUE),
+           labels = c("OK", "Te controleren"))
 
 
-  #sorteren volgens grootste aandeel outliers
-  SelectieGesorteerd <- Selectie %>%
-    group_by_(~BMS, ~DOMEIN_ID) %>%
-    summarise_(
-      PAfwijkend = ~sum(Afwijkend / nBomenOmtrek05, na.rm = TRUE)
-    ) %>%
-    ungroup() %>%
-    inner_join(
-      Selectie,
-      by = c("BMS", "DOMEIN_ID")
-    )
-
-  Selectie <- SelectieGesorteerd %>%
-    arrange_(~ desc(maxResid))
+  Selectie <- Selectie %>%
+    arrange(desc(.data$maxResid))
 
 
-  render(system.file("Validatierapport.rmd", package = "dhcurve"),
-         #params = list(Selectie = Selectie),
+  render(system.file("Validatierapport.Rmd", package = "dhcurve"),
          output_file = Bestandsnaam,
-         output_dir = getwd(),
+         output_dir = PathWD,
          encoding = "UTF-8")
 
   if (verbose) {

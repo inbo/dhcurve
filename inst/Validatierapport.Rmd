@@ -26,16 +26,20 @@ Uitvoer <- NULL
 
 for (Poutliers in unique(Selectie$maxResid)) {
   SelectieOutliers <- Selectie %>%
-    filter_(~maxResid == Poutliers)
+    filter(maxResid == Poutliers)
   for (Boomsoort in unique(SelectieOutliers$BMS)) {
     SelectieSoort <- SelectieOutliers %>%
-      filter_(~BMS == Boomsoort)
+      filter(BMS == Boomsoort)
     for (Domein in unique(SelectieSoort$DOMEIN_ID)) {
       SelectieModel <- SelectieSoort %>%
-        filter_(~DOMEIN_ID == Domein)
-      #print(unique(SelectieModel$Reden))
-      #print(maakGrafiek(SelectieModel))
-      Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+        filter(DOMEIN_ID == Domein)
+      #print(unique(SelectieModel$Reden))  #nolint
+      #print(maakGrafiek(SelectieModel))  #nolint
+      if (TypeRapport == "dynamisch") {
+        Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+      } else {
+        Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+      }
     }
   }
 }
@@ -46,6 +50,5 @@ for (Poutliers in unique(Selectie$maxResid)) {
 ```{r output, results='asis'}
 
 cat(Uitvoer, sep = "\n")
-
 ```
 

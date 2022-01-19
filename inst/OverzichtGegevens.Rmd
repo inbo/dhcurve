@@ -1,0 +1,93 @@
+---
+title: "Verwijderde gegevens"
+author: "Els Lommelen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(dplyr)
+library(dhcurve)
+library(knitr)
+library(DT)
+
+```
+
+## Wat geeft deze info weer en wat wordt verwacht?
+
+Voor het berekenen van de curves worden enkel meetgegevens met omtrek binnen een bepaald interval gebruikt (20-240 cm, zie documentatie van package voor meer informatie hierover).  Dit betekent dat een aantal gegevens voor de analyse volledig buiten beschouwing gelaten worden.  Deze zonder meer negeren is geen goed idee: wat als bv. in een domein alle omtrekken in een andere eenheid dan cm opgemeten zijn?  De gegevens verdwijnen dan zonder dat het opgemerkt wordt.  Om dit te vermijden en deze gegevens toch even onder de aandacht te brengen, is dit rapportje uitgewerkt.
+
+### Welke info is hierin terug te vinden?
+
+Per domein-boomsoort-combinatie wordt een overzicht gegeven van: 
+
+- het totaal aantal meetgegevens (nTotaal), 
+- het aantal meetgegevens dat weggelaten wordt omwille van een te lage omtrek (< 20 cm, nTeDun)
+- de proportie meetgegevens die weggelaten wordt omwille van een te lage omtrek (< 20 cm, percTeDun)
+- het aantal meetgegevens dat weggelaten wordt omwille van een te grote omtrek (> 240 cm, nTeDik)
+- de proportie meetgegevens die weggelaten wordt omwille van een te grote omtrek (> 240 cm, percTeDik)
+- het aantal meetgegevens dat overblijft voor de analyse (nInterval)
+
+Deze dataset is opgesplitst in 3 delen op basis het aantal meetgegevens dat overblijft (nInterval) om het iets overzichtelijker te houden (zie verschillende onderdelen hieronder).  Omdat hier geen rekening gehouden is met bomen die buiten het 'bruikbaar interval' van een domein-boomsoort-combinatie vallen, komen deze categorieën niet exact overeen met de uiteindelijke indeling in modeltypen (zie documentatie van package voor meer informatie hierover). <!-- Als deze indeling zinvol is, kan dit wel zo uitgewerkt worden, bv. door de modeltype-groepen toe te voegen.  Maar ik wacht liever de discussie hierover af vooraleer ik er werk in ga steken.  -->
+
+Domein-boomsoort-combinaties met minder dan 10 bomen in totaal (nTotaal) zijn weggelaten, omdat deze toch niet voor analyses gebruikt kunnen worden.
+
+### Wat kan ik doen om de gegevens na te kijken?
+
+Wat nakijken?
+
+- Aflopend sorteren op percTeDun of percTeDik en bekijken of de hoogste percentages realistisch zijn.  Kan dit voor dit domein en deze boomsoort?  M.a.w. is het een domein met veel dikke bomen, en kan die boomsoort zo dik worden?  Of zijn enkel de grootste, dominante bomen opgemeten (waardoor een model waarschijnlijk een overschatting gaat geven)?  Of zijn er ergens fouten gemaakt?  Als dit percentage 100% is, dan best eens nakijken of de eenheid wel in cm weergegeven is.  Bij andere gebreken in de dataset deze proberen op te lossen.  Als je van oordeel bent dat de data niet geschikt zijn om een model te bouwen, kan je deze 'negeren' door de limiet van het aantal bomen voor een bepaald model op te trekken (zie documentatie).
+- Misschien kan het nuttig zijn om de andere gegevens van die boomsoort of dat domein naast elkaar te zetten om de cijfers in perspectief te kunnen plaatsen?
+
+Praktisch:
+
+- op de kolomkoppen klikken om te sorteren (eenmaal voor oplopend, tweemaal voor aflopend)
+- tekst intypen in 'Search' om gegevens met bepaalde inhoud te selecteren, bv. een domeinnaam of een boomsoort intypen om enkel gegevens van dat domein of die boomsoort te zien
+
+
+## Genoeg gegevens binnen interval
+
+Hier is er geen probleem wat betreft het aantal bomen, op basis van de overblijvende bomen kan een model ontwikkeld worden (tenzij nInterval maar net boven de 50 ligt en er uitschieters zijn qua omtrek).  Hier zou de focus van de beoordeling dus moeten liggen op de betrouwbaarheid en representativiteit van de gegevens en bijgevolg het model dat hieruit afgeleid wordt.
+
+```{r voorModel, results='asis'}
+
+datatable(DataRapport %>%
+            filter(nInterval > 50) %>%
+            arrange(desc(percTeDik)),
+            filter = "top")
+```
+
+## 10-50 gegevens binnen interval
+
+Als er voor de hieronder gespecifieerde boomsoort een basismodel gemaakt wordt, kan voor het domein op basis van de gegevens een afgeleid model gemaakt worden.  Anders moeten minstens 50 bomen binnen het interval 20-240 cm vallen om een model te kunnen maken voor die domein-boomsoort-combinatie.
+
+In elk geval moet de focus liggen op betrouwbaarheid en representativiteit, zoals bij de eerste groep.  Daarnaast kan het voor de domeinen met nInterval net onder 50 zinvol zijn om op zoek te gaan naar typfouten bij de weggelaten gegevens om boven die limiet van 50 bomen te geraken (waardoor een basismodel of lokaal model opgesteld kan worden).
+
+```{r voorAfgeleidModel, results='asis'}
+
+datatable(DataRapport %>%
+            filter(nInterval <= 50 & nInterval >= 10) %>%
+            arrange(desc(percTeDik)),
+            filter = "top")
+```
+
+## Te weinig gegevens binnen interval
+
+Onderstaande domein-boomsoort-combinaties bereiken de minimumlimiet van 10 bomen niet.  Zonder extra bomen binnen het interval 20-240 cm kan er helemaal geen model opgesteld worden.
+
+Zoals bij de andere groepen willen we in de eerste plaats zeker zijn dat de metingen betrouwbaar zijn en representatief voor die boomsoort in dat domein.  Als dat het geval is, kan het zinvol zijn om op zoek te gaan naar typfouten bij de weggelaten gegevens om boven die limiet van 10 bomen te geraken (waardoor een afgeleid model opgesteld kan worden, tenminste als er een basismodel bestaat voor de boomsoort).  Op zich is de gemaakte winst groter bij dit deel van de dataset dan de voorgaande (wel een model vs. geen model), maar de kans om hier iets te bereiken (een fout te vinden in het vaak beperkt aantal gegevens), is relatief klein.  Misschien wil je je hier beperkten tot domein-boomsoort-combinaties met nInterval = 9 en nTeDik zo hoog mogelijk?
+
+```{r teWeinig, results='asis'}
+
+datatable(DataRapport %>%
+            filter(nInterval < 10) %>%
+            arrange(desc(percTeDik)),
+            filter = "top")
+```
+
+
+

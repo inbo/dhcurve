@@ -4,18 +4,70 @@
 \alias{hoogteschatting.basis}
 \title{Hoogteschatting op basis van opgegeven basismodel}
 \usage{
-hoogteschatting.basis(Soortmodel, Soortdata, Typemodel)
+hoogteschatting.basis(Soortmodel, Soortdata, Typemodel, BMS)
 }
 \arguments{
-\item{Soortmodel}{model voor boomsoort (basis) of boomsoort-domein-combinatie (lokaal)}
+\item{Soortmodel}{model voor één boomsoort (basis) of één
+boomsoort-domein-combinatie (lokaal)}
 
-\item{Soortdata}{meetgegevens van boomsoort (basis) of domein-boomsoort-combinatie (lokaal)}
+\item{Soortdata}{meetgegevens van boomsoort (basis) of
+domein-boomsoort-combinatie (lokaal)}
 
 \item{Typemodel}{'Basis' of 'Lokaal'?}
+
+\item{BMS}{Boomsoort}
 }
 \value{
-dataframe met de meetresultaten en de schattingen van de hoogtes voor het domeinmodel en de Vlaamse model
+dataframe met de meetresultaten en de schattingen van de hoogtes
+voor het domeinmodel en de Vlaamse model
 }
 \description{
-Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen te bestuderen.
+Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves
+en Vlaamse curves van het opgegeven basismodel.  De teruggegeven dataframe
+kan gebruikt worden om grafieken te maken of afwijkende metingen te
+bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit
+package werkt deze functie op basis van 1 model en de bijhorende
+meetgegevens.  Zie voorbeelden voor een methode om deze functie te kunnen
+toepassen op Basismodel of Lokaalmodel + Data.lokaal.
+}
+\examples{
+library(dplyr)
+
+#Dataset inladen en het basismodel berekenen
+Data <- testdataset()
+Datalijst <- initiatie(Data)
+Data.basis <- Datalijst[["Basis"]]
+Basismodel <- fit.basis(Data.basis)
+
+#De hoogteschatting voor een basismodel
+Basismodel \%>\%
+  rowwise() \%>\%
+  do(
+    hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
+  ) \%>\%
+  ungroup()
+
+#Dataset inladen en het lokaal model berekenen
+Data.lokaal <- Data.basis \%>\%
+  filter(DOMEIN_ID == "A")
+Lokaalmodel <- fit.lokaal(Data.lokaal)
+
+#De hoogteschatting voor een lokaal model
+Lokaalmodel \%>\%
+  inner_join(
+    Data.lokaal,
+    by = c("BMS", "DOMEIN_ID")
+  ) \%>\%
+  group_by(
+    BMS,
+    DOMEIN_ID
+  ) \%>\%
+  do(
+    hoogteschatting.basis(.$Model[[1]],
+                           select(., -Model),
+                           "Lokaal", .$BMS)
+  ) \%>\%
+  ungroup()
+
+
 }

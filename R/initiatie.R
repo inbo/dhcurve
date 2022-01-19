@@ -1,40 +1,89 @@
-#' Initiatiestap met opsplitsen van dataset op basis van aantal metingen per domein
+#' Initiatiestap met opsplitsen van dataset volgens modeltypen
 #'
-#' Deze functie bevat als initiële stap het berekenen van een aantal extra variabelen (bruikbaar interval (Q5 en Q95), Omtrek, logOmtrek, logOmtrek2, aantal metingen van bruikbaar interval en van interval > 0.5 m).  Bomen met omtrek > 2,3 m worden niet meegenomen voor de analyses en dus verwijderd uit de dataset.
+#' De functie initiatie maakt de dataset klaar voor de verdere stappen van het
+#' opstellen van DH-curves: ze berekent de noodzakelijke variabelen en splitst
+#' de dataset op basis van het aantal metingen per boomsoort-domeincombinatie
+#' in 4 delen: 3 delen die als parameter meegegeven kunnen worden voor de
+#' fit-functies per modeltype (basismodel, afgeleid model en lokaal model), en
+#' een 4de deel met de resterende gegevens.
 #'
-#' Daarna splitst de functie de data op in 3 delen die voor de verschillende analyses kunnen gebruikt worden:
 #'
-#' (1) boomsoorten waarvoor op minimum 6 domeinen veel metingen uitgevoerd zijn (> 50 metingen), op basis waarvan betrouwbare domeinmodellen en een betrouwbaar Vlaams model berekend kan worden (= basismodel),
+#' @param Data Dataframe met metingen van bomen die als basis moeten dienen om
+#' DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID
+#' (identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms
+#' (identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in
+#' centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten
+#' en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij
+#' rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens
+#' met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten,
+#' dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd
+#' worden.
+#' @param Uitzonderingen Lijst met boomsoort-domeincombinaties waarvoor
+#' uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
+#' De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde
+#' voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.
+#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat
+#' boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)
+#' @param PathWD Het path van de working directory, dus het path waarin het
+#' validatierapport opgeslagen moet worden (default wordt het in de op dat
+#' moment actieve working directory opgeslagen).
 #'
-#' (2) domeinen met minder metingen (10 - 50 metingen) van boomsoorten waarvoor een Vlaams model berekend kan worden (dus boomsoorten die in dataset (1) voorkomen), op basis waarvan het Vlaams model verschoven kan worden om een domeinspecifiek te model te bekomen (= afgeleid model),
+#' @return
 #'
-#' (3) domeinen met veel metingen voor een boomsoort (> 50 metingen) waarvan er te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op te stellen.  Voor deze boomsoort-domein-combinaties kan een domeinspecifiek model opgesteld worden (maar geen Vlaams model voor de boomsoort, dus voor domeinen met < 50 metingen kan hier geen model gemaakt worden)(= lokaal model), en
+#' Als er gegevens verwijderd worden, genereert de functie een validatierapport
+#' (html-bestand) waarin een overzicht gegeven wordt van de verwijderde
+#' gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 #'
-#' (4) metingen van de domein-boomsoort-combinaties die niet tot de 3 voorgaande categorieën behoren en waar dus geen model voor opgesteld kan worden.
+#' De functie geeft een list van dataframes terug, met in elke dataframe
+#' behalve de variabelen uit Data de berekende variabelen Omtrek
+#' (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
+#' bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
+#' gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval)
+#' en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
+#' omtrek > 0.5 m)).
 #'
-#' De grenswaarden 50 en 10 zijn gebaseerd op het aantal metingen binnen het interval 0,5 - 2,3 m en binnen het bruikbaar interval.  Bij de opsplitsing worden de data meteen gecleand, waarbij metingen met omtrek > 2,4 m en metingen buiten het bruikbaar interval sowieso weggelaten worden; voor het afgeleid model worden ook de metingen met omtrek <= 0,5 m weggelaten.
+#' De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 #'
-#' @param Data dataframe met alle metingen waarop het model gebaseerd moet zijn (m.u.v. afgekeurde of te negeren metingen).  Velden DOMEIN_ID, BMS, C13, HOOGTE  evt. TYPE_METING en JAAR, die worden bij rmse.basis als groeperende variabelen gebruikt.
-#' @param Uitzonderingen lijst met uitzonderingen op min. 50 en min. 10 bomen.  Velden DOMEIN_ID, BMS, min_basis (= vervangende waarde voor 50), min_afgeleid (= vervangende waarde voor 10)
+#' - [["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen (binnen
+#' het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in minimum 6
+#' domeinen, waarbij enkel gegevens worden opgenomen van de domeinen waarvoor
+#' minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een
+#' basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
+#' domeinspecifieke modellen.
 #'
-#' @param min_basismodel tijdelijk toegevoegd voor testen
-#' @param min_domeinen_basismodel tijdelijk toegevoegd voor testen
-#' @param min_afgeleidmodel tijdelijk toegevoegd voor testen
+#' - [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen
+#' binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor
+#' een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
+#' voorkomen), op basis waarvan een afgeleid model berekend kan worden.
 #'
-#' @return Een list van dataframes:
+#' - [["Lokaal"]] gegevens van domeinen met veel metingen voor een boomsoort
+#' (> 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) waarvan er
+#' te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op
+#' te stellen.  Voor deze boomsoort-domeincombinaties kan een lokaal model
+#' berekend worden.
 #'
-#' - dataframe > 50 metingen en min. 6 domeinen
+#' - [["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot de 3
+#' voorgaande categorieën behoren en waar dus geen model voor opgesteld kan
+#' worden.
 #'
-#' - dataframe 10-50
+#' Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
+#' weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
+#' met omtrek <= 0,5 m weggelaten.
 #'
-#' - dataframe > 50 metingen en < 6 domeinen
-#'
-#' - dataframe met metingen van domeinen en boomsoorten waar geen model voor opgesteld kan worden
-#'
+#' In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
+#' [["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+#' validatierapport.
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% filter_ mutate_ group_by_ ungroup inner_join select_ distinct_ anti_join
+#' @importFrom dplyr %>% filter mutate group_by ungroup inner_join select
+#' distinct anti_join summarise n
+#' @importFrom rlang .data
+#' @importFrom rmarkdown render
+#' @importFrom assertthat assert_that has_name noNA is.flag
+#' @importFrom stats quantile
 #'
 
 initiatie <-
@@ -42,69 +91,167 @@ initiatie <-
            Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
                                        min_basis = NA, min_afgeleid = NA,
                                        stringsAsFactors = FALSE),
-           min_basismodel = 50,
-           min_domeinen_basismodel = 6,
-           min_afgeleidmodel = 10) {
+           Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
+           verbose = TRUE,
+           PathWD = getwd()) {
 
-  # min_basismodel <- 50   #nolint
-  # min_domeinen_basismodel <- 6   #maar 2-6 apart houden om hiervoor aparte fixed modellen te berekenen  #nolint
-  # min_afgeleidmodel <- 10   #nolint
+  min_basismodel <- 50
+  min_domeinen_basismodel <- 6
+  min_afgeleidmodel <- 10
 
-  #hier moet nog controle gebeuren op de ingevoerde data!
+  #variabelen 'gebruiken' om lintr-foutmelding weg te werken ----
+  assert_that(is.count(min_basismodel))
+  assert_that(is.count(min_domeinen_basismodel))
+  assert_that(is.count(min_afgeleidmodel))
 
-  Data2 <- Data %>%
-    filter_(~HOOGTE != 0) %>%
-    mutate_(
-      Omtrek = ~ ( (C13 %/% 10) * 10 + 5) / 100,
-      Rijnr = ~seq_along(C13),       #nummert de rijen oplopend
-      logOmtrek = ~log(Omtrek),
-      logOmtrek2 = ~logOmtrek ^ 2
+
+  #controle op invoer ----
+  invoercontrole(Data, "initiatie")
+
+  assert_that(inherits(Uitzonderingen, "data.frame"))
+  assert_that(has_name(Uitzonderingen, "DOMEIN_ID"))
+  assert_that(has_name(Uitzonderingen, "BMS"))
+  assert_that(has_name(Uitzonderingen, "min_basis"))
+  if (!all(is.na(Uitzonderingen$min_basis))) {
+    assert_that(inherits(Uitzonderingen$min_basis, c("integer", "numeric")),
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+    if (inherits(Uitzonderingen$min_basis, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            Uitzonderingen$min_basis - as.integer(Uitzonderingen$min_basis)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+      , msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+      )
+      Uitzonderingen$min_basis <- as.integer(Uitzonderingen$min_basis)
+    }
+    assert_that(all(Uitzonderingen$min_basis > 50, na.rm = TRUE),
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 50 zijn (of NA)") #nolint
+  }
+
+  assert_that(has_name(Uitzonderingen, "min_afgeleid"))
+  if (!all(is.na(Uitzonderingen$min_afgeleid))) {
+    assert_that(inherits(Uitzonderingen$min_afgeleid, c("integer", "numeric")),
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+    if (inherits(Uitzonderingen$min_afgeleid, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            Uitzonderingen$min_afgeleid -
+              as.integer(Uitzonderingen$min_afgeleid)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+        , msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+      )
+      Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
+    }
+    assert_that(all(Uitzonderingen$min_afgeleid > 10, na.rm = TRUE),
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
+  }
+
+  #eerst een overzichtsrapp. maken met aantal bomen per domein-bms-comb: ----
+  #nteDik, nTeDun (worden verwijderd in verdere analyse)
+      #nInterval (worden behouden)
+  assert_that(is.flag(verbose))
+  assert_that(noNA(verbose))
+  assert_that(is.character(Bestandsnaam))
+  if (!grepl(".html$", Bestandsnaam)) {
+    stop("De bestandnaam moet eindigen op '.html'")
+  }
+
+  DataRapport <- Data %>%
+    group_by(
+      .data$DOMEIN_ID,
+      .data$BOS_BHI,
+      .data$BMS
     ) %>%
-    filter_(
-      ~Omtrek < 2.40
-    ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
-    ) %>%
-    mutate_(
-      nBomen = ~n(),
-      Q5 = ~quantile(Omtrek, probs = 0.05) - 0.1,
-      Q5k = ~ ( ( (Q5 * 100) %/% 10) * 10 + 5) / 100,   #het klassemidden van Q5
-      Q95 = ~quantile(Omtrek, probs = 0.95) + 0.1,
-      Q95k = ~ ( ( (Q95 * 100) %/% 10) * 10 + 5) / 100 #het klassemidden van Q95
+    summarise(
+      nTotaal = n(),
+      nTeDun = sum(.data$C13 < 20),
+      percTeDun = round(.data$nTeDun * 100 / .data$nTotaal, digits = 1),
+      nTeDik = sum(.data$C13 > 240),
+      percTeDik = round(.data$nTeDik * 100 / .data$nTotaal, digits = 1),
+      nInterval = .data$nTotaal - .data$nTeDun - .data$nTeDik
     ) %>%
     ungroup() %>%
-    filter_(
-      ~Omtrek > Q5k - 0.05,
-      ~Omtrek < Q95 + 0.05
+    filter(
+      .data$nTotaal >= 10,
+      .data$nTotaal != .data$nInterval
+    )
+
+  if (nrow(DataRapport > 0)) {
+    render(system.file("OverzichtGegevens.Rmd", package = "dhcurve"),
+           output_file = Bestandsnaam,
+           output_dir = PathWD,
+           encoding = "UTF-8")
+
+    if (verbose) {
+      message(sprintf("Het rapport is opgeslagen in de working directory: %s",
+                      getwd()))
+    }
+  }
+
+  #dan de aanmaak van de verder te gebruiken dataset: ----
+        # extra variabelen berekenen (Q5 en Q95)
+        # wegfilteren van te dikke/dunne bomen en bomen buiten Q5-Q95
+  Data2 <- Data %>%
+    filter(.data$HOOGTE != 0) %>%
+    mutate(
+      Omtrek = floor(.data$C13 / 10) / 10 + 0.05,
+      Rijnr = seq_along(.data$C13),       #nummert de rijen oplopend
+      logOmtrek = log(.data$Omtrek),
+      logOmtrek2 = .data$logOmtrek ^ 2
+    ) %>%
+    filter(
+      .data$Omtrek < 2.40
+    ) %>%
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
+    ) %>%
+    mutate(
+      nBomen = n(),
+      Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
+      #het klassemidden van Q5:
+      Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
+      Q95 = quantile(.data$Omtrek, probs = 0.95) + 0.1,
+      #het klassemidden van Q95:
+      Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
+    ) %>%
+    ungroup() %>%
+    filter(
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95 + 0.05
     )
 
   Data.aantallen <- Data2 %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    summarise_(
-      nBomenInterval = ~n()
+    summarise(
+      nBomenInterval = n()
     ) %>%
     ungroup() %>%
     inner_join(
       Data2,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    filter_(
-      ~Omtrek > 0.5,
-      ~Omtrek > Q5k - 0.05,
-      ~Omtrek < Q95k + 0.05
+    filter(
+      .data$Omtrek > 0.5,
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95k + 0.05
     ) %>%
-    group_by_(
-      ~BMS,
-      ~DOMEIN_ID,
-      ~nBomenInterval
+    group_by(
+      .data$BMS,
+      .data$DOMEIN_ID,
+      .data$nBomenInterval
     ) %>%
-    summarise_(
-      nBomenOmtrek05 = ~n()
+    summarise(
+      nBomenOmtrek05 = n()
     ) %>%
     ungroup() %>%
     inner_join(
@@ -117,27 +264,30 @@ initiatie <-
     )
 
 
+  #en tenslotte de dataset opsplitsen ----
+
+  # 1) alle bms-domeincombinaties met min. 50 metingen (omtrek > 0.5m) -----
   Data_Selectie_50 <- Data.aantallen %>%
-    filter_(
-      ~ ( (nBomenOmtrek05 > min_basismodel & is.na(min_basis)) |
-        (!is.na(min_basis) & nBomenOmtrek05 > min_basis))
+    filter(
+      ((.data$nBomenOmtrek05 > min_basismodel & is.na(.data$min_basis)) |
+        (!is.na(.data$min_basis) & .data$nBomenOmtrek05 > .data$min_basis))
     ) %>%
-    select_(
-      ~-min_basis, ~-min_afgeleid
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
-
+  # 1A) alle bms-domeincombinaties met min. 50 metingen in 6 domeinen ----
   Basisdata <- Data_Selectie_50 %>%
-    select_(
-      ~BMS,
-      ~DOMEIN_ID
+    select(
+      .data$BMS,
+      .data$DOMEIN_ID
     ) %>%
-    distinct_() %>%
-    group_by_(
-      ~BMS
+    distinct() %>%
+    group_by(
+      .data$BMS
     ) %>%
-    filter_(
-      ~n() >= min_domeinen_basismodel
+    filter(
+      n() >= min_domeinen_basismodel
     ) %>%
     ungroup() %>%
     inner_join(
@@ -145,50 +295,65 @@ initiatie <-
       by = c("DOMEIN_ID", "BMS")
     )
 
-
+  # 1B) alle bms-domeincomb's met min. 50 metingen, géén 6 domeinen ----
   Lokaledata <- Data_Selectie_50 %>%
-    filter_(
-      ~!BMS %in% unique(Basisdata$BMS)
+    filter(
+      !.data$BMS %in% unique(Basisdata$BMS)
     )
 
-
+  # 2) alle bms-domeincomb's met géén 50 metingen, wel een basismodel ----
+      # (basismodel: 6 andere domein met > 50 metingen van die bms)
   Data.afgeleid <- Data.aantallen %>%
-    filter_(
-      ~BMS %in% unique(Basisdata$BMS)
+    filter(
+      .data$BMS %in% unique(Basisdata$BMS)
     ) %>%
     anti_join(
       Basisdata %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    filter_(
-      ~ ( (nBomenOmtrek05 > min_afgeleidmodel & is.na(min_afgeleid)) |
-        (!is.na(min_afgeleid) & nBomenOmtrek05 > min_afgeleid)),
-      ~Omtrek > 0.5
+    filter(
+      ((.data$nBomenOmtrek05 > min_afgeleidmodel &
+          is.na(.data$min_afgeleid)) |
+        (!is.na(.data$min_afgeleid) &
+           .data$nBomenOmtrek05 > .data$min_afgeleid)),
+      .data$Omtrek > 0.5
     ) %>%
-    mutate_(
-      Q5k = ~ifelse(Q5k > 0.5, Q5k, 0.55)
+    mutate(
+      Q5k = ifelse(.data$Q5k > 0.5, .data$Q5k, 0.55)
     ) %>%
-    select_(
-      ~-min_basis, ~-min_afgeleid
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
+  # 3) alle bms-domeincombinaties waar géén model voor lukt ----
   Data.rest <- Data.aantallen %>%
     anti_join(
       Data_Selectie_50 %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     anti_join(
       Data.afgeleid %>%
-        select_(~BMS, ~DOMEIN_ID) %>%
-        distinct_(),
+        select(.data$BMS, .data$DOMEIN_ID) %>%
+        distinct(),
       by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    select(
+      -.data$min_basis, -.data$min_afgeleid
     )
 
 
-  return(list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
-              Rest = Data.rest))
+  return(
+    if (nrow(DataRapport > 0)) {
+      list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
+              Rest = Data.rest, VerwijderdeGegevens = DataRapport)
+    }
+    else {
+      list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
+           Rest = Data.rest)
+    }
+    )
 }

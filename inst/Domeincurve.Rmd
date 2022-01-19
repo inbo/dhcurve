@@ -10,7 +10,7 @@ library(ggplot2)
 library(assertthat)
 ```
 
-##Boomsoort: `r unique(SelectieModel$BMS)`; Domein: `r unique(SelectieModel$BOS_BHI)`
+## Boomsoort: `r unique(SelectieModel$BMS)`; Domein: `r unique(SelectieModel$BOS_BHI)`
 
 DOMEIN_ID: `r unique(SelectieModel$DOMEIN_ID)`
 
@@ -26,28 +26,29 @@ Model bruikbaar tussen de omtrekklassen met klassemiddens
 
 ```{r warning=FALSE}
 
-
-Grafiek <- 
-  ggplot(SelectieModel, aes_(x = ~Omtrek, y = ~HOOGTE, colour = ~Afwijkend)) +
-  scale_colour_manual(values = alpha(c("black","red"))) +
+Grafiek <-
+  ggplot(SelectieModel,
+         aes(x = Omtrek, y = HOOGTE, colour = TeControlerenAfwijking)) +
+  scale_colour_manual(values = alpha(c("black", "red"))) +
   geom_jitter(width = 0.03, height = 0) +
-  geom_line(aes_(y = ~H_D_finaal, colour = ~CurveSlecht, linetype = "Domein"), size = 1) +
-  geom_point(aes_(y = ~H_D_finaal, colour = ~CurveSlecht), shape = 21, fill = "white", size = 2, stroke = 1) +
-  scale_linetype_manual(name = "Model", values = c("Vlaams" = "dashed", "Domein" = "solid")) +
-  # geom_vline(xintercept = SelectieModel$Q5) + 
+  geom_line(aes(y = H_D_finaal, colour = CurveSlecht, linetype = "Domein"),
+            size = 1) +
+  geom_point(aes(y = H_D_finaal, colour = CurveSlecht),
+             shape = 21, fill = "white", size = 2, stroke = 1) +
+  scale_linetype_manual(name = "Model",
+                        values = c("Vlaams" = "dashed", "Domein" = "solid")) +
+  # geom_vline(xintercept = SelectieModel$Q5) +
   # geom_vline(xintercept = SelectieModel$Q95) +
-  scale_x_continuous(minor_breaks = seq(0.05,2.35,0.1))#+
+  scale_x_continuous(minor_breaks = seq(0.05, 2.35, 0.1))#+
   # geom_vline(xintercept = SelectieModel$Omtrek_Buigpunt, colour = "red") +
-  # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red")
+  # geom_vline(xintercept = SelectieModel$Omtrek_Extr_Hoogte, colour = "red") #nolint
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
   Grafiek <- Grafiek +
-    geom_line(aes_(y = ~H_VL_finaal, linetype = "Vlaams"), colour = "black", size = 1)
+    geom_line(aes(y = H_VL_finaal, linetype = "Vlaams"),
+              colour = "black", size = 1)
 }
 
-
 print(Grafiek)
-  
-
 ```
 

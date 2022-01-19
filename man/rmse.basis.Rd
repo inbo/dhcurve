@@ -2,29 +2,76 @@
 % Please edit documentation in R/rmse_basis.R
 \name{rmse.basis}
 \alias{rmse.basis}
-\title{RMSE berekenen van basismodel}
+\title{Berekent RMSE van basismodel}
 \usage{
-rmse.basis(Data, Typemodel)
+rmse.basis(Data, Typemodel, BMS)
 }
 \arguments{
-\item{Data}{meetgegevens (enkel nodig voor model per boomsoort-domein-combinatie)}
+\item{Data}{Meetgegevens van één boomsoort-domein-combinatie (dataframe
+zoals de dataframes die in de list teruggegeven worden door de functie
+initiatie)}
 
 \item{Typemodel}{'Basis' of 'Lokaal'?}
+
+\item{BMS}{Boomsoort}
 }
 \value{
-dataframe met rmse_domein en rmse_Vlaams
+Dataframe met rmse_domein (rmseD), rmse_Vlaams (rmseVL, niet voor
+lokaal model) en maxResid
 }
 \description{
-Deze functie berekent de rmse op basis van testgroepen en omvat de volgende deelstappen:
+Deze functie berekent de rmse door cross-validatie op basis van 6 subsets.
+Deze functie kan ook gebruikt worden voor het lokaal model (ze bepaalt het
+verschil tussen de datasets op basis van het al dan niet aanwezig zijn van
+een veld DOMEIN_ID in de dataset).  Opgelet!  In tegenstelling tot de meeste
+functies van dit package werkt deze functie op basis van de meetgegevens van
+1 model.  Zie voorbeelden voor een methode om deze functie te kunnen
+toepassen vertrekkend van meetgegevens (bv. Data.lokaal) of vertrekkend van
+een model waar de meetgegevens uit gehaald kunnen worden (bv. Basismodel).
 }
 \details{
+Deze functie berekent de rmse op basis van testgroepen en omvat de volgende
+deelstappen:
+
 - metingen opdelen in 6 testgroepen (veld testgroep)
 
-- modellen fitten voor testgroepen, waarbij ze de functie fit.basis 6 keer oproept
+- modellen fitten voor testgroepen, waarbij ze de functie fit.basis 6 keer
+oproept
 
-- rmse berekenen voor domeinmodellen en Vlaams model op basis van testgroep-modellen
+- rmse berekenen voor domeinmodellen en Vlaams model op basis van
+testgroep-modellen
+}
+\examples{
+library(dplyr)
 
-Deze functie is geschreven voor het basismodel, maar kan door een kleine aanpassing ook gebruikt worden voor het lokaal model (functie bepaalt verschil op basis van het al dan niet aanwezig zijn van een veld DOMEIN_ID in de dataset)
+#Dataset inladen voor het basismodel
+Data <- testdataset()
+Datalijst <- initiatie(Data)
+Data.basis <- Datalijst[["Basis"]]
 
-Vroegere param: Basismodel model per boomsoort als argument meegeven en hier de nodige gegevens uit halen  (Vermits de 2 hoofdfuncties waarin deze hulpfunctie opgeroepen wordt allebei het argument model beschikbaar hebben en de dataframe niet, lijkt het me het meest logisch om hier van het model te vertrekken, dan moet het script om de meetgegevens uit het model te halen, enkel in deze functie geschreven worden)  Een alternatief is vertrekken van het dataframe > 50 en min. 6 domeinen
+#De rmse berekenen voor een basismodel op basis van de dataset
+Data.basis \%>\%
+  group_by(
+    BMS
+  ) \%>\%
+  do(
+    rmse.basis(., "Basis", .data$BMS)
+  ) \%>\%
+  ungroup()
+
+#Dataset inladen voor het lokaal model
+Data.lokaal <- Data.basis \%>\%
+  filter(DOMEIN_ID == "A")
+
+#De rmse berekenen voor een lokaal model
+Data.lokaal \%>\%
+  group_by(
+    BMS,
+    DOMEIN_ID
+  ) \%>\%
+  do(
+    rmse.basis(., "Lokaal", .data$BMS)
+  ) \%>\%
+  ungroup()
+
 }
