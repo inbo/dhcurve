@@ -25,6 +25,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
+          token: ${{ secrets.PAT }}
 
       - uses: r-lib/actions/setup-pandoc@master
 
@@ -113,8 +114,6 @@ jobs:
         shell: Rscript {0}
 
       - name: build pkgdown website
-        with:
-          token: ${{ secrets.PAT }}
         run: |
           Rscript --no-save --no-restore -e 'pkgdown::build_site()'
           echo '\nPush pkgdown website...\n'
