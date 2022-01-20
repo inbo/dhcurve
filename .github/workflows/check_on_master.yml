@@ -130,6 +130,7 @@ jobs:
             rm -R *
           fi
           cp -R ../docs/. .
+          rm -rf docs .github check
           git add --all
           git commit --amend -m "Automated update of gh-pages website"
           git push --force --set-upstream origin gh-pages
