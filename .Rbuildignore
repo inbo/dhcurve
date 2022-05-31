@@ -7,6 +7,7 @@
 ^_pkgdown\.yml$
 ^checklist.yml$
 ^checklist\.yml$
+^CITATION\.cff$
 ^codecov\.yml$
 ^codemeta\.json$
 ^data-raw$
