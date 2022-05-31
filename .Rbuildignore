@@ -4,6 +4,7 @@
 ^\.lintr$
 ^\.Rproj\.user$
 ^\.zenodo\.json$
+^_pkgdown.yml$
 ^_pkgdown\.yml$
 ^checklist.yml$
 ^checklist\.yml$
