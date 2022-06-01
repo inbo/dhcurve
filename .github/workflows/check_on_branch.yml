@@ -111,7 +111,7 @@ jobs:
 
       - name: Check code coverage
         run: |
-          #result <-
+          result <-
             covr::codecov(quiet = FALSE)
-          #message(result$message)
+          message(result$message)
         shell: Rscript {0}
