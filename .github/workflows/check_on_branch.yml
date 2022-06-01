@@ -110,8 +110,5 @@ jobs:
         shell: Rscript {0}
 
       - name: Check code coverage
-        run: |
-          result <-
-            covr::codecov(quiet = FALSE)
-          message(result$message)
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
