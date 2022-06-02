@@ -89,12 +89,11 @@ jobs:
 
       - name: Check documentation
         run: |
-          #probleem met path: Loaded and on-disk path mismatch (errors disabled)
           test <- checklist::check_documentation()
           test
-          #if(test$fail) {
-          #  stop("The documentation is not always correct. Please check the error message above.")
-          #}
+          if(test$fail) {
+           stop("The documentation is not always correct. Please check the error message above.")
+          }
         shell: Rscript {0}
 
       - name: Check description
