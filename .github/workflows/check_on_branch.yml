@@ -87,27 +87,16 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
-      - name: Check documentation
+      - name: Check documentation and description
         run: |
           x <- checklist::check_documentation()
+          x <- checklist::check_description(x)
           print(x)
           if(length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
               length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) - 1 |
               length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
-           stop("The documentation is not always correct. Please check the error message above.")
-          }
-        shell: Rscript {0}
-
-      - name: Check description
-        run: |
-          x <- checklist::check_description()
-          print(x)
-          if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
-              length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) |
-              length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
-          ) {
-            stop("Error in the desciption file, please check the error message above.")
+           stop("The documentation and description is not always correct. Please check the error message above.")
           }
         shell: Rscript {0}
 
