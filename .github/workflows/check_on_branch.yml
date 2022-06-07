@@ -89,8 +89,8 @@ jobs:
 
       - name: Check documentation and description
         run: |
-          x <- checklist::check_documentation()
-          x <- checklist::check_description(x)
+          x <- checklist::check_description()
+          x <- checklist::check_documentation(x)
           print(x)
           if(length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
               length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) - 1 |
