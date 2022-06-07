@@ -93,7 +93,8 @@ jobs:
           x <- checklist::check_documentation(x)
           print(x)
           if(length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
-              length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) - 1 |
+              length(x$.__enclos_env__$private$errors$documentation) > 0 |
+              length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) |
               length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
            stop("The documentation and description is not always correct. Please check the error message above.")
