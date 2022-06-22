@@ -37,6 +37,6 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-Language: nl-NL
+Language: nl-BE
 LazyData: true
 RoxygenNote: 7.2.0
