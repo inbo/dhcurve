@@ -259,8 +259,9 @@ De functie `resultaat` genereert op basis van de berekende (gefitte) modellen ee
 - bruikbaar interval (`Q5k` en `Q95k`)
 - `RMSE`
 - `nBomen`: aantal metingen met omtrek < 2,4 m
+- `nBomenTotOmtrek05`: aantal metingen > 0.5 m (dus het aantal metingen waarop het afgeleid model gebaseerd is)
 - `nBomenInterval`: aantal metingen waarop het model gebaseerd is (ingeval van basismodel of lokaal model)
-- `nBomenOmtrek05`: aantal metingen > 0.5 m (dus het aantal metingen waarop de RMSE-berekening gebaseerd is en ingeval van een afgeleid model ook het model)
+- `nBomenOmtrek05`: aantal metingen > 0.5 m binnen het interval (dus het aantal metingen waarop de RMSE-berekening van het basismodel en lokaal model gebaseerd is)
 
 
 # Standaardstramien voor berekeningen
@@ -296,6 +297,9 @@ De 'randpunten' van het gebruikte interval (dus de metingen aan het minimum en m
 
 Dit is tevens het interval waarin het model voldoende betrouwbare schattingen levert.
 
+Bij een basismodel en lokaal model wordt de curvevorm bepaald door het gefitte model, dus voor deze twee modellen is het relevant om `mogelijk onbetrouwbare´ randpunten weg te laten en dus enkel de punten binnen het bruikbaar interval te gebruiken om het model te fitten.
+Bij het afgeleide model, dat een verschuiving is van het Vlaamse model, vormen deze randpunten geen probleem, dus hier worden alle metingen met omtrek > 0.5 m meegenomen.
+
 ### Functie `initiatie`
 
 De functie `initiatie` berekent per boomsoort-domein-combinatie enkele variabelen die verband houden met dit bruikbaar interval:
@@ -305,7 +309,7 @@ De functie `initiatie` berekent per boomsoort-domein-combinatie enkele variabele
 - aantal bomen binnen bruikbaar interval (`nBomenInterval`)
 - aantal bomen binnen bruikbaar interval met omtrek > 0,5 m (`nBomenOmtrek05`)
 
-Op basis van het aantal bomen binnen het bruikbaar interval met omtrek > 0,5 m splitst de functie `initiatie` de dataset op in functie van de verschillende modeltypen (zie [initiatie onder praktische werkwijze](#initiatie)).
+Op basis van het aantal bomen (binnen het bruikbaar interval) met omtrek > 0,5 m splitst de functie `initiatie` de dataset op in functie van de verschillende modeltypen (zie [initiatie onder praktische werkwijze](#initiatie) en zie uitleg hierboven over bruikbaar interval).
 
 
 ## Keuze van modellen

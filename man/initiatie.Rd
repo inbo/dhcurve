@@ -49,7 +49,9 @@ De functie geeft een list van dataframes terug, met in elke dataframe
 behalve de variabelen uit Data de berekende variabelen Omtrek
 (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
 bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
-gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval)
+gegevens),
+nBomenTotOmtrek05 (aantal metingen met omtrek > 0.5 m),
+nBomenInterval (= aantal metingen binnen het bruikbaar interval)
 en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
 omtrek > 0.5 m)).
 
@@ -62,8 +64,9 @@ minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een
 basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
 domeinspecifieke modellen.
 
-- [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen
-binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor
+- [["Afgeleid"]] gegevens van domeinen met minder metingen (< 50 metingen
+binnen het bruikbaar interval en > 10 metingen met omtrek > 0.5 m) van
+boomsoorten waarvoor
 een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
 voorkomen), op basis waarvan een afgeleid model berekend kan worden.
 

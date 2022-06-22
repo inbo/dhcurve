@@ -40,7 +40,9 @@
 #' behalve de variabelen uit Data de berekende variabelen Omtrek
 #' (= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
 #' bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
-#' gegevens), nBomenInterval (= aantal metingen binnen het bruikbaar interval)
+#' gegevens),
+#' nBomenTotOmtrek05 (aantal metingen met omtrek > 0.5 m),
+#' nBomenInterval (= aantal metingen binnen het bruikbaar interval)
 #' en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
 #' omtrek > 0.5 m)).
 #'
@@ -53,8 +55,9 @@
 #' basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
 #' domeinspecifieke modellen.
 #'
-#' - [["Afgeleid"]] gegevens van domeinen met minder metingen (10 - 50 metingen
-#' binnen het bruikbaar interval met omtrek > 0.5 m) van boomsoorten waarvoor
+#' - [["Afgeleid"]] gegevens van domeinen met minder metingen (< 50 metingen
+#' binnen het bruikbaar interval en > 10 metingen met omtrek > 0.5 m) van
+#' boomsoorten waarvoor
 #' een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
 #' voorkomen), op basis waarvan een afgeleid model berekend kan worden.
 #'
@@ -214,6 +217,7 @@ initiatie <-
     ) %>%
     mutate(
       nBomen = n(),
+      nBomenTotOmtrek05 = sum(.data$Omtrek > 0.5),
       Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
       #het klassemidden van Q5:
       Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
@@ -221,13 +225,13 @@ initiatie <-
       #het klassemidden van Q95:
       Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
     ) %>%
-    ungroup() %>%
-    filter(
-      .data$Omtrek > .data$Q5k - 0.05,
-      .data$Omtrek < .data$Q95 + 0.05
-    )
+    ungroup()
 
   Data.aantallen <- Data2 %>%
+    filter(
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95k + 0.05
+    ) %>%
     group_by(
       .data$BMS,
       .data$DOMEIN_ID
@@ -269,6 +273,8 @@ initiatie <-
   # 1) alle bms-domeincombinaties met min. 50 metingen (omtrek > 0.5m) -----
   Data_Selectie_50 <- Data.aantallen %>%
     filter(
+      .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95k + 0.05,
       ((.data$nBomenOmtrek05 > min_basismodel & is.na(.data$min_basis)) |
         (!is.na(.data$min_basis) & .data$nBomenOmtrek05 > .data$min_basis))
     ) %>%
@@ -314,10 +320,10 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
-      ((.data$nBomenOmtrek05 > min_afgeleidmodel &
+      ((.data$nBomenTotOmtrek05 > min_afgeleidmodel &
           is.na(.data$min_afgeleid)) |
         (!is.na(.data$min_afgeleid) &
-           .data$nBomenOmtrek05 > .data$min_afgeleid)),
+           .data$nBomenTotOmtrek05 > .data$min_afgeleid)),
       .data$Omtrek > 0.5
     ) %>%
     mutate(
