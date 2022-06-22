@@ -37,21 +37,19 @@ boomsoort, domein (+ ID), modeltype, aantal metingen, rmse en bruikbaar
 interval.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
-
-- een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
-een jitter)
-
-- curve van het domeinmodel, aangeduid met zwarte ruiten
-
-- grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
-die overeenkomen met deze grenzen)
+\itemize{
+  \item{een puntenwolk die de metingen voorstelt (geen individuele metingen,
+    maar een jitter)}
+  \item{curve van het domeinmodel, aangeduid met zwarte ruiten}
+  \item{grenzen van het bruikbaar interval (curves eindigen bij de
+    klassemiddens die overeenkomen met deze grenzen)}
+}
 }
 \description{
 De functie genereert een rapport (html-bestand) in de working directory
 (of opgegeven directory) met informatie en grafieken van de finale
 modellen.
-}
-\details{
+
 Deze functie rendert het bestand dhcurverapport.Rmd, dat voor elke
 boomsoort-domeincombinatie child dhcurve.Rmd toevoegt.
 }

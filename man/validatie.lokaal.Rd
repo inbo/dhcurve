@@ -65,29 +65,25 @@ voor meer informatie).
 
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
-
-- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
-domeinmodel
-
-- rmseD: de foutenschatting voor het domeinmodel
-
-- HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
+\itemize{
+  \item{H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+    domeinmodel}
+  \item{rmseD: de foutenschatting voor het domeinmodel}
+  \item{HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA}
+}
 }
 \description{
 Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en
 een overzicht geeft van de afwijkende metingen en slechte curves (zodat de
 gebruiker deze kan valideren).
-}
-\details{
+
 De functie roept meerdere hulpfuncties op:
-
-- rmse.basis
-
-- afwijkendeMetingen
-
-- afwijkendeCurves
-
-- validatierapport
+\itemize{
+  \item{rmse.basis}
+  \item{afwijkendeMetingen}
+  \item{afwijkendeCurves}
+  \item{validatierapport}
+}
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
 slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en

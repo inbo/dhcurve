@@ -1,16 +1,16 @@
-#' Validatie van het afgeleid model
+#' @title Validatie van het afgeleid model
 #'
+#' @description
 #' Functie die de validatie uitvoert op het verschoven Vlaams model en een
 #' overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan
 #' valideren).
 #'
 #' validatie.afgeleid roept meerdere hulpfuncties op:
-#'
-#' - rmse.basis en rmse.verschuiving
-#'
-#' - afwijkendeMetingen
-#'
-#' - validatierapport
+#' \itemize{}
+#'   \item{rmse.basis en rmse.verschuiving}
+#'   \item{afwijkendeMetingen}
+#'   \item{validatierapport}
+#' }
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
 #' slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
@@ -34,18 +34,15 @@
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
-#'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
-#' domeinmodel
-#'
-#' - rsmeD: de foutenschatting voor het domeinmodel
-#'
-#' - H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams
-#' model waarvan het domeinmodel afgeleid is
-#'
-#' - rmseVL: de foutenschatting voor dit Vlaams model
-#'
-#' - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
+#' \itemize{
+#'   \item{H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+#'     domeinmodel}
+#'   \item{rsmeD: de foutenschatting voor het domeinmodel}
+#'   \item{H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+#'     Vlaams model waarvan het domeinmodel afgeleid is}
+#'   \item{rmseVL: de foutenschatting voor dit Vlaams model}
+#'   \item{HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA}
+#' }
 #'
 #' @export
 #'

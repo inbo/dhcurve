@@ -1,5 +1,6 @@
-#' Stelt de finale dhcurves grafisch voor in een rapport
+#' @title Stelt de finale dhcurves grafisch voor in een rapport
 #'
+#' @description 
 #' De functie genereert een rapport (html-bestand) in de working directory
 #' (of opgegeven directory) met informatie en grafieken van de finale
 #' modellen.
@@ -23,14 +24,13 @@
 #' interval.
 #'
 #' Daaronder wordt telkens grafisch volgende info weergegeven:
-#'
-#' - een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
-#' een jitter)
-#'
-#' - curve van het domeinmodel, aangeduid met zwarte ruiten
-#'
-#' - grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
-#' die overeenkomen met deze grenzen)
+#' \itemize{
+#'   \item{een puntenwolk die de metingen voorstelt (geen individuele metingen,
+#'     maar een jitter)}
+#'   \item{curve van het domeinmodel, aangeduid met zwarte ruiten}
+#'   \item{grenzen van het bruikbaar interval (curves eindigen bij de
+#'     klassemiddens die overeenkomen met deze grenzen)}
+#' }
 #'
 #' @export
 #'

@@ -1,5 +1,6 @@
-#' Genereert testdata voor 1 boomsoort-domeincombinatie
+#' @title Genereert testdata voor 1 boomsoort-domeincombinatie
 #'
+#' @description
 #' Deze functie genereert een testdataset voor 1 domein die voldoet aan de
 #' opgegeven vereisten.
 #'

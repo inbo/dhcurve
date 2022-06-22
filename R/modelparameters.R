@@ -1,5 +1,6 @@
-#' Berekent modelparameters voor opgegeven model
+#' @title Berekent modelparameters voor opgegeven model
 #'
+#' @description
 #' Functie die de modelparameters berekent op basis van een opgegeven
 #' basismodel, lokaal model of afgeleid model.  Ze berekent de parameters voor
 #' het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en

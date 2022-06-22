@@ -1,5 +1,6 @@
-#' Geeft de afwijkende metingen uit een gegeven model
+#' @title Geeft de afwijkende metingen uit een gegeven model
 #'
+#' @description
 #' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 *
 #' rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
 #' de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden minstens 10

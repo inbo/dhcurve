@@ -51,29 +51,24 @@ boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
 mogelijke problemen die bij het model optreden.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
-
-- een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
-een jitter)
-
-- curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
-model)
-
-- curve van het domeinmodel
-
-- grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
-die overeenkomen met deze grenzen)
-
-- afwijkende metingen: in rood (andere metingen in zwart)
-
-- afwijkende deel van een curve in rood (rest van curve in zwart)
+\itemize{
+  \item{een puntenwolk die de metingen voorstelt (geen individuele metingen,
+    maar een jitter)}
+  \item{curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
+    model)}
+  \item{curve van het domeinmodel}
+  \item{grenzen van het bruikbaar interval (curves eindigen bij de
+    klassemiddens die overeenkomen met deze grenzen)}
+  \item{afwijkende metingen: in rood (andere metingen in zwart)}
+  \item{afwijkende deel van een curve in rood (rest van curve in zwart)}
+}
 }
 \description{
 De functie genereert een validatierapport (html-bestand) in de working
 directory (of opgegeven directory) met informatie en grafieken van de te
 controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
 aangeduid; boven de curve is het probleem ook woordelijk beschreven.
-}
-\details{
+
 Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van
 de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als
 child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.

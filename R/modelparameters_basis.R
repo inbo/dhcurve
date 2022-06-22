@@ -1,5 +1,6 @@
-#' Modelparameters berekenen voor opgegeven basismodel
+#' @title Modelparameters berekenen voor opgegeven basismodel
 #'
+#' @description
 #' Functie die de modelparameters berekent op basis van een opgegeven
 #' basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor
 #' het Vlaams model, en geeft ook de grenzen van het bruikbaar interval

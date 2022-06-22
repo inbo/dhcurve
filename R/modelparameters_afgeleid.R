@@ -1,5 +1,6 @@
-#' Modelparameters berekenen voor opgegeven afgeleid model
+#' @title Modelparameters berekenen voor opgegeven afgeleid model
 #'
+#' @description
 #' Interne functie die de modelparameters berekent op basis van een opgegeven
 #' afgeleid model.  Ze berekent de parameter voor de verschuiving van het
 #' basismodel.

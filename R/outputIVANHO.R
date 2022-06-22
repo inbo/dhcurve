@@ -1,5 +1,6 @@
-#' Berekent de geschatte hoogtes per omtrekklasse
+#' @title Berekent de geschatte hoogtes per omtrekklasse
 #'
+#' @description
 #' De functie outputIVANHO voert de berekeningen uit die leiden tot de
 #' gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
 #' domein en omtrekklasse een schatting van de hoogte.  Als de curve een
@@ -16,34 +17,26 @@
 #'
 #' @return Dataframe met geschatte hoogtes per domein en per boomsoort met
 #' velden:
-#'
-#' - DOMEIN_ID: domeincode
-#'
-#' - BOS_BHI: domeinnaam
-#'
-#' - IDbms (identificatienummer van de boomsoort)
-#'
-#' - BMS: boomsoort
-#'
-#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-#' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-#' basismodel) /
-#' ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-#' omdat niet relevant) / 'lokaal model'(= apart model voor 1
-#' boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
-#' waarvoor geen model berekend kan worden))
-#'
-#' - Omtrek: klassemidden van omtrekklasse
-#'
-#' - OmtrekklassetypeID: het overeenkomstige identificatienummer van de
-#' omtrekklasse
-#'
-#' - Omtrekklasse
-#'
-#' - Hoogte: de geschatte hoogte
-#'
-#' - RMSE (root mean square error, zie vignette voor meer info:
-#' \code{vignette("Handleiding", package = "dhcurve")})
+#' \itemize{
+#'   \item{DOMEIN_ID: domeincode}
+#'   \item{BOS_BHI: domeinnaam}
+#'   \item{IDbms (identificatienummer van de boomsoort)}
+#'   \item{BMS: boomsoort}
+#'   \item{Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+#'     ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+#'     basismodel) /
+#'     ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+#'     omdat niet relevant) / 'lokaal model'(= apart model voor 1
+#'     boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
+#'     waarvoor geen model berekend kan worden))}
+#'   \item{Omtrek: klassemidden van omtrekklasse}
+#'   \item{OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+#'     omtrekklasse}
+#'   \item{Omtrekklasse}
+#'   \item{Hoogte: de geschatte hoogte}
+#'   \item{RMSE (root mean square error, zie vignette voor meer info:
+#'     \code{vignette("Handleiding", package = "dhcurve")})}
+#' }
 #'
 #' @export
 #'

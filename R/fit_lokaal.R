@@ -1,5 +1,6 @@
-#' Lokaal model fitten op basis van de opgegeven dataset
+#' @title Lokaal model fitten op basis van de opgegeven dataset
 #'
+#' @description
 #' Functie die het lineair (fixed) model
 #' \eqn{Hoogte_{lokaal} \sim A_{domein} + B_{domein} \log({Omtrek}) +
 #' C_{domein} \log(Omtrek)^2}{Hoogte(lokaal) ~ A(domein) + B(domein).log(Omtrek)

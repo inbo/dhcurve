@@ -30,34 +30,26 @@ berekend is.}
 \value{
 Dataframe met geschatte hoogtes per domein en per boomsoort met
 velden:
-
-- DOMEIN_ID: domeincode
-
-- BOS_BHI: domeinnaam
-
-- IDbms (identificatienummer van de boomsoort)
-
-- BMS: boomsoort
-
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-basismodel) /
-‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-omdat niet relevant) / 'lokaal model'(= apart model voor 1
-boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
-waarvoor geen model berekend kan worden))
-
-- Omtrek: klassemidden van omtrekklasse
-
-- OmtrekklassetypeID: het overeenkomstige identificatienummer van de
-omtrekklasse
-
-- Omtrekklasse
-
-- Hoogte: de geschatte hoogte
-
-- RMSE (root mean square error, zie vignette voor meer info:
-\code{vignette("Handleiding", package = "dhcurve")})
+\itemize{
+  \item{DOMEIN_ID: domeincode}
+  \item{BOS_BHI: domeinnaam}
+  \item{IDbms (identificatienummer van de boomsoort)}
+  \item{BMS: boomsoort}
+  \item{Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+    ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+    basismodel) /
+    ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+    omdat niet relevant) / 'lokaal model'(= apart model voor 1
+    boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
+    waarvoor geen model berekend kan worden))}
+  \item{Omtrek: klassemidden van omtrekklasse}
+  \item{OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+    omtrekklasse}
+  \item{Omtrekklasse}
+  \item{Hoogte: de geschatte hoogte}
+  \item{RMSE (root mean square error, zie vignette voor meer info:
+    \code{vignette("Handleiding", package = "dhcurve")})}
+}
 }
 \description{
 De functie outputIVANHO voert de berekeningen uit die leiden tot de
@@ -68,8 +60,7 @@ maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de
 omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten
 daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
 aangehouden.)
-}
-\details{
+
 Voor deze functie worden volgende hulpfuncties aangeroepen:
 hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
 }

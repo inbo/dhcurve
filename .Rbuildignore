@@ -21,3 +21,5 @@
 ^pkgdown$
 ^README\.Rmd$
 ^wercker\.yml$
+^doc$
+^Meta$

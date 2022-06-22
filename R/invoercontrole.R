@@ -1,5 +1,6 @@
-#' Hulpfunctie die ingevoerd object controleert
+#' @title Hulpfunctie die ingevoerd object controleert
 #'
+#' @description 
 #' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is
 #' deze interne functie ontwikkeld die voor de vaak voorkomende parameters van
 #' de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
@@ -14,6 +15,7 @@
 #' @return Een foutmelding of de geteste dataframe.
 #'
 #' @importFrom assertthat assert_that has_name
+#' @noRd
 #'
 
 invoercontrole <- function(Data, Type) {

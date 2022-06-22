@@ -1,5 +1,6 @@
-#' Fit basismodel op basis van de opgegeven dataset
+#' @title Fit basismodel op basis van de opgegeven dataset
 #'
+#' @description
 #' Functie die het lineair mixed model
 #' \eqn{Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} +
 #' B_{domein}) \log({Omtrek}) + (C_{Vlaams} + C_{domein}) \log(Omtrek)^2}{%

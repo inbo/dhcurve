@@ -1,5 +1,6 @@
-#' Genereert testdataset
+#' @title Genereert testdataset
 #'
+#' @description
 #' Deze functie genereert een testdataset die voldoet aan de opgegeven
 #' vereisten.
 #'

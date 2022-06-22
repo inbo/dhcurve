@@ -30,8 +30,7 @@ Functie die de modelparameters berekent op basis van een opgegeven
 basismodel, lokaal model of afgeleid model.  Ze berekent de parameters voor
 het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en
 geeft ook de grenzen van het bruikbaar interval.
-}
-\details{
+
 (Deze functie verwijst naar de interne functies modelparameters.basis,
 modelparameters.lokaal of modelparameters.afgeleid, afhankelijk van de
 situatie)

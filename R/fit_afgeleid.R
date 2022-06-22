@@ -1,5 +1,6 @@
-#' Fit afgeleid model op basis van het basismodel en de opgegeven dataset
+#' @title Fit afgeleid model op basis van het basismodel en de opgegeven dataset
 #'
+#' @description
 #' Functie die op basis van de opgegeven dataset een model opstelt per
 #' domein-boomsoortcombinatie door verschuiving van het Vlaams model voor die
 #' boomsoort (afgeleid uit het basismodel). Dit komt overeen met het fitten van
@@ -24,12 +25,12 @@
 #' gefit mixed model voor die boomsoort)
 #'
 #' @return List met 2 tibbles:
-#'
-#'  - tibble met velden BMS (boomsoort), DOMEIN_ID en Model (lm-object van model
-#'  per boomsoort-domein-combinatie)
-#'
-#'  - tibble met de ingevoerde dataset, waaraan het veld H_VL_finaal (de
-#'  hoogteschatting volgens het Vlaams model) toegevoegd is
+#' \itemize{
+#'    \item{tibble met velden BMS (boomsoort), DOMEIN_ID en Model
+#'      (lm-object van model per boomsoort-domein-combinatie)}
+#'    \item{tibble met de ingevoerde dataset, waaraan het veld H_VL_finaal (de
+#'      hoogteschatting volgens het Vlaams model) toegevoegd is}
+#'  }
 #'
 #' @export
 #'

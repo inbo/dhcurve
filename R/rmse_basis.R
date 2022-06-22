@@ -1,5 +1,6 @@
-#' Berekent RMSE van basismodel
+#' @title Berekent RMSE van basismodel
 #'
+#' @description
 #' Deze functie berekent de rmse door cross-validatie op basis van 6 subsets.
 #' Deze functie kan ook gebruikt worden voor het lokaal model (ze bepaalt het
 #' verschil tussen de datasets op basis van het al dan niet aanwezig zijn van

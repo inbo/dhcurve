@@ -1,5 +1,6 @@
-#' Lijst de afwijkende curves op
+#' @title Lijst de afwijkende curves op
 #'
+#' @description
 #' Functie die op basis van de curvekarakteristieken van de modellen (extremen
 #' en buigpunten) de mogelijk slechtste modellen oplijst met de reden.  Deze
 #' functie kan ook gebruikt worden voor lokale modellen, in dat geval moet ook
@@ -16,18 +17,15 @@
 #'
 #' @return Dataframe dat de mogelijk afwijkende curves oplijst, met volgende
 #' velden:
-#'
-#' - BMS: Boomsoort
-#'
-#' - DOMEIN_ID
-#'
-#' - Reden: reden waarom de curve afwijkend is
-#'
-#' - Omtrek_Buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
-#' van het domeinmodel ligt
-#'
-#' - Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin het maximum van de
-#' curve van het domeinmodel ligt
+#' \itemize{
+#'   \item{BMS: Boomsoort}
+#'   \item{DOMEIN_ID}
+#'   \item{Reden: reden waarom de curve afwijkend is}
+#'   \item{Omtrek_Buigpunt.d: midden van omtrekklasse waarin het buigpunt van
+#'     de curve van het domeinmodel ligt}
+#'   \item{Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin het maximum van
+#'     de curve van het domeinmodel ligt}
+#' }
 #'
 #' @export
 #'

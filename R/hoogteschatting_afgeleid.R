@@ -1,5 +1,6 @@
-#' Hoogteschatting op basis van opgegeven afgeleid model
+#' @title Hoogteschatting op basis van opgegeven afgeleid model
 #'
+#' @description
 #' Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves
 #' en Vlaamse curves van het opgegeven afgeleid model.  De teruggegeven
 #' dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen

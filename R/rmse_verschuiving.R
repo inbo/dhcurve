@@ -1,5 +1,6 @@
-#' Berekent RMSE van afgeleid model
+#' @title Berekent RMSE van afgeleid model
 #'
+#' @description
 #' Deze functie berekent de rmse op basis van verschil tussen de
 #' hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor
 #' omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het

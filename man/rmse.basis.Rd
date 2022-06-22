@@ -28,8 +28,7 @@ functies van dit package werkt deze functie op basis van de meetgegevens van
 1 model.  Zie voorbeelden voor een methode om deze functie te kunnen
 toepassen vertrekkend van meetgegevens (bv. Data.lokaal) of vertrekkend van
 een model waar de meetgegevens uit gehaald kunnen worden (bv. Basismodel).
-}
-\details{
+
 Deze functie berekent de rmse op basis van testgroepen en omvat de volgende
 deelstappen:
 

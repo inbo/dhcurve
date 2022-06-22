@@ -1,5 +1,6 @@
-#' Berekent de modelparameters per domein
+#' @title Berekent de modelparameters per domein
 #'
+#' @description
 #' De functie resultaat berekent op basis van de opgegeven modellen voor elke
 #' boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
 #' de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
@@ -28,31 +29,26 @@
 #' funtie initiatie teruggegeven wordt.
 #'
 #' @return Dataframe met modellen per domein en per boomsoort met velden:
-#'
-#' - DomeinID (identificatienummer voor domein)
-#'
-#' - BMS (boomsoort)
-#'
-#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-#' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-#' basismodel) /
-#' ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-#' omdat niet relevant) / 'lokaal model'(= eigen model voor 1
-#' boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
-#' waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
-#'
-#' - paramaters A, B en C (zie description)
-#'
-#' - bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)
-#'
-#' - RMSE (root mean square error, zie vignette voor meer info)
-#'
-#' - nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en 2,4 m)
-#'
-#' - nBomenInterval (aantal metingen waarop model gebaseerd is)
-#'
-#' - nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
-#' gebaseerd is)
+#' \itemize{
+#'   \item{DomeinID (identificatienummer voor domein)}
+#'   \item{BMS (boomsoort)}
+#'   \item{Modeltype ('basismodel'(= eigen model op basis van mixed model) /
+#'     ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+#'     basismodel) /
+#'     ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
+#'     omdat niet relevant) / 'lokaal model'(= eigen model voor 1
+#'     boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
+#'     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
+#'     worden))}
+#'   \item{paramaters A, B en C (zie description)}
+#'   \item{bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)}
+#'   \item{RMSE (root mean square error, zie vignette voor meer info)}
+#'   \item{nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
+#'     2,4 m)}
+#'   \item{nBomenInterval (aantal metingen waarop model gebaseerd is)}
+#'   \item{nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
+#'     gebaseerd is)}
+#' }
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 #' boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij

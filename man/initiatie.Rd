@@ -56,29 +56,27 @@ en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
 omtrek > 0.5 m)).
 
 De 4 dataframes die achtereenvolgens in de list zitten, zijn:
-
-- [["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen (binnen
-het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in minimum 6
-domeinen, waarbij enkel gegevens worden opgenomen van de domeinen waarvoor
-minimum 50 metingen beschikbaar zijn.  Op basis van deze dataset kan een
-basismodel berekend worden, bestaande uit een Vlaams model per boomsoort en
-domeinspecifieke modellen.
-
-- [["Afgeleid"]] gegevens van domeinen met minder metingen (< 50 metingen
-binnen het bruikbaar interval en > 10 metingen met omtrek > 0.5 m) van
-boomsoorten waarvoor
-een Vlaams model berekend kan worden (dus boomsoorten die in dataset "Basis"
-voorkomen), op basis waarvan een afgeleid model berekend kan worden.
-
-- [["Lokaal"]] gegevens van domeinen met veel metingen voor een boomsoort
-(> 50 metingen binnen het bruikbaar interval met omtrek > 0.5 m) waarvan er
-te weinig domeinen (< 6) zijn met voldoende metingen om een Vlaams model op
-te stellen.  Voor deze boomsoort-domeincombinaties kan een lokaal model
-berekend worden.
-
-- [["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot de 3
-voorgaande categorieën behoren en waar dus geen model voor opgesteld kan
-worden.
+\itemize{
+  \item{[["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen
+    (binnen het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in
+    minimum 6 domeinen, waarbij enkel gegevens worden opgenomen van de
+    domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
+    deze dataset kan een basismodel berekend worden, bestaande uit een
+    Vlaams model per boomsoort en domeinspecifieke modellen.}
+  \item{[["Afgeleid"]] gegevens van domeinen met minder metingen
+    (< 50 metingen binnen het bruikbaar interval en > 10 metingen met
+    omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend
+    kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis
+    waarvan een afgeleid model berekend kan worden.}
+  \item{[["Lokaal"]] gegevens van domeinen met veel metingen voor een
+    boomsoort (> 50 metingen binnen het bruikbaar interval met
+    omtrek > 0.5 m) waarvan er te weinig domeinen (< 6) zijn
+    met voldoende metingen om een Vlaams model op te stellen. Voor deze
+    boomsoort-domeincombinaties kan een lokaal model berekend worden.}
+  \item{[["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot
+    de 3 voorgaande categorieën behoren en waar dus geen model voor
+    opgesteld kan worden.}
+}
 
 Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
 weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
