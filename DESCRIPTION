@@ -1,6 +1,6 @@
 Package: dhcurve
 Title: Automated Modelling of Diameter Height Curves for Trees
-Version: 0.1
+Version: 0.2
 Authors@R: c(
     person("Els", "Lommelen", , "els.lommelen@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3481-5684")),
