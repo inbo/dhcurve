@@ -1,6 +1,6 @@
 #' @title Hulpfunctie die ingevoerd object controleert
 #'
-#' @description 
+#' @description
 #' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is
 #' deze interne functie ontwikkeld die voor de vaak voorkomende parameters van
 #' de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
@@ -77,12 +77,12 @@ invoercontrole <- function(Data, Type) {
         msg = "De opgegeven dataframe heeft geen veld met naam Status"
       )
       assert_that(inherits(Data$Status, "character"))
-      if (Type != "afgeleidedata" &
+      if (Type != "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd"))) {
         stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint
       }
-      if (Type == "afgeleidedata" &
+      if (Type == "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
         stop(

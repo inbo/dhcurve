@@ -1,4 +1,5 @@
-#' @title Stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport
+#' @title Stelt de slechtste curves en afwijkende metingen grafisch voor in een
+#' rapport
 #'
 #' @description
 #' De functie genereert een validatierapport (html-bestand) in de working

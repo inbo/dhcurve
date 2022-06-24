@@ -1,6 +1,6 @@
 #' @title Stelt de finale dhcurves grafisch voor in een rapport
 #'
-#' @description 
+#' @description
 #' De functie genereert een rapport (html-bestand) in de working directory
 #' (of opgegeven directory) met informatie en grafieken van de finale
 #' modellen.

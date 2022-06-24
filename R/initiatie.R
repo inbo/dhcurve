@@ -355,8 +355,7 @@ initiatie <-
     if (nrow(DataRapport > 0)) {
       list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
               Rest = Data.rest, VerwijderdeGegevens = DataRapport)
-    }
-    else {
+    } else {
       list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
            Rest = Data.rest)
     }
