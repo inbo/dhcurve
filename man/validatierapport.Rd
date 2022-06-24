@@ -2,7 +2,8 @@
 % Please edit documentation in R/validatierapport.R
 \name{validatierapport}
 \alias{validatierapport}
-\title{Stelt de slechtste curves en afwijkende metingen grafisch voor in een rapport}
+\title{Stelt de slechtste curves en afwijkende metingen grafisch voor in een
+rapport}
 \usage{
 validatierapport(
   SlechtsteModellen,
