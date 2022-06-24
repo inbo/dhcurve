@@ -58,7 +58,8 @@ describe("fit", {
   Kolomnamen <-
     c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05", "nBomen",
       "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "BMS")
+      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "nBomenTotOmtrek05",
+      "Q5", "Q95", "BMS")
 
   it("Output van fit.afgeleid is correct (list met 2 tibbles)", {
       expect_error(fit.afgeleid(Data.afgeleid),
