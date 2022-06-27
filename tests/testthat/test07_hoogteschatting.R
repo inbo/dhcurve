@@ -25,8 +25,8 @@ describe("hoogteschatting", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS"))
     expect_equal(hoogteschatting.basis(Basismodel1$Model[[1]],
                                        Basismodel1$Model[[1]]$data,
                                        "Basis", Basismodel1$BMS) %>%
@@ -56,8 +56,8 @@ describe("hoogteschatting", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", 
+                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS"))
     expect_equal(hoogteschatting.basis(Lokaalmodel$Model[[1]],
                                        Lokaledata %>%
                                          filter(DOMEIN_ID == "HM"),
@@ -107,8 +107,8 @@ describe("hoogteschatting", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS"))
     expect_equal(hoogteschatting.basis(Basismodel2$Model[[1]],
                                        Basismodel2$Model[[1]]$data,
                                        "Basis", Basismodel2$BMS) %>%
@@ -133,8 +133,8 @@ describe("hoogteschatting", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS", "H_D_finaal"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS", "H_D_finaal"))
     expect_equal(hoogteschatting.afgeleid(Afgeleidmodel[[1]]$Model[[1]],
                                           Afgeleidmodel[[2]]) %>%
                    filter(

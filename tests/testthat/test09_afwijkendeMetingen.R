@@ -177,24 +177,26 @@ describe("afwijkendemetingen", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95",
-                   "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
-                   "rmseVL", "rmseD", "HogeRmse", "Afwijkend")
+                   "Rijnr", "logOmtrek", "logOmtrek2", "nBomenTotOmtrek05",
+                   "Q5", "Q95", "H_D_finaal", "ResidD2", "nBomenModel",
+                   "RmseVerschuiving", "rmseVL", "rmseD", "HogeRmse",
+                   "Afwijkend")
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
                    colnames(.),
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
-                   "HogeRmse", "Afwijkend")
+                   "logOmtrek2", "nBomenTotOmtrek05", "Q5", "Q95", "BMS",
+                   "rmseD", "maxResid", "HogeRmse", "Afwijkend")
     )
   })
 
