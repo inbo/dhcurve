@@ -1,4 +1,4 @@
-#' Validatie van het basismodel
+#' @title Validatie van het basismodel
 #'
 #' @description
 #' Functie die alle nodige validaties uitvoert op het opgegeven (volledige)
