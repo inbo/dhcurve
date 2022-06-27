@@ -65,5 +65,17 @@ behalve de informatie uit de databank een aantal berekende waarden:
 }
 }
 \description{
+Functie die de validatie uitvoert op het verschoven Vlaams model en een
+overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan
+valideren).
 
+validatie.afgeleid roept meerdere hulpfuncties op:
+\itemize{
+  \item{rmse.basis en rmse.verschuiving}
+  \item{afwijkendeMetingen}
+  \item{validatierapport}
+}
+
+Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
+slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
 }

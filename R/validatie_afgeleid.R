@@ -6,7 +6,7 @@
 #' valideren).
 #'
 #' validatie.afgeleid roept meerdere hulpfuncties op:
-#' \itemize{}
+#' \itemize{
 #'   \item{rmse.basis en rmse.verschuiving}
 #'   \item{afwijkendeMetingen}
 #'   \item{validatierapport}
