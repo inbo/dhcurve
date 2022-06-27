@@ -56,7 +56,7 @@ describe("hoogteschatting", {
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
                    "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", 
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
                    "nBomenTotOmtrek05", "Q5", "Q95", "BMS"))
     expect_equal(hoogteschatting.basis(Lokaalmodel$Model[[1]],
                                        Lokaledata %>%
