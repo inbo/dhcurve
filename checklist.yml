@@ -10,3 +10,8 @@ allowed:
 citation_roles:
 - aut
 - cre
+keywords:
+- model tree height
+- R package
+spelling:
+  default: nl-BE

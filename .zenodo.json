@@ -36,5 +36,9 @@
       "orcid": "https://orcid.org/0000-0002-3481-5684"
     }
   ],
-  "language": "nld"
+  "language": "nld",
+  "keywords": [
+    "model tree height",
+    "R package"
+  ]
 }

@@ -22,3 +22,6 @@ repository-code: https://github.com/inbo/dhcurve
 identifiers:
 - type: url
   value: https://inbo.github.io/dhcurve
+keywords:
+- model tree height
+- R package

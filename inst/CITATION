@@ -8,5 +8,6 @@ citEntry(
   url = "https://inbo.github.io/dhcurve",
   abstract = "Model diameter height curves for individual tree species and forests.",
   textVersion = "Lommelen, Els; Onkelinx, Thierry (2022) dhcurve: Automated Modelling of Diameter Height Curves for Trees. Version 0.2. https://inbo.github.io/dhcurve, https://github.com/inbo/dhcurve",
+  keywords = "model tree height, R package",
 )
 # end checklist entry
