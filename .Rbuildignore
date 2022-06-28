@@ -12,14 +12,14 @@
 ^codecov\.yml$
 ^codemeta\.json$
 ^data-raw$
+^doc$
 ^docs$
 ^inst/dh_curve.pdf
 ^inst/RenderHandleiding.R
 ^inst/tijdelijk$
 ^LICENSE.md$
 ^man-roxygen$
+^Meta$
 ^pkgdown$
 ^README\.Rmd$
 ^wercker\.yml$
-^doc$
-^Meta$

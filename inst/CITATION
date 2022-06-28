@@ -2,11 +2,11 @@ citHeader("To cite `dhcurve` in publications please use:")
 # begin checklist entry
 citEntry(
   entry = "Manual",
-  title = "dhcurve: Automated Modelling of Diameter Height Curves for Trees. Version 0.1",
+  title = "dhcurve: Automated Modelling of Diameter Height Curves for Trees. Version 0.2",
   author = c(person(given = "Els", family = "Lommelen"), person(given = "Thierry", family = "Onkelinx")),
   year = 2022,
   url = "https://inbo.github.io/dhcurve",
   abstract = "Model diameter height curves for individual tree species and forests.",
-  textVersion = "Lommelen, Els; Onkelinx, Thierry (2022) dhcurve: Automated Modelling of Diameter Height Curves for Trees. Version 0.1. https://inbo.github.io/dhcurve, https://github.com/inbo/dhcurve",
+  textVersion = "Lommelen, Els; Onkelinx, Thierry (2022) dhcurve: Automated Modelling of Diameter Height Curves for Trees. Version 0.2. https://inbo.github.io/dhcurve, https://github.com/inbo/dhcurve",
 )
 # end checklist entry

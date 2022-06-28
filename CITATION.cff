@@ -14,7 +14,7 @@ contact:
 - email: anb@vlaanderen.be
   name: Agentschap voor Natuur en Bos
 title: 'dhcurve: Automated Modelling of Diameter Height Curves for Trees'
-version: '0.1'
+version: '0.2'
 abstract: Model diameter height curves for individual tree species and forests.
 license: GPL-3.0
 type: software

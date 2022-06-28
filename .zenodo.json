@@ -1,6 +1,6 @@
 {
   "title": "dhcurve: Automated Modelling of Diameter Height Curves for Trees",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Model diameter height curves for individual tree species and forests.",
   "creators": [
     {
@@ -35,5 +35,6 @@
       "type": "ContactPerson",
       "orcid": "https://orcid.org/0000-0002-3481-5684"
     }
-  ]
+  ],
+  "language": "nld"
 }
