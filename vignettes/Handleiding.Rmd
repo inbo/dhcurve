@@ -387,7 +387,7 @@ Dit betekent dus dat het Vlaams model de domeinspecifieke modellen corrigeert wa
 Voorwaarde om goede modellen te bekomen op basis van dit mixed model, is dat er voldoende gegevens beschikbaar zijn.  Op basis van ervaring met het gebruik van deze statistische modellen en op basis van eerste testresultaten hebben we volgende voorwaarden voor het basismodel vastgelegd:
 
 - boomsoorten met > 50 metingen per domein in de omtrekklassen tussen 0,5 en 2,3 m en >= 6 domeinen
-- lagere omtrekklassen worden niet meegeteld maar wel meegenomen om het model te fitten (zie [Bruikbaar interval/Scope voor omtrekklassen](#scope-voor-omtrekklassen))
+- lagere omtrekklassen worden niet meegeteld maar wel meegenomen om het model te fitten (zie [Bruikbaar interval / Scope voor omtrekklassen](#scope-voor-omtrekklassen))
 
 ### Afgeleid model
 
@@ -401,7 +401,7 @@ $\phantom{Hoogte_{afgeleid}}= \delta A + A_{Vlaams} + B_{Vlaams}\log(Omtrek) + C
 
 $\phantom{Hoogte_{afgeleid}}= A_{domein} + A_{Vlaams} + B_{Vlaams}\log(Omtrek) + C_{Vlaams} \log(Omtrek)^2$
 
-Wat in feite gebeurt, is dat de gemiddelde afstand tussen de meetpunten van het domein en de Vlaamse curve berekend wordt, en dat de Vlaamse curve vertikaal over deze hoogte verschoven wordt.  Deze "verschuiving" is een domeinspecifieke parameter $A_{domein}$ die corrigeert voor de standplaats (arm/rijk) op basis van effectieve metingen van dat domein; de andere parameters zijn overgenomen uit het Vlaams model.  De curvevorm wordt dus overgenomen van het Vlaams model, dat berekend is op basis van een groot aantal gegevens uit verschillende domeinen.
+Wat in feite gebeurt, is dat de gemiddelde afstand tussen de meetpunten van het domein en de Vlaamse curve berekend wordt, en dat de Vlaamse curve verticaal over deze hoogte verschoven wordt.  Deze "verschuiving" is een domeinspecifieke parameter $A_{domein}$ die corrigeert voor de standplaats (arm / rijk) op basis van effectieve metingen van dat domein; de andere parameters zijn overgenomen uit het Vlaams model.  De curvevorm wordt dus overgenomen van het Vlaams model, dat berekend is op basis van een groot aantal gegevens uit verschillende domeinen.
 
 ```{r figAfgeleidModel, echo=FALSE}
 
@@ -452,7 +452,7 @@ De voorwaarden voor dit lokaal model zijn:
 
 - geen basismodel
 - minstens 50 metingen per domein in de omtrekklassen tussen 0,5 en 2,3 m
-- lagere omtrekklassen worden meegenomen om het model te berekenen (zie [Bruikbaar interval/Scope voor omtrekklassen](#scope-voor-omtrekklassen))
+- lagere omtrekklassen worden meegenomen om het model te berekenen (zie [Bruikbaar interval / Scope voor omtrekklassen](#scope-voor-omtrekklassen))
 
 ## Kwaliteitsbeoordeling
 
@@ -520,7 +520,7 @@ ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) +
 ```
 
 
-**Potentieel probleem?**  Bij modellen waarbij de RMSE hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële foute metingen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis/afgeleid/lokaal) voor de 20 domeinen met de hoogste RMSE minstens de 10 metingen met grootste afwijking geselecteerd.
+**Potentieel probleem?**  Bij modellen waarbij de RMSE hoog is (bv. hoge spreiding van de metingen of model minder goed aansluitend bij de metingen), zal het betrouwbaarheidsinterval groter zijn, waardoor het risico bestaat dat potentieel afwijkende metingen nog binnen het betrouwbaarheidsinterval vallen en niet als afwijkend aangeduid worden.   Om te vermijden om zo potentiële foute metingen te missen (modellen zonder problemen worden niet in de validatierapporten opgenomen), zijn per modeltype (basis / afgeleid / lokaal) voor de 20 domeinen met de hoogste RMSE minstens de 10 metingen met grootste afwijking geselecteerd.
 
 (Deze afwijkende metingen worden berekend in de functie `afwijkendeMetingen` die door de functie `validatie.basis`, `validatie.afgeleid` of `validatie.lokaal` aangeroepen wordt.)
     
@@ -530,7 +530,7 @@ Vermits het afgeleid model de vorm overneemt van het Vlaams model (dat in princi
 
 De detectie van afwijkende curvevormen is gebaseerd op het voorkomen van extremen (minima of maxima).  Dit zijn de punten waarop de afgeleide van de functie 0 is. Voor ons model treden extremen op bij een omtrek van $e^{\frac{-B}{2 C}}$.  
 
-Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven onder [Praktische werkwijze/validatie/stap 2: afwijkende curves](#stap-2-afwijkende-curves)):
+Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven onder [Praktische werkwijze / validatie / stap 2: afwijkende curves](#stap-2-afwijkende-curves)):
 
 - "curvevorm hol bij lage omtrekklassen": de hiervoor geselecteerde curves voldoen aan volgende voorwaarden:
 
