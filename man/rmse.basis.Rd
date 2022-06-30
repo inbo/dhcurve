@@ -38,7 +38,7 @@ deelstappen:
 oproept
 
 - rmse berekenen voor domeinmodellen en Vlaams model op basis van
-testgroep-modellen
+de gemeten waarden en schattingen voor de testgroepen
 }
 \examples{
 library(dplyr)

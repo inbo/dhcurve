@@ -9,8 +9,8 @@
 #' Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters,
 #' rsme.basis en rsme.afgeleid
 #'
-#' Verder worden parameters A, B en C uit het model gehaald (coef) en een
-#' aantal in de functie initiatie berekende gegevens toegevoegd .
+#' Verder worden parameters A, B en C uit het model gehaald en een
+#' aantal in de functie initiatie berekende gegevens toegevoegd.
 #'
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
 #' fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
@@ -26,7 +26,7 @@
 #' @param Data.onbruikbaar Evt. lijst met meetresultaten van
 #' domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
 #' vorm van een dataframe zoals de dataframe "Rest" uit de list die door de
-#' funtie initiatie teruggegeven wordt.
+#' functie initiatie teruggegeven wordt.
 #'
 #' @return Dataframe met modellen per domein en per boomsoort met velden:
 #' \itemize{
