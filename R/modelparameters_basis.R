@@ -8,8 +8,8 @@
 #' @param Soortmodel model van boomsoort
 #' @param BMS boomsoort
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
-#' parameters voor Vlaams model (Avl, Bvl en Cvl)
+#' @return dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`) en
+#' parameters voor Vlaams model (`Avl`, `Bvl` en `Cvl`)
 #'
 #' @importFrom dplyr %>% select distinct left_join
 #' @importFrom rlang .data

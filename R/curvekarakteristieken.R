@@ -9,22 +9,22 @@
 #' @return Dataframe met curvekarakteristieken per domein en boomsoort met de
 #' velden:
 #' \itemize{
-#'   \item{parameters Ad, Bd en Cd van het model en enkele generieke velden
-#'     (DOMEIN_ID, BMS,...)}
-#'   \item{Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin een extreem
+#'   \item{parameters `Ad`, `Bd` en `Cd` van het model en enkele generieke velden
+#'     (`DOMEIN_ID`, `BMS`,...)}
+#'   \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin een extreem
 #'     (minimum of maximum) van de curve van het domeinmodel ligt}
-#'   \item{Extr_Hoogte.d: hoogteschatting die aansluit bij het vorige veld}
-#'   \item{Hoogteverschil.d: verschil tussen de hoogteschattingen van het
+#'   \item{`Extr_Hoogte.d`: hoogteschatting die aansluit bij het vorige veld}
+#'   \item{`Hoogteverschil.d`: verschil tussen de hoogteschattingen van het
 #'     extreem van de curve en de bovengrens van het bruikbaar interval.
 #'     Deze maat is relevant als het extreem een maximum is
 #'     (enkel dan is deze waarde positief).}
-#'   \item{Omtrek_Buigpunt.d: midden van omtrekklasse waarin een buigpunt van
+#'   \item{`Omtrek_Buigpunt.d`: midden van omtrekklasse waarin een buigpunt van
 #'     de curve van het domeinmodel ligt (deze en volgende variabelen zijn
 #'     relevante maten bij het voorkomen van een minimum)}
-#'   \item{Verschil_rico_BP_Q5.d: het verschil in de waarde van de
-#'     richtingscoefficient tussen het buigpunt en de ondergrens van het
+#'   \item{`Verschil_rico_BP_Q5.d`: het verschil in de waarde van de
+#'     richtingscoëfficiënt tussen het buigpunt en de ondergrens van het
 #'     bruikbaar interval.}
-#'   \item{Verschil_rico_BP_Q5_per_omtrek.d: de voorgaande variabele gedeeld
+#'   \item{`Verschil_rico_BP_Q5_per_omtrek.d`: de voorgaande variabele gedeeld
 #'     door het verschil in omtrek tussen het buigpunt en de ondergrens van het
 #'     bruikbaar interval.}
 #' }

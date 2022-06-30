@@ -14,15 +14,15 @@ resultaat(
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-gefit mixed model voor die boomsoort).}
+`fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
+(`lme`-object met het gefit mixed model voor die boomsoort).}
 
 \item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
-door de functie fit.afgeleid: list met 2 tibbles.}
+door de functie `fit.afgeleid()`: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-en Model (lm-object met het gefit lineair model voor die
+door de functie `fit.lokaal()`: tibble met de velden `BMS` (boomsoort),
+`DOMEIN_ID` en `Model` (`lm`-object met het gefit lineair model voor die
 boomsoort-domeincombinatie).}
 
 \item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
@@ -30,15 +30,15 @@ berekend is.}
 
 \item{Data.onbruikbaar}{Evt. lijst met meetresultaten van
 domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
-vorm van een dataframe zoals de dataframe "Rest" uit de list die door de
-functie initiatie teruggegeven wordt.}
+vorm van een dataframe zoals de dataframe `Rest` uit de list die door de
+functie `initiatie()` teruggegeven wordt.}
 }
 \value{
 Dataframe met modellen per domein en per boomsoort met velden:
 \itemize{
-  \item{DomeinID (identificatienummer voor domein)}
-  \item{BMS (boomsoort)}
-  \item{Modeltype ("basismodel"(= eigen model op basis van mixed model) /
+  \item{`DomeinID` (identificatienummer voor domein)}
+  \item{`BMS` (boomsoort)}
+  \item{`Modeltype` ("basismodel"(= eigen model op basis van mixed model) /
     "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
     basismodel) /
     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
@@ -46,19 +46,19 @@ Dataframe met modellen per domein en per boomsoort met velden:
     boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
     worden))}
-  \item{paramaters A, B en C (zie description)}
-  \item{bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)}
-  \item{RMSE (root mean square error, zie vignette voor meer info)}
-  \item{nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
+  \item{paramaters `A`, `B` en `C` (zie description)}
+  \item{bruikbaar interval (`Q5k` en `Q95k`, zie vignette voor meer info)}
+  \item{`RMSE` (root mean square error, zie vignette voor meer info)}
+  \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
     2,4 m)}
-  \item{nBomenInterval (aantal metingen waarop model gebaseerd is)}
-  \item{nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
+  \item{`nBomenInterval` (aantal metingen waarop model gebaseerd is)}
+  \item{`nBomenOmtrek05` (aantal metingen > 0.5 m, dus waarop rmse-berekening
     gebaseerd is)}
 }
 
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
-DomeinID leeg gelaten wordt of een specifieke waarde
+`DomeinID` leeg gelaten wordt of een specifieke waarde
 "Vlaams model" krijgt
 }
 \description{
@@ -67,9 +67,9 @@ boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
 de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
 B.log(Omtrek) + C.log(Omtrek)^2}.
 
-Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters,
-rsme.basis en rsme.afgeleid
+Voor deze functie worden volgende hulpfuncties aangeroepen:
+`modelparameters()`, `rsme.basis()` en `rsme.afgeleid()`
 
-Verder worden parameters A, B en C uit het model gehaald en een
-aantal in de functie initiatie berekende gegevens toegevoegd.
+Verder worden parameters `A`, `B` en `C` uit het model gehaald en een
+aantal in de functie `initiatie()` berekende gegevens toegevoegd.
 }

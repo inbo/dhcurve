@@ -5,16 +5,16 @@
 #' (of opgegeven directory) met informatie en grafieken van de finale
 #' modellen.
 #'
-#' Deze functie rendert het bestand dhcurverapport.Rmd, dat voor elke
-#' boomsoort-domeincombinatie child dhcurve.Rmd toevoegt.
+#' Deze functie rendert het bestand `dhcurverapport.Rmd`, dat voor elke
+#' boomsoort-domeincombinatie child `dhcurve.Rmd` toevoegt.
 #'
 #'
 #' @param OutputIVANHO Lijst met geschatte hoogte per omtrekklasse (dataframe
-#' zoals gegenereerd door de functie outputIVANHO()).
+#' zoals gegenereerd door de functie `outputIVANHO()`).
 #' @param Datalijst Datasets met gemeten waarden die gebruikt zijn voor de
-#' modellen, zoals gegenereerd door de functie initiatie().
+#' modellen, zoals gegenereerd door de functie `initiatie()`.
 #' @param Bestandsnaam Een naam voor het rapport (html-bestand) dat gegenereerd
-#' wordt, bestaande uit een string die eindigt op '.html'
+#' wordt, bestaande uit een string die eindigt op `.html`
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)

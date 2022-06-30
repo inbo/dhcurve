@@ -13,15 +13,15 @@ outputIVANHO(
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-gefit mixed model voor die boomsoort).}
+`fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
+(`lme`-object met het gefit mixed model voor die boomsoort).}
 
 \item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
-door de functie fit.afgeleid: list met 2 tibbles.}
+door de functie `fit.afgeleid()`: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-en Model (lm-object met het gefit lineair model voor die
+door de functie `fit.lokaal()`: tibble met de velden `BMS` (boomsoort),
+`DOMEIN_ID` en `Model` (`lm`-object met het gefit lineair model voor die
 boomsoort-domeincombinatie).}
 
 \item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
@@ -31,28 +31,28 @@ berekend is.}
 Dataframe met geschatte hoogtes per domein en per boomsoort met
 velden:
 \itemize{
-  \item{DOMEIN_ID: domeincode}
-  \item{BOS_BHI: domeinnaam}
-  \item{IDbms (identificatienummer van de boomsoort)}
-  \item{BMS: boomsoort}
-  \item{Modeltype ("basismodel"(= eigen model op basis van mixed model) /
+  \item{`DOMEIN_ID`: domeincode}
+  \item{`BOS_BHI`: domeinnaam}
+  \item{`IDbms` (identificatienummer van de boomsoort)}
+  \item{`BMS`: boomsoort}
+  \item{`Modeltype` ("basismodel"(= eigen model op basis van mixed model) /
     "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
     basismodel) /
     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
     omdat niet relevant) / "lokaal model"(= apart model voor 1
     boomsoort-domein-combinatie) / "geen model"(= boomsoort-domein-combinatie
     waarvoor geen model berekend kan worden))}
-  \item{Omtrek: klassemidden van omtrekklasse}
-  \item{OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+  \item{`Omtrek`: klassemidden van omtrekklasse}
+  \item{`OmtrekklassetypeID`: het overeenkomstige identificatienummer van de
     omtrekklasse}
-  \item{Omtrekklasse}
-  \item{Hoogte: de geschatte hoogte}
-  \item{RMSE (root mean square error, zie vignette voor meer info:
+  \item{`Omtrekklasse`}
+  \item{`Hoogte`: de geschatte hoogte}
+  \item{`RMSE` (root mean square error, zie vignette voor meer info:
     \code{vignette("Handleiding", package = "dhcurve")})}
 }
 }
 \description{
-De functie outputIVANHO voert de berekeningen uit die leiden tot de
+De functie `outputIVANHO()` voert de berekeningen uit die leiden tot de
 gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
 domein en omtrekklasse een schatting van de hoogte.  Als de curve een
 maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
@@ -62,5 +62,6 @@ daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
 aangehouden.)
 
 Voor deze functie worden volgende hulpfuncties aangeroepen:
-hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
+`hoogteschatting.basis()`, `hoogteschatting.afgeleid()` en
+`curvekarakteristieken()`.
 }

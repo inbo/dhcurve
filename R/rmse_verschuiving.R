@@ -13,11 +13,11 @@
 #'
 #'
 #' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie
-#' (lm-object)
-#' @param Boomsoort BMS
-#' @param Domein DOMEIN_ID
+#' (`lm`-object)
+#' @param Boomsoort `BMS`
+#' @param Domein `DOMEIN_ID`
 #'
-#' @return Dataframe met BMS(boomsoort), DOMEIN_ID, RmseVerschuiving
+#' @return Dataframe met `BMS` (boomsoort), `DOMEIN_ID`, `RmseVerschuiving`
 #'
 #' @examples
 #' library(dplyr)

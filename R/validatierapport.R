@@ -7,26 +7,26 @@
 #' controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
 #' aangeduid; boven de curve is het probleem ook woordelijk beschreven.
 #'
-#' Deze functie rendert het bestand Validatierapport.Rmd, dat afhankelijk van
-#' de opgegeven variabele TypeRapport voor elke boomsoort-domeincombinatie als
-#' child DomeincurveDynamisch.Rmd of Domeincurve.Rmd toevoegt.
+#' Deze functie rendert het bestand `Validatierapport.Rmd`, dat afhankelijk van
+#' de opgegeven variabele `TypeRapport` voor elke boomsoort-domeincombinatie als
+#' child `DomeincurveDynamisch.Rmd` of `Domeincurve.Rmd` toevoegt.
 #'
 #'
 #' @param SlechtsteModellen Lijst van de slechtste modellen, dit zijn modellen
 #' met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
 #' modellen met afwijkende metingen.  Deze dataframe moet volgende velden
-#' bevatten: BMS (boomsoort), DOMEIN_ID en Reden (= tekstuele opsomming van
-#' afwijkingen, om weer te geven boven grafiek).
+#' bevatten: `BMS` (boomsoort), `DOMEIN_ID` en `Reden` (= tekstuele opsomming
+#' van afwijkingen, om weer te geven boven grafiek).
 #' @param AfwijkendeMetingen Lijst met afwijkende metingen (dataframe zoals
-#' gegenereerd door de functie afwijkendeMetingen).
+#' gegenereerd door de functie `afwijkendeMetingen()`).
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor
-#' domeinmodel en Vlaams model (inclusief RMSE)
+#' domeinmodel en Vlaams model (inclusief `RMSE`)
 #' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
-#' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
+#' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @param TypeRapport Default is "Dynamisch", waarbij de figuren in het
 #' html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
-#' erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
-#' uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+#' erover te bewegen (inclusief `ID` als deze in de dataset meegegeven is),
+#' items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 #' "Statisch", waarbij de figuren vast zijn.
 #' @inheritParams initiatie
 #'

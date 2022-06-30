@@ -7,7 +7,7 @@
 #' te bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit
 #' package werkt deze functie op basis van 1 model en de bijhorende
 #' meetgegevens.  Zie voorbeeld voor een methode om deze functie te kunnen
-#' toepassen op de volledige dataset Afgeleidmodel.
+#' toepassen op de volledige dataset `Afgeleidmodel`.
 #'
 #' @param Domeinsoortmodel verschoven Vlaams model voor 1
 #' boomsoort-domein-combinatie

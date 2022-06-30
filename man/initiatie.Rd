@@ -15,20 +15,21 @@ initiatie(
 }
 \arguments{
 \item{Data}{Dataframe met metingen van bomen die als basis moeten dienen om
-DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID
-(identificatienummer voor domein), BOS_BHI (domeinnaam), IDbms
-(identificatienummer voor boomsoort), BMS (boomsoort), C13 (omtrek in
-centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten
-en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij
-rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens
-met status "Niet gecontroleerd", "Te controleren" of "Goedgekeurd" bevatten,
+DH-curves op te stellen.  De dataframe moet de velden `DOMEIN_ID`
+(identificatienummer voor domein), `BOS_BHI` (domeinnaam), `IDbms`
+(identificatienummer voor boomsoort), `BMS` (boomsoort), `C13` (omtrek in
+centimeter, gemeten op 1,3 m hoogte), `HOOGTE` (in meter) en `Status`
+bevatten en mag eventueel velden `TYPE_METING` en `JAAR` bevatten (die worden
+bij `rmse.basis()` als groeperende variabelen gebruikt).
+`Status` mag enkel gegevens met status "Niet gecontroleerd", "Te controleren"
+of "Goedgekeurd" bevatten,
 dus gegevens met status "Afgekeurd" of "Negeren" moeten vooraf verwijderd
 worden.}
 
 \item{Uitzonderingen}{Lijst met boomsoort-domeincombinaties waarvoor
 uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
-De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde
-voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.}
+De dataframe moet de velden `DOMEIN_ID`, `BMS`, `min_basis` (= vervangende
+waarde voor 50), `min_afgeleid` (= vervangende waarde voor 10) bevatten.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op `.html`}
@@ -46,13 +47,13 @@ Als er gegevens verwijderd worden, genereert de functie een validatierapport
 gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 
 De functie geeft een list van dataframes terug, met in elke dataframe
-behalve de variabelen uit Data de berekende variabelen Omtrek
-(= omtrekklasse), logOmtrek, logOmtrek2, Q5k en Q95k (de grenzen van het
-bruikbaar interval), nBomen (= aantal metingen behalve de verwijderde
+behalve de variabelen uit `Data` de berekende variabelen `Omtrek`
+(= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de grenzen van
+het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
 gegevens),
-nBomenTotOmtrek05 (aantal metingen met omtrek > 0.5 m),
-nBomenInterval (= aantal metingen binnen het bruikbaar interval)
-en nBomenOmtrek05 (aantal metingen binnen het bruikbaar interval met
+`nBomenTotOmtrek05` (aantal metingen met omtrek > 0.5 m),
+`nBomenInterval` (= aantal metingen binnen het bruikbaar interval)
+en `nBomenOmtrek05` (aantal metingen binnen het bruikbaar interval met
 omtrek > 0.5 m)).
 
 De 4 dataframes die achtereenvolgens in de list zitten, zijn:

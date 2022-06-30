@@ -16,36 +16,36 @@ validatie.basis(
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-gefit mixed model voor die boomsoort).}
+`fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
+(`lme`-object met het gefit mixed model voor die boomsoort).}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste `RMSE`
 geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
-metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
+metingen geselecteerd. `AantalDomHogeRMSE` laat toe om dit aantal van 20
 domeinen aan te passen.}
 
 \item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
 op te geven waardoor de curve getoond moet worden in het validatierapport.
-Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
-met benamingen die overeenkomen met deze in de opgegeven dataset.}
+Deze moeten opgegeven worden als een dataframe met velden `DOMEIN_ID` en
+`BMS`, met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
 \item{GoedgekeurdeAfwijkendeCurves}{Optie om goedgekeurde afwijkende curves
 niet meer te tonen in het validatierapport zolang er geen extra metingen
 toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
 te keuren curves in het rapport over te houden). De goedgekeurde en dus te
-negeren curves moeten opgegeven worden in een dataframe met velden DOMEIN_ID,
-BMS en nBomenTerugTonen, met nBomenTerugTonen het aantal bomen
-(nBomenInterval) in de domein-BMS-combinatie vanaf wanneer de curve terug
-getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
+negeren curves moeten opgegeven worden in een dataframe met velden
+`DOMEIN_ID`, `BMS` en `nBomenTerugTonen`, met `nBomenTerugTonen` het aantal
+bomen (`nBomenInterval`) in de domein-BMS-combinatie vanaf wanneer de curve
+terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
 getoond als ze nog steeds afwijkend is.)}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
-gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+gegenereerd wordt, bestaande uit een string die eindigt op `.html`}
 
 \item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
 html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
-erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
-uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+erover te bewegen (inclusief `ID` als deze in de dataset meegegeven is),
+items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 "Statisch", waarbij de figuren vast zijn.}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
@@ -56,18 +56,19 @@ moment actieve working directory opgeslagen).}
 De functie genereert een validatierapport (html-bestand) in de working
 directory met informatie en grafieken van de te controleren modellen.  De
 afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-het probleem ook woordelijk beschreven (zie ?validatierapport of vignette
+het probleem ook woordelijk beschreven (zie `?validatierapport` of vignette
 voor meer informatie).
 
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
 \itemize{
-  \item{H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+  \item{`H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
     domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)}
-  \item{H_VL_finaal: een geschatte hoogte voor de omtrek volgens het Vlaams
+  \item{`H_VL_finaal`: een geschatte hoogte voor de omtrek volgens het Vlaams
     model (dus voor het overkoepelend boomsoort-model)}
-  \item{rmseD: de foutenschatting voor het domeinmodel}
-  \item{HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA}
+  \item{`rmseD`: de foutenschatting voor het domeinmodel}
+  \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge rmse heeft, anders
+    `NA`}
 }
 }
 \description{
@@ -77,13 +78,13 @@ model en een overzicht geeft van de afwijkende metingen en slechte curves
 
 De functie roept meerdere hulpfuncties op:
 
-- rmse.basis
+- `rmse.basis()`
 
-- afwijkendeMetingen
+- `afwijkendeMetingen()`
 
-- afwijkendeCurves
+- `afwijkendeCurves()`
 
-- validatierapport
+- `validatierapport()`
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
 slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en

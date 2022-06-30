@@ -10,7 +10,7 @@ modelparameters.lokaal(Soortmodel)
 \item{Soortmodel}{model voor boomsoort-domein-combinatie}
 }
 \value{
-dataframe met parameters voor domeinmodel (Ad, Bd en Cd)
+dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`)
 }
 \description{
 Functie die de modelparameters berekent op basis van een opgegeven lokaal

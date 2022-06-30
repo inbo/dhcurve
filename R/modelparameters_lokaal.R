@@ -7,7 +7,7 @@
 #'
 #' @param Soortmodel model voor boomsoort-domein-combinatie
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd)
+#' @return dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`)
 #'
 #' @importFrom stats coef
 #'

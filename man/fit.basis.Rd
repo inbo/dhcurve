@@ -7,19 +7,19 @@
 fit.basis(Data.basis)
 }
 \arguments{
-\item{Data.basis}{De dataframe "Basis" uit de list die teruggegeven wordt
-bij de functie initiatie.  (Een dataframe met minimaal de velden BMS
-(boomsoort), IDbms (identificatienummer van de boomsoort), DOMEIN_ID
-(identificatienummer van het domein), BOS_BHI (domeinnaam), HOOGTE, Omtrek,
-logOmtrek, logOmtrek2, Status (van data: niet gecontroleerd,
-gecontroleerd,...), nBomen (aantal bomen per boomsoort-domeincombinatie),
-nBomenInterval (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar
-interval), nBomenOmtrek05 (aantal bomen per boomsoort-domeincombinatie
-binnen bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ("bruikbaar
+\item{Data.basis}{De dataframe `Basis` uit de list die teruggegeven wordt
+bij de functie `initiatie()`.  (Een dataframe met minimaal de velden `BMS`
+(boomsoort), `IDbms` (identificatienummer van de boomsoort), `DOMEIN_ID`
+(identificatienummer van het domein), `BOS_BHI` (domeinnaam), `HOOGTE`, `Omtrek`,
+`logOmtrek`, `logOmtrek2`, `Status` (van data: "niet gecontroleerd",
+"gecontroleerd",...), `nBomen` (aantal bomen per boomsoort-domeincombinatie),
+`nBomenInterval` (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar
+interval), `nBomenOmtrek05` (aantal bomen per boomsoort-domeincombinatie
+binnen bruikbaar interval met omtrek > 0.5 m), `Q5k` en `Q95k` ("bruikbaar
 interval").)}
 }
 \value{
-Dataframe (tibble) met de velden BMS (boomsoort) en Model (lme-object
+Dataframe (tibble) met de velden `BMS` (boomsoort) en `Model` (`lme`-object
 met het gefit mixed model voor die boomsoort)
 }
 \description{

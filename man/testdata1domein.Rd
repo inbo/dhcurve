@@ -31,7 +31,7 @@ testdata1domein(
 }
 \value{
 Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden
-C13 en HOOGTE.
+`C13` en `HOOGTE`.
 }
 \description{
 Deze functie genereert een testdataset voor 1 domein die voldoet aan de
