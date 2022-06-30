@@ -30,8 +30,8 @@
 #' }
 #'
 #' Ingeval van een basismodel worden deze variabelen aangevuld met dezelfde
-#' variabelen voor het Vlaams model.  Hierbij is de 'd' op het einde van de
-#' variabelenaam vervangen door 'vl'.
+#' variabelen voor het Vlaams model.  Hierbij is de "d" op het einde van de
+#' variabelenaam vervangen door "vl".
 #'
 #'
 #'

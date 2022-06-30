@@ -38,12 +38,12 @@ Dataframe met modellen per domein en per boomsoort met velden:
 \itemize{
   \item{DomeinID (identificatienummer voor domein)}
   \item{BMS (boomsoort)}
-  \item{Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-    ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
+  \item{Modeltype ("basismodel"(= eigen model op basis van mixed model) /
+    "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
     basismodel) /
-    ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-    omdat niet relevant) / 'lokaal model'(= eigen model voor 1
-    boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
+    "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
+    omdat niet relevant) / "lokaal model"(= eigen model voor 1
+    boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
     worden))}
   \item{paramaters A, B en C (zie description)}
@@ -59,7 +59,7 @@ Dataframe met modellen per domein en per boomsoort met velden:
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
 DomeinID leeg gelaten wordt of een specifieke waarde
-‘Vlaams model’ krijgt
+"Vlaams model" krijgt
 }
 \description{
 De functie resultaat berekent op basis van de opgegeven modellen voor elke

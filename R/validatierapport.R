@@ -23,11 +23,11 @@
 #' domeinmodel en Vlaams model (inclusief RMSE)
 #' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
 #' gegenereerd wordt, bestaande uit een string die eindigt op '.html'
-#' @param TypeRapport Default is 'Dynamisch', waarbij de figuren in het
+#' @param TypeRapport Default is "Dynamisch", waarbij de figuren in het
 #' html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 #' erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
 #' uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
-#' 'Statisch', waarbij de figuren vast zijn.
+#' "Statisch", waarbij de figuren vast zijn.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)

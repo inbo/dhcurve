@@ -14,7 +14,7 @@
 #' gecontroleerd,...), nBomen (aantal bomen per boomsoort-domeincombinatie),
 #' nBomenInterval (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar
 #' interval), nBomenOmtrek05 (aantal bomen per boomsoort-domeincombinatie binnen
-#' bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ('bruikbaar interval').)
+#' bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ("bruikbaar interval").)
 #'
 #' @return Dataframe (tibble) met de velden BMS (boomsoort), DOMEIN_ID en Model
 #' (lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).

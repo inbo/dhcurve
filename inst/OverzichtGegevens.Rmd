@@ -32,7 +32,7 @@ Per domein-boomsoort-combinatie wordt een overzicht gegeven van:
 - de proportie meetgegevens die weggelaten wordt omwille van een te grote omtrek (> 240 cm, percTeDik)
 - het aantal meetgegevens dat overblijft voor de analyse (nInterval)
 
-Deze dataset is opgesplitst in 3 delen op basis het aantal meetgegevens dat overblijft (nInterval) om het iets overzichtelijker te houden (zie verschillende onderdelen hieronder).  Omdat hier geen rekening gehouden is met bomen die buiten het 'bruikbaar interval' van een domein-boomsoort-combinatie vallen, komen deze categorieën niet exact overeen met de uiteindelijke indeling in modeltypen (zie documentatie van package voor meer informatie hierover). <!-- Als deze indeling zinvol is, kan dit wel zo uitgewerkt worden, bv. door de modeltype-groepen toe te voegen.  Maar ik wacht liever de discussie hierover af vooraleer ik er werk in ga steken.  -->
+Deze dataset is opgesplitst in 3 delen op basis het aantal meetgegevens dat overblijft (nInterval) om het iets overzichtelijker te houden (zie verschillende onderdelen hieronder).  Omdat hier geen rekening gehouden is met bomen die buiten het "bruikbaar interval" van een domein-boomsoort-combinatie vallen, komen deze categorieën niet exact overeen met de uiteindelijke indeling in modeltypen (zie documentatie van package voor meer informatie hierover). <!-- Als deze indeling zinvol is, kan dit wel zo uitgewerkt worden, bv. door de modeltype-groepen toe te voegen.  Maar ik wacht liever de discussie hierover af vooraleer ik er werk in ga steken.  -->
 
 Domein-boomsoort-combinaties met minder dan 10 bomen in totaal (nTotaal) zijn weggelaten, omdat deze toch niet voor analyses gebruikt kunnen worden.
 
@@ -40,13 +40,13 @@ Domein-boomsoort-combinaties met minder dan 10 bomen in totaal (nTotaal) zijn we
 
 Wat nakijken?
 
-- Aflopend sorteren op percTeDun of percTeDik en bekijken of de hoogste percentages realistisch zijn.  Kan dit voor dit domein en deze boomsoort?  M.a.w. is het een domein met veel dikke bomen, en kan die boomsoort zo dik worden?  Of zijn enkel de grootste, dominante bomen opgemeten (waardoor een model waarschijnlijk een overschatting gaat geven)?  Of zijn er ergens fouten gemaakt?  Als dit percentage 100% is, dan best eens nakijken of de eenheid wel in cm weergegeven is.  Bij andere gebreken in de dataset deze proberen op te lossen.  Als je van oordeel bent dat de data niet geschikt zijn om een model te bouwen, kan je deze 'negeren' door de limiet van het aantal bomen voor een bepaald model op te trekken (zie documentatie).
+- Aflopend sorteren op percTeDun of percTeDik en bekijken of de hoogste percentages realistisch zijn.  Kan dit voor dit domein en deze boomsoort?  M.a.w. is het een domein met veel dikke bomen, en kan die boomsoort zo dik worden?  Of zijn enkel de grootste, dominante bomen opgemeten (waardoor een model waarschijnlijk een overschatting gaat geven)?  Of zijn er ergens fouten gemaakt?  Als dit percentage 100% is, dan best eens nakijken of de eenheid wel in cm weergegeven is.  Bij andere gebreken in de dataset deze proberen op te lossen.  Als je van oordeel bent dat de data niet geschikt zijn om een model te bouwen, kan je deze "negeren" door de limiet van het aantal bomen voor een bepaald model op te trekken (zie documentatie).
 - Misschien kan het nuttig zijn om de andere gegevens van die boomsoort of dat domein naast elkaar te zetten om de cijfers in perspectief te kunnen plaatsen?
 
 Praktisch:
 
 - op de kolomkoppen klikken om te sorteren (eenmaal voor oplopend, tweemaal voor aflopend)
-- tekst intypen in 'Search' om gegevens met bepaalde inhoud te selecteren, bv. een domeinnaam of een boomsoort intypen om enkel gegevens van dat domein of die boomsoort te zien
+- tekst intypen in "Search" om gegevens met bepaalde inhoud te selecteren, bv. een domeinnaam of een boomsoort intypen om enkel gegevens van dat domein of die boomsoort te zien
 
 
 ## Genoeg gegevens binnen interval

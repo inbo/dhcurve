@@ -13,7 +13,7 @@
 #' boomsoort-domein-combinatie (lokaal)
 #' @param Soortdata meetgegevens van boomsoort (basis) of
 #' domein-boomsoort-combinatie (lokaal)
-#' @param Typemodel 'Basis' of 'Lokaal'?
+#' @param Typemodel "Basis" of "Lokaal"?
 #' @param BMS Boomsoort
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes

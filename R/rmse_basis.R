@@ -24,7 +24,7 @@
 #' @param Data Meetgegevens van één boomsoort-domein-combinatie (dataframe
 #' zoals de dataframes die in de list teruggegeven worden door de functie
 #' initiatie)
-#' @param Typemodel 'Basis' of 'Lokaal'?
+#' @param Typemodel "Basis" of "Lokaal"?
 #' @param BMS Boomsoort
 #'
 #' @return Dataframe met rmse_domein (rmseD), rmse_Vlaams (rmseVL, niet voor

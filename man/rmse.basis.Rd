@@ -11,7 +11,7 @@ rmse.basis(Data, Typemodel, BMS)
 zoals de dataframes die in de list teruggegeven worden door de functie
 initiatie)}
 
-\item{Typemodel}{'Basis' of 'Lokaal'?}
+\item{Typemodel}{"Basis" of "Lokaal"?}
 
 \item{BMS}{Boomsoort}
 }

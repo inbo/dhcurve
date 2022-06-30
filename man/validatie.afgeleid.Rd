@@ -36,11 +36,11 @@ met benamingen die overeenkomen met deze in de opgegeven dataset.}
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het
+\item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
 html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
 uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
-'Statisch', waarbij de figuren vast zijn.}
+"Statisch", waarbij de figuren vast zijn.}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
 validatierapport opgeslagen moet worden (default wordt het in de op dat

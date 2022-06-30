@@ -21,8 +21,8 @@ DH-curves op te stellen.  De dataframe moet de velden DOMEIN_ID
 centimeter, gemeten op 1,3 m hoogte), HOOGTE (in meter) en Status bevatten
 en mag eventueel velden TYPE_METING en JAAR bevatten (die worden bij
 rmse.basis als groeperende variabelen gebruikt). Status mag enkel gegevens
-met status 'Niet gecontroleerd', 'Te controleren' of 'Goedgekeurd' bevatten,
-dus gegevens met status 'Afgekeurd' of 'Negeren' moeten vooraf verwijderd
+met status "Niet gecontroleerd", "Te controleren" of "Goedgekeurd" bevatten,
+dus gegevens met status "Afgekeurd" of "Negeren" moeten vooraf verwijderd
 worden.}
 
 \item{Uitzonderingen}{Lijst met boomsoort-domeincombinaties waarvoor
@@ -31,7 +31,7 @@ De dataframe moet de velden DOMEIN_ID, BMS, min_basis (= vervangende waarde
 voor 50), min_afgeleid (= vervangende waarde voor 10) bevatten.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
-gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+gegenereerd wordt, bestaande uit een string die eindigt op `.html`}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
 boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}

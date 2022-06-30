@@ -13,7 +13,7 @@ boomsoort-domein-combinatie (lokaal)}
 \item{Soortdata}{meetgegevens van boomsoort (basis) of
 domein-boomsoort-combinatie (lokaal)}
 
-\item{Typemodel}{'Basis' of 'Lokaal'?}
+\item{Typemodel}{"Basis" of "Lokaal"?}
 
 \item{BMS}{Boomsoort}
 }
