@@ -219,10 +219,10 @@ initiatie <-
       nBomen = n(),
       nBomenTotOmtrek05 = sum(.data$Omtrek > 0.5),
       Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
-      #het klassemidden van Q5:
+      #het klassenmidden van Q5:
       Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
       Q95 = quantile(.data$Omtrek, probs = 0.95) + 0.1,
-      #het klassemidden van Q95:
+      #het klassenmidden van Q95:
       Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
     ) %>%
     ungroup()

@@ -12,7 +12,7 @@ RMSE = `r round(unique(DataModel$RMSE),2)`; aantal bomen = `r unique(DataModel$n
 aantal bomen in bruikbaar interval = `r unique(DataModel$nBomenInterval)`;
 aantal bomen met omtrek > 0,5 m = `r unique(DataModel$nBomenOmtrek05)`
 
-Model bruikbaar tussen de omtrekklassen met klassemiddens 
+Model bruikbaar tussen de omtrekklassen met klassenmiddens 
 `r unique(DataModel$Q5k)` en 
 `r unique(DataModel$Q95k)` m
 

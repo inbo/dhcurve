@@ -30,7 +30,7 @@
 #'     omdat niet relevant) / "lokaal model"(= apart model voor 1
 #'     boomsoort-domein-combinatie) / "geen model"(= boomsoort-domein-combinatie
 #'     waarvoor geen model berekend kan worden))}
-#'   \item{`Omtrek`: klassemidden van omtrekklasse}
+#'   \item{`Omtrek`: klassenmidden van omtrekklasse}
 #'   \item{`OmtrekklassetypeID`: het overeenkomstige identificatienummer van de
 #'     omtrekklasse}
 #'   \item{`Omtrekklasse`}

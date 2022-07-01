@@ -29,7 +29,7 @@
 #'     maar een jitter)}
 #'   \item{curve van het domeinmodel, aangeduid met zwarte ruiten}
 #'   \item{grenzen van het bruikbaar interval (curves eindigen bij de
-#'     klassemiddens die overeenkomen met deze grenzen)}
+#'     klassenmiddens die overeenkomen met deze grenzen)}
 #' }
 #'
 #' @export

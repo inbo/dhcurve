@@ -44,7 +44,7 @@
 #'     model)}
 #'   \item{curve van het domeinmodel}
 #'   \item{grenzen van het bruikbaar interval (curves eindigen bij de
-#'     klassemiddens die overeenkomen met deze grenzen)}
+#'     klassenmiddens die overeenkomen met deze grenzen)}
 #'   \item{afwijkende metingen: in rood (andere metingen in zwart)}
 #'   \item{afwijkende deel van een curve in rood (rest van curve in zwart)}
 #' }
