@@ -23,10 +23,10 @@ validatie.afgeleid(
 door de functie `fit.afgeleid()`: list met 2 tibbles.
 #@param Data.afgeleid dataframe 10-50}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste `RMSE`
-geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
-metingen geselecteerd. `AantalDomHogeRMSE` laat toe om dit aantal van 20
-domeinen aan te passen.}
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste
+`RMSE` geselecteerd en voor elk van deze domeinen worden minstens 10
+afwijkende metingen geselecteerd. `AantalDomHogeRMSE` laat toe om dit aantal
+van 20 domeinen aan te passen.}
 
 \item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
 op te geven waardoor de curve getoond moet worden in het validatierapport.

@@ -8,8 +8,8 @@ curvekarakteristieken(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-`fit.basis()` of model per boomsoort-domeincombinatie zoals teruggegeven door de
-functie `fit.lokaal()`}
+`fit.basis()` of model per boomsoort-domeincombinatie zoals teruggegeven door
+de functie `fit.lokaal()`}
 
 \item{Data}{Dataset op basis waarvan het lokaal model berekend is (enkel
 nodig voor lokaal model)}
@@ -18,8 +18,8 @@ nodig voor lokaal model)}
 Dataframe met curvekarakteristieken per domein en boomsoort met de
 velden:
 \itemize{
-  \item{parameters `Ad`, `Bd` en `Cd` van het model en enkele generieke velden
-    (`DOMEIN_ID`, `BMS`,...)}
+  \item{parameters `Ad`, `Bd` en `Cd` van het model en enkele generieke
+    velden (`DOMEIN_ID`, `BMS`,...)}
   \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin een extreem
     (minimum of maximum) van de curve van het domeinmodel ligt}
   \item{`Extr_Hoogte.d`: hoogteschatting die aansluit bij het vorige veld}

@@ -9,8 +9,8 @@
 #' @return Dataframe met curvekarakteristieken per domein en boomsoort met de
 #' velden:
 #' \itemize{
-#'   \item{parameters `Ad`, `Bd` en `Cd` van het model en enkele generieke velden
-#'     (`DOMEIN_ID`, `BMS`,...)}
+#'   \item{parameters `Ad`, `Bd` en `Cd` van het model en enkele generieke
+#'     velden (`DOMEIN_ID`, `BMS`,...)}
 #'   \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin een extreem
 #'     (minimum of maximum) van de curve van het domeinmodel ligt}
 #'   \item{`Extr_Hoogte.d`: hoogteschatting die aansluit bij het vorige veld}

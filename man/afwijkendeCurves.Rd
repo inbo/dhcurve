@@ -8,8 +8,8 @@ afwijkendeCurves(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-`fit.basis()` of model per boomsoort-domeincombinatie zoals teruggegeven door de
-functie `fit.lokaal()`}
+`fit.basis()` of model per boomsoort-domeincombinatie zoals teruggegeven door
+de functie `fit.lokaal()`}
 
 \item{Data}{Dataset op basis waarvan het lokaal model berekend is (enkel
 nodig voor lokaal model)}
@@ -23,8 +23,8 @@ velden:
   \item{`Reden`: reden waarom de curve afwijkend is}
   \item{`Omtrek_Buigpunt.d`: midden van omtrekklasse waarin het buigpunt van
     de curve van het domeinmodel ligt}
-  \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin het maximum van
-    de curve van het domeinmodel ligt}
+  \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin het maximum 
+    van de curve van het domeinmodel ligt}
 }
 }
 \description{
