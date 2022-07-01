@@ -8,14 +8,14 @@ rmse.verschuiving(Verschovenmodel, Boomsoort, Domein)
 }
 \arguments{
 \item{Verschovenmodel}{Afgeleid model voor één boomsoort-domein-combinatie
-(`lm`-object)}
+(\code{lm}-object)}
 
-\item{Boomsoort}{`BMS`}
+\item{Boomsoort}{\code{BMS}}
 
-\item{Domein}{`DOMEIN_ID`}
+\item{Domein}{\code{DOMEIN_ID}}
 }
 \value{
-Dataframe met `BMS` (boomsoort), `DOMEIN_ID`, `RmseVerschuiving`
+Dataframe met \code{BMS} (boomsoort), \code{DOMEIN_ID}, \code{RmseVerschuiving}
 }
 \description{
 Deze functie berekent de rmse op basis van verschil tussen de

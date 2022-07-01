@@ -8,29 +8,29 @@ fit.afgeleid(Data.afgeleid, Basismodel)
 }
 \arguments{
 \item{Data.afgeleid}{De dataframe "Afgeleid" uit de list die teruggegeven
-wordt bij de functie `initiatie()`.  (Een dataframe met minimaal de velden
-`BMS` (boomsoort), `IDbms` (identificatienummer van de boomsoort),
-`DOMEIN_ID` (identificatienummer van het domein), `BOS_BHI` (domeinnaam),
-`HOOGTE`, `Omtrek`,
-`logOmtrek`, `logOmtrek2`, `Status` (van data: "niet gecontroleerd",
-"gecontroleerd",...), `nBomen` (aantal bomen per boomsoort-domeincombinatie),
-`nBomenInterval` (aantal bomen per boomsoort-domeincombinatie binnen
-bruikbaar interval), `nBomenOmtrek05` (aantal bomen per
+wordt bij de functie \code{initiatie()}.  (Een dataframe met minimaal de velden
+\code{BMS} (boomsoort), \code{IDbms} (identificatienummer van de boomsoort),
+\code{DOMEIN_ID} (identificatienummer van het domein), \code{BOS_BHI} (domeinnaam),
+\code{HOOGTE}, \code{Omtrek},
+\code{logOmtrek}, \code{logOmtrek2}, \code{Status} (van data: "niet gecontroleerd",
+"gecontroleerd",...), \code{nBomen} (aantal bomen per boomsoort-domeincombinatie),
+\code{nBomenInterval} (aantal bomen per boomsoort-domeincombinatie binnen
+bruikbaar interval), \code{nBomenOmtrek05} (aantal bomen per
 boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
-`Q5k` en `Q95k` ("bruikbaar interval").)}
+\code{Q5k} en \code{Q95k} ("bruikbaar interval").)}
 
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-`fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
-(`lme`-object met het gefit mixed model voor die boomsoort)}
+\code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
+(\code{lme}-object met het gefit mixed model voor die boomsoort)}
 }
 \value{
 List met 2 tibbles:
 \itemize{
-   \item{tibble met velden `BMS` (boomsoort), `DOMEIN_ID` en `Model`
-     (`lm`-object van model per boomsoort-domein-combinatie)}
-   \item{tibble met de ingevoerde dataset, waaraan het veld `H_VL_finaal` (de
-     hoogteschatting volgens het Vlaams model) toegevoegd is}
- }
+\item{tibble met velden \code{BMS} (boomsoort), \code{DOMEIN_ID} en \code{Model}
+(\code{lm}-object van model per boomsoort-domein-combinatie)}
+\item{tibble met de ingevoerde dataset, waaraan het veld \code{H_VL_finaal} (de
+hoogteschatting volgens het Vlaams model) toegevoegd is}
+}
 }
 \description{
 Functie die op basis van de opgegeven dataset een model opstelt per

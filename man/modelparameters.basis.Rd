@@ -12,8 +12,8 @@ modelparameters.basis(Soortmodel, BMS)
 \item{BMS}{boomsoort}
 }
 \value{
-dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`) en
-parameters voor Vlaams model (`Avl`, `Bvl` en `Cvl`)
+dataframe met parameters voor domeinmodel (\code{Ad}, \code{Bd} en \code{Cd}) en
+parameters voor Vlaams model (\code{Avl}, \code{Bvl} en \code{Cvl})
 }
 \description{
 Functie die de modelparameters berekent op basis van een opgegeven

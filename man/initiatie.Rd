@@ -15,24 +15,24 @@ initiatie(
 }
 \arguments{
 \item{Data}{Dataframe met metingen van bomen die als basis moeten dienen om
-DH-curves op te stellen.  De dataframe moet de velden `DOMEIN_ID`
-(identificatienummer voor domein), `BOS_BHI` (domeinnaam), `IDbms`
-(identificatienummer voor boomsoort), `BMS` (boomsoort), `C13` (omtrek in
-centimeter, gemeten op 1,3 m hoogte), `HOOGTE` (in meter) en `Status`
-bevatten en mag eventueel velden `TYPE_METING` en `JAAR` bevatten (die worden
-bij `rmse.basis()` als groeperende variabelen gebruikt).
-`Status` mag enkel gegevens met status "Niet gecontroleerd", "Te controleren"
+DH-curves op te stellen.  De dataframe moet de velden \code{DOMEIN_ID}
+(identificatienummer voor domein), \code{BOS_BHI} (domeinnaam), \code{IDbms}
+(identificatienummer voor boomsoort), \code{BMS} (boomsoort), \code{C13} (omtrek in
+centimeter, gemeten op 1,3 m hoogte), \code{HOOGTE} (in meter) en \code{Status}
+bevatten en mag eventueel velden \code{TYPE_METING} en \code{JAAR} bevatten (die worden
+bij \code{rmse.basis()} als groeperende variabelen gebruikt).
+\code{Status} mag enkel gegevens met status "Niet gecontroleerd", "Te controleren"
 of "Goedgekeurd" bevatten,
 dus gegevens met status "Afgekeurd" of "Negeren" moeten vooraf verwijderd
 worden.}
 
 \item{Uitzonderingen}{Lijst met boomsoort-domeincombinaties waarvoor
 uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
-De dataframe moet de velden `DOMEIN_ID`, `BMS`, `min_basis` (= vervangende
-waarde voor 50), `min_afgeleid` (= vervangende waarde voor 10) bevatten.}
+De dataframe moet de velden \code{DOMEIN_ID}, \code{BMS}, \code{min_basis} (= vervangende
+waarde voor 50), \code{min_afgeleid} (= vervangende waarde voor 10) bevatten.}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
-gegenereerd wordt, bestaande uit een string die eindigt op `.html`}
+gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
 boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
@@ -47,36 +47,36 @@ Als er gegevens verwijderd worden, genereert de functie een validatierapport
 gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 
 De functie geeft een list van dataframes terug, met in elke dataframe
-behalve de variabelen uit `Data` de berekende variabelen `Omtrek`
-(= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de grenzen van
-het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
+behalve de variabelen uit \code{Data} de berekende variabelen \code{Omtrek}
+(= omtrekklasse), \code{logOmtrek}, \code{logOmtrek2}, \code{Q5k} en \code{Q95k} (de grenzen van
+het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
 gegevens),
-`nBomenTotOmtrek05` (aantal metingen met omtrek > 0.5 m),
-`nBomenInterval` (= aantal metingen binnen het bruikbaar interval)
-en `nBomenOmtrek05` (aantal metingen binnen het bruikbaar interval met
+\code{nBomenTotOmtrek05} (aantal metingen met omtrek > 0.5 m),
+\code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval)
+en \code{nBomenOmtrek05} (aantal metingen binnen het bruikbaar interval met
 omtrek > 0.5 m)).
 
 De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 \itemize{
-  \item{[["Basis"]] gegevens van boomsoorten waarvoor meer dan 50 metingen
-    (binnen het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in
-    minimum 6 domeinen, waarbij enkel gegevens worden opgenomen van de
-    domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
-    deze dataset kan een basismodel berekend worden, bestaande uit een
-    Vlaams model per boomsoort en domeinspecifieke modellen.}
-  \item{[["Afgeleid"]] gegevens van domeinen met minder metingen
-    (< 50 metingen binnen het bruikbaar interval en > 10 metingen met
-    omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend
-    kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis
-    waarvan een afgeleid model berekend kan worden.}
-  \item{[["Lokaal"]] gegevens van domeinen met veel metingen voor een
-    boomsoort (> 50 metingen binnen het bruikbaar interval met
-    omtrek > 0.5 m) waarvan er te weinig domeinen (< 6) zijn
-    met voldoende metingen om een Vlaams model op te stellen. Voor deze
-    boomsoort-domeincombinaties kan een lokaal model berekend worden.}
-  \item{[["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot
-    de 3 voorgaande categorieën behoren en waar dus geen model voor
-    opgesteld kan worden.}
+\item{[\link{"Basis"}] gegevens van boomsoorten waarvoor meer dan 50 metingen
+(binnen het bruikbaar interval met omtrek > 0.5 m) beschikbaar zijn in
+minimum 6 domeinen, waarbij enkel gegevens worden opgenomen van de
+domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
+deze dataset kan een basismodel berekend worden, bestaande uit een
+Vlaams model per boomsoort en domeinspecifieke modellen.}
+\item{[\link{"Afgeleid"}] gegevens van domeinen met minder metingen
+(< 50 metingen binnen het bruikbaar interval en > 10 metingen met
+omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend
+kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis
+waarvan een afgeleid model berekend kan worden.}
+\item{[\link{"Lokaal"}] gegevens van domeinen met veel metingen voor een
+boomsoort (> 50 metingen binnen het bruikbaar interval met
+omtrek > 0.5 m) waarvan er te weinig domeinen (< 6) zijn
+met voldoende metingen om een Vlaams model op te stellen. Voor deze
+boomsoort-domeincombinaties kan een lokaal model berekend worden.}
+\item{[\link{"Rest"}] metingen van de domein-boomsoortcombinaties die niet tot
+de 3 voorgaande categorieën behoren en waar dus geen model voor
+opgesteld kan worden.}
 }
 
 Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
@@ -84,7 +84,7 @@ weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
 met omtrek <= 0,5 m weggelaten.
 
 In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
-[["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+[\link{"VerwijderdeGegevens"}] toegevoegd met de gegevens uit het
 validatierapport.
 }
 \description{
