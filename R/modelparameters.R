@@ -7,7 +7,7 @@
 #' geeft ook de grenzen van het bruikbaar interval.
 #'
 #' (Deze functie verwijst naar de interne functies `modelparameters.basis()`,
-#' `modelparameters.lokaal()` of `modelparameters.afgeleid()`, afhankelijk van 
+#' `modelparameters.lokaal()` of `modelparameters.afgeleid()`, afhankelijk van
 #' de situatie)
 #'
 #' @param Basismodel model per boomsoort (basismodel) of model per
