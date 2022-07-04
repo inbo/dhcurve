@@ -40,13 +40,13 @@
 #'     boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
 #'     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
 #'     worden))}
-#'   \item{parameters `A`, `B` en `C` (zie description)}
+#'   \item{parameters `A`, `B` en `C` (zie 'Description' bovenaan)}
 #'   \item{bruikbaar interval (`Q5k` en `Q95k`, zie vignet voor meer info)}
 #'   \item{`RMSE` (root mean square error, zie vignet voor meer info)}
 #'   \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
 #'     2,4 m)}
 #'   \item{`nBomenInterval` (aantal metingen waarop model gebaseerd is)}
-#'   \item{`nBomenOmtrek05` (aantal metingen > 0.5 m, dus waarop RSME-berekening
+#'   \item{`nBomenOmtrek05` (aantal metingen > 0.5 m, dus waarop RMSE-berekening
 #'     gebaseerd is)}
 #' }
 #'

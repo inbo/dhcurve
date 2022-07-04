@@ -17,7 +17,7 @@ validatierapport(
 }
 \arguments{
 \item{SlechtsteModellen}{Lijst van de slechtste modellen, dit zijn modellen
-met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
+met hoge RMSE, afwijkende vorm (op basis van extremen en buigpunten) en/of
 modellen met afwijkende metingen.  Deze dataframe moet volgende velden
 bevatten: \code{BMS} (boomsoort), \code{DOMEIN_ID} en \code{Reden} (= tekstuele opsomming
 van afwijkingen, om weer te geven boven grafiek).}

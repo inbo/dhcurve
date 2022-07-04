@@ -13,7 +13,7 @@
 #'
 #'
 #' @param SlechtsteModellen Lijst van de slechtste modellen, dit zijn modellen
-#' met hoge rmse, afwijkende vorm (op basis van extremen en buigpunten) en/of
+#' met hoge RMSE, afwijkende vorm (op basis van extremen en buigpunten) en/of
 #' modellen met afwijkende metingen.  Deze dataframe moet volgende velden
 #' bevatten: `BMS` (boomsoort), `DOMEIN_ID` en `Reden` (= tekstuele opsomming
 #' van afwijkingen, om weer te geven boven grafiek).

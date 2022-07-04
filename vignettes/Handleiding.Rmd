@@ -246,7 +246,7 @@ __OPMERKING__  Er kunnen ook andere problemen optreden waarop niet expliciet wor
 
 ### `outputIVANHO`
 
-De functie `outputIVANHO()` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domeincombinatie en per diameterklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
+De functie `outputIVANHO()` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domeincombinatie en per omtrekklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
 
 
 ### resultaat
