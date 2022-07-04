@@ -10,7 +10,7 @@
 #' bij de functie `initiatie()`.  (Een dataframe met minimaal de velden `BMS`
 #' (boomsoort), `IDbms` (identificatienummer van de boomsoort), `DOMEIN_ID`
 #' (identificatienummer van het domein), `BOS_BHI` (domeinnaam), `HOOGTE`,
-#' `Omtrek`, `logOmtrek`, `logOmtrek2`, 
+#' `Omtrek`, `logOmtrek`, `logOmtrek2`,
 #' `Status` (van data: "niet gecontroleerd", "gecontroleerd",...),
 #' `nBomen` (aantal bomen per boomsoort-domeincombinatie),
 #' `nBomenInterval` (aantal bomen per boomsoort-domeincombinatie binnen
