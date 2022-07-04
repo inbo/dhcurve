@@ -2,7 +2,7 @@
 #'
 #' @description
 #' De functie `outputIVANHO()` voert de berekeningen uit die leiden tot de
-#' gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
+#' gevraagde tabel om in `IVANHO` te importeren: een tabel met per boomsoort,
 #' domein en omtrekklasse een schatting van de hoogte.  Als de curve een
 #' maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
 #' maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de

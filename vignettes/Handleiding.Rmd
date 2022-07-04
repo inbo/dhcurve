@@ -134,7 +134,7 @@ Bedoeling is dat gegevens met status anders dan "Niet gecontroleerd", "Te contro
 
 Bij de initiatiestap wordt op basis van de omtrek `C13` (in te voeren in cm!) een omtrekklasse berekend met eenheid in meter en alle verdere rekenstappen gebeuren in meter.  
 
-De hier berekende omtrekklassen komen overeen met deze in IVANHO^[ANB databank met metingen voor houtverkoop] (gemeten op 1,3 m hoogte): ze gaan omhoog met stappen van 0,1 m (10 cm), bv. de klasse van 0,35 m bevat de bomen met omtrek tussen 0,3 en 0,4 m.  Het klassenmidden van de omtrekklasse (in het voorbeeld 0,35 m) wordt opgeslagen in de variabele `Omtrek`, in een finale fase wordt uit deze variabele het interval van de klassengrenzen afgeleid.
+De hier berekende omtrekklassen komen overeen met deze in `IVANHO`^[ANB databank met metingen voor houtverkoop] (gemeten op 1,3 m hoogte): ze gaan omhoog met stappen van 0,1 m (10 cm), bv. de klasse van 0,35 m bevat de bomen met omtrek tussen 0,3 en 0,4 m.  Het klassenmidden van de omtrekklasse (in het voorbeeld 0,35 m) wordt opgeslagen in de variabele `Omtrek`, in een finale fase wordt uit deze variabele het interval van de klassengrenzen afgeleid.
 
 De verdere analysen gebeuren voornamelijk op basis van bomen met omtrek tussen 0,5 en 2,3 m, wat betekent dat de gegevens van zeer dunne en zeer dikke bomen niet gebruikt worden (zie [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen) voor meer achtergrondinformatie over deze keuze).  Daarom worden bomen met omtrek kleiner dan 0,2 m en bomen met omtrek groter dan 2,4 m  al tijdens deze initiatiestap uit de dataset verwijderd.  Om enige controle te hebben over wat verwijderd wordt en eventuele fouten te kunnen rechtzetten, genereert de functie `initiatie` een overzichtsrapport met instructies hoe de grootste problemen gemakkelijk opgespoord kunnen worden.  (Een potentiële fout hier is het gebruik van een verkeerde eenheid voor de metingen, en het ten onrechte verwijderen van een boom kan gevolgen hebben voor het al dan niet kunnen fitten van een bepaald modeltype.)
 
@@ -167,7 +167,7 @@ Belangrijk is dat de validatie in 2 stappen gebeurt, waarbij de tweede stap pas 
 
 Bedoeling hier is dat de meest afwijkende meetresultaten gecontroleerd worden op juistheid en uiteindelijk in de databank de status "Goedgekeurd", "Afgekeurd", "Negeren", "Aangepast",... krijgen.  Deze te controleren afwijkingen worden weergegeven als rode stippen in de grafieken in het validatierapport.  (Het gaat hier over de meetresultaten die het meest afwijken van de modelcurve met uitzondering van de meetresultaten die al de status "Goedgekeurd" hebben.)   
 
-De functie `validatie.xxx` geeft de afwijkende metingen ook als dataframe terug, wat toelaat om de status van de betreffende meetresultaten (die in principe op "Niet gecontroleerd" staan) in de databank scriptmatig aan te passen naar "Te controleren".  Een voorbeeld (enkel uitgewerkt voor "Bosdat"-gegevens):
+De functie `validatie.xxx` geeft de afwijkende metingen ook als dataframe terug, wat toelaat om de status van de betreffende meetresultaten (die in principe op "Niet gecontroleerd" staan) in de databank scriptmatig aan te passen naar "Te controleren".  Een voorbeeld (enkel uitgewerkt voor `Bosdat`gegevens):
 
 ```{r vlagAanpassen, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 AfwijkendeMetingen <- validatie.basis(Basismodel)
@@ -214,9 +214,9 @@ Bedoeling van deze tweede stap is om aan de hand van de curvevorm na te gaan of 
 **Welke problemen kunnen optreden en hoe beoordelen?**
 
 - "curvevorm hol bij lage omtrekklassen": dit is waarschijnlijk geen probleem als het rood gekleurde deel maar 1-2 omtrekklassen omvat of als de curve min of meer recht is.  Wel problematisch zijn een U-vormige curve, een curve in de vorm van hockeystick of een S-vormige curve.
-- "curve daalt terug bij hoge omtrekklassen": dit is geen probleem als het rood gekleurde deel minder dan 5 omtrekklassen omvat, en het is wel een probleem als het gaat over een aanzienlijk deel van de curve.  Houd bij de beoordeling in het achterhoofd dat voor de hoogteschattingen voor IVANHO de maximale hoogte van de curve zal gebruikt worden voor de (rood gekleurde) hogere omtrekklassen.  De "curve" zal hier met andere woorden niet dalen maar horizontaal lopen.
+- "curve daalt terug bij hoge omtrekklassen": dit is geen probleem als het rood gekleurde deel minder dan 5 omtrekklassen omvat, en het is wel een probleem als het gaat over een aanzienlijk deel van de curve.  Houd bij de beoordeling in het achterhoofd dat voor de hoogteschattingen voor `IVANHO` de maximale hoogte van de curve zal gebruikt worden voor de (rood gekleurde) hogere omtrekklassen.  De "curve" zal hier met andere woorden niet dalen maar horizontaal lopen.
 
-_Wat met de probleemcurves?_  Deze curves zijn niet goed genoeg om te gebruiken als model in IVANHO (of elders), en er moeten bijkomende metingen uitgevoerd worden vooraleer dit model eventueel kan verbeteren.  Dus tot deze extra metingen gebeurd zijn, willen we dit model eigenlijk niet gebruiken.  Als het gaat over een berekend basismodel, kunnen de gegevens eventueel wel gebruikt worden om een afgeleid model te berekenen voor dit domein.
+_Wat met de probleemcurves?_  Deze curves zijn niet goed genoeg om te gebruiken als model in `IVANHO` (of elders), en er moeten bijkomende metingen uitgevoerd worden vooraleer dit model eventueel kan verbeteren.  Dus tot deze extra metingen gebeurd zijn, willen we dit model eigenlijk niet gebruiken.  Als het gaat over een berekend basismodel, kunnen de gegevens eventueel wel gebruikt worden om een afgeleid model te berekenen voor dit domein.
 
 Praktisch pakken we dit aan door voor die specifieke domein-boomsoortcombinatie het minimum aantal bomen om een basismodel (of lokaal model) te berekenen, op te trekken. We raden aan om als nieuwe grenswaarde 10 bomen meer te nemen dan het huidige aantal bomen (met omtrek groter dan 0,5 m).  Redenering: 1 extra gemeten boom zal de curve niet substantieel verbeteren, 10 misschien wel?  In de functie `initiatie` is de mogelijkheid voorzien om als parameter een dataframe mee te geven met de uitzonderingen voor deze minimumwaarde van 50 bomen.  Deze laat ook toe om de minimumwaarde voor het afgeleid model (standaard 10 bomen) op te trekken ingeval er problemen zijn met deze curve (bv. meetresultaten te verspreid).
 
@@ -243,9 +243,9 @@ Als geen van de afwijkende (rode) curves in het validatierapport een probleem zi
 __OPMERKING__  Er kunnen ook andere problemen optreden waarop niet expliciet wordt gevalideerd, bijvoorbeeld een slechte verdeling van de bomen over de verschillende omtrekklassen.  Bij het basismodel gaat hier de curve sterk aanleunen tegen het Vlaams model, bij het lokaal model gaat hier de curve recht door de weinige aanwezige metingen (die niet per definitie "gemiddeld" zijn).  Ook hier kan beslist worden om het model voorlopig niet te gebruiken (in afwachting van meer metingen) door bovenstaande methode.
 <!-- evt. nog inwerken in package? -->
 
-### outputIVANHO
+### `outputIVANHO`
 
-De functie `outputIVANHO` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domein-combinatie en per diameterklasse een geschatte hoogte, om te gebruiken in IVANHO.
+De functie `outputIVANHO` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domein-combinatie en per diameterklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
 
 
 ### resultaat
@@ -545,9 +545,9 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
 \newpage
 ## Berekening resultaat
 
-### outputIVANHO
+### `outputIVANHO`
 
-De functie `outputIVANHO` geeft hoogteschattingen voor de "bruikbare" omtrekklassen, dus de omtrekklassen binnen het bruikbaar interval.  Deze tabel kan dus rechtstreeks, zonder verdere berekeningen of randvoorwaarden, geraadpleegd worden om hoogteschattingen op te zoeken of in IVANHO opgenomen worden.  Hierdoor wordt ook vermeden dat er rekenfouten optreden doordat het model in dit R-package aangepast wordt maar niet in IVANHO, of omgekeerd.
+De functie `outputIVANHO` geeft hoogteschattingen voor de "bruikbare" omtrekklassen, dus de omtrekklassen binnen het bruikbaar interval.  Deze tabel kan dus rechtstreeks, zonder verdere berekeningen of randvoorwaarden, geraadpleegd worden om hoogteschattingen op te zoeken of in `IVANHO` opgenomen worden.  Hierdoor wordt ook vermeden dat er rekenfouten optreden doordat het model in dit R-package aangepast wordt maar niet in `IVANHO`, of omgekeerd.
 
 Voor curves met een maximum binnen het bruikbaar interval, wordt de hoogteschatting gelijkgesteld aan dit maximum voor omtrekklassen boven de omtrekklasse waarin zich dit maximum voordoet.
 
