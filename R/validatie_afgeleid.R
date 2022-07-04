@@ -13,24 +13,23 @@
 #' }
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-#' slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
+#' slechtste modellen opgelijst (op basis van RMSE en afwijkende metingen).
 #'
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
 #' `fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
 #' (`lme`-object met het gefit mixed model voor die boomsoort)
 #' @param Afgeleidmodel Model per boomsoort-domeincombinatie zoals teruggegeven
 #' door de functie `fit.afgeleid()`: list met 2 tibbles.
-#' #@param Data.afgeleid dataframe 10-50
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #' @inheritParams validatie.basis
 #' @inheritParams initiatie
 #'
-#' @return De functie genereert een validatierapport (html-bestand) in de
+#' @return De functie genereert een validatierapport (`.html`-bestand) in de
 #' working directory met informatie en grafieken van de te controleren metingen.
 #' De afwijkende metingen zijn in rood aangeduid (zie `?validatierapport` of
-#' vignette voor meer informatie).
+#' vignet voor meer informatie).
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
@@ -41,7 +40,7 @@
 #'   \item{`H_VL_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
 #'     Vlaams model waarvan het domeinmodel afgeleid is}
 #'   \item{`rmseVL`: de foutenschatting voor dit Vlaams model}
-#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge rmse heeft, anders
+#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
 #'     `NA`}
 #' }
 #'

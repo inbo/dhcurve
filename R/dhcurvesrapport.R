@@ -1,7 +1,7 @@
-#' @title Stelt de finale dhcurves grafisch voor in een rapport
+#' @title Stelt de finale diameter-hoogtecurves grafisch voor in een rapport
 #'
 #' @description
-#' De functie genereert een rapport (html-bestand) in de working directory
+#' De functie genereert een rapport (`.html`-bestand) in de working directory
 #' (of opgegeven directory) met informatie en grafieken van de finale
 #' modellen.
 #'
@@ -13,14 +13,14 @@
 #' zoals gegenereerd door de functie `outputIVANHO()`).
 #' @param Datalijst Datasets met gemeten waarden die gebruikt zijn voor de
 #' modellen, zoals gegenereerd door de functie `initiatie()`.
-#' @param Bestandsnaam Een naam voor het rapport (html-bestand) dat gegenereerd
-#' wordt, bestaande uit een string die eindigt op `.html`
+#' @param Bestandsnaam Een naam voor het rapport (`.html`-bestand) dat
+#' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)
 #' een rapport (html) met de te controleren modellen.  Hierin wordt per model
 #' (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-#' boomsoort, domein (+ ID), modeltype, aantal metingen, rmse en bruikbaar
+#' boomsoort, domein (en ID), modeltype, aantal metingen, RMSE en bruikbaar
 #' interval.
 #'
 #' Daaronder wordt telkens grafisch volgende info weergegeven:

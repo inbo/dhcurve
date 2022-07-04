@@ -2,15 +2,16 @@
 #'
 #' @description
 #' De functie initiatie maakt de dataset klaar voor de verdere stappen van het
-#' opstellen van DH-curves: ze berekent de noodzakelijke variabelen en splitst
-#' de dataset op basis van het aantal metingen per boomsoort-domeincombinatie
-#' in 4 delen: 3 delen die als parameter meegegeven kunnen worden voor de
-#' fit-functies per modeltype (basismodel, afgeleid model en lokaal model), en
-#' een 4de deel met de resterende gegevens.
+#' opstellen van diameter-hoogtecurves: ze berekent de noodzakelijke variabelen
+#' en splitst de dataset op basis van het aantal metingen per
+#' boomsoort-domeincombinatie in 4 delen:
+#' 3 delen die als parameter meegegeven kunnen worden voor de
+#' `fit.xxx()`-functies per modeltype (basismodel, afgeleid model en lokaal
+#' model), en een vierde deel met de resterende gegevens.
 #'
 #'
 #' @param Data Dataframe met metingen van bomen die als basis moeten dienen om
-#' DH-curves op te stellen.  De dataframe moet de velden `DOMEIN_ID`
+#' diameter-hoogtecurves op te stellen.  De dataframe moet de velden `DOMEIN_ID`
 #' (identificatienummer voor domein), `BOS_BHI` (domeinnaam), `IDbms`
 #' (identificatienummer voor boomsoort), `BMS` (boomsoort), `C13` (omtrek in
 #' centimeter, gemeten op 1,3 m hoogte), `HOOGTE` (in meter) en `Status`
@@ -24,10 +25,10 @@
 #' uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
 #' De dataframe moet de velden `DOMEIN_ID`, `BMS`, `min_basis` (= vervangende
 #' waarde voor 50), `min_afgeleid` (= vervangende waarde voor 10) bevatten.
-#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' @param Bestandsnaam Een naam voor het validatierapport (`.html`-bestand) dat
 #' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat
-#' boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)
+#' boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)
 #' @param PathWD Het path van de working directory, dus het path waarin het
 #' validatierapport opgeslagen moet worden (default wordt het in de op dat
 #' moment actieve working directory opgeslagen).
@@ -35,7 +36,7 @@
 #' @return
 #'
 #' Als er gegevens verwijderd worden, genereert de functie een validatierapport
-#' (html-bestand) waarin een overzicht gegeven wordt van de verwijderde
+#' (`.html`-bestand) waarin een overzicht gegeven wordt van de verwijderde
 #' gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
 #'
 #' De functie geeft een list van dataframes terug, met in elke dataframe
@@ -76,7 +77,7 @@
 #' met omtrek <= 0,5 m weggelaten.
 #'
 #' In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
-#' [["VerwijderdeGegevens"]] toegevoegd met de gegevens uit het
+#' `[["VerwijderdeGegevens"]]` toegevoegd met de gegevens uit het
 #' validatierapport.
 #'
 #' @export

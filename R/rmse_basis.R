@@ -1,7 +1,7 @@
 #' @title Berekent RMSE van basismodel
 #'
 #' @description
-#' Deze functie berekent de rmse door cross-validatie op basis van 6 subsets.
+#' Deze functie berekent de RMSE door cross-validatie op basis van 6 subsets.
 #' Deze functie kan ook gebruikt worden voor het lokaal model (ze bepaalt het
 #' verschil tussen de datasets op basis van het al dan niet aanwezig zijn van
 #' een veld `DOMEIN_ID` in de dataset).  Opgelet!  In tegenstelling tot de
@@ -11,7 +11,7 @@
 #' toepassen vertrekkend van meetgegevens (bv. `Data.lokaal`) of vertrekkend van
 #' een model waar de meetgegevens uit gehaald kunnen worden (bv. `Basismodel`).
 #'
-#' Deze functie berekent de rmse op basis van testgroepen en omvat de volgende
+#' Deze functie berekent de RMSE op basis van testgroepen en omvat de volgende
 #' deelstappen:
 #'
 #' - metingen opdelen in 6 testgroepen (veld testgroep)
@@ -19,7 +19,7 @@
 #' - modellen fitten voor testgroepen, waarbij ze de functie `fit.basis()`
 #' 6 keer oproept
 #'
-#' - rmse berekenen voor domeinmodellen en Vlaams model op basis van
+#' - RMSE berekenen voor domeinmodellen en Vlaams model op basis van
 #' de gemeten waarden en schattingen voor de testgroepen
 #'
 #' @param Data Meetgegevens van één boomsoort-domeincombinatie (dataframe
@@ -28,7 +28,7 @@
 #' @param Typemodel "Basis" of "Lokaal"?
 #' @param BMS Boomsoort
 #'
-#' @return Dataframe met rmse_domein (`rmseD`), rmse_Vlaams (`rmseVL`, niet voor
+#' @return Dataframe met RMSE_domein (`rmseD`), RMSE_Vlaams (`rmseVL`, niet voor
 #' lokaal model) en `maxResid`
 #'
 #' @examples
@@ -39,7 +39,7 @@
 #' Datalijst <- initiatie(Data)
 #' Data.basis <- Datalijst[["Basis"]]
 #'
-#' #De rmse berekenen voor een basismodel op basis van de dataset
+#' #De RMSE berekenen voor een basismodel op basis van de dataset
 #' Data.basis %>%
 #'   group_by(
 #'     BMS

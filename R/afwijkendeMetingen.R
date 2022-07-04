@@ -2,13 +2,13 @@
 #'
 #' @description
 #' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 *
-#' rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
+#' RMSE, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
 #' de hoogste `RMSE`, waarbij de "foutenmarge" breder is, worden minstens 10
 #' meetresultaten geselecteerd als "afwijkend" (nl. de 10 meetresultaten met de
 #' hoogste error).
 #'
 #' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het
-#' domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze
+#' domeinmodel en het Vlaamse model en de RMSE voor het domeinmodel.  Deze
 #' dataframe moet dezelfde velden bevatten als de dataframes in de list
 #' teruggegeven in de functie `initiatie()`, en daarnaast de velden
 #' `H_D_finaal`, `rmseD` en `maxResid`.
@@ -17,7 +17,7 @@
 #' afwijkende metingen geselecteerd. `AantalDomHogeRMSE` laat toe om dit aantal
 #' van 20 domeinen aan te passen.
 #'
-#' @return Lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit
+#' @return Lijst met afwijkende metingen (> 2,5 * RMSE), inclusief vlag uit
 #' databank
 #'
 #' @export

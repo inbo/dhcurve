@@ -20,8 +20,7 @@ validatie.afgeleid(
 (\code{lme}-object met het gefit mixed model voor die boomsoort)}
 
 \item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie \code{fit.afgeleid()}: list met 2 tibbles.
-#@param Data.afgeleid dataframe 10-50}
+door de functie \code{fit.afgeleid()}: list met 2 tibbles.}
 
 \item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste
 \code{RMSE} geselecteerd en voor elk van deze domeinen worden minstens 10
@@ -34,11 +33,11 @@ in het validatierapport.
 Deze moeten opgegeven worden als een dataframe met velden \code{DOMEIN_ID} en
 \code{BMS}, met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+\item{Bestandsnaam}{Een naam voor het validatierapport (\code{.html}-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
 \item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
-html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+\code{.html}-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 erover te bewegen (inclusief \code{ID} als deze in de dataset meegegeven is),
 items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 "Statisch", waarbij de figuren vast zijn.}
@@ -48,10 +47,10 @@ validatierapport opgeslagen moet worden (default wordt het in de op dat
 moment actieve working directory opgeslagen).}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) in de
+De functie genereert een validatierapport (\code{.html}-bestand) in de
 working directory met informatie en grafieken van de te controleren metingen.
 De afwijkende metingen zijn in rood aangeduid (zie \code{?validatierapport} of
-vignette voor meer informatie).
+vignet voor meer informatie).
 
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
@@ -62,7 +61,7 @@ domeinmodel}
 \item{\code{H_VL_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
 Vlaams model waarvan het domeinmodel afgeleid is}
 \item{\code{rmseVL}: de foutenschatting voor dit Vlaams model}
-\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge rmse heeft, anders
+\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
 \code{NA}}
 }
 }
@@ -79,5 +78,5 @@ valideren).
 }
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
+slechtste modellen opgelijst (op basis van RMSE en afwijkende metingen).
 }

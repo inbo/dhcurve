@@ -46,13 +46,13 @@ omdat niet relevant) / "lokaal model"(= eigen model voor 1
 boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
 waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
 worden))}
-\item{paramaters \code{A}, \code{B} en \code{C} (zie description)}
-\item{bruikbaar interval (\code{Q5k} en \code{Q95k}, zie vignette voor meer info)}
-\item{\code{RMSE} (root mean square error, zie vignette voor meer info)}
+\item{parameters \code{A}, \code{B} en \code{C} (zie description)}
+\item{bruikbaar interval (\code{Q5k} en \code{Q95k}, zie vignet voor meer info)}
+\item{\code{RMSE} (root mean square error, zie vignet voor meer info)}
 \item{\code{nBomen} (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
 2,4 m)}
 \item{\code{nBomenInterval} (aantal metingen waarop model gebaseerd is)}
-\item{\code{nBomenOmtrek05} (aantal metingen > 0.5 m, dus waarop rmse-berekening
+\item{\code{nBomenOmtrek05} (aantal metingen > 0.5 m, dus waarop RSME-berekening
 gebaseerd is)}
 }
 

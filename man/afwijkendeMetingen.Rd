@@ -8,7 +8,7 @@ afwijkendeMetingen(Dataset, AantalDomHogeRMSE = 20)
 }
 \arguments{
 \item{Dataset}{Dataframe met meetresultaten, geschatte waarden voor het
-domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze
+domeinmodel en het Vlaamse model en de RMSE voor het domeinmodel.  Deze
 dataframe moet dezelfde velden bevatten als de dataframes in de list
 teruggegeven in de functie \code{initiatie()}, en daarnaast de velden
 \code{H_D_finaal}, \code{rmseD} en \code{maxResid}.}
@@ -19,12 +19,12 @@ afwijkende metingen geselecteerd. \code{AantalDomHogeRMSE} laat toe om dit aanta
 van 20 domeinen aan te passen.}
 }
 \value{
-Lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit
+Lijst met afwijkende metingen (> 2,5 * RMSE), inclusief vlag uit
 databank
 }
 \description{
 Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 *
-rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
+RMSE, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
 de hoogste \code{RMSE}, waarbij de "foutenmarge" breder is, worden minstens 10
 meetresultaten geselecteerd als "afwijkend" (nl. de 10 meetresultaten met de
 hoogste error).

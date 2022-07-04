@@ -28,17 +28,17 @@ gegenereerd door de functie \code{afwijkendeMetingen()}).}
 \item{Dataset}{Dataset met gemeten waarden en geschatte waarde voor
 domeinmodel en Vlaams model (inclusief \code{RMSE})}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+\item{Bestandsnaam}{Een naam voor het validatierapport (\code{.html}-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
 \item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
-html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+\code{.html}-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 erover te bewegen (inclusief \code{ID} als deze in de dataset meegegeven is),
 items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 "Statisch", waarbij de figuren vast zijn.}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
-boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
+boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
 validatierapport opgeslagen moet worden (default wordt het in de op dat
@@ -46,9 +46,9 @@ moment actieve working directory opgeslagen).}
 }
 \value{
 De functie genereert in de working directory (of opgegeven directory)
-een rapport (html) met de te controleren modellen.  Hierin wordt per model
+een rapport (\code{.html}) met de te controleren modellen.  Hierin wordt per model
 (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
+boomsoort, domein (en ID), aantal metingen, RMSE, bruikbaar interval en de
 mogelijke problemen die bij het model optreden.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
@@ -65,7 +65,7 @@ klassenmiddens die overeenkomen met deze grenzen)}
 }
 }
 \description{
-De functie genereert een validatierapport (html-bestand) in de working
+De functie genereert een validatierapport (\code{.html}-bestand) in de working
 directory (of opgegeven directory) met informatie en grafieken van de te
 controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
 aangeduid; boven de curve is het probleem ook woordelijk beschreven.

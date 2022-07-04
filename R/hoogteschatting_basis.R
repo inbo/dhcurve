@@ -7,7 +7,7 @@
 #' bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit
 #' package werkt deze functie op basis van 1 model en de bijhorende
 #' meetgegevens.  Zie voorbeelden voor een methode om deze functie te kunnen
-#' toepassen op Basismodel of Lokaalmodel + `Data.lokaal`.
+#' toepassen op het `Basismodel` of het `Lokaalmodel` en `Data.lokaal`.
 #'
 #' @param Soortmodel model voor één boomsoort (basis) of één
 #' boomsoort-domeincombinatie (lokaal)

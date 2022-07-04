@@ -14,7 +14,7 @@
 #' }
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-#' slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+#' slechtste modellen opgelijst (op basis van RMSE, afwijkende metingen en
 #' afwijkende curves).
 #'
 #'
@@ -31,10 +31,10 @@
 #'
 #' @return
 #'
-#' De functie genereert een validatierapport (html-bestand) in de working
+#' De functie genereert een validatierapport (`.html`-bestand) in de working
 #' directory met informatie en grafieken van de te controleren modellen.  De
 #' afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-#' het probleem ook woordelijk beschreven (zie `?validatierapport` of vignette
+#' het probleem ook woordelijk beschreven (zie `?validatierapport` of vignet
 #' voor meer informatie).
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
@@ -43,7 +43,7 @@
 #'   \item{`H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
 #'     domeinmodel}
 #'   \item{`rmseD`: de foutenschatting voor het domeinmodel}
-#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge rmse heeft, anders
+#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
 #'     `NA`}
 #' }
 #'

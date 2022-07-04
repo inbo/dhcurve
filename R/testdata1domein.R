@@ -8,8 +8,8 @@
 #' @param minOmtrek  Minimale omtrek voor de data
 #' @param maxOmtrek  Maximale omtrek voor de data
 #' @param A  Parameter voor het intercept van de functie
-#' @param B  Parameter voor de 1ste-graadsfunctie
-#' @param C  Parameter voor de 2de-graadsfunctie
+#' @param B  Parameter voor de eerstegraadsterm
+#' @param C  Parameter voor de tweedegraadsterm
 #' @param sd  foutenmarge t.o.v. model voor de data
 #'
 #' @return Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden

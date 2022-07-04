@@ -35,7 +35,7 @@
 #'     omtrekklasse}
 #'   \item{`Omtrekklasse`}
 #'   \item{`Hoogte`: de geschatte hoogte}
-#'   \item{`RMSE` (root mean square error, zie vignette voor meer info:
+#'   \item{`RMSE` (root mean square error, zie vignet voor meer info:
 #'     \code{vignette("Handleiding", package = "dhcurve")})}
 #' }
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/dhcurvesrapport.R
 \name{dhcurvesrapport}
 \alias{dhcurvesrapport}
-\title{Stelt de finale dhcurves grafisch voor in een rapport}
+\title{Stelt de finale diameter-hoogtecurves grafisch voor in een rapport}
 \usage{
 dhcurvesrapport(
   OutputIVANHO,
@@ -19,11 +19,11 @@ zoals gegenereerd door de functie \code{outputIVANHO()}).}
 \item{Datalijst}{Datasets met gemeten waarden die gebruikt zijn voor de
 modellen, zoals gegenereerd door de functie \code{initiatie()}.}
 
-\item{Bestandsnaam}{Een naam voor het rapport (html-bestand) dat gegenereerd
-wordt, bestaande uit een string die eindigt op \code{.html}}
+\item{Bestandsnaam}{Een naam voor het rapport (\code{.html}-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
-boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
+boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
 validatierapport opgeslagen moet worden (default wordt het in de op dat
@@ -33,7 +33,7 @@ moment actieve working directory opgeslagen).}
 De functie genereert in de working directory (of opgegeven directory)
 een rapport (html) met de te controleren modellen.  Hierin wordt per model
 (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-boomsoort, domein (+ ID), modeltype, aantal metingen, rmse en bruikbaar
+boomsoort, domein (en ID), modeltype, aantal metingen, RMSE en bruikbaar
 interval.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
@@ -46,7 +46,7 @@ klassenmiddens die overeenkomen met deze grenzen)}
 }
 }
 \description{
-De functie genereert een rapport (html-bestand) in de working directory
+De functie genereert een rapport (\code{.html}-bestand) in de working directory
 (of opgegeven directory) met informatie en grafieken van de finale
 modellen.
 

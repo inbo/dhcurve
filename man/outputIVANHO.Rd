@@ -47,7 +47,7 @@ waarvoor geen model berekend kan worden))}
 omtrekklasse}
 \item{\code{Omtrekklasse}}
 \item{\code{Hoogte}: de geschatte hoogte}
-\item{\code{RMSE} (root mean square error, zie vignette voor meer info:
+\item{\code{RMSE} (root mean square error, zie vignet voor meer info:
 \code{vignette("Handleiding", package = "dhcurve")})}
 }
 }

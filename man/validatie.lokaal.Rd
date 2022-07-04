@@ -44,11 +44,11 @@ bomen (\code{nBomenInterval}) in de boomsoort-domeincombinatie vanaf wanneer de
 curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
 terug getoond als ze nog steeds afwijkend is.)}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
+\item{Bestandsnaam}{Een naam voor het validatierapport (\code{.html}-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
 \item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
-html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+\code{.html}-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 erover te bewegen (inclusief \code{ID} als deze in de dataset meegegeven is),
 items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 "Statisch", waarbij de figuren vast zijn.}
@@ -58,10 +58,10 @@ validatierapport opgeslagen moet worden (default wordt het in de op dat
 moment actieve working directory opgeslagen).}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) in de working
+De functie genereert een validatierapport (\code{.html}-bestand) in de working
 directory met informatie en grafieken van de te controleren modellen.  De
 afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-het probleem ook woordelijk beschreven (zie \code{?validatierapport} of vignette
+het probleem ook woordelijk beschreven (zie \code{?validatierapport} of vignet
 voor meer informatie).
 
 De functie geeft een dataframe terug met de te controleren metingen, met
@@ -70,7 +70,7 @@ behalve de informatie uit de databank een aantal berekende waarden:
 \item{\code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
 domeinmodel}
 \item{\code{rmseD}: de foutenschatting voor het domeinmodel}
-\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge rmse heeft, anders
+\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
 \code{NA}}
 }
 }
@@ -88,6 +88,6 @@ De functie roept meerdere hulpfuncties op:
 }
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+slechtste modellen opgelijst (op basis van RMSE, afwijkende metingen en
 afwijkende curves).
 }

@@ -2,7 +2,7 @@
 #' rapport
 #'
 #' @description
-#' De functie genereert een validatierapport (html-bestand) in de working
+#' De functie genereert een validatierapport (`.html`-bestand) in de working
 #' directory (of opgegeven directory) met informatie en grafieken van de te
 #' controleren modellen.  De afwijkende metingen en curvedelen zijn in rood
 #' aangeduid; boven de curve is het probleem ook woordelijk beschreven.
@@ -21,19 +21,19 @@
 #' gegenereerd door de functie `afwijkendeMetingen()`).
 #' @param Dataset Dataset met gemeten waarden en geschatte waarde voor
 #' domeinmodel en Vlaams model (inclusief `RMSE`)
-#' @param Bestandsnaam Een naam voor het validatierapport (html-bestand) dat
+#' @param Bestandsnaam Een naam voor het validatierapport (`.html`-bestand) dat
 #' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @param TypeRapport Default is "Dynamisch", waarbij de figuren in het
-#' html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+#' `.html`-bestand kunnen worden aangepast (meetgegevens weergeven door muis
 #' erover te bewegen (inclusief `ID` als deze in de dataset meegegeven is),
 #' items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 #' "Statisch", waarbij de figuren vast zijn.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)
-#' een rapport (html) met de te controleren modellen.  Hierin wordt per model
+#' een rapport (`.html`) met de te controleren modellen.  Hierin wordt per model
 #' (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-#' boomsoort, domein (+ ID), aantal metingen, rmse, bruikbaar interval en de
+#' boomsoort, domein (en ID), aantal metingen, RMSE, bruikbaar interval en de
 #' mogelijke problemen die bij het model optreden.
 #'
 #' Daaronder wordt telkens grafisch volgende info weergegeven:
