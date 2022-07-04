@@ -12,7 +12,7 @@
 #' model.
 #'
 #'
-#' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie
+#' @param Verschovenmodel Afgeleid model voor één boomsoort-domeincombinatie
 #' (`lm`-object)
 #' @param Boomsoort `BMS`
 #' @param Domein `DOMEIN_ID`

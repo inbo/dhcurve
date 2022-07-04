@@ -8,7 +8,7 @@ modelparameters(Basismodel, Data = NULL, Afgeleidmodel = NULL)
 }
 \arguments{
 \item{Basismodel}{model per boomsoort (basismodel) of model per
-boomsoort-domein-combinatie (lokaalmodel)}
+boomsoort-domeincombinatie (lokaalmodel)}
 
 \item{Data}{meetgegevens (enkel nodig voor lokaal model)}
 
@@ -18,11 +18,12 @@ worden, dus in dit geval wordt hier het afgeleid model meegegeven.  Voor de
 andere modellen mag dit argument niet toegevoegd worden.}
 }
 \value{
-Dataframe met parameters voor domeinmodel (\code{Ad}, \code{Bd} en \code{Cd}) en ingeval
-van het basismodel de parameters voor Vlaams model (\code{Avl}, \code{Bvl} en \code{Cvl}).
+Dataframe met parameters voor domeinmodel (\code{Ad}, \code{Bd} en \code{Cd}) en
+ingeval van het basismodel de parameters voor Vlaams model (\code{Avl}, \code{Bvl} en
+\code{Cvl}).
 Ingeval van een afgeleid model worden de parameters voor het Vlaams model
-gegeven (\code{Avl}, \code{Bvl} en \code{Cvl}), en een parameter \code{Ad} die de verschuiving van het
-Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra
+gegeven (\code{Avl}, \code{Bvl} en \code{Cvl}), en een parameter \code{Ad} die de verschuiving
+van het Vlaams model naar het afgeleide domeinmodel weergeeft (dus een extra
 intercept)
 }
 \description{
@@ -32,6 +33,6 @@ het domeinmodel en ingeval van het basismodel ook voor het Vlaams model, en
 geeft ook de grenzen van het bruikbaar interval.
 
 (Deze functie verwijst naar de interne functies \code{modelparameters.basis()},
-\code{modelparameters.lokaal()} of \code{modelparameters.afgeleid()}, afhankelijk van de
-situatie)
+\code{modelparameters.lokaal()} of \code{modelparameters.afgeleid()}, afhankelijk van
+de situatie)
 }

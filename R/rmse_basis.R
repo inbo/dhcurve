@@ -22,7 +22,7 @@
 #' - rmse berekenen voor domeinmodellen en Vlaams model op basis van
 #' de gemeten waarden en schattingen voor de testgroepen
 #'
-#' @param Data Meetgegevens van één boomsoort-domein-combinatie (dataframe
+#' @param Data Meetgegevens van één boomsoort-domeincombinatie (dataframe
 #' zoals de dataframes die in de list teruggegeven worden door de functie
 #' `initiatie()`)
 #' @param Typemodel "Basis" of "Lokaal"?

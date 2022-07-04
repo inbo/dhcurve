@@ -7,7 +7,7 @@
 modelparameters.afgeleid(Soortmodel)
 }
 \arguments{
-\item{Soortmodel}{model voor boomsoort-domein-combinatie}
+\item{Soortmodel}{model voor boomsoort-domeincombinatie}
 }
 \value{
 dataframe met parameter voor de verschuiving t.o.v. het basismodel

@@ -7,7 +7,7 @@
 rmse.basis(Data, Typemodel, BMS)
 }
 \arguments{
-\item{Data}{Meetgegevens van één boomsoort-domein-combinatie (dataframe
+\item{Data}{Meetgegevens van één boomsoort-domeincombinatie (dataframe
 zoals de dataframes die in de list teruggegeven worden door de functie
 \code{initiatie()})}
 
@@ -23,9 +23,10 @@ lokaal model) en \code{maxResid}
 Deze functie berekent de rmse door cross-validatie op basis van 6 subsets.
 Deze functie kan ook gebruikt worden voor het lokaal model (ze bepaalt het
 verschil tussen de datasets op basis van het al dan niet aanwezig zijn van
-een veld \code{DOMEIN_ID} in de dataset).  Opgelet!  In tegenstelling tot de meeste
-functies van dit package werkt deze functie op basis van de meetgegevens van
-1 model.  Zie voorbeelden voor een methode om deze functie te kunnen
+een veld \code{DOMEIN_ID} in de dataset).  Opgelet!  In tegenstelling tot de
+meeste functies van dit package werkt deze functie op basis van de
+meetgegevens van 1 model.
+Zie voorbeelden voor een methode om deze functie te kunnen
 toepassen vertrekkend van meetgegevens (bv. \code{Data.lokaal}) of vertrekkend van
 een model waar de meetgegevens uit gehaald kunnen worden (bv. \code{Basismodel}).
 
@@ -33,8 +34,8 @@ Deze functie berekent de rmse op basis van testgroepen en omvat de volgende
 deelstappen:
 \itemize{
 \item metingen opdelen in 6 testgroepen (veld testgroep)
-\item modellen fitten voor testgroepen, waarbij ze de functie \code{fit.basis()} 6 keer
-oproept
+\item modellen fitten voor testgroepen, waarbij ze de functie \code{fit.basis()}
+6 keer oproept
 \item rmse berekenen voor domeinmodellen en Vlaams model op basis van
 de gemeten waarden en schattingen voor de testgroepen
 }

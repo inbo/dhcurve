@@ -7,7 +7,7 @@
 rmse.verschuiving(Verschovenmodel, Boomsoort, Domein)
 }
 \arguments{
-\item{Verschovenmodel}{Afgeleid model voor één boomsoort-domein-combinatie
+\item{Verschovenmodel}{Afgeleid model voor één boomsoort-domeincombinatie
 (\code{lm}-object)}
 
 \item{Boomsoort}{\code{BMS}}

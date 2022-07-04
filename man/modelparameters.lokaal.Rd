@@ -7,7 +7,7 @@
 modelparameters.lokaal(Soortmodel)
 }
 \arguments{
-\item{Soortmodel}{model voor boomsoort-domein-combinatie}
+\item{Soortmodel}{model voor boomsoort-domeincombinatie}
 }
 \value{
 dataframe met parameters voor domeinmodel (\code{Ad}, \code{Bd} en \code{Cd})

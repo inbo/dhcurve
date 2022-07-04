@@ -16,7 +16,7 @@ outputIVANHO(
 \code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
 (\code{lme}-object met het gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+\item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
 door de functie \code{fit.afgeleid()}: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
@@ -40,7 +40,7 @@ velden:
 basismodel) /
 "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
 omdat niet relevant) / "lokaal model"(= apart model voor 1
-boomsoort-domein-combinatie) / "geen model"(= boomsoort-domein-combinatie
+boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
 waarvoor geen model berekend kan worden))}
 \item{\code{Omtrek}: klassenmidden van omtrekklasse}
 \item{\code{OmtrekklassetypeID}: het overeenkomstige identificatienummer van de
@@ -53,7 +53,7 @@ omtrekklasse}
 }
 \description{
 De functie \code{outputIVANHO()} voert de berekeningen uit die leiden tot de
-gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
+gevraagde tabel om in \code{IVANHO} te importeren: een tabel met per boomsoort,
 domein en omtrekklasse een schatting van de hoogte.  Als de curve een
 maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
 maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de

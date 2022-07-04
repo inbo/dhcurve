@@ -28,7 +28,7 @@
 #'     basismodel) /
 #'     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
 #'     omdat niet relevant) / "lokaal model"(= apart model voor 1
-#'     boomsoort-domein-combinatie) / "geen model"(= boomsoort-domein-combinatie
+#'     boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
 #'     waarvoor geen model berekend kan worden))}
 #'   \item{`Omtrek`: klassenmidden van omtrekklasse}
 #'   \item{`OmtrekklassetypeID`: het overeenkomstige identificatienummer van de

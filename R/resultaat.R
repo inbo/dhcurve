@@ -15,7 +15,7 @@
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
 #' `fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
 #' (`lme`-object met het gefit mixed model voor die boomsoort).
-#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven
+#' @param Afgeleidmodel Model per boomsoort-domeincombinatie zoals teruggegeven
 #' door de functie `fit.afgeleid()`: list met 2 tibbles.
 #' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven
 #' door de functie `fit.lokaal()`: tibble met de velden `BMS` (boomsoort),
@@ -24,7 +24,7 @@
 #' @param Data.lokaal Dataset op basis waarvan het opgegeven lokaal model
 #' berekend is.
 #' @param Data.onbruikbaar Evt. lijst met meetresultaten van
-#' domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
+#' boomsoort-domeincombinaties waarvoor geen model opgesteld kan worden, in de
 #' vorm van een dataframe zoals de dataframe `Rest` uit de list die door de
 #' functie `initiatie()` teruggegeven wordt.
 #'

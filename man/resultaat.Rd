@@ -17,7 +17,7 @@ resultaat(
 \code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
 (\code{lme}-object met het gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+\item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
 door de functie \code{fit.afgeleid()}: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
@@ -29,7 +29,7 @@ boomsoort-domeincombinatie).}
 berekend is.}
 
 \item{Data.onbruikbaar}{Evt. lijst met meetresultaten van
-domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
+boomsoort-domeincombinaties waarvoor geen model opgesteld kan worden, in de
 vorm van een dataframe zoals de dataframe \code{Rest} uit de list die door de
 functie \code{initiatie()} teruggegeven wordt.}
 }

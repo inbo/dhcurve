@@ -40,7 +40,7 @@ Een aanbeveling uit het KOBE-project "Meting na hamering" uit 2012 was om het op
 
 ## Doelstellingen
 
-Het package `dhcurve` bundelt een aantal functies die toelaten om "diameter-hoogtecurves" op te stellen op basis van bestaande meetgegevens van bomen (omtrek en hoogte).  Het eindresultaat is een dataset waarin per boomsoort, domein en omtrekklasse een geschatte hoogte wordt opgegeven, of een dataset met per boomsoort-domein-combinatie de parameters A, B en C van de curve $Hoogte = A + B\log(Omtrek)+C\log(Omtrek)^2$.  
+Het package `dhcurve` bundelt een aantal functies die toelaten om "diameter-hoogtecurves" op te stellen op basis van bestaande meetgegevens van bomen (omtrek en hoogte).  Het eindresultaat is een dataset waarin per boomsoort, domein en omtrekklasse een geschatte hoogte wordt opgegeven, of een dataset met per boomsoort-domeincombinatie de parameters A, B en C van de curve $Hoogte = A + B\log(Omtrek)+C\log(Omtrek)^2$.  
 
 Het model dat gebruikt wordt om een curve op te stellen en/of de hoogteschattingen te maken, is afhankelijk van het aantal beschikbare metingen (zie [definities](#definities)).  Om een betrouwbaar eindresultaat te bekomen, zijn de keuze van de op te meten bomen en de validatie van de gegevens belangrijk (zie [Praktische werkwijze](#praktische-werkwijze)).  Achtergrondinformatie over de in het package uitgewerkte berekeningswijze is opgenomen onder [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen).
 
@@ -109,7 +109,7 @@ Technisch kan - net zoals bij de boomsoorten - ook voor domeinen gespeeld worden
 
 ## Berekenen van curves
 
-De zogenaamde diameter-hoogte-curves, die in feite omtrek-hoogte-curves zijn, kunnen berekend worden door het hieronder weergegeven voorbeeldscript te runnen voor een opgegeven dataset Data (zie [initiatie](#initiatie)).  Hierbij is het de bedoeling dat bij elke validatiestap een validatie gebeurt, waarna het script met de gevalideerde data opnieuw gerund wordt (zie [validatie](#validatie)).
+De zogenaamde diameter-hoogtecurves, die in feite omtrek-hoogtecurves zijn, kunnen berekend worden door het hieronder weergegeven voorbeeldscript te runnen voor een opgegeven dataset Data (zie [initiatie](#initiatie)).  Hierbij is het de bedoeling dat bij elke validatiestap een validatie gebeurt, waarna het script met de gevalideerde data opnieuw gerund wordt (zie [validatie](#validatie)).
 
 ```{r hoofdscript1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 child_id <- 1
@@ -218,7 +218,7 @@ Bedoeling van deze tweede stap is om aan de hand van de curvevorm na te gaan of 
 
 _Wat met de probleemcurves?_  Deze curves zijn niet goed genoeg om te gebruiken als model in `IVANHO` (of elders), en er moeten bijkomende metingen uitgevoerd worden vooraleer dit model eventueel kan verbeteren.  Dus tot deze extra metingen gebeurd zijn, willen we dit model eigenlijk niet gebruiken.  Als het gaat over een berekend basismodel, kunnen de gegevens eventueel wel gebruikt worden om een afgeleid model te berekenen voor dit domein.
 
-Praktisch pakken we dit aan door voor die specifieke domein-boomsoortcombinatie het minimum aantal bomen om een basismodel (of lokaal model) te berekenen, op te trekken. We raden aan om als nieuwe grenswaarde 10 bomen meer te nemen dan het huidige aantal bomen (met omtrek groter dan 0,5 m).  Redenering: 1 extra gemeten boom zal de curve niet substantieel verbeteren, 10 misschien wel?  In de functie `initiatie` is de mogelijkheid voorzien om als parameter een dataframe mee te geven met de uitzonderingen voor deze minimumwaarde van 50 bomen.  Deze laat ook toe om de minimumwaarde voor het afgeleid model (standaard 10 bomen) op te trekken ingeval er problemen zijn met deze curve (bv. meetresultaten te verspreid).
+Praktisch pakken we dit aan door voor die specifieke boomsoort-domeincombinatie het minimum aantal bomen om een basismodel (of lokaal model) te berekenen, op te trekken. We raden aan om als nieuwe grenswaarde 10 bomen meer te nemen dan het huidige aantal bomen (met omtrek groter dan 0,5 m).  Redenering: 1 extra gemeten boom zal de curve niet substantieel verbeteren, 10 misschien wel?  In de functie `initiatie` is de mogelijkheid voorzien om als parameter een dataframe mee te geven met de uitzonderingen voor deze minimumwaarde van 50 bomen.  Deze laat ook toe om de minimumwaarde voor het afgeleid model (standaard 10 bomen) op te trekken ingeval er problemen zijn met deze curve (bv. meetresultaten te verspreid).
 
 Onderstaand voorbeeld toont hoe de limiet van het aantal bomen voor Zomereik in de Gavers opgetrokken wordt naar 65 bomen (momenteel zijn hier 55 bomen met omtrek groter dan 0,5 m opgemeten en stel dat we de curve niet betrouwbaar genoeg vinden omdat er te weinig bomen opgemeten zijn in de hogere omtrekklassen).  De limiet voor het afgeleide model houden we bij 10 bomen (min_afgeleid = NA, dus we kennen hier geen waarde toe).
 
@@ -245,7 +245,7 @@ __OPMERKING__  Er kunnen ook andere problemen optreden waarop niet expliciet wor
 
 ### `outputIVANHO`
 
-De functie `outputIVANHO` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domein-combinatie en per diameterklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
+De functie `outputIVANHO` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domeincombinatie en per diameterklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
 
 
 ### resultaat
@@ -304,7 +304,7 @@ Bij het afgeleide model, dat een verschuiving is van het Vlaamse model, vormen d
 
 ### Functie `initiatie`
 
-De functie `initiatie` berekent per boomsoort-domein-combinatie enkele variabelen die verband houden met dit bruikbaar interval:
+De functie `initiatie` berekent per boomsoort-domeincombinatie enkele variabelen die verband houden met dit bruikbaar interval:
 
 - bruikbaar interval (`Q5k` en `Q95k`)
 - aantal bomen (`nBomen`), waarbij de bomen met omtrek > 2,4 m buiten beschouwing gelaten worden

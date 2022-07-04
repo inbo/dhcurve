@@ -23,7 +23,7 @@ Voor het berekenen van de curves worden enkel meetgegevens met omtrek binnen een
 
 ### Welke info is hierin terug te vinden?
 
-Per domein-boomsoort-combinatie wordt een overzicht gegeven van: 
+Per boomsoort-domeincombinatie wordt een overzicht gegeven van: 
 
 - het totaal aantal meetgegevens (`nTotaal`), 
 - het aantal meetgegevens dat weggelaten wordt omwille van een te lage omtrek (< 20 cm, `nTeDun`)
@@ -32,9 +32,9 @@ Per domein-boomsoort-combinatie wordt een overzicht gegeven van:
 - de proportie meetgegevens die weggelaten wordt omwille van een te grote omtrek (> 240 cm, `percTeDik`)
 - het aantal meetgegevens dat overblijft voor de analyse (`nInterval`)
 
-Deze dataset is opgesplitst in 3 delen op basis het aantal meetgegevens dat overblijft (`nInterval`) om het iets overzichtelijker te houden (zie verschillende onderdelen hieronder).  Omdat hier geen rekening gehouden is met bomen die buiten het "bruikbaar interval" van een domein-boomsoort-combinatie vallen, komen deze categorieën niet exact overeen met de uiteindelijke indeling in modeltypen (zie documentatie van package voor meer informatie hierover). <!-- Als deze indeling zinvol is, kan dit wel zo uitgewerkt worden, bv. door de modeltype-groepen toe te voegen.  Maar ik wacht liever de discussie hierover af vooraleer ik er werk in ga steken.  -->
+Deze dataset is opgesplitst in 3 delen op basis het aantal meetgegevens dat overblijft (`nInterval`) om het iets overzichtelijker te houden (zie verschillende onderdelen hieronder).  Omdat hier geen rekening gehouden is met bomen die buiten het "bruikbaar interval" van een boomsoort-domeincombinatie vallen, komen deze categorieën niet exact overeen met de uiteindelijke indeling in modeltypen (zie documentatie van package voor meer informatie hierover). <!-- Als deze indeling zinvol is, kan dit wel zo uitgewerkt worden, bv. door de modeltype-groepen toe te voegen.  Maar ik wacht liever de discussie hierover af vooraleer ik er werk in ga steken.  -->
 
-Domein-boomsoort-combinaties met minder dan 10 bomen in totaal (`nTotaal`) zijn weggelaten, omdat deze toch niet voor analyses gebruikt kunnen worden.
+Boomsoort-domeincombinaties met minder dan 10 bomen in totaal (`nTotaal`) zijn weggelaten, omdat deze toch niet voor analyses gebruikt kunnen worden.
 
 ### Wat kan ik doen om de gegevens na te kijken?
 
@@ -63,7 +63,7 @@ datatable(DataRapport %>%
 
 ## 10-50 gegevens binnen interval
 
-Als er voor de hieronder gespecifieerde boomsoort een basismodel gemaakt wordt, kan voor het domein op basis van de gegevens een afgeleid model gemaakt worden.  Anders moeten minstens 50 bomen binnen het interval 20-240 cm vallen om een model te kunnen maken voor die domein-boomsoort-combinatie.
+Als er voor de hieronder gespecifieerde boomsoort een basismodel gemaakt wordt, kan voor het domein op basis van de gegevens een afgeleid model gemaakt worden.  Anders moeten minstens 50 bomen binnen het interval 20-240 cm vallen om een model te kunnen maken voor die boomsoort-domeincombinatie.
 
 In elk geval moet de focus liggen op betrouwbaarheid en representativiteit, zoals bij de eerste groep.  Daarnaast kan het voor de domeinen met `nInterval` net onder 50 zinvol zijn om op zoek te gaan naar typfouten bij de weggelaten gegevens om boven die limiet van 50 bomen te geraken (waardoor een basismodel of lokaal model opgesteld kan worden).
 
@@ -77,9 +77,9 @@ datatable(DataRapport %>%
 
 ## Te weinig gegevens binnen interval
 
-Onderstaande domein-boomsoort-combinaties bereiken de minimumlimiet van 10 bomen niet.  Zonder extra bomen binnen het interval 20-240 cm kan er helemaal geen model opgesteld worden.
+Onderstaande boomsoort-domeincombinaties bereiken de minimumlimiet van 10 bomen niet.  Zonder extra bomen binnen het interval 20-240 cm kan er helemaal geen model opgesteld worden.
 
-Zoals bij de andere groepen willen we in de eerste plaats zeker zijn dat de metingen betrouwbaar zijn en representatief voor die boomsoort in dat domein.  Als dat het geval is, kan het zinvol zijn om op zoek te gaan naar typfouten bij de weggelaten gegevens om boven die limiet van 10 bomen te geraken (waardoor een afgeleid model opgesteld kan worden, tenminste als er een basismodel bestaat voor de boomsoort).  Op zich is de gemaakte winst groter bij dit deel van de dataset dan de voorgaande (wel een model vs. geen model), maar de kans om hier iets te bereiken (een fout te vinden in het vaak beperkt aantal gegevens), is relatief klein.  Misschien wil je je hier beperkten tot domein-boomsoort-combinaties met `nInterval` = 9 en `nTeDik` zo hoog mogelijk?
+Zoals bij de andere groepen willen we in de eerste plaats zeker zijn dat de metingen betrouwbaar zijn en representatief voor die boomsoort in dat domein.  Als dat het geval is, kan het zinvol zijn om op zoek te gaan naar typfouten bij de weggelaten gegevens om boven die limiet van 10 bomen te geraken (waardoor een afgeleid model opgesteld kan worden, tenminste als er een basismodel bestaat voor de boomsoort).  Op zich is de gemaakte winst groter bij dit deel van de dataset dan de voorgaande (wel een model vs. geen model), maar de kans om hier iets te bereiken (een fout te vinden in het vaak beperkt aantal gegevens), is relatief klein.  Misschien wil je je hier beperkten tot boomsoort-domeincombinaties met `nInterval` = 9 en `nTeDik` zo hoog mogelijk?
 
 ```{r teWeinig, results='asis'}
 

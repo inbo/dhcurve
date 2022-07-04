@@ -66,7 +66,7 @@
 #'     omtrek > 0.5 m) waarvan er te weinig domeinen (< 6) zijn
 #'     met voldoende metingen om een Vlaams model op te stellen. Voor deze
 #'     boomsoort-domeincombinaties kan een lokaal model berekend worden.}
-#'   \item{[["Rest"]] metingen van de domein-boomsoortcombinaties die niet tot
+#'   \item{[["Rest"]] metingen van de boomsoort-domeincombinaties die niet tot
 #'     de 3 voorgaande categorieën behoren en waar dus geen model voor
 #'     opgesteld kan worden.}
 #' }

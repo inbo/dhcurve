@@ -8,10 +8,10 @@ hoogteschatting.basis(Soortmodel, Soortdata, Typemodel, BMS)
 }
 \arguments{
 \item{Soortmodel}{model voor één boomsoort (basis) of één
-boomsoort-domein-combinatie (lokaal)}
+boomsoort-domeincombinatie (lokaal)}
 
 \item{Soortdata}{meetgegevens van boomsoort (basis) of
-domein-boomsoort-combinatie (lokaal)}
+boomsoort-domeincombinatie (lokaal)}
 
 \item{Typemodel}{"Basis" of "Lokaal"?}
 

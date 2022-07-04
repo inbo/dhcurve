@@ -10,9 +10,9 @@
 #' toepassen op de volledige dataset `Afgeleidmodel`.
 #'
 #' @param Domeinsoortmodel verschoven Vlaams model voor 1
-#' boomsoort-domein-combinatie
+#' boomsoort-domeincombinatie
 #' @param Domeinsoortdata de gegevens die hierbij horen: meetresultaten voor 1
-#' boomsoort-domein-combinatie
+#' boomsoort-domeincombinatie
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes
 #' voor het domeinmodel en de Vlaamse model

@@ -28,20 +28,21 @@ boomsoort-domeincombinatie).}
 afwijkende metingen geselecteerd. \code{AantalDomHogeRMSE} laat toe om dit aantal
 van 20 domeinen aan te passen.}
 
-\item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
-op te geven waardoor de curve getoond moet worden in het validatierapport.
+\item{ExtraCurvesRapport}{Optie om een lijst met extra
+boomsoort-domeincombinaties op te geven waardoor de curve getoond moet worden
+in het validatierapport.
 Deze moeten opgegeven worden als een dataframe met velden \code{DOMEIN_ID} en
 \code{BMS}, met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
 \item{GoedgekeurdeAfwijkendeCurves}{Optie om goedgekeurde afwijkende curves
 niet meer te tonen in het validatierapport zolang er geen extra metingen
-toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
+toegevoegd zijn voor de boomsoort-domeincombinatie (om als gebruiker enkel de
 te keuren curves in het rapport over te houden). De goedgekeurde en dus te
 negeren curves moeten opgegeven worden in een dataframe met velden
 \code{DOMEIN_ID}, \code{BMS} en \code{nBomenTerugTonen}, met \code{nBomenTerugTonen} het aantal
-bomen (\code{nBomenInterval}) in de domein-BMS-combinatie vanaf wanneer de curve
-terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
-getoond als ze nog steeds afwijkend is.)}
+bomen (\code{nBomenInterval}) in de boomsoort-domeincombinatie vanaf wanneer de
+curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
+terug getoond als ze nog steeds afwijkend is.)}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}

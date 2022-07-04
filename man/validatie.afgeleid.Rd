@@ -19,7 +19,7 @@ validatie.afgeleid(
 \code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
 (\code{lme}-object met het gefit mixed model voor die boomsoort)}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
+\item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
 door de functie \code{fit.afgeleid()}: list met 2 tibbles.
 #@param Data.afgeleid dataframe 10-50}
 
@@ -28,8 +28,9 @@ door de functie \code{fit.afgeleid()}: list met 2 tibbles.
 afwijkende metingen geselecteerd. \code{AantalDomHogeRMSE} laat toe om dit aantal
 van 20 domeinen aan te passen.}
 
-\item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
-op te geven waardoor de curve getoond moet worden in het validatierapport.
+\item{ExtraCurvesRapport}{Optie om een lijst met extra
+boomsoort-domeincombinaties op te geven waardoor de curve getoond moet worden
+in het validatierapport.
 Deze moeten opgegeven worden als een dataframe met velden \code{DOMEIN_ID} en
 \code{BMS}, met benamingen die overeenkomen met deze in de opgegeven dataset.}
 

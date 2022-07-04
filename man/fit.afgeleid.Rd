@@ -27,14 +27,14 @@ boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
 List met 2 tibbles:
 \itemize{
 \item{tibble met velden \code{BMS} (boomsoort), \code{DOMEIN_ID} en \code{Model}
-(\code{lm}-object van model per boomsoort-domein-combinatie)}
+(\code{lm}-object van model per boomsoort-domeincombinatie)}
 \item{tibble met de ingevoerde dataset, waaraan het veld \code{H_VL_finaal} (de
 hoogteschatting volgens het Vlaams model) toegevoegd is}
 }
 }
 \description{
 Functie die op basis van de opgegeven dataset een model opstelt per
-domein-boomsoortcombinatie door verschuiving van het Vlaams model voor die
+boomsoort-domeincombinatie door verschuiving van het Vlaams model voor die
 boomsoort (afgeleid uit het basismodel). Dit komt overeen met het fitten van
 het lineair model \eqn{Hoogte_{afgeleid} \sim \delta A + Hoogte_{Vlaams}}{%
 Hoogte(afgeleid) ~ \delta A + Hoogte(Vlaams)} op basis van de opgegeven

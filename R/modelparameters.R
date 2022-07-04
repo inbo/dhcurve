@@ -11,7 +11,7 @@
 #' de situatie)
 #'
 #' @param Basismodel model per boomsoort (basismodel) of model per
-#' boomsoort-domein-combinatie (lokaalmodel)
+#' boomsoort-domeincombinatie (lokaalmodel)
 #' @param Data meetgegevens (enkel nodig voor lokaal model)
 #' @param Afgeleidmodel voor de berekening van de modelparameters van het
 #' afgeleid model moeten zowel het basismodel als het afgeleid model gegeven

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Functie die op basis van de opgegeven dataset een model opstelt per
-#' domein-boomsoortcombinatie door verschuiving van het Vlaams model voor die
+#' boomsoort-domeincombinatie door verschuiving van het Vlaams model voor die
 #' boomsoort (afgeleid uit het basismodel). Dit komt overeen met het fitten van
 #' het lineair model \eqn{Hoogte_{afgeleid} \sim \delta A + Hoogte_{Vlaams}}{%
 #' Hoogte(afgeleid) ~ \delta A + Hoogte(Vlaams)} op basis van de opgegeven
@@ -28,7 +28,7 @@
 #' @return List met 2 tibbles:
 #' \itemize{
 #'    \item{tibble met velden `BMS` (boomsoort), `DOMEIN_ID` en `Model`
-#'      (`lm`-object van model per boomsoort-domein-combinatie)}
+#'      (`lm`-object van model per boomsoort-domeincombinatie)}
 #'    \item{tibble met de ingevoerde dataset, waaraan het veld `H_VL_finaal` (de
 #'      hoogteschatting volgens het Vlaams model) toegevoegd is}
 #'  }

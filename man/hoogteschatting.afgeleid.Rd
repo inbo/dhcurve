@@ -8,10 +8,10 @@ hoogteschatting.afgeleid(Domeinsoortmodel, Domeinsoortdata)
 }
 \arguments{
 \item{Domeinsoortmodel}{verschoven Vlaams model voor 1
-boomsoort-domein-combinatie}
+boomsoort-domeincombinatie}
 
 \item{Domeinsoortdata}{de gegevens die hierbij horen: meetresultaten voor 1
-boomsoort-domein-combinatie}
+boomsoort-domeincombinatie}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes

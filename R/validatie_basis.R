@@ -23,19 +23,20 @@
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
 #' `fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
 #' (`lme`-object met het gefit mixed model voor die boomsoort).
-#' @param ExtraCurvesRapport Optie om een lijst met extra domein-BMS-combinaties
-#' op te geven waardoor de curve getoond moet worden in het validatierapport.
+#' @param ExtraCurvesRapport Optie om een lijst met extra
+#' boomsoort-domeincombinaties op te geven waardoor de curve getoond moet worden
+#' in het validatierapport.
 #' Deze moeten opgegeven worden als een dataframe met velden `DOMEIN_ID` en
 #' `BMS`, met benamingen die overeenkomen met deze in de opgegeven dataset.
 #' @param GoedgekeurdeAfwijkendeCurves Optie om goedgekeurde afwijkende curves
 #' niet meer te tonen in het validatierapport zolang er geen extra metingen
-#' toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
+#' toegevoegd zijn voor de boomsoort-domeincombinatie (om als gebruiker enkel de
 #' te keuren curves in het rapport over te houden). De goedgekeurde en dus te
 #' negeren curves moeten opgegeven worden in een dataframe met velden
 #' `DOMEIN_ID`, `BMS` en `nBomenTerugTonen`, met `nBomenTerugTonen` het aantal
-#' bomen (`nBomenInterval`) in de domein-BMS-combinatie vanaf wanneer de curve
-#' terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
-#' getoond als ze nog steeds afwijkend is.)
+#' bomen (`nBomenInterval`) in de boomsoort-domeincombinatie vanaf wanneer de
+#' curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
+#' terug getoond als ze nog steeds afwijkend is.)
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport

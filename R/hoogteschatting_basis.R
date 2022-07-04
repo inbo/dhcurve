@@ -10,9 +10,9 @@
 #' toepassen op Basismodel of Lokaalmodel + `Data.lokaal`.
 #'
 #' @param Soortmodel model voor één boomsoort (basis) of één
-#' boomsoort-domein-combinatie (lokaal)
+#' boomsoort-domeincombinatie (lokaal)
 #' @param Soortdata meetgegevens van boomsoort (basis) of
-#' domein-boomsoort-combinatie (lokaal)
+#' boomsoort-domeincombinatie (lokaal)
 #' @param Typemodel "Basis" of "Lokaal"?
 #' @param BMS Boomsoort
 #'
