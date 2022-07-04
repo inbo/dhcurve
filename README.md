@@ -1,3 +1,4 @@
+<!-- spell-check: ignore:start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![License](http://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![wercker status](https://app.wercker.com/status/99290c273f1542a89027cab7f625bee0/s/master "wercker status")](https://app.wercker.com/project/byKey/99290c273f1542a89027cab7f625bee0)
@@ -9,6 +10,7 @@ name](https://inbo.r-universe.dev/badges/:name?color=c04384)
 <a href="https://www.natuurenbos.be/">
 <img src="man/figures/logo.png" align="right" alt="logo of ANB: Agentschap Natuur & Bos" width="200"/>
 </a>
+<!-- spell-check: ignore:end -->
 
 # Automated Modelling of Diameter Height Curves for Trees
 
@@ -41,6 +43,8 @@ To install `dhcurve` from GitHub, start a new R session and run this code (befor
 remotes::install_github("inbo/dhcurve")
 ```
 
+<!-- spell-check: ignore:start -->
 <a href="https://www.natuurenbos.be/">
 <img src="man/figures/name.png" alt="logo of ANB: Vlaanderen is natuur" width="200"/>
 </a>
+<!-- spell-check: ignore:end -->

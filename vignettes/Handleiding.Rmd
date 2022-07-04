@@ -58,7 +58,8 @@ __Domeinmodel:__  Algemene term voor een model dat specifiek op maat van een boo
 
 __Bruikbaar interval:__  Interval waarbinnen het model in kwestie gebruikt kan worden.  Dit interval is afhankelijk van de beschikbare gegevens en van het vooraf vastgelegde relevante bereik (zie [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen)).
 
-__RMSE:__  De _**R**oot **M**ean **S**quare **E**rror_ is een waarde in meter die aangeeft hoe groot de spreiding van de metingen is t.o.v. het model en waar in feite ook uit afgeleid kan worden hoe goed het model de metingen benadert.  Gelijkaardig aan de _standaard error_ kan een betrouwbaarheidsinterval berekend worden voor de geschatte hoogten (op basis van het model) door 2 maal de waarde van de RMSE op te tellen en af te trekken van de geschatte hoogte.
+__RMSE:__  De _**R**oot **M**ean **S**quare **E**rror_ <!-- spell-check: ignore -->
+is een waarde in meter die aangeeft hoe groot de spreiding van de metingen is t.o.v. het model en waar in feite ook uit afgeleid kan worden hoe goed het model de metingen benadert.  Gelijkaardig aan de _standaard error_ kan een betrouwbaarheidsinterval berekend worden voor de geschatte hoogten (op basis van het model) door 2 maal de waarde van de RMSE op te tellen en af te trekken van de geschatte hoogte.
 
 # Praktische werkwijze
 
@@ -269,7 +270,8 @@ De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen 
 Terwijl het vorige hoofdstuk eerder praktijkgericht was, behandelt dit hoofdstuk de achterliggende berekeningen van de verschillende functies, alsook de redenen waarom voor een bepaalde aanpak of berekeningswijze gekozen is.
 
 Kort gezegd laat dit package toe om de hoogtes van bomen te schatten door middel van een model, dat we opstellen op basis van eerder uitgevoerde metingen per boomsoort-domeincombinatie.
-Een model is altijd een benadering van werkelijkheid, dat er liefst zo goed mogelijk bij aansluit (cfr. George Box: "All models are wrong, but some are useful"). <!-- spell-check: ignore -->
+Een model is altijd een benadering van werkelijkheid, dat er liefst zo goed mogelijk bij aansluit
+(cfr. George Box: "All models are wrong, but some are useful"). <!-- spell-check: ignore -->
 Belangrijk is dat het model vooral een goede voorspelling geeft binnen de relevante scope.  Hoe breder deze scope gedefinieerd wordt, hoe moeilijker het is om een model te vinden dat de werkelijkheid overal goed gaat benaderen en hoe groter de kans dat het model ergens meer afwijkt dan wenselijk.  Hoe smaller de scope, hoe nauwkeuriger de voorspelling van het model, maar het model is dan ook enkel bruikbaar binnen deze scope.  Om een optimaal model te vinden, komt het er dus op aan om deze scope zo goed mogelijk af te bakenen: niet te smal, maar ook niet te breed.  Daarnaast moeten ook voor het model zelf afwegingen en keuzes gemaakt worden, o.a. met betrekking tot complexiteit en betrouwbaarheid.  De keuzes die voor de modellen in dit package gemaakt zijn en de achterliggende redenen worden in dit hoofdstuk behandeld.    
 
 
