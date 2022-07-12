@@ -52,8 +52,8 @@ worden))}
 \item{\code{nBomen} (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
 2,4 m)}
 \item{\code{nBomenInterval} (aantal metingen waarop model gebaseerd is)}
-\item{\code{nBomenOmtrek05} (aantal metingen > 0.5 m, dus waarop RMSE-berekening
-gebaseerd is)}
+\item{\code{nBomenIntervalOmtrek05} (aantal metingen > 0.5 m, dus waarop
+RMSE-berekening gebaseerd is)}
 }
 
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per

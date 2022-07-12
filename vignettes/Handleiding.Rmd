@@ -262,7 +262,7 @@ De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen 
 - `nBomen`: aantal metingen met omtrek < 2,4 m
 - `nBomenTotOmtrek05`: aantal metingen > 0.5 m (dus het aantal metingen waarop het afgeleid model gebaseerd is)
 - `nBomenInterval`: aantal metingen waarop het model gebaseerd is (ingeval van basismodel of lokaal model)
-- `nBomenOmtrek05`: aantal metingen > 0.5 m binnen het interval (dus het aantal metingen waarop de RMSE-berekening van het basismodel en lokaal model gebaseerd is)
+- `nBomenIntervalOmtrek05`: aantal metingen > 0.5 m binnen het interval (dus het aantal metingen waarop de RMSE-berekening van het basismodel en lokaal model gebaseerd is)
 
 
 # Standaardstramien voor berekeningen
@@ -311,7 +311,7 @@ De functie `initiatie()` berekent per boomsoort-domeincombinatie enkele variabel
 - bruikbaar interval (`Q5k` en `Q95k`)
 - aantal bomen (`nBomen`), waarbij de bomen met omtrek > 2,4 m buiten beschouwing gelaten worden
 - aantal bomen binnen bruikbaar interval (`nBomenInterval`)
-- aantal bomen binnen bruikbaar interval met omtrek > 0,5 m (`nBomenOmtrek05`)
+- aantal bomen binnen bruikbaar interval met omtrek > 0,5 m (`nBomenIntervalOmtrek05`)
 
 Op basis van het aantal bomen (binnen het bruikbaar interval) met omtrek > 0,5 m splitst de functie `initiatie` de dataset op in functie van de verschillende modeltypen (zie [initiatie onder praktische werkwijze](#initiatie) en zie uitleg hierboven over bruikbaar interval).
 

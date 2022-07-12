@@ -64,7 +64,7 @@ dhcurvesrapport <-
   assert_that(has_name(Datalijst[["Basis"]], "BOS_BHI"))
   assert_that(has_name(Datalijst[["Basis"]], "nBomen"))
   assert_that(has_name(Datalijst[["Basis"]], "nBomenInterval"))
-  assert_that(has_name(Datalijst[["Basis"]], "nBomenOmtrek05"))
+  assert_that(has_name(Datalijst[["Basis"]], "nBomenIntervalOmtrek05"))
   assert_that(has_name(Datalijst[["Basis"]], "Omtrek"))
   assert_that(inherits(Datalijst[["Basis"]]$Omtrek, "numeric"))
   assert_that(has_name(Datalijst[["Basis"]], "HOOGTE"))
@@ -77,7 +77,7 @@ dhcurvesrapport <-
   assert_that(has_name(Datalijst[["Afgeleid"]], "BOS_BHI"))
   assert_that(has_name(Datalijst[["Afgeleid"]], "nBomen"))
   assert_that(has_name(Datalijst[["Afgeleid"]], "nBomenInterval"))
-  assert_that(has_name(Datalijst[["Afgeleid"]], "nBomenOmtrek05"))
+  assert_that(has_name(Datalijst[["Afgeleid"]], "nBomenIntervalOmtrek05"))
   assert_that(has_name(Datalijst[["Afgeleid"]], "Omtrek"))
   assert_that(inherits(Datalijst[["Afgeleid"]]$Omtrek, "numeric"))
   assert_that(has_name(Datalijst[["Afgeleid"]], "HOOGTE"))
@@ -90,7 +90,7 @@ dhcurvesrapport <-
   assert_that(has_name(Datalijst[["Lokaal"]], "BOS_BHI"))
   assert_that(has_name(Datalijst[["Lokaal"]], "nBomen"))
   assert_that(has_name(Datalijst[["Lokaal"]], "nBomenInterval"))
-  assert_that(has_name(Datalijst[["Lokaal"]], "nBomenOmtrek05"))
+  assert_that(has_name(Datalijst[["Lokaal"]], "nBomenIntervalOmtrek05"))
   assert_that(has_name(Datalijst[["Lokaal"]], "Omtrek"))
   assert_that(inherits(Datalijst[["Lokaal"]]$Omtrek, "numeric"))
   assert_that(has_name(Datalijst[["Lokaal"]], "HOOGTE"))
@@ -129,7 +129,7 @@ dhcurvesrapport <-
       # idee is om na's te vervangen door de waarde van de andere velden
       nBomen = max(.data$nBomen, na.rm = TRUE),
       nBomenInterval = max(.data$nBomenInterval, na.rm = TRUE),
-      nBomenOmtrek05 = max(.data$nBomenOmtrek05, na.rm = TRUE),
+      nBomenIntervalOmtrek05 = max(.data$nBomenIntervalOmtrek05, na.rm = TRUE),
       Q5k = max(.data$Q5k, na.rm = TRUE),
       Q95k = max(.data$Q95k, na.rm = TRUE)
     ) %>%

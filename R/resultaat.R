@@ -46,8 +46,8 @@
 #'   \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
 #'     2,4 m)}
 #'   \item{`nBomenInterval` (aantal metingen waarop model gebaseerd is)}
-#'   \item{`nBomenOmtrek05` (aantal metingen > 0.5 m, dus waarop RMSE-berekening
-#'     gebaseerd is)}
+#'   \item{`nBomenIntervalOmtrek05` (aantal metingen > 0.5 m, dus waarop
+#'     RMSE-berekening gebaseerd is)}
 #' }
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
@@ -101,21 +101,21 @@ resultaat <-
     # Modellen.Vlaams <- Modellen.basis %>%
     #   select(-.data$Ad, -.data$Bd, -.data$Cd, -.data$rmseD) %>%
     #   mutate(
-    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenOmtrek05 - 2)    #nolint
+    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint
     #   ) %>%
     #   group_by(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
     #   summarise(
     #     nBomen = sum(.data$nBomen),
     #     nBomenInterval = sum(.data$nBomenInterval),
-    #     nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))   #nolint
+    #     nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
+    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))   #nolint
     #   ) %>%
     #   ungroup() %>%
     #   rename(
     #     A = .data$Avl,
     #     B = .data$Bvl,
     #     C = .data$Cvl,
-    #     nBomenOmtrek05 = .data$nBomenOmtrek05VL    #nolint
+    #     nBomenIntervalOmtrek05 = .data$nBomenIntervalOmtrek05VL    #nolint
     #   ) %>%
     #   mutate(
     #     Modeltype = "Vlaams model"     #nolint
@@ -132,12 +132,12 @@ resultaat <-
         ) %>%
         ungroup() %>%
         mutate(
-          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
+          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenIntervalOmtrek05 - 2)
         ) %>%
         group_by(.data$BMS) %>%
         summarise(
-          nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
+          nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
+          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))
         ) %>%
         ungroup()
 
@@ -166,7 +166,7 @@ resultaat <-
               .data$DOMEIN_ID,
               .data$nBomen,
               .data$nBomenInterval,
-              .data$nBomenOmtrek05
+              .data$nBomenIntervalOmtrek05
             ) %>%
             distinct() %>%
             left_join(
@@ -185,7 +185,7 @@ resultaat <-
               C = .data$Cvl,
               .data$nBomen,
               .data$nBomenInterval,
-              .data$nBomenOmtrek05,
+              .data$nBomenIntervalOmtrek05,
               .data$Q5k,
               .data$Q95k,
               RMSE = .data$rmseD
@@ -232,7 +232,7 @@ resultaat <-
         C = .data$Cd,
         .data$nBomen,
         .data$nBomenInterval,
-        .data$nBomenOmtrek05,
+        .data$nBomenIntervalOmtrek05,
         .data$Q5k,
         .data$Q95k,
         RMSE = .data$rmseD
@@ -255,7 +255,7 @@ resultaat <-
     Lijst.onbruikbaar <- Data.onbruikbaar %>%
       select(
         .data$DOMEIN_ID, .data$BMS,
-        .data$nBomen, .data$nBomenInterval, .data$nBomenOmtrek05,
+        .data$nBomen, .data$nBomenInterval, .data$nBomenIntervalOmtrek05,
         .data$Q5k, .data$Q95k
         ) %>%
         distinct() %>%

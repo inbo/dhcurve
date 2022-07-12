@@ -53,8 +53,8 @@ het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
 gegevens),
 \code{nBomenTotOmtrek05} (aantal metingen met omtrek > 0.5 m),
 \code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval)
-en \code{nBomenOmtrek05} (aantal metingen binnen het bruikbaar interval met
-omtrek > 0.5 m)).
+en \code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
+met omtrek > 0.5 m)).
 
 De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 \itemize{

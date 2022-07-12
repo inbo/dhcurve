@@ -106,12 +106,12 @@ outputIVANHO <-
       #Rmse van Vlaams model berekenen
       RmseVL <- rmse_basis %>%
         mutate(
-          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
+          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenIntervalOmtrek05 - 2)
         ) %>%
         group_by(.data$BMS) %>%
         summarise(
-          nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
+          nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
+          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))
         ) %>%
         ungroup()
 

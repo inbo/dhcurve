@@ -120,26 +120,26 @@ invoercontrole <- function(Data, Type) {
         stop("De waarden in de kolom nBomenInterval mogen niet negatief zijn")
       }
 
-      assert_that(has_name(Data, "nBomenOmtrek05"),
+      assert_that(has_name(Data, "nBomenIntervalOmtrek05"),
                   msg = "De opgegeven dataframe heeft geen veld met
-                  naam nBomenOmtrek05")
-      if (!isTRUE(all.equal(Data$nBomenOmtrek05,
-                            as.integer(Data$nBomenOmtrek05),
+                  naam nBomenIntervalOmtrek05")
+      if (!isTRUE(all.equal(Data$nBomenIntervalOmtrek05,
+                            as.integer(Data$nBomenIntervalOmtrek05),
                             check.attributes = FALSE))) {
         stop(
-          "De waarden in de kolom nBomenOmtrek05 moeten gehele getallen zijn"
+          "De waarden in de kolom nBomenIntervalOmtrek05 moeten gehele getallen zijn" #nolint
         )
       }
-      if (!all(Data$nBomenOmtrek05 >= 0)) {
-        stop("De waarden in de kolom nBomenOmtrek05 mogen niet negatief zijn")
+      if (!all(Data$nBomenIntervalOmtrek05 >= 0)) {
+        stop("De waarden in de kolom nBomenIntervalOmtrek05 mogen niet negatief zijn") #nolint
       }
 
       if (!all(Data$nBomen >= Data$nBomenInterval)) {
         stop("nBomen moet groter zijn dan nBomenInterval")
       }
 
-      if (!all(Data$nBomenInterval >= Data$nBomenOmtrek05)) {
-        stop("nBomenInterval moet groter zijn dan nBomenOmtrek05")
+      if (!all(Data$nBomenInterval >= Data$nBomenIntervalOmtrek05)) {
+        stop("nBomenInterval moet groter zijn dan nBomenIntervalOmtrek05")
       }
 
       assert_that(

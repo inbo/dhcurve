@@ -61,14 +61,14 @@ describe("afwijkendemetingen", {
     ) %>%
     ungroup() %>%
     mutate(
-      sseVL = (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
+      sseVL = (rmseVL) ^ 2 * (nBomenIntervalOmtrek05 - 2)
     ) %>%
     group_by(BMS) %>%
     summarise(
       nBomen = sum(nBomen),
       nBomenInterval = sum(nBomenInterval),
-      nBomenOmtrek05VL = sum(nBomenOmtrek05),
-      rmseVL = sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+      nBomenIntervalOmtrek05VL = sum(nBomenIntervalOmtrek05),
+      rmseVL = sqrt(sum(sseVL) / (nBomenIntervalOmtrek05VL - 2))
     ) %>%
     ungroup()
 
@@ -175,7 +175,7 @@ describe("afwijkendemetingen", {
     expect_equal(afwijkendeMetingen(DatasetBasis) %>%
                    colnames(.),
                  c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                   "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
                    "nBomenTotOmtrek05", "Q5", "Q95", "BMS", "rmseD", "maxResid",
@@ -183,7 +183,7 @@ describe("afwijkendemetingen", {
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                   "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
                    "Rijnr", "logOmtrek", "logOmtrek2", "nBomenTotOmtrek05",
                    "Q5", "Q95", "H_D_finaal", "ResidD2", "nBomenModel",
@@ -192,7 +192,8 @@ describe("afwijkendemetingen", {
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
                    colnames(.),
-                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+                   "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
                    "logOmtrek2", "nBomenTotOmtrek05", "Q5", "Q95", "BMS",

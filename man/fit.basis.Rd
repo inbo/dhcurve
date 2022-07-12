@@ -15,7 +15,7 @@ bij de functie \code{initiatie()}.  (Een dataframe met minimaal de velden \code{
 \code{Status} (van data: "niet gecontroleerd", "gecontroleerd",...),
 \code{nBomen} (aantal bomen per boomsoort-domeincombinatie),
 \code{nBomenInterval} (aantal bomen per boomsoort-domeincombinatie binnen
-bruikbaar interval), \code{nBomenOmtrek05} (aantal bomen per
+bruikbaar interval), \code{nBomenIntervalOmtrek05} (aantal bomen per
 boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
 \code{Q5k} en \code{Q95k} ("bruikbaar interval").)}
 }

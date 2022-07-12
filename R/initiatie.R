@@ -46,8 +46,8 @@
 #' gegevens),
 #' `nBomenTotOmtrek05` (aantal metingen met omtrek > 0.5 m),
 #' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval)
-#' en `nBomenOmtrek05` (aantal metingen binnen het bruikbaar interval met
-#' omtrek > 0.5 m)).
+#' en `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval
+#' met omtrek > 0.5 m)).
 #'
 #' De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 #' \itemize{
@@ -256,7 +256,7 @@ initiatie <-
       .data$nBomenInterval
     ) %>%
     summarise(
-      nBomenOmtrek05 = n()
+      nBomenIntervalOmtrek05 = n()
     ) %>%
     ungroup() %>%
     inner_join(
@@ -276,8 +276,10 @@ initiatie <-
     filter(
       .data$Omtrek > .data$Q5k - 0.05,
       .data$Omtrek < .data$Q95k + 0.05,
-      ((.data$nBomenOmtrek05 > min_basismodel & is.na(.data$min_basis)) |
-        (!is.na(.data$min_basis) & .data$nBomenOmtrek05 > .data$min_basis))
+      ((.data$nBomenIntervalOmtrek05 > min_basismodel
+        & is.na(.data$min_basis)) |
+        (!is.na(.data$min_basis) &
+           .data$nBomenIntervalOmtrek05 > .data$min_basis))
     ) %>%
     select(
       -.data$min_basis, -.data$min_afgeleid

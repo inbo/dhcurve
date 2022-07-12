@@ -141,7 +141,7 @@ rmse.basis <- function(Data, Typemodel, BMS) {
       .data$DOMEIN_ID,
       .data$nBomen,
       .data$nBomenInterval,
-      .data$nBomenOmtrek05,
+      .data$nBomenIntervalOmtrek05,
       .data$Q5k,
       .data$Q95k
     ) %>%
@@ -156,11 +156,11 @@ rmse.basis <- function(Data, Typemodel, BMS) {
       .data$DOMEIN_ID,
       .data$nBomen,
       .data$nBomenInterval,
-      .data$nBomenOmtrek05,
+      .data$nBomenIntervalOmtrek05,
       .data$Q5k,
       .data$Q95k,
-      rmseD = sqrt(.data$sseD / (.data$nBomenOmtrek05 - 2)),
-      rmseVL = sqrt(.data$sseVL / (.data$nBomenOmtrek05 - 2)),
+      rmseD = sqrt(.data$sseD / (.data$nBomenIntervalOmtrek05 - 2)),
+      rmseVL = sqrt(.data$sseVL / (.data$nBomenIntervalOmtrek05 - 2)),
       .data$maxResid
     )
 
