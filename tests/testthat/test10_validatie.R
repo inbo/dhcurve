@@ -59,14 +59,14 @@ describe("validatie", {
                    "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
-                   "nBomenTotOmtrek05", "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "nBomenOmtrek05", "Q5", "Q95", "BMS", "rmseD", "maxResid",
                    "HogeRmse", "Afwijkend"))
     expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel) %>%
                    colnames(.),
                  c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
                    "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "nBomenTotOmtrek05",
+                   "Rijnr", "logOmtrek", "logOmtrek2", "nBomenOmtrek05",
                    "Q5", "Q95", "H_D_finaal", "ResidD2", "nBomenModel",
                    "RmseVerschuiving", "rmseVL", "rmseD", "HogeRmse",
                    "Afwijkend")
@@ -77,7 +77,7 @@ describe("validatie", {
                    "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "nBomenTotOmtrek05", "Q5", "Q95", "BMS",
+                   "logOmtrek2", "nBomenOmtrek05", "Q5", "Q95", "BMS",
                    "rmseD", "maxResid", "HogeRmse", "Afwijkend")
     )
   })

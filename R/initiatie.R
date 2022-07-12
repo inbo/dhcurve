@@ -44,7 +44,7 @@
 #' (= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de grenzen van
 #' het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
 #' gegevens),
-#' `nBomenTotOmtrek05` (aantal metingen met omtrek > 0.5 m),
+#' `nBomenOmtrek05` (aantal metingen met omtrek > 0.5 m),
 #' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval)
 #' en `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval
 #' met omtrek > 0.5 m)).
@@ -218,7 +218,7 @@ initiatie <-
     ) %>%
     mutate(
       nBomen = n(),
-      nBomenTotOmtrek05 = sum(.data$Omtrek > 0.5),
+      nBomenOmtrek05 = sum(.data$Omtrek > 0.5),
       Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
       #het klassenmidden van Q5:
       Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
@@ -323,10 +323,10 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
-      ((.data$nBomenTotOmtrek05 > min_afgeleidmodel &
+      ((.data$nBomenOmtrek05 > min_afgeleidmodel &
           is.na(.data$min_afgeleid)) |
         (!is.na(.data$min_afgeleid) &
-           .data$nBomenTotOmtrek05 > .data$min_afgeleid)),
+           .data$nBomenOmtrek05 > .data$min_afgeleid)),
       .data$Omtrek > 0.5
     ) %>%
     mutate(

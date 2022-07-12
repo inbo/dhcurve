@@ -51,7 +51,7 @@ behalve de variabelen uit \code{Data} de berekende variabelen \code{Omtrek}
 (= omtrekklasse), \code{logOmtrek}, \code{logOmtrek2}, \code{Q5k} en \code{Q95k} (de grenzen van
 het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
 gegevens),
-\code{nBomenTotOmtrek05} (aantal metingen met omtrek > 0.5 m),
+\code{nBomenOmtrek05} (aantal metingen met omtrek > 0.5 m),
 \code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval)
 en \code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
 met omtrek > 0.5 m)).

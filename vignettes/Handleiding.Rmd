@@ -260,7 +260,7 @@ De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen 
 - bruikbaar interval (`Q5k` en `Q95k`)
 - `RMSE`
 - `nBomen`: aantal metingen met omtrek < 2,4 m
-- `nBomenTotOmtrek05`: aantal metingen > 0.5 m (dus het aantal metingen waarop het afgeleid model gebaseerd is)
+- `nBomenOmtrek05`: aantal metingen > 0.5 m (dus het aantal metingen waarop het afgeleid model gebaseerd is)
 - `nBomenInterval`: aantal metingen waarop het model gebaseerd is (ingeval van basismodel of lokaal model)
 - `nBomenIntervalOmtrek05`: aantal metingen > 0.5 m binnen het interval (dus het aantal metingen waarop de RMSE-berekening van het basismodel en lokaal model gebaseerd is)
 
