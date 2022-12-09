@@ -158,9 +158,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een basismodel"
     )
     expect_equal(
-      validatie.basis(
-        Basismodel,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.basis(
+          Basismodel,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.basis(Basismodel)
     )
@@ -179,9 +181,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model"
     )
     expect_equal(
-      validatie.afgeleid(
-        Basismodel, Afgeleidmodel,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.afgeleid(
+          Basismodel, Afgeleidmodel,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.afgeleid(Basismodel, Afgeleidmodel)
     )
@@ -200,9 +204,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
     )
     expect_equal(
-      validatie.lokaal(
-        Lokaalmodel, Data.lokaal,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.lokaal(
+          Lokaalmodel, Data.lokaal,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.lokaal(Lokaalmodel, Data.lokaal)
     )
@@ -225,10 +231,12 @@ describe("validatie", {
       "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
     )
     expect_equal(
-      validatie.basis(
-        Basismodel,
-        GoedgekeurdeAfwijkendeCurves =
-          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      suppressWarnings(
+        validatie.basis(
+          Basismodel,
+          GoedgekeurdeAfwijkendeCurves =
+            data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+        )
       ),
       validatie.basis(Basismodel)
     )
@@ -241,10 +249,12 @@ describe("validatie", {
       "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
     )
     expect_equal(
-      validatie.lokaal(
-        Lokaalmodel, Data.lokaal,
-        GoedgekeurdeAfwijkendeCurves =
-          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      suppressWarnings(
+        validatie.lokaal(
+          Lokaalmodel, Data.lokaal,
+          GoedgekeurdeAfwijkendeCurves =
+            data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+        )
       ),
       validatie.lokaal(Lokaalmodel, Data.lokaal)
     )
