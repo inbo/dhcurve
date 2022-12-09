@@ -97,7 +97,7 @@ describe("afwijkendemetingen", {
     ) %>%
     do(
       hoogteschatting.afgeleid(.$Model[[1]],
-                                select(., -.data$Model))
+                                select(., -Model))
     ) %>%
     ungroup() %>%
     mutate(
@@ -159,7 +159,7 @@ describe("afwijkendemetingen", {
     ) %>%
     do(
       hoogteschatting.basis(.$Model[[1]],
-                             select(., -.data$Model),
+                             select(., -Model),
                              "Lokaal", .$BMS)
     ) %>%
     ungroup()

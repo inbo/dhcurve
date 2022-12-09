@@ -92,7 +92,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
   }
   if (has_name(Soortdata, "BMS")) {
     Soortdata <- Soortdata %>%
-      select(-.data$BMS)
+      select(-"BMS")
   }
 
 
@@ -101,8 +101,8 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
   Schatting.soort <- Soortdata %>%
     select(
-      .data$DOMEIN_ID, .data$BOS_BHI, .data$nBomenInterval,
-      .data$nBomenIntervalOmtrek05, .data$nBomen, .data$Q5k, .data$Q95k
+      "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+      "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k"
     ) %>%
     distinct()
 
@@ -132,15 +132,15 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
   #resultaten koppelen aan dataset met meetgegevens
   Schatting.soort <- Schatting.soort %>%
-    select(-.data$logOmtrek, -.data$logOmtrek2) %>%
+    select(-"logOmtrek", -"logOmtrek2") %>%
     full_join(
       Soortdata %>%
         mutate(y = as.integer(round(100 * .data$Omtrek))) %>%
-        select(-.data$Omtrek),
+        select(-"Omtrek"),
       by = c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
              "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "y")
     ) %>%
-    select(-.data$y) %>%
+    select(-"y") %>%
     mutate(
       BMS = BMS,
       IDbms =

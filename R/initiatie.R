@@ -282,14 +282,14 @@ initiatie <-
            .data$nBomenIntervalOmtrek05 > .data$min_basis))
     ) %>%
     select(
-      -.data$min_basis, -.data$min_afgeleid
+      -"min_basis", -"min_afgeleid"
     )
 
   # 1A) alle bms-domeincombinaties met min. 50 metingen in 6 domeinen ----
   Basisdata <- Data_Selectie_50 %>%
     select(
-      .data$BMS,
-      .data$DOMEIN_ID
+      "BMS",
+      "DOMEIN_ID"
     ) %>%
     distinct() %>%
     group_by(
@@ -318,7 +318,7 @@ initiatie <-
     ) %>%
     anti_join(
       Basisdata %>%
-        select(.data$BMS, .data$DOMEIN_ID) %>%
+        select("BMS", "DOMEIN_ID") %>%
         distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
@@ -333,25 +333,25 @@ initiatie <-
       Q5k = ifelse(.data$Q5k > 0.5, .data$Q5k, 0.55)
     ) %>%
     select(
-      -.data$min_basis, -.data$min_afgeleid
+      -"min_basis", -"min_afgeleid"
     )
 
   # 3) alle bms-domeincombinaties waar géén model voor lukt ----
   Data.rest <- Data.aantallen %>%
     anti_join(
       Data_Selectie_50 %>%
-        select(.data$BMS, .data$DOMEIN_ID) %>%
+        select("BMS", "DOMEIN_ID") %>%
         distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     anti_join(
       Data.afgeleid %>%
-        select(.data$BMS, .data$DOMEIN_ID) %>%
+        select("BMS", "DOMEIN_ID") %>%
         distinct(),
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     select(
-      -.data$min_basis, -.data$min_afgeleid
+      -"min_basis", -"min_afgeleid"
     )
 
 

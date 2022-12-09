@@ -96,7 +96,7 @@ validatie.basis <-
   Dataset <- Hoogteschatting %>%
     inner_join(
       Rmse %>%
-        select(.data$BMS, .data$DOMEIN_ID, .data$rmseD, .data$maxResid),
+        select("BMS", "DOMEIN_ID", "rmseD", "maxResid"),
       by = c("BMS", "DOMEIN_ID")
     )
 
@@ -148,7 +148,7 @@ validatie.basis <-
     AfwijkendeCurvesNegeren <- GoedgekeurdeAfwijkendeCurves %>%
       left_join(
         Dataset %>%
-          select(.data$DOMEIN_ID, .data$BMS, .data$nBomenInterval) %>%
+          select("DOMEIN_ID", "BMS", "nBomenInterval") %>%
           distinct(),
         by = c("DOMEIN_ID", "BMS")
       ) %>%
@@ -162,7 +162,7 @@ validatie.basis <-
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
-    select(.data$DOMEIN_ID, .data$BMS) %>%
+    select("DOMEIN_ID", "BMS") %>%
     distinct() %>%
     mutate(
       Reden = "hoge RMSE"
@@ -180,7 +180,7 @@ validatie.basis <-
           .data$Status != "Goedgekeurd"
         ) %>%
         select(
-          .data$BMS, .data$DOMEIN_ID
+          "BMS", "DOMEIN_ID"
         ) %>%
         distinct() %>%
         mutate(

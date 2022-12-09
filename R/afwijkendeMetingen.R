@@ -42,7 +42,7 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
               msg = "AantalDomHogeRMSE moet een positief geheel getal zijn.")
 
   HogeRmse <- Dataset %>%
-    select(.data$BMS, .data$DOMEIN_ID, .data$rmseD) %>%
+    select("BMS", "DOMEIN_ID", "rmseD") %>%
     distinct() %>%
     arrange(desc(.data$rmseD)) %>%
     slice(seq_len(AantalDomHogeRMSE)) %>%
@@ -70,7 +70,7 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
     slice(1:10) %>%
     ungroup() %>%
     select(
-      .data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE, .data$HogeAfwijking
+      "BMS", "DOMEIN_ID", "C13", "HOOGTE", "HogeAfwijking"
     ) %>%
     distinct()
 

@@ -118,7 +118,7 @@ validatierapport <-
     left_join(
       AfwijkendeMetingen %>%
         filter(.data$Status != "Goedgekeurd") %>%
-        select(.data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE) %>%
+        select("BMS", "DOMEIN_ID", "C13", "HOOGTE") %>%
         distinct() %>%
         mutate(TeControlerenAfwijking = TRUE),
       by = c("BMS", "DOMEIN_ID", "C13", "HOOGTE")

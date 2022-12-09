@@ -91,7 +91,7 @@ validatie.afgeleid <-
     ) %>%
     ungroup() %>%
     inner_join(
-      RmseVL %>% select(.data$BMS, .data$rmseVL),
+      RmseVL %>% select("BMS", "rmseVL"),
       by = c("BMS")
     ) %>%
     mutate(
@@ -110,7 +110,7 @@ validatie.afgeleid <-
     ) %>%
     do(
       hoogteschatting.afgeleid(.$Model[[1]],
-                                select(., -.data$Model))
+                                select(., -"Model"))
     ) %>%
     ungroup() %>%
     mutate(
@@ -118,7 +118,7 @@ validatie.afgeleid <-
     )
 
   Dataset <- Hoogteschatting %>%
-    select(.data$BMS, .data$DOMEIN_ID, .data$ResidD2) %>%
+    select("BMS", "DOMEIN_ID", "ResidD2") %>%
     filter(!is.na(.data$ResidD2)) %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
     summarise(
@@ -152,7 +152,7 @@ validatie.afgeleid <-
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
-    select(.data$DOMEIN_ID, .data$BMS) %>%
+    select("DOMEIN_ID", "BMS") %>%
     distinct() %>%
     mutate(
       Reden = "hoge RMSE"
@@ -163,7 +163,7 @@ validatie.afgeleid <-
           .data$Status != "Goedgekeurd"
         ) %>%
         select(
-          .data$BMS, .data$DOMEIN_ID
+          "BMS", "DOMEIN_ID"
         ) %>%
         distinct() %>%
         mutate(

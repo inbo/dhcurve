@@ -31,9 +31,9 @@ modelparameters.basis <- function(Soortmodel, BMS) {
 
   Soortparameters <- Soortmodel$data %>%
     select(
-      .data$DOMEIN_ID,
-      .data$Q5k,
-      .data$Q95k
+      "DOMEIN_ID",
+      "Q5k",
+      "Q95k"
     ) %>%
     distinct() %>%
     left_join(

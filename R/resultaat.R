@@ -70,7 +70,7 @@ resultaat <-
   if (!is.null(Basismodel)) {
     invoercontrole(Basismodel, "basismodel")
     Modellen.basis <- modelparameters(Basismodel) %>%
-    select(-.data$Q5k, -.data$Q95k) %>%
+    select(-"Q5k", -"Q95k") %>%
     left_join(Basismodel %>%
                 rowwise() %>%
                 do(
@@ -78,15 +78,15 @@ resultaat <-
                 ) %>%
                 ungroup(),
               c("BMS", "DOMEIN_ID")) %>%
-    select(-.data$maxResid)
+    select(-"maxResid")
 
     Modellen <- Modellen.basis %>%
-      select(-.data$Avl, -.data$Bvl, -.data$Cvl, -.data$rmseVL) %>%
+      select(-"Avl", -"Bvl", -"Cvl", -"rmseVL") %>%
       rename(
-        A = .data$Ad,
-        B = .data$Bd,
-        C = .data$Cd,
-        RMSE = .data$rmseD
+        A = "Ad",
+        B = "Bd",
+        C = "Cd",
+        RMSE = "rmseD"
       ) %>%
       mutate(
         Modeltype = "basismodel"
@@ -99,7 +99,7 @@ resultaat <-
     # voegen we het niet toe
 
     # Modellen.Vlaams <- Modellen.basis %>%
-    #   select(-.data$Ad, -.data$Bd, -.data$Cd, -.data$rmseD) %>%
+    #   select(-"Ad", -"Bd", -"Cd", -"rmseD") %>%
     #   mutate(
     #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint
     #   ) %>%
@@ -149,7 +149,7 @@ resultaat <-
         ) %>%
         ungroup() %>%
         inner_join(
-          RmseVL %>% select(.data$BMS, .data$rmseVL),
+          RmseVL %>% select("BMS", "rmseVL"),
           by = c("BMS")
         ) %>%
         mutate(
@@ -162,15 +162,15 @@ resultaat <-
         bind_rows(
           Afgeleidmodel[[2]] %>%
             select(
-              .data$BMS,
-              .data$DOMEIN_ID,
-              .data$nBomen,
-              .data$nBomenInterval,
-              .data$nBomenIntervalOmtrek05
+              "BMS",
+              "DOMEIN_ID",
+              "nBomen",
+              "nBomenInterval",
+              "nBomenIntervalOmtrek05"
             ) %>%
             distinct() %>%
             left_join(
-              RmseAfg %>% select(.data$BMS, .data$DOMEIN_ID, .data$rmseD),
+              RmseAfg %>% select("BMS", "DOMEIN_ID", "rmseD"),
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             left_join(
@@ -213,7 +213,7 @@ resultaat <-
 
     Modellen.lokaal <-
       modelparameters(Lokaalmodel, Data.lokaal) %>%
-      select(-.data$Q5k, -.data$Q95k) %>%
+      select(-"Q5k", -"Q95k") %>%
       left_join(Data.lokaal %>%
                   group_by(
                     .data$BMS,
@@ -225,17 +225,17 @@ resultaat <-
                   ungroup(),
                 c("BMS", "DOMEIN_ID")) %>%
       select(
-        .data$DOMEIN_ID,
-        .data$BMS,
-        A = .data$Ad,
-        B = .data$Bd,
-        C = .data$Cd,
-        .data$nBomen,
-        .data$nBomenInterval,
-        .data$nBomenIntervalOmtrek05,
-        .data$Q5k,
-        .data$Q95k,
-        RMSE = .data$rmseD
+        "DOMEIN_ID",
+        "BMS",
+        A = "Ad",
+        B = "Bd",
+        C = "Cd",
+        "nBomen",
+        "nBomenInterval",
+        "nBomenIntervalOmtrek05",
+        "Q5k",
+        "Q95k",
+        RMSE = "rmseD"
       ) %>%
       mutate(
         Modeltype = "lokaal model"
@@ -254,14 +254,14 @@ resultaat <-
 
     Lijst.onbruikbaar <- Data.onbruikbaar %>%
       select(
-        .data$DOMEIN_ID, .data$BMS,
-        .data$nBomen, .data$nBomenInterval, .data$nBomenIntervalOmtrek05,
-        .data$Q5k, .data$Q95k
-        ) %>%
-        distinct() %>%
-        mutate(
-          Modeltype = "Geen model"
-        )
+        "DOMEIN_ID", "BMS",
+        "nBomen", "nBomenInterval", "nBomenIntervalOmtrek05",
+        "Q5k", "Q95k"
+      ) %>%
+      distinct() %>%
+      mutate(
+        Modeltype = "Geen model"
+      )
 
     if (exists("Modellen")) {
       Modellen <- Modellen %>%

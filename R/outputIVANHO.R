@@ -63,10 +63,10 @@ outputIVANHO <-
         .data$Hoogteverschil.d > 0
       ) %>%
       select(
-        .data$DOMEIN_ID,
-        .data$BMS,
-        .data$Omtrek_Extr_Hoogte.d,
-        .data$Extr_Hoogte.d
+        "DOMEIN_ID",
+        "BMS",
+        "Omtrek_Extr_Hoogte.d",
+        "Extr_Hoogte.d"
       )
 
     #rsme_basis berekenen
@@ -123,7 +123,7 @@ outputIVANHO <-
         ) %>%
         ungroup() %>%
         inner_join(
-          RmseVL %>% select(.data$BMS, .data$rmseVL),
+          RmseVL %>% select("BMS", "rmseVL"),
           by = c("BMS")
         ) %>%
         transmute(
@@ -149,7 +149,7 @@ outputIVANHO <-
             ) %>%
             do(
               hoogteschatting.afgeleid(.$Model[[1]],
-                                       select(., -.data$Model))
+                                       select(., -"Model"))
             ) %>%
             ungroup() %>%
             mutate(
@@ -183,10 +183,10 @@ outputIVANHO <-
         .data$Hoogteverschil.d > 0
       ) %>%
       select(
-        .data$DOMEIN_ID,
-        .data$BMS,
-        .data$Omtrek_Extr_Hoogte.d,
-        .data$Extr_Hoogte.d
+        "DOMEIN_ID",
+        "BMS",
+        "Omtrek_Extr_Hoogte.d",
+        "Extr_Hoogte.d"
       )
 
     Hoogte.lokaal <- Lokaalmodel %>%
@@ -200,7 +200,7 @@ outputIVANHO <-
       ) %>%
       do(
         hoogteschatting.basis(.$Model[[1]],
-                               select(., -.data$Model),
+                               select(., -"Model"),
                                "Lokaal", unique(.$BMS))
       ) %>%
       ungroup() %>%

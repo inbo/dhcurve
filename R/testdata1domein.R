@@ -54,7 +54,7 @@ testdata1domein <- function(nBomen = 100, minOmtrek = 20, maxOmtrek = 239,
       HOOGTE = ifelse(.data$HOOGTE <= 0, 0.1, .data$HOOGTE)
     ) %>%
     ungroup() %>%
-    select(-.data$Omtrek)
+    select(-"Omtrek")
 
   return(Metingen)
 }

@@ -63,7 +63,7 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
       ungroup() %>%
       inner_join(
         modelparameters(Basismodel) %>%
-          select(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
+          select("BMS", "Avl", "Bvl", "Cvl") %>%
           distinct(),
         by = c("BMS")
       )

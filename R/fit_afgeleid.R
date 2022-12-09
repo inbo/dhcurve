@@ -62,11 +62,11 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     ) %>%
     do(
       hoogteschatting.basis(.$Model[[1]],
-                             select(., -.data$Model),
+                             select(., -"Model"),
                              "Basis", unique(.data$BMS))
     ) %>%
     ungroup() %>%
-    select(-.data$H_D_finaal)
+    select(-"H_D_finaal")
 
   mod_fun <- function(df) {
     lm(
@@ -83,7 +83,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       Model = map(.data$data, mod_fun)
     ) %>%
     ungroup() %>%
-    select(-.data$data)
+    select(-"data")
 
   return(list(Afgeleidmodel, Hoogteschatting))
 }

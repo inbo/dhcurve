@@ -50,7 +50,7 @@ fit.lokaal <- function(Data.lokaal) {
       Model = map(.data$data, mod_fun)
     ) %>%
     ungroup() %>%
-    select(-.data$data)
+    select(-"data")
 
   return(Lokaalmodel)
 }
