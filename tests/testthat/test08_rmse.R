@@ -10,7 +10,7 @@ library(dplyr)
 
 for (rmse in c(1, 3, 10)) {
 
-describe(sprintf("rmse", rmse), {
+describe(sprintf("rmse %d", rmse), {
 
   Data <- dataAfwijkendeCurve(nBomen = 10000, sd = rmse)
 
