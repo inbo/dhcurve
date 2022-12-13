@@ -104,9 +104,7 @@ initiatie <-
   min_afgeleidmodel <- 10
 
   #variabelen 'gebruiken' om lintr-foutmelding weg te werken ----
-  assert_that(is.count(min_basismodel))
   assert_that(is.count(min_domeinen_basismodel))
-  assert_that(is.count(min_afgeleidmodel))
 
 
   #controle op invoer ----
@@ -131,7 +129,7 @@ initiatie <-
       )
       Uitzonderingen$min_basis <- as.integer(Uitzonderingen$min_basis)
     }
-    assert_that(all(Uitzonderingen$min_basis > 50, na.rm = TRUE),
+    assert_that(all(Uitzonderingen$min_basis > min_basismodel, na.rm = TRUE),
       msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 50 zijn (of NA)") #nolint
   }
 
@@ -152,7 +150,7 @@ initiatie <-
       )
       Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
     }
-    assert_that(all(Uitzonderingen$min_afgeleid > 10, na.rm = TRUE),
+    assert_that(all(Uitzonderingen$min_afgeleid > min_afgeleidmodel, na.rm = TRUE),
                 msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
   }
 
@@ -182,7 +180,7 @@ initiatie <-
     ) %>%
     ungroup() %>%
     filter(
-      .data$nTotaal >= 10,
+      .data$nTotaal >= min_afgeleidmodel,
       .data$nTotaal != .data$nInterval
     )
 
