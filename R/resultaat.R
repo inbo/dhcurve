@@ -72,15 +72,15 @@ resultaat <-
   if (!is.null(Basismodel)) {
     invoercontrole(Basismodel, "basismodel")
     Modellen.basis <- modelparameters(Basismodel) %>%
-    select(-"Q5k", -"Q95k") %>%
-    left_join(Basismodel %>%
-                rowwise() %>%
-                do(
-                  rmse.basis(.$Model$data, "Basis", .$BMS)
-                ) %>%
-                ungroup(),
-              c("BMS", "DOMEIN_ID")) %>%
-    select(-"maxResid")
+      select(-"Q5k", -"Q95k") %>%
+      left_join(Basismodel %>%
+                  rowwise() %>%
+                  do(
+                    rmse.basis(.$Model$data, "Basis", .$BMS)
+                  ) %>%
+                  ungroup(),
+                c("BMS", "DOMEIN_ID")) %>%
+      select(-"maxResid")
 
     Modellen <- Modellen.basis %>%
       select(-"Avl", -"Bvl", -"Cvl", -"rmseVL") %>%

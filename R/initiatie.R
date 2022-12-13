@@ -321,10 +321,8 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
-      ((.data$nBomen > min_afgeleidmodel &
-          is.na(.data$min_afgeleid)) |
-        (!is.na(.data$min_afgeleid) &
-           .data$nBomen > .data$min_afgeleid))
+      ((.data$nBomen > min_afgeleidmodel & is.na(.data$min_afgeleid)) |
+        (!is.na(.data$min_afgeleid) & .data$nBomen > .data$min_afgeleid))
     ) %>%
     select(
       "BMS", "DOMEIN_ID",
