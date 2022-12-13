@@ -56,10 +56,10 @@ describe("fit", {
 
   Basismodel <- fit.basis(Data.basis)
   Kolomnamen <-
-    c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenIntervalOmtrek05",
-      "nBomen",
+    c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+      "nBomenIntervalOmtrek05", "nBomen",
       "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "nBomenOmtrek05",
+      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
       "Q5", "Q95", "BMS")
 
   it("Output van fit.afgeleid is correct (list met 2 tibbles)", {
