@@ -17,6 +17,7 @@ DOMEIN_ID: `r unique(SelectieModel$DOMEIN_ID)`
 __Potentiële problemen: `r unique(SelectieModel$Reden)`__
 
 RMSE = `r round(unique(SelectieModel$rmseD),2)`; aantal bomen = `r unique(SelectieModel$nBomen)`;
+aantal bomen met omtrek > 0,5 m = `r unique(SelectieModel$nBomenOmtrek05)`;
 aantal bomen in bruikbaar interval = `r unique(SelectieModel$nBomenInterval)`;
 aantal bomen in bruikbaar interval met omtrek > 0,5 m = `r unique(SelectieModel$nBomenIntervalOmtrek05)`
 

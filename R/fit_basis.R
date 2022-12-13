@@ -15,6 +15,8 @@
 #' `Omtrek`, `logOmtrek`, `logOmtrek2`,
 #' `Status` (van data: "niet gecontroleerd", "gecontroleerd",...),
 #' `nBomen` (aantal bomen per boomsoort-domeincombinatie),
+#' `nBomenOmtrek05` (aantal bomen per boomsoort-domeincombinatie met
+#' omtrek > 0.5 m),
 #' `nBomenInterval` (aantal bomen per boomsoort-domeincombinatie binnen
 #' bruikbaar interval), `nBomenIntervalOmtrek05` (aantal bomen per
 #' boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),

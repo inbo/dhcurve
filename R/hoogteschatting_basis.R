@@ -101,7 +101,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
   Schatting.soort <- Soortdata %>%
     select(
-      "DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+      "DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
       "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k"
     ) %>%
     distinct()
@@ -137,7 +137,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
       Soortdata %>%
         mutate(y = as.integer(round(100 * .data$Omtrek))) %>%
         select(-"Omtrek"),
-      by = c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
+      by = c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
              "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "y")
     ) %>%
     select(-"y") %>%

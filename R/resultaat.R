@@ -45,9 +45,11 @@
 #'   \item{`RMSE` (root mean square error, zie vignet voor meer info)}
 #'   \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
 #'     2,4 m)}
-#'   \item{`nBomenInterval` (aantal metingen waarop model gebaseerd is)}
-#'   \item{`nBomenIntervalOmtrek05` (aantal metingen > 0.5 m, dus waarop
-#'     RMSE-berekening gebaseerd is)}
+#'   \item{`nBomenOmtrek05` (aantal metingen > 0.5 m)}
+#'   \item{`nBomenInterval` (aantal metingen binnen bruikbaar interval, dus
+#'     waarop model gebaseerd is)}
+#'   \item{`nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
+#'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)}
 #' }
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
@@ -165,6 +167,7 @@ resultaat <-
               "BMS",
               "DOMEIN_ID",
               "nBomen",
+              "nBomenOmtrek05",
               "nBomenInterval",
               "nBomenIntervalOmtrek05"
             ) %>%
@@ -184,6 +187,7 @@ resultaat <-
               B = .data$Bvl,
               C = .data$Cvl,
               .data$nBomen,
+              .data$nBomenOmtrek05,
               .data$nBomenInterval,
               .data$nBomenIntervalOmtrek05,
               .data$Q5k,
@@ -231,6 +235,7 @@ resultaat <-
         B = "Bd",
         C = "Cd",
         "nBomen",
+        "nBomenOmtrek05",
         "nBomenInterval",
         "nBomenIntervalOmtrek05",
         "Q5k",
@@ -255,7 +260,7 @@ resultaat <-
     Lijst.onbruikbaar <- Data.onbruikbaar %>%
       select(
         "DOMEIN_ID", "BMS",
-        "nBomen", "nBomenInterval", "nBomenIntervalOmtrek05",
+        "nBomen", "nBomenOmtrek05", "nBomenInterval", "nBomenIntervalOmtrek05",
         "Q5k", "Q95k"
       ) %>%
       distinct() %>%

@@ -14,6 +14,8 @@ wordt bij de functie \code{initiatie()}.  (Een dataframe met minimaal de velden
 \code{HOOGTE}, \code{Omtrek},
 \code{logOmtrek}, \code{logOmtrek2}, \code{Status} (van data: "niet gecontroleerd",
 "gecontroleerd",...), \code{nBomen} (aantal bomen per boomsoort-domeincombinatie),
+\code{nBomenOmtrek05} (aantal bomen per boomsoort-domeincombinatie met
+omtrek > 0.5 m),
 \code{nBomenInterval} (aantal bomen per boomsoort-domeincombinatie binnen
 bruikbaar interval), \code{nBomenIntervalOmtrek05} (aantal bomen per
 boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),

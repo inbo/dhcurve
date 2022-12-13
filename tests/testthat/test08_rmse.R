@@ -21,8 +21,9 @@ describe(sprintf("rmse %d", rmse), {
   it("De rmse wordt correct berekend voor domeinen van het Basismodel", {
     expect_equal(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenIntervalOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "rmseVL",
                    "maxResid"))
     expect_equal(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)) %>%
                    filter(
@@ -42,8 +43,9 @@ describe(sprintf("rmse %d", rmse), {
                               filter(DOMEIN_ID == "HM"),
                             "Lokaal", unique(Lokaledata$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenIntervalOmtrek05", "Q5k", "Q95k", "rmseD", "maxResid")
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "maxResid")
                  )
     expect_equal(rmse.basis(Lokaledata %>%
                               filter(DOMEIN_ID == "HM"),
@@ -82,9 +84,9 @@ describe(sprintf("rmse %d", rmse), {
   it("De output van de functie is correct voor Vlaams model (Basismodel)", {
     expect_equal(rmse.basis(Basisdata2, "Basis", unique(Basisdata2$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenIntervalOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
-                   "maxResid"))
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "rmseVL", "maxResid"))
     expect_is(
       rmse.basis(Basisdata2, "Basis", unique(Basisdata2$BMS))$rmseVL, "numeric"
     )

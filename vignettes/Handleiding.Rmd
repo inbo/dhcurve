@@ -310,6 +310,7 @@ De functie `initiatie()` berekent per boomsoort-domeincombinatie enkele variabel
 
 - bruikbaar interval (`Q5k` en `Q95k`)
 - aantal bomen (`nBomen`), waarbij de bomen met omtrek > 2,4 m buiten beschouwing gelaten worden
+- aantal bomen met omtrek > 0,5 m (`nBomenOmtrek05`)
 - aantal bomen binnen bruikbaar interval (`nBomenInterval`)
 - aantal bomen binnen bruikbaar interval met omtrek > 0,5 m (`nBomenIntervalOmtrek05`)
 

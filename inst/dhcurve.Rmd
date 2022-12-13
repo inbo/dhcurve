@@ -9,6 +9,7 @@ library(assertthat)
 DOMEIN_ID: `r unique(DataModel$DOMEIN_ID)`; Modeltype: `r unique(DataModel$Modeltype)`
 
 RMSE = `r round(unique(DataModel$RMSE),2)`; aantal bomen = `r unique(DataModel$nBomen)`;
+aantal bomen met omtrek > 0,5 m = `r unique(DataModel$nBomenOmtrek05)`
 aantal bomen in bruikbaar interval = `r unique(DataModel$nBomenInterval)`;
 aantal bomen in bruikbaar interval met omtrek > 0,5 m = `r unique(DataModel$nBomenIntervalOmtrek05)`
 
