@@ -225,7 +225,7 @@ describe("initiatie", {
                             nBomen = integer(),
                             nBomenOmtrek05 = integer(),
                             Q5 = double(),
-                            Q5k = logical(),
+                            Q5k = double(),
                             Q95 = double(),
                             Q95k = double(),
                             stringsAsFactors = FALSE))

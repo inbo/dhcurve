@@ -226,7 +226,11 @@ initiatie <-
       #het klassenmidden van Q95:
       Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
     ) %>%
-    ungroup()
+    ungroup() %>%
+    left_join(
+      Uitzonderingen,
+      by = c("BMS", "DOMEIN_ID")
+    )
 
   Data.aantallen <- Data2 %>%
     filter(
@@ -261,10 +265,6 @@ initiatie <-
     ungroup() %>%
     inner_join(
       Data2,
-      by = c("BMS", "DOMEIN_ID")
-    ) %>%
-    left_join(
-      Uitzonderingen,
       by = c("BMS", "DOMEIN_ID")
     )
 
@@ -312,7 +312,7 @@ initiatie <-
 
   # 2) alle bms-domeincomb's met géén 50 metingen, wel een basismodel ----
       # (basismodel: 6 andere domein met > 50 metingen van die bms)
-  Data.afgeleid <- Data.aantallen %>%
+  Data.afgeleid <- Data2 %>%
     filter(
       .data$BMS %in% unique(Basisdata$BMS)
     ) %>%
@@ -323,15 +323,21 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
-      ((.data$nBomenOmtrek05 > min_afgeleidmodel &
+      ((.data$nBomen > min_afgeleidmodel &
           is.na(.data$min_afgeleid)) |
         (!is.na(.data$min_afgeleid) &
-           .data$nBomenOmtrek05 > .data$min_afgeleid)),
-      .data$Omtrek > 0.5
+           .data$nBomen > .data$min_afgeleid))
     ) %>%
-    mutate(
-      Q5k = ifelse(.data$Q5k > 0.5, .data$Q5k, 0.55)
+    select(
+      "BMS", "DOMEIN_ID",
+      nBomenInterval = "nBomen",
+      nBomenIntervalOmtrek05 = "nBomenOmtrek05"
     ) %>%
+    distinct()
+  # Kunstgreepje om de volgorde van de kolommen hetzelfde te krijgen als voor
+  # de andere modellen
+  Data.afgeleid <- Data.afgeleid %>%
+    inner_join(Data2, by = c("BMS", "DOMEIN_ID")) %>%
     select(
       -"min_basis", -"min_afgeleid"
     )
