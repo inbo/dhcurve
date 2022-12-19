@@ -129,7 +129,7 @@ validatie.afgeleid <-
       Hoogteschatting,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
-    inner_join(
+    left_join(
       Rmse,
       by = c("BMS", "DOMEIN_ID")
     )

@@ -38,10 +38,12 @@ describe("outputIVANHO", {
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             IDbms = 1,
-                            DOMEIN_ID = rep(c("HM", "LM"), 22),
-                            BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
-                                            22),
-                            Omtrek = rep(seq(0.25, 2.35, 0.1), each = 2),
+                            DOMEIN_ID = c("HM", rep(c("HM", "LM"), 24)),
+                            BOS_BHI =
+                              c("HoogMinimum",
+                                rep(c("HoogMinimum", "LaagMaximum"), 24)),
+                            Omtrek =
+                              c(0.15, rep(seq(0.25, 2.55, 0.1), each = 2)),
                             stringsAsFactors = FALSE) %>%
                    mutate(
                      Hoogte =
@@ -64,10 +66,11 @@ describe("outputIVANHO", {
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "andereboom",
                             IDbms = 2,
-                            DOMEIN_ID = rep(c("HM", "LM"), each = 22),
-                            BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
-                                          each = 22),
-                            Omtrek = seq(0.25, 2.35, 0.1),
+                            DOMEIN_ID = c("HM", rep(c("HM", "LM"), each = 24)),
+                            BOS_BHI =
+                              c("HoogMinimum",
+                                rep(c("HoogMinimum", "LaagMaximum"), each = 24)),
+                            Omtrek = c( 0.15, rep(seq(0.25, 2.55, 0.1), 2)),
                             stringsAsFactors = FALSE) %>%
                    mutate(
                      Hoogte =
@@ -106,7 +109,7 @@ describe("outputIVANHO", {
                             IDbms = 1,
                             DOMEIN_ID = "Klein",
                             BOS_BHI = "DOMEIN_Klein",
-                            Omtrek = seq(0.55, 2.35, 0.1),
+                            Omtrek = seq(0.45, 2.55, 0.1),
                             stringsAsFactors = FALSE) %>%
                    mutate(
                      Hoogte = 15 + 15 * log(Omtrek) + log(Omtrek) ^ 2,

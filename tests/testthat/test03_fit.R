@@ -86,6 +86,7 @@ describe("fit", {
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE),
                    Data.afgeleid %>%
+                     filter(Omtrek %in% unique(Data.basis$Omtrek)) %>%
                      select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE))

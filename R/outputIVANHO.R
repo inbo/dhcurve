@@ -255,7 +255,8 @@ outputIVANHO <-
         .data$RMSE,
         .data$Modeltype
       ) %>%
-      distinct()
+      distinct() %>%
+      filter(.data$Hoogte >= 2.5)
 
     return(Hoogteschatting)
   } else {

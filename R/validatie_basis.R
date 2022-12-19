@@ -94,7 +94,7 @@ validatie.basis <-
     ungroup()
 
   Dataset <- Hoogteschatting %>%
-    inner_join(
+    left_join(
       Rmse %>%
         select("BMS", "DOMEIN_ID", "rmseD", "maxResid"),
       by = c("BMS", "DOMEIN_ID")

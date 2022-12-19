@@ -97,7 +97,7 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
 
   #Hoogtes schatten voor alle omtrekklassen binnen bruikbaar interval
-  AlleKlassen <- seq(15, 245, 10)
+  AlleKlassen <- seq(15, 265, 10)
 
   Schatting.soort <- Soortdata %>%
     select(
@@ -108,8 +108,8 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
   Schatting.soort <- merge(Schatting.soort, AlleKlassen) %>%
     filter(
-      .data$y >= (100 * .data$Q5k) - 1,
-      .data$y <= (100 * .data$Q95k) + 1
+      .data$y >= (100 * .data$Q5k) - 31,
+      .data$y <= (100 * .data$Q95k) + 21
     ) %>%
     mutate(
       Omtrek = .data$y / 100,
