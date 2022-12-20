@@ -49,7 +49,7 @@ Afgeleidmodel[[1]] \%>\%
   ) \%>\%
   do(
     hoogteschatting.afgeleid(.$Model[[1]],
-                              select(., -.data$Model))
+                              select(., -Model))
   ) \%>\%
   ungroup()
 
