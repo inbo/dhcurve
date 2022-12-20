@@ -45,6 +45,7 @@
 #' group_by transmute distinct inner_join left_join summarise
 #' @importFrom plyr .
 #' @importFrom rlang .data
+#' @importFrom assertthat has_name
 #'
 
 outputIVANHO <-
@@ -172,6 +173,11 @@ outputIVANHO <-
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
       invoercontrole(Data.lokaal, "fit")
+      if (has_name(Data.lokaal, "VoorModelFit")) {
+        Data.lokaal <- Data.lokaal %>%
+          filter(.data$VoorModelFit) %>%
+          select(-"VoorModelFit")
+      }
     }
 
     #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan

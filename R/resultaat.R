@@ -60,9 +60,10 @@
 #' @export
 #'
 #' @importFrom dplyr %>% select left_join rowwise do ungroup rename mutate
-#' bind_rows group_by
+#' bind_rows group_by filter
 #' @importFrom plyr .
 #' @importFrom rlang .data
+#' @importFrom assertthat has_name
 #'
 
 resultaat <-
@@ -213,6 +214,11 @@ resultaat <-
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
       invoercontrole(Data.lokaal, "fit")
+      if (has_name(Data.lokaal, "VoorModelFit")) {
+        Data.lokaal <- Data.lokaal %>%
+          filter(.data$VoorModelFit) %>%
+          select(-"VoorModelFit")
+      }
     }
 
     Modellen.lokaal <-

@@ -50,7 +50,8 @@ describe("hoogteschatting", {
   it("De hoogtes worden correct berekend voor het lokaal model", {
     expect_equal(hoogteschatting.basis(Lokaalmodel$Model[[1]],
                                        Lokaledata %>%
-                                         filter(DOMEIN_ID == "HM"),
+                                         filter(DOMEIN_ID == "HM") %>%
+                                         select(-VoorModelFit),
                                        "Lokaal", unique(Lokaalmodel$BMS)) %>%
                    colnames(.),
                  c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",

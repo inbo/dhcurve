@@ -28,15 +28,21 @@
 #' @export
 #'
 #' @importFrom nlme lme lmeControl
-#' @importFrom dplyr %>% group_by select ungroup
+#' @importFrom dplyr %>% group_by select ungroup filter
 #' @importFrom tidyr nest
 #' @importFrom purrr map
 #' @importFrom rlang .data
+#' @importFrom assertthat has_name
 #'
 
 fit.basis <- function(Data.basis) {
 
   invoercontrole(Data.basis, "fit")
+  if (has_name(Data.basis, "VoorModelFit")) {
+    Data.basis <- Data.basis %>%
+      filter(.data$VoorModelFit) %>%
+      select(-"VoorModelFit")
+  }
 
   mod_fun <- function(df) {
     lme(

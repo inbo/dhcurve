@@ -119,6 +119,7 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = "SoortModel",
@@ -152,6 +153,7 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(56:110, 211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),
@@ -207,6 +209,7 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = character(),
@@ -238,6 +241,7 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),
@@ -307,6 +311,7 @@ describe("initiatie", {
                             Resultaat2status,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = "SoortModel",
@@ -340,6 +345,7 @@ describe("initiatie", {
                             Resultaat2status,
                             Rijnr = c(56:110, 211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),

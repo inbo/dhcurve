@@ -27,16 +27,22 @@
 #' @export
 #'
 #' @importFrom stats lm
-#' @importFrom dplyr %>% group_by do ungroup
+#' @importFrom dplyr %>% group_by do ungroup filter select
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom tidyr nest
 #' @importFrom purrr map
+#' @importFrom assertthat has_name
 #'
 
 fit.lokaal <- function(Data.lokaal) {
 
   invoercontrole(Data.lokaal, "fit")
+  if (has_name(Data.lokaal, "VoorModelFit")) {
+    Data.lokaal <- Data.lokaal %>%
+      filter(.data$VoorModelFit) %>%
+      select(-"VoorModelFit")
+  }
 
   mod_fun <- function(df) {
     lm(

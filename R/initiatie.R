@@ -208,20 +208,17 @@ initiatie <-
       logOmtrek = log(.data$Omtrek),
       logOmtrek2 = .data$logOmtrek ^ 2
     ) %>%
-    filter(
-      .data$Omtrek < 2.40
-    ) %>%
     group_by(
       .data$BMS,
       .data$DOMEIN_ID
     ) %>%
     mutate(
-      nBomen = n(),
-      nBomenOmtrek05 = sum(.data$Omtrek > 0.5),
+      nBomen = sum(.data$Omtrek < 2.40),
+      nBomenOmtrek05 = sum(.data$Omtrek > 0.5 & .data$Omtrek < 2.40),
       Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
       #het klassenmidden van Q5:
       Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
-      Q95 = quantile(.data$Omtrek, probs = 0.95) + 0.1,
+      Q95 = quantile(.data$Omtrek[.data$Omtrek < 2.40], probs = 0.95) + 0.1,
       #het klassenmidden van Q95:
       Q95k = pmin(floor(.data$Q95 * 10) / 10 + 0.05, 2.35)
     ) %>%
@@ -274,11 +271,14 @@ initiatie <-
   Data_Selectie_50 <- Data.aantallen %>%
     filter(
       .data$Omtrek > .data$Q5k - 0.05,
-      .data$Omtrek < .data$Q95k + 0.05,
+      .data$Omtrek < .data$Q95k + 0.25,
       ((.data$nBomenIntervalOmtrek05 > min_basismodel
         & is.na(.data$min_basis)) |
         (!is.na(.data$min_basis) &
            .data$nBomenIntervalOmtrek05 > .data$min_basis))
+    ) %>%
+    mutate(
+      VoorModelFit = (.data$Omtrek < .data$Q95k + 0.05)
     ) %>%
     select(
       -"min_basis", -"min_afgeleid"
@@ -366,5 +366,5 @@ initiatie <-
       list(Basis = Basisdata, Afgeleid = Data.afgeleid, Lokaal = Lokaledata,
            Rest = Data.rest)
     }
-    )
+  )
 }

@@ -137,6 +137,8 @@ describe("afwijkendemetingen", {
 
   Data.lokaal <- Datalijst[["Lokaal"]]
   Lokaalmodel <- fit.lokaal(Data.lokaal)
+  Data.lokaal <- Data.lokaal %>%
+    select(-VoorModelFit)
 
   Rmse <- Data.lokaal %>%
     group_by(
