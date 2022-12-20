@@ -49,6 +49,13 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
 
   invoercontrole(Data.afgeleid, "fit")
   invoercontrole(Basismodel, "basismodel")
+  Omtrekgrenzen <- Data.afgeleid %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    summarise(
+      OmtrekMin = min(.data$Omtrek),
+      OmtrekMax = max(.data$Omtrek)
+    ) %>%
+    ungroup()
 
   #eerst doen we een hoogteschatting op basis van het Vlaams model voor alle
   #omtrekklassen binnen de ranges van de boomsoort-domein-combinaties waarvoor
@@ -68,7 +75,16 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
                              "Basis", unique(.data$BMS))
     ) %>%
     ungroup() %>%
-    select(-"H_D_finaal")
+    select(-"H_D_finaal") %>%
+    inner_join(
+      Omtrekgrenzen,
+      by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    filter(
+      .data$Omtrek > .data$OmtrekMin - 0.35,
+      .data$Omtrek < .data$OmtrekMax + 0.25
+    ) %>%
+    select(-OmtrekMin, -OmtrekMax)
 
   mod_fun <- function(df) {
     lm(
