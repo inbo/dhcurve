@@ -64,14 +64,16 @@ describe("outputIVANHO", {
                      -OmtrekklassetypeID, -Omtrekklasse, -RMSE
                    ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
-                 data.frame(BMS = "andereboom",
-                            IDbms = 2,
-                            DOMEIN_ID = c("HM", rep(c("HM", "LM"), each = 24)),
-                            BOS_BHI =
-                              c("HoogMinimum",
-                                rep(c("HoogMinimum", "LaagMaximum"), each = 24)),
-                            Omtrek = c( 0.15, rep(seq(0.25, 2.55, 0.1), 2)),
-                            stringsAsFactors = FALSE) %>%
+                 data.frame(
+                   BMS = "andereboom",
+                   IDbms = 2,
+                   DOMEIN_ID = c("HM", rep(c("HM", "LM"), each = 24)),
+                   BOS_BHI =
+                     c("HoogMinimum",
+                       rep(c("HoogMinimum", "LaagMaximum"), each = 24)),
+                   Omtrek = c(0.15, rep(seq(0.25, 2.55, 0.1), 2)),
+                   stringsAsFactors = FALSE
+                 ) %>%
                    mutate(
                      Hoogte =
                        ifelse(DOMEIN_ID == "HM",

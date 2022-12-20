@@ -150,8 +150,9 @@ initiatie <-
       )
       Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
     }
-    assert_that(all(Uitzonderingen$min_afgeleid > min_afgeleidmodel, na.rm = TRUE),
-                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint
+    assert_that(
+      all(Uitzonderingen$min_afgeleid > min_afgeleidmodel, na.rm = TRUE),
+      msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint: line_length_linter
   }
 
   #eerst een overzichtsrapp. maken met aantal bomen per domein-bms-comb: ----

@@ -77,7 +77,9 @@ describe("resultaat", {
     expect_error(resultaat(Afgeleidmodel = Afgeleidmodel))
     resultaat <- resultaat(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
       filter(Modeltype == "afgeleid model") %>%
-      select(-nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -RMSE) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -RMSE
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL

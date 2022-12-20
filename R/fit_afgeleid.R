@@ -84,7 +84,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       .data$Omtrek > .data$OmtrekMin - 0.35,
       .data$Omtrek < .data$OmtrekMax + 0.25
     ) %>%
-    select(-OmtrekMin, -OmtrekMax)
+    select(-"OmtrekMin", -"OmtrekMax")
 
   mod_fun <- function(df) {
     lm(

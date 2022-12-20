@@ -103,24 +103,24 @@ resultaat <-
     # Modellen.Vlaams <- Modellen.basis %>%
     #   select(-"Ad", -"Bd", -"Cd", -"rmseD") %>%
     #   mutate(
-    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint
+    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   group_by(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
     #   summarise(
-    #     nBomen = sum(.data$nBomen),
-    #     nBomenInterval = sum(.data$nBomenInterval),
-    #     nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
-    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))   #nolint
+    #     nBomen = sum(.data$nBomen),  #nolint: commented_code_linter
+    #     nBomenInterval = sum(.data$nBomenInterval),  #nolint: commented_code_linter, line_length_linter
+    #     nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),  #nolint: commented_code_linter, line_length_linter
+    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))   #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   ungroup() %>%
     #   rename(
-    #     A = .data$Avl,
-    #     B = .data$Bvl,
-    #     C = .data$Cvl,
-    #     nBomenIntervalOmtrek05 = .data$nBomenIntervalOmtrek05VL    #nolint
+    #     A = .data$Avl,  #nolint: commented_code_linter
+    #     B = .data$Bvl,  #nolint: commented_code_linter
+    #     C = .data$Cvl,  #nolint: commented_code_linter
+    #     nBomenIntervalOmtrek05 = .data$nBomenIntervalOmtrek05VL    #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   mutate(
-    #     Modeltype = "Vlaams model"     #nolint
+    #     Modeltype = "Vlaams model"     #nolint:  commented_code_linter
     #   )
 
     if (!is.null(Afgeleidmodel)) {
