@@ -54,7 +54,7 @@
 #'   do(
 #'     hoogteschatting.basis(.$Model[[1]],
 #'                            select(., -Model),
-#'                            "Lokaal", .$BMS)
+#'                            "Lokaal", unique(.$BMS))
 #'   ) %>%
 #'   ungroup()
 #'
