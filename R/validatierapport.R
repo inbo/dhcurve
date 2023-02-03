@@ -96,7 +96,7 @@ validatierapport <-
   assert_that(inherits(Dataset$H_D_finaal, "numeric"))
   assert_that(has_name(Dataset, "rmseD"))
   assert_that(inherits(Dataset$rmseD, "numeric"))
-  assert_that(has_name(Dataset, "maxResid"))          #nolint
+  assert_that(has_name(Dataset, "maxResid"))
   assert_that(inherits(Dataset$maxResid, "numeric"))
   assert_that(has_name(Dataset, "ID"))
 

@@ -228,7 +228,7 @@ describe("validatie", {
         GoedgekeurdeAfwijkendeCurves =
           data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
       ),
-      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint: line_length_linter
     )
     expect_equal(
       suppressWarnings(
@@ -246,7 +246,7 @@ describe("validatie", {
         GoedgekeurdeAfwijkendeCurves =
           data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
       ),
-      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint: line_length_linter
     )
     expect_equal(
       suppressWarnings(

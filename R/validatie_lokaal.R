@@ -114,7 +114,9 @@ validatie.lokaal <-
     ZonderJoin <- ExtraCurvesRapport %>%
       anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model") #nolint
+      warning(
+        "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
+      )
     }
   } else {
     ExtraCurvesRapport <-
@@ -127,7 +129,7 @@ validatie.lokaal <-
     assert_that(
       inherits(
         GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, c("integer", "numeric")),
-      msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint
+      msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint: line_length_linter
     )
     if (inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, "numeric")) {
       assert_that(
@@ -138,7 +140,7 @@ validatie.lokaal <-
           ),
           na.rm = TRUE
         ) < 1e-6
-        , msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een geheel getal zijn" #nolint
+        , msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een geheel getal zijn" #nolint: line_length_linter
       )
       GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen <-
         as.integer(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen)
@@ -146,7 +148,7 @@ validatie.lokaal <-
     ZonderJoin <- GoedgekeurdeAfwijkendeCurves %>%
       anti_join(AfwijkendeCurves, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint
+      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint: line_length_linter
     }
     AfwijkendeCurvesNegeren <- GoedgekeurdeAfwijkendeCurves %>%
       left_join(

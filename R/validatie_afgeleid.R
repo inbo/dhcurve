@@ -143,7 +143,7 @@ validatie.afgeleid <-
     ZonderJoin <- ExtraCurvesRapport %>%
       anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model") #nolint
+      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model") #nolint: line_length_linter
     }
   } else {
     ExtraCurvesRapport <-

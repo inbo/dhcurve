@@ -129,8 +129,11 @@ describe("curvekarakteristieken", {
   })
 
   it("Niet meegeven van de data bij het lokaal model geeft een foutmelding", {
-    expect_error(curvekarakteristieken(Lokaalmodel),
-                 "Bij opgave van een lokaal model moet je ook de dataset meegeven") #nolint
+    expect_error(
+      curvekarakteristieken(
+        Lokaalmodel),
+      "Bij opgave van een lokaal model moet je ook de dataset meegeven"
+    )
   })
 
   setwd(wd)

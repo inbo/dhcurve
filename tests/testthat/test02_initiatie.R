@@ -376,7 +376,7 @@ describe("initiatie", {
 
   it("Dataset mag geen afgekeurde gegevens bevatten", {
     expect_error(initiatie(Dataset),
-                 "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.") #nolint
+                 "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.") #nolint: line_length_linter
   })
 
   setwd(wd)

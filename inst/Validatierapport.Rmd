@@ -24,7 +24,7 @@ library(knitr)
 
 Uitvoer <- NULL
 
-for (Poutliers in unique(Selectie$maxResid)) {
+for (Poutliers in unique(Selectie$maxResid)) { #nolint: cyclocomp_linter
   SelectieOutliers <- Selectie %>%
     filter(maxResid == Poutliers)
   for (Boomsoort in unique(SelectieOutliers$BMS)) {

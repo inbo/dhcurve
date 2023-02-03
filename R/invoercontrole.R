@@ -80,13 +80,13 @@ invoercontrole <- function(Data, Type) {
       if (Type != "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd"))) {
-        stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint
+        stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint: line_length_linter
       }
       if (Type == "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
         stop(
-          "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten." #nolint
+          "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten." #nolint: line_length_linter
         )
       }
     }
@@ -140,11 +140,11 @@ invoercontrole <- function(Data, Type) {
                             as.integer(Data$nBomenIntervalOmtrek05),
                             check.attributes = FALSE))) {
         stop(
-          "De waarden in de kolom nBomenIntervalOmtrek05 moeten gehele getallen zijn" #nolint
+          "De waarden in de kolom nBomenIntervalOmtrek05 moeten gehele getallen zijn" #nolint: line_length_linter
         )
       }
       if (!all(Data$nBomenIntervalOmtrek05 >= 0)) {
-        stop("De waarden in de kolom nBomenIntervalOmtrek05 mogen niet negatief zijn") #nolint
+        stop("De waarden in de kolom nBomenIntervalOmtrek05 mogen niet negatief zijn") #nolint: line_length_linter
       }
 
       if (!all(Data$nBomen >= Data$nBomenInterval)) {

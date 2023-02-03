@@ -116,7 +116,7 @@ initiatie <-
   assert_that(has_name(Uitzonderingen, "min_basis"))
   if (!all(is.na(Uitzonderingen$min_basis))) {
     assert_that(inherits(Uitzonderingen$min_basis, c("integer", "numeric")),
-      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint: line_length_linter
     if (inherits(Uitzonderingen$min_basis, "numeric")) {
       assert_that(
         max(
@@ -125,18 +125,18 @@ initiatie <-
           ),
           na.rm = TRUE
         ) < 1e-6
-      , msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+      , msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint: line_length_linter
       )
       Uitzonderingen$min_basis <- as.integer(Uitzonderingen$min_basis)
     }
     assert_that(all(Uitzonderingen$min_basis > min_basismodel, na.rm = TRUE),
-      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 50 zijn (of NA)") #nolint
+      msg = "Elke waarde van min_basis in de dataframe Uitzonderingen moet > 50 zijn (of NA)") #nolint: line_length_linter
   }
 
   assert_that(has_name(Uitzonderingen, "min_afgeleid"))
   if (!all(is.na(Uitzonderingen$min_afgeleid))) {
     assert_that(inherits(Uitzonderingen$min_afgeleid, c("integer", "numeric")),
-                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint
+                msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint: line_length_linter
     if (inherits(Uitzonderingen$min_afgeleid, "numeric")) {
       assert_that(
         max(
@@ -146,7 +146,7 @@ initiatie <-
           ),
           na.rm = TRUE
         ) < 1e-6
-        , msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint
+        , msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint: line_length_linter
       )
       Uitzonderingen$min_afgeleid <- as.integer(Uitzonderingen$min_afgeleid)
     }
