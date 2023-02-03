@@ -10,6 +10,7 @@ describe("fit", {
 
   library(dplyr)
   library(tibble)
+  set.seed(123456)
 
   Data <- testdataset() %>%
     bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
