@@ -6,8 +6,8 @@
 \usage{
 initiatie(
   Data,
-  Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA, min_afgeleid =
-    NA, stringsAsFactors = FALSE),
+  Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "", min_basis = NA_integer_,
+    min_afgeleid = NA_integer_, stringsAsFactors = FALSE),
   Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
   verbose = TRUE,
   PathWD = getwd()
@@ -52,9 +52,12 @@ behalve de variabelen uit \code{Data} de berekende variabelen \code{Omtrek}
 het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
 gegevens),
 \code{nBomenOmtrek05} (aantal metingen met omtrek > 0.5 m),
-\code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval)
-en \code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
-met omtrek > 0.5 m)).
+\code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval),
+\code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
+met omtrek > 0.5 m))
+en \code{nExtra} (aantal metingen boven het bruikbaar interval op basis waarvan
+een uitbreiding van de curve naar hogere omtrekklassen gevalideerd zou
+kunnen worden)
 
 De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 \itemize{

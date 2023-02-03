@@ -45,9 +45,12 @@
 #' het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
 #' gegevens),
 #' `nBomenOmtrek05` (aantal metingen met omtrek > 0.5 m),
-#' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval)
-#' en `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval
-#' met omtrek > 0.5 m)).
+#' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval),
+#' `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval
+#' met omtrek > 0.5 m))
+#' en `nExtra` (aantal metingen boven het bruikbaar interval op basis waarvan
+#' een uitbreiding van de curve naar hogere omtrekklassen gevalideerd zou
+#' kunnen worden)
 #'
 #' De 4 dataframes die achtereenvolgens in de list zitten, zijn:
 #' \itemize{
@@ -83,7 +86,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter mutate group_by ungroup inner_join select
-#' distinct anti_join summarise n
+#' distinct anti_join summarise n right_join
 #' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that has_name noNA is.flag
@@ -93,7 +96,8 @@
 initiatie <-
   function(Data,
            Uitzonderingen = data.frame(DOMEIN_ID = "", BMS = "",
-                                       min_basis = NA, min_afgeleid = NA,
+                                       min_basis = NA_integer_,
+                                       min_afgeleid = NA_integer_,
                                        stringsAsFactors = FALSE),
            Bestandsnaam = "VerwijderdeGegevensInitiatie.html",
            verbose = TRUE,
@@ -102,6 +106,7 @@ initiatie <-
   min_basismodel <- 50
   min_domeinen_basismodel <- 6
   min_afgeleidmodel <- 10
+  uitbreiden_model <- 10
 
   #variabelen 'gebruiken' om lintr-foutmelding weg te werken ----
   assert_that(is.count(min_domeinen_basismodel))
@@ -271,7 +276,6 @@ initiatie <-
   Data_Selectie_50 <- Data.aantallen %>%
     filter(
       .data$Omtrek > .data$Q5k - 0.05,
-      .data$Omtrek < .data$Q95k + 0.25,
       ((.data$nBomenIntervalOmtrek05 > min_basismodel
         & is.na(.data$min_basis)) |
         (!is.na(.data$min_basis) &
@@ -283,6 +287,16 @@ initiatie <-
     select(
       -"min_basis", -"min_afgeleid"
     )
+  Data_Selectie_50 <- Data_Selectie_50 %>%
+    filter(!.data$VoorModelFit) %>%
+    count(.data$BMS, .data$DOMEIN_ID) %>%
+    filter(.data$n >= uitbreiden_model) %>%
+    right_join(Data_Selectie_50, by = c("BMS", "DOMEIN_ID")) %>%
+    filter(!(is.na(.data$n) & !.data$VoorModelFit)) %>%
+    mutate(
+      nExtra = ifelse(is.na(.data$n), 0, .data$n)
+    ) %>%
+    select(-"n")
 
   # 1A) alle bms-domeincombinaties met min. 50 metingen in 6 domeinen ----
   Basisdata <- Data_Selectie_50 %>%

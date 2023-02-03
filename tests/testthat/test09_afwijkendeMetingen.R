@@ -180,7 +180,7 @@ describe("afwijkendemetingen", {
                    "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
                    "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
-                   "Q5", "Q95", "BMS", "rmseD", "maxResid",
+                   "Q5", "Q95", "nExtra", "BMS", "rmseD", "maxResid",
                    "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
@@ -198,7 +198,7 @@ describe("afwijkendemetingen", {
                    "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "Q5", "Q95", "BMS",
+                   "logOmtrek2", "Q5", "Q95", "nExtra", "BMS",
                    "rmseD", "maxResid", "HogeRmse", "Afwijkend")
     )
   })
