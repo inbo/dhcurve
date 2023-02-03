@@ -149,7 +149,7 @@ rmse.basis <- function(Data, Typemodel, BMS) {
     summarise(
       sseD = sum(c(.data$ResidD2)),
       sseVL = sum(c(.data$ResidVL2)),
-      maxResid = max(c(.data$ResidD2))
+      maxResid = max(c(.data$ResidD))
     ) %>%
     ungroup() %>%
     transmute(
