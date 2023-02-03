@@ -28,6 +28,11 @@
 #' erover te bewegen (inclusief `ID` als deze in de dataset meegegeven is),
 #' items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 #' "Statisch", waarbij de figuren vast zijn.
+#' @param Uitbreidingsrapport Gaat het over een validatierapport voor
+#' `validatie.uitbreiding()`?
+#' Default is FALSE, wat betekent dat het validatierapport de layout heeft voor
+#' de andere validatierapporten, met afwijkingen in rood en iets andere gegevens
+#' die getoond worden.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)
@@ -62,6 +67,7 @@ validatierapport <-
   function(SlechtsteModellen, AfwijkendeMetingen, Dataset,
            Bestandsnaam = "Validatie.html",
            TypeRapport = c("Dynamisch", "Statisch"),
+           Uitbreidingsrapport = FALSE,
            verbose = TRUE, PathWD = getwd()) {
 
     TypeRapport <- match.arg(TypeRapport)
@@ -91,7 +97,11 @@ validatierapport <-
          'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten.")
   }
 
-  invoercontrole(Dataset, "afgeleidedata")
+  if (Uitbreidingsrapport) {
+    invoercontrole(Dataset, "afgeleidedata", Uitbreiding = TRUE)
+  } else {
+    invoercontrole(Dataset, "afgeleidedata")
+  }
   assert_that(has_name(Dataset, "H_D_finaal"))
   assert_that(inherits(Dataset$H_D_finaal, "numeric"))
   assert_that(has_name(Dataset, "rmseD"))
@@ -100,6 +110,7 @@ validatierapport <-
   assert_that(inherits(Dataset$maxResid, "numeric"))
   assert_that(has_name(Dataset, "ID"))
 
+  assert_that(is.logical(Uitbreidingsrapport))
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))

@@ -36,9 +36,17 @@ for (Poutliers in unique(Selectie$maxResid)) { #nolint: cyclocomp_linter
       #print(unique(SelectieModel$Reden))  #nolint
       #print(maakGrafiek(SelectieModel))  #nolint
       if (TypeRapport == "dynamisch") {
-        Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+        if (Uitbreidingsrapport) {
+          Uitvoer <- c(Uitvoer, knit_child("UitbreidingscurveDynamisch.Rmd"))
+        } else {
+          Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+        }
       } else {
-        Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+        if (Uitbreidingsrapport) {
+          Uitvoer <- c(Uitvoer, knit_child("Uitbreidingscurve.Rmd"))
+        } else {
+          Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+        }
       }
     }
   }
