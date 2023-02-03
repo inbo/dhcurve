@@ -29,7 +29,13 @@ worden.}
 \item{Uitzonderingen}{Lijst met boomsoort-domeincombinaties waarvoor
 uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
 De dataframe moet de velden \code{DOMEIN_ID}, \code{BMS}, \code{min_basis} (= vervangende
-waarde voor 50), \code{min_afgeleid} (= vervangende waarde voor 10) bevatten.}
+waarde voor 50) en \code{min_afgeleid} (= vervangende waarde voor 10) bevatten.
+Daarnaast kan in een extra veld \code{min_uitbreiden_model} aangegeven worden
+vanaf hoeveel metingen een uitbreiding naar hogere omtrekklassen opnieuw
+bekeken moet worden (= vervangende waarde voor 10).
+De waarde NA geeft telkens aan dat de defaultwaarde gebruikt mag worden.
+De default voor dit argument is dat er geen uitzonderingen zijn
+(wat sowieso het geval is als de curves nog niet gevalideerd zijn).}
 
 \item{Bestandsnaam}{Een naam voor het validatierapport (\code{.html}-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}

@@ -24,7 +24,13 @@
 #' @param Uitzonderingen Lijst met boomsoort-domeincombinaties waarvoor
 #' uitzonderingen gelden voor de limieten van minimum 50 en minimum 10 bomen.
 #' De dataframe moet de velden `DOMEIN_ID`, `BMS`, `min_basis` (= vervangende
-#' waarde voor 50), `min_afgeleid` (= vervangende waarde voor 10) bevatten.
+#' waarde voor 50) en `min_afgeleid` (= vervangende waarde voor 10) bevatten.
+#' Daarnaast kan in een extra veld `min_uitbreiden_model` aangegeven worden
+#' vanaf hoeveel metingen een uitbreiding naar hogere omtrekklassen opnieuw
+#' bekeken moet worden (= vervangende waarde voor 10).
+#' De waarde NA geeft telkens aan dat de defaultwaarde gebruikt mag worden.
+#' De default voor dit argument is dat er geen uitzonderingen zijn
+#' (wat sowieso het geval is als de curves nog niet gevalideerd zijn).
 #' @param Bestandsnaam Een naam voor het validatierapport (`.html`-bestand) dat
 #' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @param verbose Dit geeft de toestand van het systeem aan en zorgt ervoor dat
@@ -158,6 +164,35 @@ initiatie <-
     assert_that(
       all(Uitzonderingen$min_afgeleid > min_afgeleidmodel, na.rm = TRUE),
       msg = "Elke waarde van min_afgeleid in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint: line_length_linter
+  }
+
+  if (has_name(Uitzonderingen, "min_uitbreiden_model")) {
+    assert_that(
+      inherits(Uitzonderingen$min_uitbreiden_model, c("integer", "numeric")),
+      msg = "Elke waarde van min_uitbreiden_model in de dataframe Uitzonderingen moet een getal of NA zijn") #nolint: line_length_linter
+    if (inherits(Uitzonderingen$min_uitbreiden_model, "numeric")) {
+      assert_that(
+        max(
+          abs(
+            Uitzonderingen$min_uitbreiden_model -
+              as.integer(Uitzonderingen$min_uitbreiden_model)
+          ),
+          na.rm = TRUE
+        ) < 1e-6
+        , msg = "Elke waarde van min_uitbreiden_model in de dataframe Uitzonderingen moet een geheel getal of NA zijn" #nolint: line_length_linter
+      )
+      Uitzonderingen$min_uitbreiden_model <-
+        as.integer(Uitzonderingen$min_uitbreiden_model)
+    }
+    assert_that(
+      all(Uitzonderingen$min_uitbreiden_model > min_afgeleidmodel,
+          na.rm = TRUE),
+      msg = "Elke waarde van min_uitbreiden_model in de dataframe Uitzonderingen moet > 10 zijn (of NA)") #nolint: line_length_linter
+  } else {
+    Uitzonderingen <- Uitzonderingen %>%
+      mutate(
+        min_uitbreiden_model = NA_integer_
+      )
   }
 
   #eerst een overzichtsrapp. maken met aantal bomen per domein-bms-comb: ----
@@ -297,6 +332,18 @@ initiatie <-
       nExtra = ifelse(is.na(.data$n), 0, .data$n)
     ) %>%
     select(-"n")
+  if (has_name(Data_Selectie_50, "min_uitbreiden_model")) {
+    Data_Selectie_50 <- Data_Selectie_50 %>%
+      mutate(
+        min_uitbreiden_model =
+          ifelse(is.na(.data$min_uitbreiden_model), uitbreiden_model,
+                 .data$min_uitbreiden_model)
+      ) %>%
+      filter(
+        !(.data$nExtra < .data$min_uitbreiden_model & !.data$VoorModelFit)
+      ) %>%
+      select(-"min_uitbreiden_model")
+  }
 
   # 1A) alle bms-domeincombinaties met min. 50 metingen in 6 domeinen ----
   Basisdata <- Data_Selectie_50 %>%
@@ -352,6 +399,10 @@ initiatie <-
     select(
       -"min_basis", -"min_afgeleid"
     )
+  if (has_name(Data.afgeleid, "min_uitbreiden_model")) {
+    Data.afgeleid <- Data.afgeleid %>%
+      select(-"min_uitbreiden_model")
+  }
 
   # 3) alle bms-domeincombinaties waar géén model voor lukt ----
   Data.rest <- Data.aantallen %>%
@@ -370,6 +421,10 @@ initiatie <-
     select(
       -"min_basis", -"min_afgeleid"
     )
+  if (has_name(Data.rest, "min_uitbreiden_model")) {
+    Data.rest <- Data.rest %>%
+      select(-"min_uitbreiden_model")
+  }
 
 
   return(
