@@ -37,12 +37,12 @@
 
 fit.lokaal <- function(Data.lokaal) {
 
-  invoercontrole(Data.lokaal, "fit")
   if (has_name(Data.lokaal, "VoorModelFit")) {
     Data.lokaal <- Data.lokaal %>%
       filter(.data$VoorModelFit) %>%
       select(-"VoorModelFit")
   }
+  invoercontrole(Data.lokaal, "fit")
 
   mod_fun <- function(df) {
     lm(

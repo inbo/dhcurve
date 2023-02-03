@@ -50,6 +50,11 @@ curvekarakteristieken <- function(Basismodel, Data = NULL) {
     if (is.null(Data)) {
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
+      if (has_name(Data, "VoorModelFit")) {
+        Data <- Data %>%
+          filter(.data$VoorModelFit) %>%
+          select(-"VoorModelFit")
+      }
       invoercontrole(Data, "fit")
     }
   } else {

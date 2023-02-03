@@ -12,13 +12,15 @@
 #' 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en
 #' 'afgeleidedata'
 #'
+#' @inheritParams hoogteschatting.basis
+#'
 #' @return Een foutmelding of de geteste dataframe.
 #'
 #' @importFrom assertthat assert_that has_name
 #' @noRd
 #'
 
-invoercontrole <- function(Data, Type) {
+invoercontrole <- function(Data, Type, Uitbreiding = FALSE) {
 
   #controle 'Type'
   assert_that(is.character(Type))
@@ -160,9 +162,12 @@ invoercontrole <- function(Data, Type) {
         msg = "De opgegeven dataframe heeft geen veld met naam Omtrek"
       )
       assert_that(inherits(Data$Omtrek, "numeric"))
-      if (!all(round(Data$Omtrek * 100) %in% seq(15, 265, 10))) {
-        stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
-          (geldige omtrekklassen zijn 0.15, 0.25, 0.35, 0.45,... t.e.m. 2.65)")
+      if (!Uitbreiding) {
+        if (!all(round(Data$Omtrek * 100) %in% seq(15, 265, 10))) {
+          stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
+            (geldige omtrekklassen zijn 0.15, 0.25, 0.35, 0.45,... t.e.m. 2.65)"
+          )
+        }
       }
 
       assert_that(has_name(Data, "Q5k"),

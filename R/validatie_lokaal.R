@@ -63,12 +63,12 @@ validatie.lokaal <-
            ) {
 
   invoercontrole(Lokaalmodel, "lokaalmodel")
-  invoercontrole(Data, "fit")
   if (has_name(Data, "VoorModelFit")) {
     Data <- Data %>%
       filter(.data$VoorModelFit) %>%
       select(-"VoorModelFit")
   }
+  invoercontrole(Data, "fit")
 
   Rmse <- Data %>%
     group_by(

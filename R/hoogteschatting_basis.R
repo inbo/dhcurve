@@ -15,6 +15,9 @@
 #' boomsoort-domeincombinatie (lokaal)
 #' @param Typemodel "Basis" of "Lokaal"?
 #' @param BMS Boomsoort
+#' @param Uitbreiding Gaat het hier over berekening voor een uitbreiding?
+#' (Facultatief argument om met hogere hoogteklassen te kunnen omgaan.)
+#' Default is FALSE, wat betekent dat het niet over een uitbreiding gaat.
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes
 #' voor het domeinmodel en de Vlaamse model
@@ -69,15 +72,17 @@
 #' @importFrom assertthat assert_that has_name
 #'
 
-hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
+hoogteschatting.basis <-
+  function(Soortmodel, Soortdata, Typemodel, BMS, Uitbreiding = FALSE) {
 
   #controle invoer
   assert_that(is.character(Typemodel))
   Typemodel <- tolower(Typemodel)
   assert_that(Typemodel %in% c("basis", "lokaal"))
+  assert_that(is.logical(Uitbreiding))
 
 
-  invoercontrole(Soortdata, "fit")
+  invoercontrole(Soortdata, "fit", Uitbreiding = Uitbreiding)
   if (Typemodel == "lokaal") {
     assert_that(length(unique(Soortdata$DOMEIN_ID)) == 1,
                 msg = "Voor een lokaal model mag de dataset Soortdata maar 1
@@ -97,7 +102,8 @@ hoogteschatting.basis <- function(Soortmodel, Soortdata, Typemodel, BMS) {
 
 
   #Hoogtes schatten voor alle omtrekklassen binnen bruikbaar interval
-  AlleKlassen <- seq(15, 265, 10)
+  MaxHoogte <- ifelse(Uitbreiding, max(Soortdata$Q95k * 100 + 20), 265)
+  AlleKlassen <- seq(15, MaxHoogte, 10)
 
   Schatting.soort <- Soortdata %>%
     select(

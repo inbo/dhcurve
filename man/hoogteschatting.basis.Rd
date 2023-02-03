@@ -16,6 +16,10 @@ boomsoort-domeincombinatie (lokaal)}
 \item{Typemodel}{"Basis" of "Lokaal"?}
 
 \item{BMS}{Boomsoort}
+
+\item{Uitbreiding}{Gaat het hier over berekening voor een uitbreiding?
+(Facultatief argument om met hogere hoogteklassen te kunnen omgaan.)
+Default is FALSE, wat betekent dat het niet over een uitbreiding gaat.}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes

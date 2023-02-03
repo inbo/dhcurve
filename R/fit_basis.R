@@ -37,12 +37,12 @@
 
 fit.basis <- function(Data.basis) {
 
-  invoercontrole(Data.basis, "fit")
   if (has_name(Data.basis, "VoorModelFit")) {
     Data.basis <- Data.basis %>%
       filter(.data$VoorModelFit) %>%
       select(-"VoorModelFit")
   }
+  invoercontrole(Data.basis, "fit")
 
   mod_fun <- function(df) {
     lme(
