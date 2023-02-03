@@ -4,7 +4,13 @@
 \alias{hoogteschatting.basis}
 \title{Hoogteschatting op basis van opgegeven basismodel}
 \usage{
-hoogteschatting.basis(Soortmodel, Soortdata, Typemodel, BMS)
+hoogteschatting.basis(
+  Soortmodel,
+  Soortdata,
+  Typemodel,
+  BMS,
+  Uitbreiding = FALSE
+)
 }
 \arguments{
 \item{Soortmodel}{model voor één boomsoort (basis) of één

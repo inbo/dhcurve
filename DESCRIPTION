@@ -40,4 +40,3 @@ Encoding: UTF-8
 Language: nl-BE
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0

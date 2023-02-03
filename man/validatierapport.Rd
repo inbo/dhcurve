@@ -11,6 +11,7 @@ validatierapport(
   Dataset,
   Bestandsnaam = "Validatie.html",
   TypeRapport = c("Dynamisch", "Statisch"),
+  Uitbreidingsrapport = FALSE,
   verbose = TRUE,
   PathWD = getwd()
 )
@@ -36,6 +37,12 @@ gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 erover te bewegen (inclusief \code{ID} als deze in de dataset meegegeven is),
 items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 "Statisch", waarbij de figuren vast zijn.}
+
+\item{Uitbreidingsrapport}{Gaat het over een validatierapport voor
+\code{validatie.uitbreiding()}?
+Default is FALSE, wat betekent dat het validatierapport de layout heeft voor
+de andere validatierapporten, met afwijkingen in rood en iets andere gegevens
+die getoond worden.}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
 boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}
