@@ -21,10 +21,6 @@ describe("validatie.uitbreiding", {
   Data.basis <- suppressMessages(initiatie(MetingenBasis))[["Basis"]]
   Basismodel <- fit.basis(Data.basis)
 
- #tot hier aangevuld, geen idee of afgeleid model ook getest moet worden?
-  #zeker testen: of een curve met max correct behandeld wordt
-
-
   #data genereren voor lokaal model
   MetingenLokaal <- testdataset(c(200, 100, 150), maxOmtrek = 290) %>%
     filter(!(DOMEIN_ID == "B" & C13 > 239))
@@ -142,6 +138,41 @@ describe("validatie.uitbreiding", {
     )
   })
 
+  AfwijkendeModellen <- dataAfwijkendeCurve(maxOmtrek = 270)
+  Basisdata <- AfwijkendeModellen[["Basisdata"]] %>%
+    filter(DOMEIN_ID == "LM")
+  Basismodel <- AfwijkendeModellen[["Basismodel"]]
+  Lokaledata <- AfwijkendeModellen[["Lokaledata"]]
+  Lokaalmodel <- AfwijkendeModellen[["Lokaalmodel"]]
+
+  validatie.uitbreiding(Model = Basismodel, Dataset = Basisdata)
+
+  it("Behandeling LaagMaximum is correct bij uitbreiding", {
+    Maximum <- (curvekarakteristieken(Basismodel) %>%
+      filter(DOMEIN_ID == "LM"))$Extr_Hoogte.d
+    Uitbreiding <- Basisdata %>%
+      filter(!VoorModelFit) %>%
+      summarise(
+        Mediaan = median(HOOGTE),
+        Min = min(HOOGTE),
+        Max = max(HOOGTE)
+      )
+    validatie.uitbreiding(Model = Basismodel, Dataset = Basisdata)
+    DiffMediaanMinMax <-
+      str_split(
+        gsub(
+          ".*DiffMediaan: (.+;) DiffMin: (.+;) DiffMax: (-?\\d+\\.\\d{2})<\\/p>.*", #nolint: line_length_linter
+          "\\1\\2\\3",
+          as.character(read_html("validatie_uitbreiding.html"))
+        ), ";", simplify = TRUE
+      )
+    expect_equal(
+      round(c(Uitbreiding$Mediaan, Uitbreiding$Min, Uitbreiding$Max) - Maximum,
+            2),
+      as.numeric(DiffMediaanMinMax)
+    )
+  })
+  
   setwd(wd)
 
 })
