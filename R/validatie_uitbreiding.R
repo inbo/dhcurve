@@ -159,9 +159,8 @@ validatie.uitbreiding <-
       "Omtrek_Extr_Hoogte.d",
       "Extr_Hoogte.d"
     )
-
-  Diff <- Hoogteschatting %>%
-    filter(!.data$VoorModelFit) %>%
+  
+  Hoogteschatting <- Hoogteschatting %>%
     left_join(
       MaxCurve,
       by = c("BMS", "DOMEIN_ID")
@@ -171,7 +170,12 @@ validatie.uitbreiding <-
         ifelse(!is.na(.data$Omtrek_Extr_Hoogte.d) &
                  .data$Omtrek > .data$Omtrek_Extr_Hoogte.d,
                .data$Extr_Hoogte.d,
-               .data$H_D_finaal),
+               .data$H_D_finaal)
+    )
+
+  Diff <- Hoogteschatting %>%
+    filter(!.data$VoorModelFit) %>%
+    mutate(
       Diff = .data$HOOGTE - .data$H_D_finaal
     ) %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
