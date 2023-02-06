@@ -1,10 +1,10 @@
 
-dataAfwijkendeCurve <- function(nBomen = 200, sd = 3) {
+dataAfwijkendeCurve <- function(nBomen = 200, sd = 3, maxOmtrek = 239) {
 
   Metingen <-
     data.frame(DOMEIN_ID = c("HM", "LM"),  #nolint
                BOS_BHI = c("HoogMinimum", "LaagMaximum"), nBomen,  #nolint
-               minOmtrek = 20, maxOmtrek = 239,
+               minOmtrek = 20, maxOmtrek,
                A = 30, B = c(7, 5), C = c(4, -6), sd,
                stringsAsFactors = FALSE) %>%
     group_by(.data$DOMEIN_ID, .data$BOS_BHI) %>%
