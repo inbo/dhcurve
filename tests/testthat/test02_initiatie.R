@@ -377,12 +377,47 @@ describe("initiatie", {
                  "De bestandnaam moet eindigen op '.html'")
   })
 
-  Dataset$Status <-
-    ifelse(Dataset$DOMEIN_ID == "BosKlein", "Afgekeurd", "Niet gecontroleerd")
-
   it("Dataset mag geen afgekeurde gegevens bevatten", {
+    Dataset$Status <-
+      ifelse(Dataset$DOMEIN_ID == "BosKlein", "Afgekeurd", "Niet gecontroleerd")
     expect_error(initiatie(Dataset),
                  "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.") #nolint: line_length_linter
+  })
+
+  it("Hoge omtrekklassen worden correct afgehandeld (uitbreidingen)", {
+    Dataset <- Dataset %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                        rep("Bos1", 15), rep("Bos2", 5)),
+          BOS_BHI = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                      rep("Bos1", 15), rep("Bos2", 5)),
+          BMS = c(rep("SoortModel", 35), rep("SoortExtra", 20)),
+          IDbms = c(rep(1, 35), rep(2, 20)),
+          C13 = 270,
+          HOOGTE = 40,
+          Status = "Te controleren"
+        )
+      )
+    Output <- initiatie(Dataset)
+    expect_equal(
+      Output[["Basis"]] %>%
+        filter(!VoorModelFit) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        filter((!VoorModelFit)) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
   })
 
   setwd(wd)
