@@ -283,7 +283,8 @@ initiatie <-
     ungroup() %>%
     inner_join(
       Data2,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
     filter(
       .data$Omtrek > 0.5,
@@ -301,7 +302,8 @@ initiatie <-
     ungroup() %>%
     inner_join(
       Data2,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     )
 
 
@@ -361,7 +363,8 @@ initiatie <-
     ungroup() %>%
     inner_join(
       Data_Selectie_50,
-      by = c("DOMEIN_ID", "BMS")
+      by = c("DOMEIN_ID", "BMS"),
+      multiple = "all"
     )
 
   # 1B) alle bms-domeincomb's met min. 50 metingen, géén 6 domeinen ----
@@ -395,7 +398,7 @@ initiatie <-
   # Kunstgreepje om de volgorde van de kolommen hetzelfde te krijgen als voor
   # de andere modellen
   Data.afgeleid <- Data.afgeleid %>%
-    inner_join(Data2, by = c("BMS", "DOMEIN_ID")) %>%
+    inner_join(Data2, by = c("BMS", "DOMEIN_ID"), multiple = "all") %>%
     select(
       -"min_basis", -"min_afgeleid"
     )
