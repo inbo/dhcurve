@@ -328,7 +328,8 @@ initiatie <-
     filter(!.data$VoorModelFit) %>%
     count(.data$BMS, .data$DOMEIN_ID) %>%
     filter(.data$n >= uitbreiden_model) %>%
-    right_join(Data_Selectie_50, by = c("BMS", "DOMEIN_ID")) %>%
+    right_join(
+      Data_Selectie_50, by = c("BMS", "DOMEIN_ID"), multiple = "all") %>%
     filter(!(is.na(.data$n) & !.data$VoorModelFit)) %>%
     mutate(
       nExtra = ifelse(is.na(.data$n), 0, .data$n)
