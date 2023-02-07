@@ -172,7 +172,7 @@ describe("validatie.uitbreiding", {
       as.numeric(DiffMediaanMinMax)
     )
   })
-  
+
   setwd(wd)
 
 })

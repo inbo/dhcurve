@@ -159,7 +159,7 @@ validatie.uitbreiding <-
       "Omtrek_Extr_Hoogte.d",
       "Extr_Hoogte.d"
     )
-  
+
   Hoogteschatting <- Hoogteschatting %>%
     left_join(
       MaxCurve,
