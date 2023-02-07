@@ -418,6 +418,60 @@ describe("initiatie", {
         count(DOMEIN_ID, nExtra),
       tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
     )
+    Uitzonderingen <-
+      data.frame(DOMEIN_ID = c("Bos1", "Bos1"),
+                 BMS = c("SoortModel", "SoortExtra"),
+                 min_basis = NA,
+                 min_afgeleid = NA,
+                 min_uitbreiden_model = 14,
+                 stringsAsFactors = FALSE)
+    Output <- initiatie(Dataset, Uitzonderingen)
+    expect_equal(
+      Output[["Basis"]] %>%
+        filter(!VoorModelFit) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        filter((!VoorModelFit)) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    Uitzonderingen <- Uitzonderingen %>%
+      bind_rows(
+        data.frame(DOMEIN_ID = "BosKlein", BMS = "SoortModel",
+                   stringsAsFactors = FALSE)
+      ) %>%
+      mutate(
+        min_uitbreiden_model = 16
+      )
+    expect_warning(
+      Output <- initiatie(Dataset, Uitzonderingen),
+      "min_uitbreiden_model opgegeven voor afgeleid model, dit zal genegeerd worden \\(bij afgeleide modellen worden alle gegevens meegenomen\\)" #nolint: line_length_linter
+    )
+    expect_equal(
+      nrow(Output[["Basis"]] %>%
+             filter(!VoorModelFit)),
+      0
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      nrow(Output[["Lokaal"]] %>%
+             filter(!VoorModelFit)),
+      0
+    )
   })
 
   setwd(wd)

@@ -403,6 +403,9 @@ initiatie <-
       -"min_basis", -"min_afgeleid"
     )
   if (has_name(Data.afgeleid, "min_uitbreiden_model")) {
+    if (!all(is.na(Data.afgeleid$min_uitbreiden_model))) {
+      warning("min_uitbreiden_model opgegeven voor afgeleid model, dit zal genegeerd worden (bij afgeleide modellen worden alle gegevens meegenomen)") #nolint: line_length_linter
+    }
     Data.afgeleid <- Data.afgeleid %>%
       select(-"min_uitbreiden_model")
   }
