@@ -77,8 +77,8 @@ describe("validatie", {
                    "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "Q5", "Q95", "BMS",
                    "rmseD", "maxResid", "HogeRmse", "Afwijkend")
+                  "logOmtrek2", "Q5", "Q95", "nExtra", "BMS",
     )
   })
 
