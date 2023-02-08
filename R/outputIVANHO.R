@@ -142,8 +142,7 @@ outputIVANHO <-
         ) %>%
         ungroup()
     }
-      
-    
+
     Hoogteschatting <- Hoogteschatting %>%
       mutate(
         Modeltype = "basismodel"
