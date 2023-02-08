@@ -53,10 +53,19 @@ moment actieve working directory opgeslagen).}
 }
 \value{
 De functie genereert een validatierapport (\code{.html}-bestand) in de working
-directory met informatie en grafieken van de te controleren modellen.  De
-afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-het probleem ook woordelijk beschreven (zie \code{?validatierapport} of vignet
-voor meer informatie).
+directory met informatie en grafieken van de te controleren modellen.
+De weergegeven grafieken zijn gerangschikt van slechtste (= mediaan heeft
+grootste afwijking) naar minder slecht.
+
+De functie geeft een dataframe terug met per boomsoort-domeincombinatie de
+omtrekklasse tot waar het model uitgebreid kan worden
+(met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}).
+Deze tabel kan als argument \code{Uitbreidingen} in functie \code{outputIVANHO()}
+toegevoegd worden om deze uitbreidingen mee te nemen voor het eindresultaat.
+Belangrijk is hierbij dat afgekeurde curves eerst verwijderd zijn door
+bij \code{initiatie()} via \code{Uitzonderingen} de variabele \code{min_uitbreiden_model}
+op te trekken en daarna \code{validatie.uitbreiding()} opnieuw gerund is met de
+aangepaste dataset.
 }
 \description{
 Functie die toelaat om de opgegeven modellen te valideren ter hoogte van

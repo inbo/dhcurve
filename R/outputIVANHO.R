@@ -14,6 +14,8 @@
 #' `hoogteschatting.basis()`, `hoogteschatting.afgeleid()` en
 #' `curvekarakteristieken()`.
 #'
+#' @param Uitbreiding Dataset met velden `BMS`, `DOMEIN_ID` en `MaxOmtrek`
+#' die teruggegeven wordt door functie `validatie.uitbreiding()`.
 #' @inheritParams resultaat
 #'
 #' @return Dataframe met geschatte hoogtes per domein en per boomsoort met
@@ -45,12 +47,38 @@
 #' group_by transmute distinct inner_join left_join summarise
 #' @importFrom plyr .
 #' @importFrom rlang .data
-#' @importFrom assertthat has_name
+#' @importFrom assertthat assert_that has_name
 #'
 
 outputIVANHO <-
   function(Basismodel = NULL, Afgeleidmodel = NULL, Lokaalmodel = NULL,
-           Data.lokaal = NULL) {
+           Data.lokaal = NULL, Uitbreiding = NULL) {
+
+  if (!is.null(Uitbreiding)) {
+    assert_that(is.data.frame(Uitbreiding))
+    assert_that(has_name(Uitbreiding, "BMS"))
+    assert_that(has_name(Uitbreiding, "DOMEIN_ID"))
+    assert_that(has_name(Uitbreiding, "MaxOmtrek"))
+    assert_that(
+      inherits(
+        Uitbreiding$MaxOmtrek, c("integer", "numeric")),
+      msg = "Elke waarde van MaxOmtrek in de dataframe Uitbreiding moet een getal zijn" #nolint: line_length_linter
+    )
+    if (inherits(Uitbreiding$MaxOmtrek, "numeric")) {
+      assert_that(
+        min(Uitbreiding$MaxOmtrek) > 2.4,
+        msg = "Elke waarde van MaxOmtrek in de dataframe Uitbreiding moet groter zijn dan 2.4 (de minimumgrens voor een uitbreiding)" #nolint: line_length_linter
+      )
+      assert_that(
+        all(
+          round(
+            Uitbreiding$MaxOmtrek * 10 - (Uitbreiding$MaxOmtrek * 100) %/% 10,
+            2
+          ) == 0.5),
+        msg = "Elke waarde van MaxOmtrek in de dataframe Uitbreiding moet een klassemidden zijn van een omtrekklasse" #nolint: line_length_linter
+      )
+    }
+  }
 
   if (!is.null(Basismodel)) {
     invoercontrole(Basismodel, "basismodel")
@@ -79,12 +107,44 @@ outputIVANHO <-
       ungroup()
 
     #hoogtes van basismodel schatten
-    Hoogteschatting <- Basismodel %>%
-      rowwise() %>%
-      do(
-        hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
-      ) %>%
-      ungroup() %>%
+    if (is.null(Uitbreiding)) {
+      Hoogteschatting <- Basismodel %>%
+        rowwise() %>%
+        do(
+          hoogteschatting.basis(.$Model, .$Model$data, "Basis", .$BMS)
+        ) %>%
+        ungroup()
+    } else {
+      extractData <- function(BMS, Data) {
+        Data %>%
+          mutate(BMS = BMS)
+      }
+      Hoogteschatting <- Basismodel %>%
+        rowwise() %>%
+        do(
+          extractData(.$BMS, .$Model$data)
+        ) %>%
+        left_join(
+          Basismodel,
+          by = c("BMS")
+        ) %>%
+        left_join(
+          Uitbreiding,
+          by = c("BMS", "DOMEIN_ID")
+        ) %>%
+        mutate(
+          Q95k = ifelse(is.na(.data$MaxOmtrek), .data$Q95k, .data$MaxOmtrek)
+        ) %>%
+        group_by(.data$BMS) %>%
+        do(
+          hoogteschatting.basis(.$Model[[1]], select(., -"Model"),
+            "Basis", unique(.$BMS), Uitbreiding = TRUE)
+        ) %>%
+        ungroup()
+    }
+      
+    
+    Hoogteschatting <- Hoogteschatting %>%
       mutate(
         Modeltype = "basismodel"
       ) %>%
@@ -172,12 +232,12 @@ outputIVANHO <-
     if (is.null(Data.lokaal)) {
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
-      invoercontrole(Data.lokaal, "fit")
       if (has_name(Data.lokaal, "VoorModelFit")) {
         Data.lokaal <- Data.lokaal %>%
           filter(.data$VoorModelFit) %>%
           select(-"VoorModelFit")
       }
+      invoercontrole(Data.lokaal, "fit")
     }
 
     #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan
@@ -199,7 +259,20 @@ outputIVANHO <-
       inner_join(
         Data.lokaal,
         by = c("BMS", "DOMEIN_ID")
-      ) %>%
+      )
+
+    if (!is.null(Uitbreiding)) {
+      Hoogte.lokaal <- Hoogte.lokaal %>%
+        left_join(
+          Uitbreiding,
+          by = c("BMS", "DOMEIN_ID")
+        ) %>%
+        mutate(
+          Q95k = ifelse(is.na(.data$MaxOmtrek), .data$Q95k, .data$MaxOmtrek)
+        )
+    }
+
+    Hoogte.lokaal <- Hoogte.lokaal %>%
       group_by(
         .data$BMS,
         .data$DOMEIN_ID
@@ -207,7 +280,8 @@ outputIVANHO <-
       do(
         hoogteschatting.basis(.$Model[[1]],
                                select(., -"Model"),
-                               "Lokaal", unique(.$BMS))
+                               "Lokaal", unique(.$BMS),
+                              Uitbreiding = !is.null(Uitbreiding))
       ) %>%
       ungroup() %>%
       mutate(

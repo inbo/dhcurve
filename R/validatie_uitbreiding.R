@@ -35,10 +35,19 @@
 #' @return
 #'
 #' De functie genereert een validatierapport (`.html`-bestand) in de working
-#' directory met informatie en grafieken van de te controleren modellen.  De
-#' afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-#' het probleem ook woordelijk beschreven (zie `?validatierapport` of vignet
-#' voor meer informatie).
+#' directory met informatie en grafieken van de te controleren modellen.
+#' De weergegeven grafieken zijn gerangschikt van slechtste (= mediaan heeft
+#' grootste afwijking) naar minder slecht.
+#'
+#' De functie geeft een dataframe terug met per boomsoort-domeincombinatie de
+#' omtrekklasse tot waar het model uitgebreid kan worden
+#' (met velden `BMS`, `DOMEIN_ID` en `MaxOmtrek`).
+#' Deze tabel kan als argument `Uitbreidingen` in functie `outputIVANHO()`
+#' toegevoegd worden om deze uitbreidingen mee te nemen voor het eindresultaat.
+#' Belangrijk is hierbij dat afgekeurde curves eerst verwijderd zijn door
+#' bij `initiatie()` via `Uitzonderingen` de variabele `min_uitbreiden_model`
+#' op te trekken en daarna `validatie.uitbreiding()` opnieuw gerund is met de
+#' aangepaste dataset.
 #'
 #' @export
 #'

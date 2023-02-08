@@ -8,7 +8,8 @@ outputIVANHO(
   Basismodel = NULL,
   Afgeleidmodel = NULL,
   Lokaalmodel = NULL,
-  Data.lokaal = NULL
+  Data.lokaal = NULL,
+  Uitbreiding = NULL
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ boomsoort-domeincombinatie).}
 
 \item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
 berekend is.}
+
+\item{Uitbreiding}{Dataset met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}
+die teruggegeven wordt door functie \code{validatie.uitbreiding()}.}
 }
 \value{
 Dataframe met geschatte hoogtes per domein en per boomsoort met
