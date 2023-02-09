@@ -144,7 +144,8 @@ hoogteschatting.basis <-
         mutate(y = as.integer(round(100 * .data$Omtrek))) %>%
         select(-"Omtrek"),
       by = c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
-             "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "y")
+             "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "y"),
+      multiple = "all"
     ) %>%
     select(-"y") %>%
     mutate(
