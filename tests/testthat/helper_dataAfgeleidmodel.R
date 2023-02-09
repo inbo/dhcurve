@@ -21,7 +21,7 @@ dataAfgeleidmodel <-
     ) %>%
     bind_rows(Extradata)
 
-  Datalijst <- suppressMessages(initiatie(Metingen, Uitzonderingen))
+  Datalijst <- initiatie(Metingen, Uitzonderingen)
 
   Data.basis <- Datalijst[["Basis"]]
   Basismodel <- fit.basis(Data.basis)

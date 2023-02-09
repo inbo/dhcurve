@@ -18,14 +18,14 @@ describe("validatie.uitbreiding", {
   MetingenBasis <- testdataset(maxOmtrek = 280) %>%
     filter(!(DOMEIN_ID == "D" & C13 > 239))
 
-  Data.basis <- suppressMessages(initiatie(MetingenBasis))[["Basis"]]
+  Data.basis <- initiatie(MetingenBasis)[["Basis"]]
   Basismodel <- fit.basis(Data.basis)
 
   #data genereren voor lokaal model
   MetingenLokaal <- testdataset(c(200, 100, 150), maxOmtrek = 290) %>%
     filter(!(DOMEIN_ID == "B" & C13 > 239))
 
-  Data.lokaal <- suppressMessages(initiatie(MetingenLokaal))[["Lokaal"]]
+  Data.lokaal <- initiatie(MetingenLokaal)[["Lokaal"]]
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
 

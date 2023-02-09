@@ -26,7 +26,7 @@ dataAfwijkendeCurve <- function(nBomen = 200, sd = 3, maxOmtrek = 239) {
     ) %>%
     bind_rows(testdataset(rep(nBomen, 6)))
 
-  Datalijst <- suppressMessages(initiatie(Metingen))
+  Datalijst <- initiatie(Metingen)
 
   Data.basis <- Datalijst[["Basis"]]
   Basismodel <- fit.basis(Data.basis)
