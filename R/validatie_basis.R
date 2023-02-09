@@ -64,7 +64,7 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
+#' @importFrom dplyr %>% filter select mutate distinct group_by
 #' summarise ungroup bind_rows do rowwise anti_join left_join
 #' @importFrom plyr .
 #' @importFrom rlang .data
