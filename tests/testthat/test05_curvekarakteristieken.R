@@ -18,6 +18,11 @@ describe("curvekarakteristieken", {
   Lokaalmodel <- Data[["Lokaalmodel"]]
 
 
+  it("functie curvekarakteristieken() geeft geen warnings", {
+    expect_no_warning(curvekarakteristieken(Basismodel))
+    expect_no_warning(curvekarakteristieken(Lokaalmodel, Lokaledata))
+  })
+
   it("Niet afwijkende curves vertonen geen extremen in relevant interval", {
     expect_equal(curvekarakteristieken(Basismodel) %>%
                    filter(!(Omtrek_Extr_Hoogte.d > 0.1 &

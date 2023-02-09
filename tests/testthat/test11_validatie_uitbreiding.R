@@ -29,6 +29,11 @@ describe("validatie.uitbreiding", {
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
 
+  it("functie validatie.uitbreiding() geeft geen warnings", {
+    expect_no_warning(validatie.uitbreiding(Basismodel, Data.basis))
+    expect_no_warning(validatie.uitbreiding(Lokaalmodel, Data.lokaal))
+  })
+
   it("De uitvoer van de functies is correct", {
     expect_equal(validatie.uitbreiding(Basismodel, Data.basis) %>%
                    colnames(.),

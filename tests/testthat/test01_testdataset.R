@@ -9,6 +9,10 @@ describe("testdataset", {
   minOmtrek <- 20
   maxOmtrek <- 239
 
+  it("testdataset() geeft geen warnings", {
+    expect_no_warning(testdataset(nBomenDomein))
+  })
+
   it("Gegenereerde dataset heeft juiste aantal records", {
     expect_equal(nrow(testdataset(nBomenDomein)),
                  sum(nBomenDomein))

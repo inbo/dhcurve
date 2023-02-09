@@ -100,6 +100,18 @@ describe("hoogteschatting", {
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
+  it("de hoogteschatting-functies geven geen warnings", {
+    expect_no_warning(hoogteschatting.basis(Basismodel1$Model[[1]],
+                                            Basismodel1$Model[[1]]$data,
+                                            "Basis", Basismodel1$BMS))
+    expect_no_warning(hoogteschatting.basis(Lokaalmodel$Model[[1]],
+                                            Lokaledata %>%
+                                              filter(DOMEIN_ID == "HM"),
+                                            "Lokaal", unique(Lokaalmodel$BMS)))
+    expect_no_warning(hoogteschatting.afgeleid(Afgeleidmodel[[1]]$Model[[1]],
+                                               Afgeleidmodel[[2]]))
+  })
+
   it("De hoogtes worden correct berekend voor Vlaams model (Basismodel)", {
     expect_equal(hoogteschatting.basis(Basismodel2$Model[[1]],
                                        Basismodel2$Model[[1]]$data,

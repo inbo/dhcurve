@@ -89,6 +89,10 @@ describe("initiatie", {
                                Q95k = 1.15)
 
 
+  it("initiatie() geeft geen warnings", {
+    expect_no_warning(initiatie(Dataset))
+  })
+
   it("Dataset wordt correct opgedeeld", {
     expect_is(
       Output <- initiatie(Dataset),

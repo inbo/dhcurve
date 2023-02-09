@@ -89,6 +89,14 @@ describe("outputIVANHO", {
   Basismodel2 <- Data[["Basismodel"]]
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
+  it("functie outputIVANHO() geeft geen warnings", {
+    expect_no_warning(
+      outputIVANHO(Basismodel = Basismodel1, Data.lokaal = Lokaledata,
+                   Lokaalmodel = Lokaalmodel))
+    expect_no_warning(
+      outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel))
+  })
+  
   it("De uitgevoerde dataset heeft de juiste kolommen voor afgeleid model", {
     expect_equal(
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%

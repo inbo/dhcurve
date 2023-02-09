@@ -112,6 +112,15 @@ describe(sprintf("rmse %d", rmse), {
                    tolerance = 0.1)
   })
 
+  it("de rmse-functies geven geen warnings", {
+    expect_no_warning(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)))
+    expect_no_warning(rmse.basis(Lokaledata %>%
+                                   filter(DOMEIN_ID == "LM"),
+                                 "Lokaal", unique(Lokaledata$BMS)))
+    expect_no_warning(
+      rmse.verschuiving(Afgeleidmodel[[1]]$Model[[1]], "testboom", "Klein"))
+  })
+
 })
 
 }

@@ -22,6 +22,12 @@ describe("fit", {
   Data.lokaal <- Datalijst[["Lokaal"]]
 
 
+  it("fit-functies geven geen warnings", {
+    expect_no_warning(Basismodel <- fit.basis(Data.basis))
+    expect_no_warning(fit.afgeleid(Data.afgeleid, Basismodel))
+    expect_no_warning(fit.lokaal(Data.lokaal))
+  })
+
   it("Output van fit.basis is correct (tibble met velden BMS en Model)", {
       expect_is(fit.basis(Data.basis), "data.frame")
       expect_equal(colnames(fit.basis(Data.basis)),

@@ -172,6 +172,11 @@ describe("afwijkendemetingen", {
 
 
 
+  it("de functie afwijkendeMetingen() geeft geen warnings", {
+    expect_no_warning(afwijkendeMetingen(DatasetBasis))
+    expect_no_warning(afwijkendeMetingen(DatasetAfgeleid))
+    expect_no_warning(afwijkendeMetingen(DatasetLokaal))
+  })
 
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeMetingen(DatasetBasis) %>%

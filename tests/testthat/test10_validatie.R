@@ -52,6 +52,12 @@ describe("validatie", {
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
 
+  it("de functies geven geen warnings", {
+    expect_no_warning(validatie.basis(Basismodel))
+    expect_no_warning(validatie.afgeleid(Basismodel, Afgeleidmodel))
+    expect_no_warning(validatie.lokaal(Lokaalmodel, Data.lokaal))
+  })
+
   it("De uitvoer van de functies is correct", {
     expect_equal(validatie.basis(Basismodel) %>%
                    colnames(.),
