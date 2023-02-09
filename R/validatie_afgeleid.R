@@ -101,7 +101,7 @@ validatie.afgeleid <-
 
   Hoogteschatting <- AModel %>%
     inner_join(
-      Afgeleidmodel[[2]],
+      x = Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -127,7 +127,8 @@ validatie.afgeleid <-
     ungroup() %>%
     inner_join(
       Hoogteschatting,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
     left_join(
       Rmse,

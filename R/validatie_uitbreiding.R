@@ -121,7 +121,7 @@ validatie.uitbreiding <-
     MaxCurve <- curvekarakteristieken(Model, DatasetUitbreiding)
     Hoogteschatting <- Model %>%
       inner_join(
-        DatasetUitbreiding,
+        x = DatasetUitbreiding,
         by = c("BMS", "DOMEIN_ID")
       ) %>%
       group_by(
@@ -145,7 +145,7 @@ validatie.uitbreiding <-
       )
     Hoogteschatting <- Model %>%
       inner_join(
-        DatasetUitbreiding,
+        x = DatasetUitbreiding,
         by = c("BMS")
       ) %>%
       group_by(.data$BMS) %>%

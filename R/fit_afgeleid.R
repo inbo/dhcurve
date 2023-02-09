@@ -62,7 +62,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
   #we het afgeleid model maken.
   Hoogteschatting <- Basismodel %>%
     inner_join(
-      Data.afgeleid,
+      x = Data.afgeleid,
       by = c("BMS")
     ) %>%
     group_by(
@@ -78,7 +78,8 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     select(-"H_D_finaal") %>%
     inner_join(
       Omtrekgrenzen,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
     filter(
       .data$Omtrek > .data$OmtrekMin - 0.35,

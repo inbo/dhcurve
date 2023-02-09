@@ -254,9 +254,9 @@ outputIVANHO <-
         "Extr_Hoogte.d"
       )
 
-    Hoogte.lokaal <- Lokaalmodel %>%
+    Hoogte.lokaal <- Data.lokaal %>%
       inner_join(
-        Data.lokaal,
+        Lokaalmodel,
         by = c("BMS", "DOMEIN_ID")
       )
 

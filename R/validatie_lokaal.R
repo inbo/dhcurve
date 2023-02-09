@@ -82,7 +82,7 @@ validatie.lokaal <-
 
   Hoogteschatting <- Lokaalmodel %>%
     inner_join(
-      Data,
+      x = Data,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(

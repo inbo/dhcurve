@@ -283,9 +283,8 @@ initiatie <-
     ) %>%
     ungroup() %>%
     inner_join(
-      Data2,
-      by = c("BMS", "DOMEIN_ID"),
-      multiple = "all"
+      x = Data2,
+      by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
       .data$Omtrek > 0.5,

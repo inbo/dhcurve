@@ -48,7 +48,7 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
   if (!is.null(Afgeleidmodel)) {
     Parameters <- Afgeleidmodel[[1]] %>%
       inner_join(
-        Afgeleidmodel[[2]],
+        x = Afgeleidmodel[[2]],
         by = c("BMS", "DOMEIN_ID")
       ) %>%
       group_by(
@@ -71,7 +71,7 @@ modelparameters <- function(Basismodel, Data = NULL, Afgeleidmodel = NULL) {
     if (has_name(Basismodel, "DOMEIN_ID")) {
       Parameters <- Basismodel %>%
         inner_join(
-          Data,
+          x = Data,
           by = c("BMS", "DOMEIN_ID")
         ) %>%
         group_by(
