@@ -96,7 +96,7 @@ describe("outputIVANHO", {
     expect_no_warning(
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel))
   })
-  
+
   it("De uitgevoerde dataset heeft de juiste kolommen voor afgeleid model", {
     expect_equal(
       outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
