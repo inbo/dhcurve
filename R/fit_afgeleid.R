@@ -47,7 +47,8 @@
 
 fit.afgeleid <- function(Data.afgeleid, Basismodel) {
 
-  invoercontrole(Data.afgeleid, "fit")
+  invoercontrole(Data.afgeleid, "fit", Uitbreiding = TRUE)
+    # Uitbreiding = TRUE om error bij hoge omtrekklassen te vermijden
   invoercontrole(Basismodel, "basismodel")
   Omtrekgrenzen <- Data.afgeleid %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%

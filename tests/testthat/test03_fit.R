@@ -13,7 +13,8 @@ describe("fit", {
   set.seed(123456)
 
   Data <- testdataset() %>%
-    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
+    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2)) %>%
+    bind_rows(testdataset(20, maxOmtrek = 280))
 
   Datalijst <- initiatie(Data)
 
