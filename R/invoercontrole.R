@@ -162,7 +162,7 @@ invoercontrole <- function(Data, Type, Uitbreiding = FALSE) {
         msg = "De opgegeven dataframe heeft geen veld met naam Omtrek"
       )
       assert_that(inherits(Data$Omtrek, "numeric"))
-      if (!Uitbreiding & Type != "afgeleidedata") {
+      if (!Uitbreiding && Type != "afgeleidedata") {
         if (!all(round(Data$Omtrek * 100) %in% seq(15, 265, 10))) {
           stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
             (geldige omtrekklassen zijn 0.15, 0.25, 0.35, 0.45,... t.e.m. 2.65)"
