@@ -14,7 +14,12 @@ describe("fit", {
 
   Data <- testdataset() %>%
     bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2)) %>%
-    bind_rows(testdataset(20, maxOmtrek = 280))
+    bind_rows(
+      testdataset(20, maxOmtrek = 280) %>%
+        mutate(
+          DOMEIN_ID = "J", BOS_BHI = "Domein_J"
+        )
+    )
 
   Datalijst <- initiatie(Data)
 
@@ -79,7 +84,7 @@ describe("fit", {
                    c("DOMEIN_ID", "BMS", "Model"))
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[1]] %>%
                      select(BMS, DOMEIN_ID),
-                   tibble(BMS = "testboom", DOMEIN_ID = c("G", "H")))
+                   tibble(BMS = "testboom", DOMEIN_ID = c("G", "H", "J")))
       expect_type(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model,
                   "list")
       expect_s3_class(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model[[1]],
@@ -90,11 +95,25 @@ describe("fit", {
                    Kolomnamen)
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[2]] %>%
                      select(-H_VL_finaal, -BMS) %>%
-                     filter(!is.na(C13)) %>%
+                     filter(!is.na(C13), DOMEIN_ID != "J") %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE),
                    Data.afgeleid %>%
-                     filter(Omtrek %in% unique(Data.basis$Omtrek)) %>%
+                     filter(
+                       Omtrek %in% unique(Data.basis$Omtrek),
+                       DOMEIN_ID != "J") %>%
+                     select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
+                     arrange(C13, HOOGTE) %>%
+                     as.data.frame(., stringsAsFactors = FALSE))
+      expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[2]] %>%
+                     select(-H_VL_finaal, -BMS) %>%
+                     filter(!is.na(C13), DOMEIN_ID == "J") %>%
+                     arrange(C13, HOOGTE) %>%
+                     as.data.frame(., stringsAsFactors = FALSE),
+                   Data.afgeleid %>%
+                     filter(
+                       Omtrek < max(Data.basis$Omtrek) + 0.2,
+                       DOMEIN_ID == "J") %>%
                      select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE))
