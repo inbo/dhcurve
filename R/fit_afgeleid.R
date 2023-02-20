@@ -73,7 +73,9 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
     do(
       hoogteschatting.basis(.$Model[[1]],
                              select(., -"Model"),
-                             "Basis", unique(.data$BMS))
+                             "Basis", unique(.data$BMS),
+                            Uitbreiding = TRUE)
+      # Uitbreiding = TRUE is om geen problemen te krijgen bij hoge omtrek
     ) %>%
     ungroup() %>%
     select(-"H_D_finaal") %>%
