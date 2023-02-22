@@ -16,6 +16,8 @@
 #'
 #' @param Uitbreiding Dataset met velden `BMS`, `DOMEIN_ID` en `MaxOmtrek`
 #' die teruggegeven wordt door functie `validatie.uitbreiding()`.
+#' Als zowel een Basismodel en als Lokaal model opgegeven worden, voeg dan de
+#' outputs van `validatie.uitbreiding()` van beide modeltypen samen.
 #' @inheritParams resultaat
 #'
 #' @return Dataframe met geschatte hoogtes per domein en per boomsoort met

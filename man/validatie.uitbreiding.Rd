@@ -23,7 +23,7 @@ door de functies \code{fit.basis()} of \code{fit.lokaal()}}
 basis waarvan het opgegeven model (basismodel of lokaal model) berekend is.}
 
 \item{AantalDomValidatie}{Standaard worden de 20 domeinen met de hoogste
-gemiddelde afwijking (DiffMediaan) geselecteerd om te valideren.
+gemiddelde afwijking (\code{DiffMediaan}) geselecteerd om te valideren.
 (Hierbij worden \code{GoedgekeurdeUitbreidingen} niet meer getoond.)
 \code{AantalDomHogeRMSE} laat toe om dit aantal van 20 domeinen aan te passen.}
 
@@ -33,8 +33,9 @@ toegevoegd zijn voor de boomsoort-domeincombinatie (om als gebruiker enkel de
 te keuren curves in het rapport over te houden). De goedgekeurde en dus te
 negeren curves moeten opgegeven worden in een dataframe met velden
 \code{DOMEIN_ID}, \code{BMS} en \code{nBomenTerugTonen}, met \code{nBomenTerugTonen} het aantal
-bomen (\code{nExtra}) in de boomsoort-domeincombinatie vanaf wanneer de
-curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
+bomen boven het bruikbaar interval (\code{nExtra}) in de
+boomsoort-domeincombinatie vanaf wanneer de curve terug getoond moet worden.
+(In dit geval wordt de curve uiteraard enkel
 terug getoond als ze bij de 20 slechtste curves hoort, met hoogste
 \code{diff_mediaan}.)}
 

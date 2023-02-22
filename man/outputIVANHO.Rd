@@ -29,7 +29,9 @@ boomsoort-domeincombinatie).}
 berekend is.}
 
 \item{Uitbreiding}{Dataset met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}
-die teruggegeven wordt door functie \code{validatie.uitbreiding()}.}
+die teruggegeven wordt door functie \code{validatie.uitbreiding()}.
+Als zowel een Basismodel en als Lokaal model opgegeven worden, voeg dan de
+outputs van \code{validatie.uitbreiding()} van beide modeltypen samen.}
 }
 \value{
 Dataframe met geschatte hoogtes per domein en per boomsoort met

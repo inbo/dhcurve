@@ -20,12 +20,13 @@
 #' te keuren curves in het rapport over te houden). De goedgekeurde en dus te
 #' negeren curves moeten opgegeven worden in een dataframe met velden
 #' `DOMEIN_ID`, `BMS` en `nBomenTerugTonen`, met `nBomenTerugTonen` het aantal
-#' bomen (`nExtra`) in de boomsoort-domeincombinatie vanaf wanneer de
-#' curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
+#' bomen boven het bruikbaar interval (`nExtra`) in de
+#' boomsoort-domeincombinatie vanaf wanneer de curve terug getoond moet worden.
+#' (In dit geval wordt de curve uiteraard enkel
 #' terug getoond als ze bij de 20 slechtste curves hoort, met hoogste
 #' `diff_mediaan`.)
 #' @param AantalDomValidatie Standaard worden de 20 domeinen met de hoogste
-#' gemiddelde afwijking (DiffMediaan) geselecteerd om te valideren.
+#' gemiddelde afwijking (`DiffMediaan`) geselecteerd om te valideren.
 #' (Hierbij worden `GoedgekeurdeUitbreidingen` niet meer getoond.)
 #' `AantalDomHogeRMSE` laat toe om dit aantal van 20 domeinen aan te passen.
 #'
