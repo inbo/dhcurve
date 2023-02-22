@@ -66,8 +66,8 @@
 #'     domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
 #'     deze dataset kan een basismodel berekend worden, bestaande uit een
 #'     Vlaams model per boomsoort en domeinspecifieke modellen.
-#'   \item `[["Afgeleid"]]` gegevens van domeinen met minder metingen
-#'     (< 50 metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
+#'   \item `[["Afgeleid"]]` gegevens van domeinen met minder metingen (< 50
+#'     metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
 #'     van boomsoorten waarvoor een Vlaams model berekend kan worden
 #'     (dus boomsoorten die in dataset "Basis" voorkomen), op basis
 #'     waarvan een afgeleid model berekend kan worden.
@@ -81,9 +81,10 @@
 #'     opgesteld kan worden.
 #' }
 #'
-#' Voor de eerste en derde dataframe worden metingen binnen het bruikbaar interval
-#' gemarkeerd als `VoorModelFit` en ook metingen boven dit interval tot een omtrek
-#' van 3 m bijgehouden voor een eventuele uitbreiding van het model;
+#' Voor de eerste en derde dataframe worden metingen binnen het bruikbaar
+#' interval gemarkeerd als `VoorModelFit` en ook metingen boven dit interval
+#' tot een omtrek van 3 m bijgehouden voor een eventuele uitbreiding van het
+#' model;
 #' voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
 #' 0,5 m en 2,8 m bijgehouden.
 #'
