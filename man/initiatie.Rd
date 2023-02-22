@@ -50,17 +50,17 @@ moment actieve working directory opgeslagen).}
 \value{
 Als er gegevens verwijderd worden, genereert de functie een validatierapport
 (\code{.html}-bestand) waarin een overzicht gegeven wordt van de verwijderde
-gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
+gegevens, dit zijn gegevens met omtrek > 3 m en omtrek < 0.2 m.
 
 De functie geeft een list van dataframes terug, met in elke dataframe
 behalve de variabelen uit \code{Data} de berekende variabelen \code{Omtrek}
 (= omtrekklasse), \code{logOmtrek}, \code{logOmtrek2}, \code{Q5k} en \code{Q95k} (de grenzen van
 het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
 gegevens),
-\code{nBomenOmtrek05} (aantal metingen met omtrek > 0.5 m),
+\code{nBomenOmtrek05} (aantal metingen met omtrek > 0.5 m en < 2.8 m),
 \code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval),
 \code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
-met omtrek > 0.5 m))
+met omtrek > 0.5 m)
 en \code{nExtra} (aantal metingen boven het bruikbaar interval op basis waarvan
 een uitbreiding van de curve naar hogere omtrekklassen gevalideerd zou
 kunnen worden)
@@ -74,9 +74,9 @@ domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
 deze dataset kan een basismodel berekend worden, bestaande uit een
 Vlaams model per boomsoort en domeinspecifieke modellen.
 \item \verb{[["Afgeleid"]]} gegevens van domeinen met minder metingen
-(< 50 metingen binnen het bruikbaar interval en > 10 metingen met
-omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend
-kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis
+(< 50 metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
+van boomsoorten waarvoor een Vlaams model berekend kan worden
+(dus boomsoorten die in dataset "Basis" voorkomen), op basis
 waarvan een afgeleid model berekend kan worden.
 \item \verb{[["Lokaal"]]} gegevens van domeinen met veel metingen voor een
 boomsoort (> 50 metingen binnen het bruikbaar interval met
@@ -88,9 +88,11 @@ de 3 voorgaande categorieën behoren en waar dus geen model voor
 opgesteld kan worden.
 }
 
-Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
-weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
-met omtrek <= 0,5 m weggelaten.
+Voor de eerste en derde dataframe worden metingen binnen het bruikbaar interval
+gemarkeerd als \code{VoorModelFit} en ook metingen boven dit interval tot een omtrek
+van 3 m bijgehouden voor een eventuele uitbreiding van het model;
+voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
+0,5 m en 2,8 m bijgehouden.
 
 In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
 \verb{[["VerwijderdeGegevens"]]} toegevoegd met de gegevens uit het

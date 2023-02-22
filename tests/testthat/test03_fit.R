@@ -112,7 +112,6 @@ describe("fit", {
                      as.data.frame(., stringsAsFactors = FALSE),
                    Data.afgeleid %>%
                      filter(
-                       Omtrek < max(Data.basis$Omtrek) + 0.2,
                        DOMEIN_ID == "J") %>%
                      select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
                      arrange(C13, HOOGTE) %>%

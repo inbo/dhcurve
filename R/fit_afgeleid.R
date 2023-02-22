@@ -38,7 +38,8 @@
 #' @export
 #'
 #' @importFrom stats lm
-#' @importFrom dplyr %>% inner_join group_by do ungroup select filter
+#' @importFrom dplyr %>% inner_join group_by do ungroup select filter left_join
+#' distinct
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom tidyr nest
@@ -66,6 +67,16 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       x = Data.afgeleid,
       by = c("BMS")
     ) %>%
+    left_join(
+      x = Omtrekgrenzen,
+      by = c("BMS", "DOMEIN_ID")
+    ) %>%
+    mutate(
+      Q5k = ifelse(is.na(.data$OmtrekMin), .data$Q5k, .data$OmtrekMin),
+      Q95k = ifelse(is.na(.data$OmtrekMax), .data$Q95k, .data$OmtrekMax),
+      OmtrekMin = NULL,
+      OmtrekMax = NULL
+    ) %>%
     group_by(
       .data$BMS,
       .data$DOMEIN_ID
@@ -88,7 +99,20 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       .data$Omtrek > .data$OmtrekMin - 0.35,
       .data$Omtrek < .data$OmtrekMax + 0.25
     ) %>%
-    select(-"OmtrekMin", -"OmtrekMax")
+    select(-"OmtrekMin", -"OmtrekMax") %>%
+    left_join(
+      Data.afgeleid %>%
+        select("BMS", "DOMEIN_ID", "Q5k", "Q95k") %>%
+        distinct(),
+      by = c("DOMEIN_ID", "BMS"),
+      suffix = c("", ".old")
+    ) %>%
+    mutate(
+      Q5k = .data$Q5k.old,
+      Q95k = .data$Q95k.old,
+      Q5k.old = NULL,
+      Q95k.old = NULL
+    )
 
   mod_fun <- function(df) {
     lm(

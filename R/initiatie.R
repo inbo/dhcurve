@@ -43,17 +43,17 @@
 #'
 #' Als er gegevens verwijderd worden, genereert de functie een validatierapport
 #' (`.html`-bestand) waarin een overzicht gegeven wordt van de verwijderde
-#' gegevens, dit zijn gegevens met omtrek > 2.4 m en omtrek < 0.2 m.
+#' gegevens, dit zijn gegevens met omtrek > 3 m en omtrek < 0.2 m.
 #'
 #' De functie geeft een list van dataframes terug, met in elke dataframe
 #' behalve de variabelen uit `Data` de berekende variabelen `Omtrek`
 #' (= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de grenzen van
 #' het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
 #' gegevens),
-#' `nBomenOmtrek05` (aantal metingen met omtrek > 0.5 m),
+#' `nBomenOmtrek05` (aantal metingen met omtrek > 0.5 m en < 2.8 m),
 #' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval),
 #' `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval
-#' met omtrek > 0.5 m))
+#' met omtrek > 0.5 m)
 #' en `nExtra` (aantal metingen boven het bruikbaar interval op basis waarvan
 #' een uitbreiding van de curve naar hogere omtrekklassen gevalideerd zou
 #' kunnen worden)
@@ -67,9 +67,9 @@
 #'     deze dataset kan een basismodel berekend worden, bestaande uit een
 #'     Vlaams model per boomsoort en domeinspecifieke modellen.
 #'   \item `[["Afgeleid"]]` gegevens van domeinen met minder metingen
-#'     (< 50 metingen binnen het bruikbaar interval en > 10 metingen met
-#'     omtrek > 0.5 m) van boomsoorten waarvoor een Vlaams model berekend
-#'     kan worden (dus boomsoorten die in dataset "Basis" voorkomen), op basis
+#'     (< 50 metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
+#'     van boomsoorten waarvoor een Vlaams model berekend kan worden
+#'     (dus boomsoorten die in dataset "Basis" voorkomen), op basis
 #'     waarvan een afgeleid model berekend kan worden.
 #'   \item `[["Lokaal"]]` gegevens van domeinen met veel metingen voor een
 #'     boomsoort (> 50 metingen binnen het bruikbaar interval met
@@ -81,9 +81,11 @@
 #'     opgesteld kan worden.
 #' }
 #'
-#' Voor de eerste 3 dataframes worden metingen buiten het bruikbaar interval
-#' weggelaten; voor het afgeleid model (2de dataframe) worden ook de metingen
-#' met omtrek <= 0,5 m weggelaten.
+#' Voor de eerste en derde dataframe worden metingen binnen het bruikbaar interval
+#' gemarkeerd als `VoorModelFit` en ook metingen boven dit interval tot een omtrek
+#' van 3 m bijgehouden voor een eventuele uitbreiding van het model;
+#' voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
+#' 0,5 m en 2,8 m bijgehouden.
 #'
 #' In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
 #' `[["VerwijderdeGegevens"]]` toegevoegd met de gegevens uit het
@@ -215,7 +217,7 @@ initiatie <-
       nTotaal = n(),
       nTeDun = sum(.data$C13 < 20),
       percTeDun = round(.data$nTeDun * 100 / .data$nTotaal, digits = 1),
-      nTeDik = sum(.data$C13 > 240),
+      nTeDik = sum(.data$C13 > 300),
       percTeDik = round(.data$nTeDik * 100 / .data$nTotaal, digits = 1),
       nInterval = .data$nTotaal - .data$nTeDun - .data$nTeDik
     ) %>%
@@ -249,13 +251,14 @@ initiatie <-
       logOmtrek = log(.data$Omtrek),
       logOmtrek2 = .data$logOmtrek ^ 2
     ) %>%
+    filter(.data$Omtrek < 3) %>%
     group_by(
       .data$BMS,
       .data$DOMEIN_ID
     ) %>%
     mutate(
-      nBomen = sum(.data$Omtrek < 2.40),
-      nBomenOmtrek05 = sum(.data$Omtrek > 0.5 & .data$Omtrek < 2.40),
+      nBomen = sum(.data$Omtrek < 3),
+      nBomenOmtrek05 = sum(.data$Omtrek > 0.5 & .data$Omtrek < 2.80),
       Q5 = quantile(.data$Omtrek, probs = 0.05) - 0.1,
       #het klassenmidden van Q5:
       Q5k = pmax(floor(.data$Q5 * 10) / 10 + 0.05, 0.25),
@@ -387,8 +390,11 @@ initiatie <-
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     filter(
-      ((.data$nBomen > min_afgeleidmodel & is.na(.data$min_afgeleid)) |
-        (!is.na(.data$min_afgeleid) & .data$nBomen > .data$min_afgeleid))
+      ((.data$nBomenOmtrek05 > min_afgeleidmodel & is.na(.data$min_afgeleid)) |
+        (!is.na(.data$min_afgeleid) & .data$nBomenOmtrek05 > .data$min_afgeleid)
+       ),
+      .data$Omtrek > 0.5,
+      .data$Omtrek < 2.8
     ) %>%
     select(
       "BMS", "DOMEIN_ID",
