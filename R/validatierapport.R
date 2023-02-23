@@ -33,6 +33,8 @@
 #' Default is FALSE, wat betekent dat het validatierapport de layout heeft voor
 #' de andere validatierapporten, met afwijkingen in rood en iets andere gegevens
 #' die getoond worden.
+#' In het validatierapport voor `validatie.uitbreiding()` is de uitbreiding
+#' die gevalideerd moet worden, in blauw weergegeven.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)
@@ -52,6 +54,15 @@
 #'     klassenmiddens die overeenkomen met deze grenzen)}
 #'   \item{afwijkende metingen: in rood (andere metingen in zwart)}
 #'   \item{afwijkende deel van een curve in rood (rest van curve in zwart)}
+#' }
+#'
+#' Bij de keuze voor een uitbreidingsrapport (argument
+#' `Uitbreidingsrapport = TRUE`) wijkt het rapport af:
+#' \itemize{
+#'   \item{algemene informatie: de RMSE is vervangen door de variabelen
+#'     DiffMediaan, DiffMin en DiffMax}
+#'   \item{kleur van grafiek: geen afwijkingen in rood, wel is de uitbreiding
+#'     weergegeven in blauw (zowel jitter van metingen als curve)}
 #' }
 #'
 #' @export

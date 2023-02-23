@@ -1,9 +1,9 @@
 #' @title Initiatiestap met opsplitsen van dataset volgens modeltypen
 #'
 #' @description
-#' De functie initiatie maakt de dataset klaar voor de verdere stappen van het
-#' opstellen van diameter-hoogtecurves: ze berekent de noodzakelijke variabelen
-#' en splitst de dataset op basis van het aantal metingen per
+#' De functie `initiatie()` maakt de dataset klaar voor de verdere stappen van
+#' het opstellen van diameter-hoogtecurves: ze berekent de noodzakelijke
+#' variabelen en splitst de dataset op basis van het aantal metingen per
 #' boomsoort-domeincombinatie in 4 delen:
 #' 3 delen die als parameter meegegeven kunnen worden voor de
 #' `fit.xxx()`-functies per modeltype (basismodel, afgeleid model en lokaal
@@ -46,10 +46,10 @@
 #' gegevens, dit zijn gegevens met omtrek > 3 m en omtrek < 0.2 m.
 #'
 #' De functie geeft een list van dataframes terug, met in elke dataframe
-#' behalve de variabelen uit `Data` de berekende variabelen `Omtrek`
-#' (= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de grenzen van
-#' het bruikbaar interval), `nBomen` (= aantal metingen behalve de verwijderde
-#' gegevens),
+#' behalve de variabelen uit `Data` de berekende variabelen
+#' `Omtrek` (= omtrekklasse), `logOmtrek`, `logOmtrek2`, `Q5k` en `Q95k` (de
+#' grenzen van het bruikbaar interval), `nBomen` (= aantal metingen behalve de
+#' verwijderde gegevens),
 #' `nBomenOmtrek05` (aantal metingen met omtrek > 0.5 m en < 2.8 m),
 #' `nBomenInterval` (= aantal metingen binnen het bruikbaar interval),
 #' `nBomenIntervalOmtrek05` (aantal metingen binnen het bruikbaar interval

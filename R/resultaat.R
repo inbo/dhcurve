@@ -44,10 +44,11 @@
 #'   \item{bruikbaar interval (`Q5k` en `Q95k`, zie vignet voor meer info)}
 #'   \item{`RMSE` (root mean square error, zie vignet voor meer info)}
 #'   \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
-#'     2,4 m)}
-#'   \item{`nBomenOmtrek05` (aantal metingen > 0.5 m)}
+#'     3,0 m)}
+#'   \item{`nBomenOmtrek05` (aantal metingen met omtrek tussen 0.5 en 2,8 m,
+#'     dus waarop afgeleid model gebaseerd is)}
 #'   \item{`nBomenInterval` (aantal metingen binnen bruikbaar interval, dus
-#'     waarop model gebaseerd is)}
+#'     waarop basismodel of lokaal model gebaseerd is)}
 #'   \item{`nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
 #'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)}
 #' }

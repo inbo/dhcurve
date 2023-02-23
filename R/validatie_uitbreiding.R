@@ -1,9 +1,9 @@
 #' @title Validatie van een uitbreiding van een model naar hogere omtrekklassen
 #'
 #' @description
-#' Functie die toelaat om de opgegeven modellen te valideren ter hoogte van
-#' omtrekklassen boven het bruikbaar interval ingeval hiervoor voldoende
-#' gegevens beschikbaar zijn.
+#' Functie die toelaat om de opgegeven basismodellen of lokale modellen te
+#' valideren ter hoogte van omtrekklassen boven het bruikbaar interval ingeval
+#' hiervoor voldoende gegevens beschikbaar zijn.
 #' De functie berekent de waarden `diff_min`, `diff_mediaan` en `diff_max` en
 #' geeft een overzichtsrapport met de 20 slechtste niet eerder afgekeurde
 #' curves (= curves met hoogste absolute waarde voor `diff_mediaan`),
@@ -39,16 +39,18 @@
 #' directory met informatie en grafieken van de te controleren modellen.
 #' De weergegeven grafieken zijn gerangschikt van slechtste (= mediaan heeft
 #' grootste afwijking) naar minder slecht.
+#' Idee is om in dit rapport het blauwe deel van de grafiek te valideren.
 #'
 #' De functie geeft een dataframe terug met per boomsoort-domeincombinatie de
 #' omtrekklasse tot waar het model uitgebreid kan worden
 #' (met velden `BMS`, `DOMEIN_ID` en `MaxOmtrek`).
-#' Deze tabel kan als argument `Uitbreidingen` in functie `outputIVANHO()`
-#' toegevoegd worden om deze uitbreidingen mee te nemen voor het eindresultaat.
+#' Deze tabel kan als argument `Uitbreidingen` in functie
+#' `outputIVANHO()` toegevoegd worden om deze uitbreidingen mee te nemen voor
+#' het eindresultaat.
 #' Belangrijk is hierbij dat afgekeurde curves eerst verwijderd zijn door
-#' bij `initiatie()` via `Uitzonderingen` de variabele `min_uitbreiden_model`
-#' op te trekken en daarna `validatie.uitbreiding()` opnieuw gerund is met de
-#' aangepaste dataset.
+#' bij `initiatie()` via `Uitzonderingen` de variabele
+#' `min_uitbreiden_model` op te trekken en daarna
+#' `validatie.uitbreiding()` opnieuw gerund is met de aangepaste dataset.
 #'
 #' @export
 #'

@@ -16,7 +16,7 @@
     * voor domein-boomsoortcombinaties met veel metingen boven het bruikbaar
       interval kan het bruikbare interval naar boven toe uitgebreid worden tot
       3 m met de nieuwe functie `validatie.uitbreiding()`, die volgens hetzelfde
-      principe werkt als de andere validatie-functies (als een uitbreiding niet
+      principe werkt als de andere validatie-functies: als een uitbreiding niet
       goed is, de minimumgrens voor het aantal metingen optrekken en de dataset
       opnieuw opsplitsen met `initiatie()`, en fitten en valideren (enkel de
       uitbreiding).

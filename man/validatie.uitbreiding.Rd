@@ -57,21 +57,23 @@ De functie genereert een validatierapport (\code{.html}-bestand) in de working
 directory met informatie en grafieken van de te controleren modellen.
 De weergegeven grafieken zijn gerangschikt van slechtste (= mediaan heeft
 grootste afwijking) naar minder slecht.
+Idee is om in dit rapport het blauwe deel van de grafiek te valideren.
 
 De functie geeft een dataframe terug met per boomsoort-domeincombinatie de
 omtrekklasse tot waar het model uitgebreid kan worden
 (met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}).
-Deze tabel kan als argument \code{Uitbreidingen} in functie \code{outputIVANHO()}
-toegevoegd worden om deze uitbreidingen mee te nemen voor het eindresultaat.
+Deze tabel kan als argument \code{Uitbreidingen} in functie
+\code{outputIVANHO()} toegevoegd worden om deze uitbreidingen mee te nemen voor
+het eindresultaat.
 Belangrijk is hierbij dat afgekeurde curves eerst verwijderd zijn door
-bij \code{initiatie()} via \code{Uitzonderingen} de variabele \code{min_uitbreiden_model}
-op te trekken en daarna \code{validatie.uitbreiding()} opnieuw gerund is met de
-aangepaste dataset.
+bij \code{initiatie()} via \code{Uitzonderingen} de variabele
+\code{min_uitbreiden_model} op te trekken en daarna
+\code{validatie.uitbreiding()} opnieuw gerund is met de aangepaste dataset.
 }
 \description{
-Functie die toelaat om de opgegeven modellen te valideren ter hoogte van
-omtrekklassen boven het bruikbaar interval ingeval hiervoor voldoende
-gegevens beschikbaar zijn.
+Functie die toelaat om de opgegeven basismodellen of lokale modellen te
+valideren ter hoogte van omtrekklassen boven het bruikbaar interval ingeval
+hiervoor voldoende gegevens beschikbaar zijn.
 De functie berekent de waarden \code{diff_min}, \code{diff_mediaan} en \code{diff_max} en
 geeft een overzichtsrapport met de 20 slechtste niet eerder afgekeurde
 curves (= curves met hoogste absolute waarde voor \code{diff_mediaan}),

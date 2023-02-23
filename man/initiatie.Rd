@@ -53,10 +53,10 @@ Als er gegevens verwijderd worden, genereert de functie een validatierapport
 gegevens, dit zijn gegevens met omtrek > 3 m en omtrek < 0.2 m.
 
 De functie geeft een list van dataframes terug, met in elke dataframe
-behalve de variabelen uit \code{Data} de berekende variabelen \code{Omtrek}
-(= omtrekklasse), \code{logOmtrek}, \code{logOmtrek2}, \code{Q5k} en \code{Q95k} (de grenzen van
-het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de verwijderde
-gegevens),
+behalve de variabelen uit \code{Data} de berekende variabelen
+\code{Omtrek} (= omtrekklasse), \code{logOmtrek}, \code{logOmtrek2}, \code{Q5k} en \code{Q95k} (de
+grenzen van het bruikbaar interval), \code{nBomen} (= aantal metingen behalve de
+verwijderde gegevens),
 \code{nBomenOmtrek05} (aantal metingen met omtrek > 0.5 m en < 2.8 m),
 \code{nBomenInterval} (= aantal metingen binnen het bruikbaar interval),
 \code{nBomenIntervalOmtrek05} (aantal metingen binnen het bruikbaar interval
@@ -73,8 +73,8 @@ minimum 6 domeinen, waarbij enkel gegevens worden opgenomen van de
 domeinen waarvoor minimum 50 metingen beschikbaar zijn.  Op basis van
 deze dataset kan een basismodel berekend worden, bestaande uit een
 Vlaams model per boomsoort en domeinspecifieke modellen.
-\item \verb{[["Afgeleid"]]} gegevens van domeinen met minder metingen
-(< 50 metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
+\item \verb{[["Afgeleid"]]} gegevens van domeinen met minder metingen (< 50
+metingen binnen het bruikbaar interval en > 10 metingen boven 0.5 m)
 van boomsoorten waarvoor een Vlaams model berekend kan worden
 (dus boomsoorten die in dataset "Basis" voorkomen), op basis
 waarvan een afgeleid model berekend kan worden.
@@ -88,9 +88,10 @@ de 3 voorgaande categorieën behoren en waar dus geen model voor
 opgesteld kan worden.
 }
 
-Voor de eerste en derde dataframe worden metingen binnen het bruikbaar interval
-gemarkeerd als \code{VoorModelFit} en ook metingen boven dit interval tot een omtrek
-van 3 m bijgehouden voor een eventuele uitbreiding van het model;
+Voor de eerste en derde dataframe worden metingen binnen het bruikbaar
+interval gemarkeerd als \code{VoorModelFit} en ook metingen boven dit interval
+tot een omtrek van 3 m bijgehouden voor een eventuele uitbreiding van het
+model;
 voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
 0,5 m en 2,8 m bijgehouden.
 
@@ -99,9 +100,9 @@ In geval er gegevens verwijderd zijn, wordt aan de list een extra dataframe
 validatierapport.
 }
 \description{
-De functie initiatie maakt de dataset klaar voor de verdere stappen van het
-opstellen van diameter-hoogtecurves: ze berekent de noodzakelijke variabelen
-en splitst de dataset op basis van het aantal metingen per
+De functie \code{initiatie()} maakt de dataset klaar voor de verdere stappen van
+het opstellen van diameter-hoogtecurves: ze berekent de noodzakelijke
+variabelen en splitst de dataset op basis van het aantal metingen per
 boomsoort-domeincombinatie in 4 delen:
 3 delen die als parameter meegegeven kunnen worden voor de
 \code{fit.xxx()}-functies per modeltype (basismodel, afgeleid model en lokaal
