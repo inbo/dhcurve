@@ -11,6 +11,8 @@
 #' @return dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`) en
 #' parameters voor Vlaams model (`Avl`, `Bvl` en `Cvl`)
 #'
+#' @noRd
+#'
 #' @importFrom dplyr %>% select distinct left_join
 #' @importFrom rlang .data
 #' @importFrom nlme fixef

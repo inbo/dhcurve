@@ -9,6 +9,8 @@
 #'
 #' @return dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`)
 #'
+#' @noRd
+#'
 #' @importFrom stats coef
 #'
 

@@ -10,6 +10,8 @@
 #' @return dataframe met parameter voor de verschuiving t.o.v. het basismodel
 #' (Ad)
 #'
+#' @noRd
+#'
 #' @importFrom stats coef
 #'
 
