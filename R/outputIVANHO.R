@@ -195,14 +195,14 @@ outputIVANHO <-
 
       Hoogteschatting <- Hoogteschatting %>%
         bind_rows(
-          Afgeleidmodel[[1]] %>%
+          Afgeleidmodel[[2]] %>%
+            group_by(.data$BMS) %>%
+            mutate(
+              IDbms = max(.data$IDbms, na.rm = TRUE)
+            ) %>%
+            ungroup() %>%
             inner_join(
-              Afgeleidmodel[[2]] %>%
-                group_by(.data$BMS) %>%
-                mutate(
-                  IDbms = max(.data$IDbms, na.rm = TRUE)
-                ) %>%
-                ungroup(),
+              Afgeleidmodel[[1]],
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             group_by(

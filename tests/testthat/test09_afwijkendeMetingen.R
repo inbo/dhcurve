@@ -88,7 +88,7 @@ describe("afwijkendemetingen", {
 
   Hoogteschatting <- AModel %>%
     inner_join(
-      Afgeleidmodel[[2]],
+      x = Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -114,7 +114,8 @@ describe("afwijkendemetingen", {
     ungroup() %>%
     inner_join(
       Hoogteschatting,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
     inner_join(
       Rmse,
@@ -152,7 +153,7 @@ describe("afwijkendemetingen", {
 
   Hoogteschatting <- Lokaalmodel %>%
     inner_join(
-      Data.lokaal,
+      x = Data.lokaal,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
