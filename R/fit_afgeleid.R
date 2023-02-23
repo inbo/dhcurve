@@ -68,7 +68,7 @@ fit.afgeleid <- function(Data.afgeleid, Basismodel) {
       by = c("BMS")
     ) %>%
     left_join(
-      x = Omtrekgrenzen,
+      Omtrekgrenzen,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     mutate(
