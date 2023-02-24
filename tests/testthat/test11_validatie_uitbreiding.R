@@ -53,21 +53,21 @@ describe("validatie.uitbreiding", {
     test <-
       validatie.uitbreiding(Basismodel, Data.basis, AantalDomValidatie = 2)
     expect_equal(
-      str_count(as.character(read_html("validatie_uitbreiding.html")),
+      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
                 pattern = "Om uitbreiding goed te keuren"),
       2
     )
     expect_equal(nrow(test), 5)
     validatie.uitbreiding(Basismodel, Data.basis, AantalDomValidatie = 8)
     expect_equal(
-      str_count(as.character(read_html("validatie_uitbreiding.html")),
+      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
                 pattern = "Om uitbreiding goed te keuren"),
       5
     )
     test <-
       validatie.uitbreiding(Lokaalmodel, Data.lokaal, AantalDomValidatie = 1)
     expect_equal(
-      str_count(as.character(read_html("validatie_uitbreiding.html")),
+      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
                 pattern = "Om uitbreiding goed te keuren"),
       1
     )
