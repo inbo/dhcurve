@@ -135,9 +135,14 @@ dhcurvesrapport <-
       nBomenInterval = max(.data$nBomenInterval, na.rm = TRUE),
       nBomenIntervalOmtrek05 = max(.data$nBomenIntervalOmtrek05, na.rm = TRUE),
       Q5k = max(.data$Q5k, na.rm = TRUE),
-      Q95k = max(.data$Q95k, na.rm = TRUE)
+      Q95k = max(.data$Q95k, na.rm = TRUE),
+      # moeten gegevens van uitbreiding weggelaten worden?
+      MaxOmtrekModel = (max(.data$Omtrek * !is.na(.data$Hoogte)) - 0.2),
+      UitbreidingWeglaten =
+        max(.data$Omtrek * !is.na(.data$HOOGTE)) > .data$MaxOmtrekModel
     ) %>%
     ungroup() %>%
+    filter(!(.data$UitbreidingWeglaten & !.data$VoorModelFit)) %>%
     arrange(.data$BMS, .data$DOMEIN_ID)
 
 
