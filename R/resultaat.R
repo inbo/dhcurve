@@ -214,12 +214,12 @@ resultaat <-
     if (is.null(Data.lokaal)) {
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
-      invoercontrole(Data.lokaal, "fit")
       if (has_name(Data.lokaal, "VoorModelFit")) {
         Data.lokaal <- Data.lokaal %>%
           filter(.data$VoorModelFit) %>%
           select(-"VoorModelFit")
       }
+      invoercontrole(Data.lokaal, "fit")
     }
 
     Modellen.lokaal <-
