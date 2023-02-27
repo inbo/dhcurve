@@ -136,6 +136,9 @@ validatie.uitbreiding <-
                               unique(.$BMS), Uitbreiding = TRUE)
       ) %>%
       ungroup()
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Uitbreiding_Lokaalmodel.html",
+                           Bestandsnaam)
   } else {
     invoercontrole(Model, "basismodel")
     MaxCurve <- curvekarakteristieken(Model) %>%
@@ -157,6 +160,9 @@ validatie.uitbreiding <-
                               unique(.$BMS), Uitbreiding = TRUE)
       ) %>%
       ungroup()
+    Bestandsnaam <- ifelse(Bestandsnaam == "Default",
+                           "Validatie_Uitbreiding_Basismodel.html",
+                           Bestandsnaam)
   }
 
   MaxCurve <- MaxCurve %>%
@@ -246,9 +252,6 @@ validatie.uitbreiding <-
       HOOGTE = numeric(0), Status = character(0)
     )
 
-  Bestandsnaam <- ifelse(Bestandsnaam == "Default",
-                         "Validatie_Uitbreiding.html",
-                         Bestandsnaam)
   validatierapport(
     SlechtsteModellen, AfwijkendeMetingen, Dataset = Hoogteschatting,
     Bestandsnaam, TypeRapport, Uitbreidingsrapport = TRUE, PathWD = PathWD)

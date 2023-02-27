@@ -53,22 +53,28 @@ describe("validatie.uitbreiding", {
     test <-
       validatie.uitbreiding(Basismodel, Data.basis, AantalDomValidatie = 2)
     expect_equal(
-      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
-                pattern = "Om uitbreiding goed te keuren"),
+      str_count(
+        as.character(read_html("Validatie_Uitbreiding_Basismodel.html")),
+        pattern = "Om uitbreiding goed te keuren"
+      ),
       2
     )
     expect_equal(nrow(test), 5)
     validatie.uitbreiding(Basismodel, Data.basis, AantalDomValidatie = 8)
     expect_equal(
-      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
-                pattern = "Om uitbreiding goed te keuren"),
+      str_count(
+        as.character(read_html("Validatie_Uitbreiding_Basismodel.html")),
+        pattern = "Om uitbreiding goed te keuren"
+      ),
       5
     )
     test <-
       validatie.uitbreiding(Lokaalmodel, Data.lokaal, AantalDomValidatie = 1)
     expect_equal(
-      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
-                pattern = "Om uitbreiding goed te keuren"),
+      str_count(
+        as.character(read_html("Validatie_Uitbreiding_Lokaalmodel.html")),
+        pattern = "Om uitbreiding goed te keuren"
+      ),
       1
     )
     expect_equal(nrow(test), 2)
@@ -100,8 +106,10 @@ describe("validatie.uitbreiding", {
           data.frame(DOMEIN_ID = "B", BMS = "testboom", nBomenTerugTonen = 50)
       )
     expect_equal( #opletten, deze eerst, of validatierapport andere naam geven!
-      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
-                pattern = "Om uitbreiding goed te keuren"),
+      str_count(
+        as.character(read_html("Validatie_Uitbreiding_Basismodel.html")),
+        pattern = "Om uitbreiding goed te keuren"
+      ),
       4
     )
     expect_equal(
@@ -133,8 +141,10 @@ describe("validatie.uitbreiding", {
           data.frame(DOMEIN_ID = "C", BMS = "testboom", nBomenTerugTonen = 50)
       )
     expect_equal( #opletten, deze eerst, of validatierapport andere naam geven!
-      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
-                pattern = "Om uitbreiding goed te keuren"),
+      str_count(
+        as.character(read_html("Validatie_Uitbreiding_Lokaalmodel.html")),
+        pattern = "Om uitbreiding goed te keuren"
+      ),
       1
     )
     expect_equal(
@@ -168,7 +178,7 @@ describe("validatie.uitbreiding", {
         gsub(
           ".*DiffMediaan: (.+;) DiffMin: (.+;) DiffMax: (-?\\d+\\.\\d{2})<\\/p>.*", #nolint: line_length_linter
           "\\1\\2\\3",
-          as.character(read_html("Validatie_Uitbreiding.html"))
+          as.character(read_html("Validatie_Uitbreiding_Basismodel.html"))
         ), ";", simplify = TRUE
       )
     expect_equal(
