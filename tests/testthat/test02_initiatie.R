@@ -478,6 +478,44 @@ describe("initiatie", {
     )
   })
 
+  it("Hoge/lage omtrekklassen worden correct verwijderd", {
+    Dataset2 <- Dataset %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 2), rep("BosKlein", 2), rep("Bos1", 2)),
+          BOS_BHI = c(rep("Bos1", 2), rep("BosKlein", 2), rep("Bos1", 2)),
+          BMS = c(rep("SoortModel", 4), rep("SoortExtra", 2)),
+          IDbms = c(rep(1, 4), rep(2, 2)),
+          C13 = c(48, 305, 48, 285, 48, 305),
+          HOOGTE = c(10, 40),
+          Status = "Te controleren"
+        )
+      )
+    Output <- initiatie(Dataset)
+    expect_message(
+      Output2 <- initiatie(Dataset2),
+      regexp = "Het rapport is opgeslagen in de working directory"
+    )
+    expect_equal(
+      Output[["Basis"]] %>%
+        select(-"nBomen"),
+      Output2[["Basis"]] %>%
+        select(-"nBomen")
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        select(-"nBomen", -"nBomenInterval", -"Q5", -"Q5k"),
+      Output2[["Afgeleid"]] %>%
+        select(-"nBomen", -"nBomenInterval", -"Q5", -"Q5k")
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        select(-"nBomen"),
+      Output2[["Lokaal"]] %>%
+        select(-"nBomen")
+    )
+  })
+
   setwd(wd)
 
 })
