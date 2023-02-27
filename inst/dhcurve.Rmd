@@ -25,8 +25,7 @@ Grafiek <-
   ggplot(DataModel, aes(x = Omtrek, y = HOOGTE)) +
   geom_jitter(aes(colour = VoorModelFit),
     width = 0.03, height = 0, alpha = alpha) +
-  scale_colour_manual(values = c("TRUE" = "black","FALSE" = Kleur)) +
-  #geom_line(aes(y = Hoogte), size = 1) +
+  scale_colour_manual(values = c("TRUE" = "black", "FALSE" = Kleur)) +
   geom_point(
     aes(y = Hoogte), shape = 23, fill = "black", colour = "white", size = 3) +
   scale_x_continuous(minor_breaks = seq(0.05, maxbreak, 0.1)) +
