@@ -380,7 +380,7 @@ initiatie <-
 
   # 2) alle bms-domeincomb's met géén 50 metingen, wel een basismodel ----
       # (basismodel: 6 andere domein met > 50 metingen van die bms)
-  Data.afgeleid <- Data2 %>%
+  Data.afgeleid <- Data.aantallen %>%
     filter(
       .data$BMS %in% unique(Basisdata$BMS)
     ) %>%
@@ -394,21 +394,6 @@ initiatie <-
       ((.data$nBomenOmtrek05 > min_afgeleidmodel & is.na(.data$min_afgeleid)) |
         (!is.na(.data$min_afgeleid) & .data$nBomenOmtrek05 > .data$min_afgeleid)
        ),
-      .data$Omtrek > 0.5,
-      .data$Omtrek < 2.8
-    ) %>%
-    select(
-      "BMS", "DOMEIN_ID",
-      nBomenInterval = "nBomen",
-      nBomenIntervalOmtrek05 = "nBomenOmtrek05"
-    ) %>%
-    distinct()
-  # Kunstgreepje om de volgorde van de kolommen hetzelfde te krijgen als voor
-  # de andere modellen
-  Data.afgeleid <- Data.afgeleid %>%
-    inner_join(Data2, by = c("BMS", "DOMEIN_ID"), multiple = "all") %>%
-    distinct() %>%
-    filter(
       .data$Omtrek > 0.5,
       .data$Omtrek < 2.8
     ) %>%
