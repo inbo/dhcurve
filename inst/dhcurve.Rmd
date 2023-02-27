@@ -19,13 +19,18 @@ Model bruikbaar tussen de omtrekklassen met klassenmiddens
 
 ```{r warning=FALSE}
 alpha <- 1 / log(unique(DataModel$nBomen))
+maxbreak <- max(DataModel$Omtrek)
+Kleur <- ifelse(KleurUitbreiding, "blue", "black")
 Grafiek <-
   ggplot(DataModel, aes(x = Omtrek, y = HOOGTE)) +
-  geom_jitter(width = 0.03, height = 0, alpha = alpha) +
+  geom_jitter(aes(colour = VoorModelFit),
+    width = 0.03, height = 0, alpha = alpha) +
+  scale_colour_manual(values = c("TRUE" = "black","FALSE" = Kleur)) +
   #geom_line(aes(y = Hoogte), size = 1) +
   geom_point(
     aes(y = Hoogte), shape = 23, fill = "black", colour = "white", size = 3) +
-  scale_x_continuous(minor_breaks = seq(0.05, 2.35, 0.1))
+  scale_x_continuous(minor_breaks = seq(0.05, maxbreak, 0.1)) +
+  theme(legend.position = "none")
 
 print(Grafiek)
 ```

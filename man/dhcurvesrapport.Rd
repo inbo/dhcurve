@@ -8,6 +8,7 @@ dhcurvesrapport(
   OutputIVANHO,
   Datalijst,
   Bestandsnaam = "dhcurves.html",
+  KleurUitbreiding = FALSE,
   verbose = TRUE,
   PathWD = getwd()
 )
@@ -21,6 +22,11 @@ modellen, zoals gegenereerd door de functie \code{initiatie()}.}
 
 \item{Bestandsnaam}{Een naam voor het rapport (\code{.html}-bestand) dat
 gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
+
+\item{KleurUitbreiding}{Moeten de metingen van de uitbreiding in een andere
+kleur weergegeven worden?
+Default is FALSE, waarbij (eventuele) metingen van een uitbreiding niet in
+een andere kleur weergegeven worden.}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
 boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}

@@ -15,6 +15,10 @@
 #' modellen, zoals gegenereerd door de functie `initiatie()`.
 #' @param Bestandsnaam Een naam voor het rapport (`.html`-bestand) dat
 #' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
+#' @param KleurUitbreiding Moeten de metingen van de uitbreiding in een andere
+#' kleur weergegeven worden?
+#' Default is FALSE, waarbij (eventuele) metingen van een uitbreiding niet in
+#' een andere kleur weergegeven worden.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)
@@ -43,6 +47,7 @@
 dhcurvesrapport <-
   function(OutputIVANHO, Datalijst,
            Bestandsnaam = "dhcurves.html",
+           KleurUitbreiding = FALSE,
            verbose = TRUE, PathWD = getwd()) {
 
   # nocov start
@@ -99,6 +104,7 @@ dhcurvesrapport <-
   assert_that(has_name(Datalijst[["Lokaal"]], "HOOGTE"))
   assert_that(inherits(Datalijst[["Lokaal"]]$HOOGTE, "numeric"))
 
+  assert_that(is.logical("KleurUitbreiding"))
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
