@@ -407,6 +407,11 @@ initiatie <-
   # de andere modellen
   Data.afgeleid <- Data.afgeleid %>%
     inner_join(Data2, by = c("BMS", "DOMEIN_ID"), multiple = "all") %>%
+    distinct() %>%
+    filter(
+      .data$Omtrek > 0.5,
+      .data$Omtrek < 2.8
+    ) %>%
     select(
       -"min_basis", -"min_afgeleid"
     )
