@@ -100,7 +100,7 @@ describe("validatie.uitbreiding", {
           data.frame(DOMEIN_ID = "B", BMS = "testboom", nBomenTerugTonen = 50)
       )
     expect_equal( #opletten, deze eerst, of validatierapport andere naam geven!
-      str_count(as.character(read_html("validatie_uitbreiding.html")),
+      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
                 pattern = "Om uitbreiding goed te keuren"),
       4
     )
@@ -133,7 +133,7 @@ describe("validatie.uitbreiding", {
           data.frame(DOMEIN_ID = "C", BMS = "testboom", nBomenTerugTonen = 50)
       )
     expect_equal( #opletten, deze eerst, of validatierapport andere naam geven!
-      str_count(as.character(read_html("validatie_uitbreiding.html")),
+      str_count(as.character(read_html("Validatie_Uitbreiding.html")),
                 pattern = "Om uitbreiding goed te keuren"),
       1
     )
@@ -168,7 +168,7 @@ describe("validatie.uitbreiding", {
         gsub(
           ".*DiffMediaan: (.+;) DiffMin: (.+;) DiffMax: (-?\\d+\\.\\d{2})<\\/p>.*", #nolint: line_length_linter
           "\\1\\2\\3",
-          as.character(read_html("validatie_uitbreiding.html"))
+          as.character(read_html("Validatie_Uitbreiding.html"))
         ), ";", simplify = TRUE
       )
     expect_equal(
