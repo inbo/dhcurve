@@ -18,9 +18,9 @@ BugReports: https://github.com/inbo/dhcurve/issues
 Depends:
     R (>= 3.3.0)
 Imports:
-    DT,
     assertthat,
     dplyr,
+    DT,
     ggplot2,
     nlme,
     plotly,
