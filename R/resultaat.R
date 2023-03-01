@@ -262,7 +262,7 @@ resultaat <-
   }
 
   if (!is.null(Data.onbruikbaar)) {
-    invoercontrole(Data.onbruikbaar, "fit")
+    invoercontrole(Data.onbruikbaar, "fit", Uitbreiding = TRUE)
 
     Lijst.onbruikbaar <- Data.onbruikbaar %>%
       select(
