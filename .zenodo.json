@@ -37,8 +37,5 @@
     }
   ],
   "language": "nld",
-  "keywords": [
-    "model tree height",
-    "R package"
-  ]
+  "keywords": ["model tree height", "R package"]
 }
