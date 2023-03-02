@@ -133,7 +133,13 @@ validatie.afgeleid <-
     left_join(
       Rmse,
       by = c("BMS", "DOMEIN_ID")
-    )
+    ) %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    mutate(
+      Q5k = min(.data$Omtrek) + 0.3,
+      Q95k = max(.data$Omtrek) - 0.2
+    ) %>%
+    ungroup()
 
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
