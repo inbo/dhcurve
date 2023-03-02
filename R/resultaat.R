@@ -29,29 +29,27 @@
 #' functie `initiatie()` teruggegeven wordt.
 #'
 #' @return Dataframe met modellen per domein en per boomsoort met velden:
-#' \itemize{
-#'   \item{`DomeinID` (identificatienummer voor domein)}
-#'   \item{`BMS` (boomsoort)}
-#'   \item{`Modeltype` ("basismodel"(= eigen model op basis van mixed model) /
+#' - `DomeinID` (identificatienummer voor domein)
+#' - `BMS` (boomsoort)
+#' - `Modeltype` ("basismodel"(= eigen model op basis van mixed model) of
 #'     "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
 #'     basismodel) of
 #'     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
 #'     omdat niet relevant) of "lokaal model"(= eigen model voor 1
 #'     boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
 #'     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
-#'     worden))}
-#'   \item{parameters `A`, `B` en `C` (zie 'Description' bovenaan)}
-#'   \item{bruikbaar interval (`Q5k` en `Q95k`, zie vignet voor meer info)}
-#'   \item{`RMSE` (root mean square error, zie vignet voor meer info)}
-#'   \item{`nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
-#'     3,0 m)}
-#'   \item{`nBomenOmtrek05` (aantal metingen met omtrek tussen 0.5 en 2,8 m,
-#'     dus waarop afgeleid model gebaseerd is)}
-#'   \item{`nBomenInterval` (aantal metingen binnen bruikbaar interval, dus
-#'     waarop basismodel of lokaal model gebaseerd is)}
-#'   \item{`nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
-#'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)}
-#' }
+#'     worden))
+#' - parameters `A`, `B` en `C` (zie 'Description' bovenaan)
+#' - bruikbaar interval (`Q5k` en `Q95k`, zie vignet voor meer info)
+#' - `RMSE` (root mean square error, zie vignet voor meer info)
+#' - `nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
+#'     3,0 m)
+#' - `nBomenOmtrek05` (aantal metingen met omtrek tussen 0.5 en 2,8 m,
+#'     dus waarop afgeleid model gebaseerd is)
+#' - `nBomenInterval` (aantal metingen binnen bruikbaar interval, dus
+#'     waarop basismodel of lokaal model gebaseerd is)
+#' - `nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
+#'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 #' boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij

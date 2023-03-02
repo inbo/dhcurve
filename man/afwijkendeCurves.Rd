@@ -18,13 +18,13 @@ nodig voor lokaal model)}
 Dataframe dat de mogelijk afwijkende curves oplijst, met volgende
 velden:
 \itemize{
-\item{\code{BMS}: Boomsoort}
-\item{\code{DOMEIN_ID}}
-\item{\code{Reden}: reden waarom de curve afwijkend is}
-\item{\code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin het buigpunt van
-de curve van het domeinmodel ligt}
-\item{\code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin het maximum
-van de curve van het domeinmodel ligt}
+\item \code{BMS}: Boomsoort
+\item \code{DOMEIN_ID}
+\item \code{Reden}: reden waarom de curve afwijkend is
+\item \code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin het buigpunt van
+de curve van het domeinmodel ligt
+\item \code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin het maximum
+van de curve van het domeinmodel ligt
 }
 }
 \description{

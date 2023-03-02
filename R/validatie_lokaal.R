@@ -6,12 +6,10 @@
 #' gebruiker deze kan valideren).
 #'
 #' De functie roept meerdere hulpfuncties op:
-#' \itemize{
-#'   \item{`rmse.basis()`}
-#'   \item{`afwijkendeMetingen()`}
-#'   \item{`afwijkendeCurves()`}
-#'   \item{`validatierapport()`}
-#' }
+#' - `rmse.basis()`
+#' - `afwijkendeMetingen()`
+#' - `afwijkendeCurves()`
+#' - `validatierapport()`
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
 #' slechtste modellen opgelijst (op basis van RMSE, afwijkende metingen en
@@ -39,13 +37,11 @@
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
-#' \itemize{
-#'   \item{`H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
-#'     domeinmodel}
-#'   \item{`rmseD`: de foutenschatting voor het domeinmodel}
-#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
-#'     `NA`}
-#' }
+#' - `H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
+#'     domeinmodel
+#' - `rmseD`: de foutenschatting voor het domeinmodel
+#' -  `HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
+#'     `NA`
 #'
 #' @export
 #'

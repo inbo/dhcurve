@@ -55,14 +55,13 @@ vignet voor meer informatie).
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
 \itemize{
-\item{\code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
-domeinmodel}
-\item{\code{rsmeD}: de foutenschatting voor het domeinmodel}
-\item{\code{H_VL_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
-Vlaams model waarvan het domeinmodel afgeleid is}
-\item{\code{rmseVL}: de foutenschatting voor dit Vlaams model}
-\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
-\code{NA}}
+\item \code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
+domeinmodel
+\item \code{rsmeD}: de foutenschatting voor het domeinmodel
+\item \code{H_VL_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
+Vlaams model waarvan het domeinmodel afgeleid is
+\item \code{rmseVL}: de foutenschatting voor dit Vlaams model
+\item \code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders \code{NA}
 }
 }
 \description{
@@ -72,9 +71,9 @@ valideren).
 
 \code{validatie.afgeleid()} roept meerdere hulpfuncties op:
 \itemize{
-\item{\code{rmse.basis()} en \code{rmse.verschuiving()}}
-\item{\code{afwijkendeMetingen()}}
-\item{\code{validatierapport()}}
+\item \code{rmse.basis()} en \code{rmse.verschuiving()}
+\item \code{afwijkendeMetingen()}
+\item \code{validatierapport()}
 }
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de

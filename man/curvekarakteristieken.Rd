@@ -18,24 +18,24 @@ nodig voor lokaal model)}
 Dataframe met curvekarakteristieken per domein en boomsoort met de
 velden:
 \itemize{
-\item{parameters \code{Ad}, \code{Bd} en \code{Cd} van het model en enkele generieke
-velden (\code{DOMEIN_ID}, \code{BMS},...)}
-\item{\code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin een extreem
-(minimum of maximum) van de curve van het domeinmodel ligt}
-\item{\code{Extr_Hoogte.d}: hoogteschatting die aansluit bij het vorige veld}
-\item{\code{Hoogteverschil.d}: verschil tussen de hoogteschattingen van het
+\item parameters \code{Ad}, \code{Bd} en \code{Cd} van het model en enkele generieke
+velden (\code{DOMEIN_ID}, \code{BMS},...)
+\item \code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin een extreem
+(minimum of maximum) van de curve van het domeinmodel ligt
+\item \code{Extr_Hoogte.d}: hoogteschatting die aansluit bij het vorige veld
+\item \code{Hoogteverschil.d}: verschil tussen de hoogteschattingen van het
 extreem van de curve en de bovengrens van het bruikbaar interval.
 Deze maat is relevant als het extreem een maximum is
-(enkel dan is deze waarde positief).}
-\item{\code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin een buigpunt van
+(enkel dan is deze waarde positief).
+\item \code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin een buigpunt van
 de curve van het domeinmodel ligt (deze en volgende variabelen zijn
-relevante maten bij het voorkomen van een minimum)}
-\item{\code{Verschil_rico_BP_Q5.d}: het verschil in de waarde van de
+relevante maten bij het voorkomen van een minimum)
+\item \code{Verschil_rico_BP_Q5.d}: het verschil in de waarde van de
 richtingscoëfficiënt tussen het buigpunt en de ondergrens van het
-bruikbaar interval.}
-\item{\code{Verschil_rico_BP_Q5_per_omtrek.d}: de voorgaande variabele gedeeld
+bruikbaar interval.
+\item \code{Verschil_rico_BP_Q5_per_omtrek.d}: de voorgaande variabele gedeeld
 door het verschil in omtrek tussen het buigpunt en de ondergrens van het
-bruikbaar interval.}
+bruikbaar interval.
 }
 
 Ingeval van een basismodel worden deze variabelen aangevuld met dezelfde

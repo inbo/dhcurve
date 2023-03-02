@@ -17,15 +17,13 @@
 #'
 #' @return Dataframe dat de mogelijk afwijkende curves oplijst, met volgende
 #' velden:
-#' \itemize{
-#'   \item{`BMS`: Boomsoort}
-#'   \item{`DOMEIN_ID`}
-#'   \item{`Reden`: reden waarom de curve afwijkend is}
-#'   \item{`Omtrek_Buigpunt.d`: midden van omtrekklasse waarin het buigpunt van
-#'     de curve van het domeinmodel ligt}
-#'   \item{`Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin het maximum
-#'     van de curve van het domeinmodel ligt}
-#' }
+#' - `BMS`: Boomsoort
+#' - `DOMEIN_ID`
+#' - `Reden`: reden waarom de curve afwijkend is
+#' - `Omtrek_Buigpunt.d`: midden van omtrekklasse waarin het buigpunt van
+#'     de curve van het domeinmodel ligt
+#' - `Omtrek_Extr_Hoogte.d`: midden van omtrekklasse waarin het maximum
+#'     van de curve van het domeinmodel ligt
 #'
 #' @export
 #'

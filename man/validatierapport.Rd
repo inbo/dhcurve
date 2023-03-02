@@ -63,24 +63,24 @@ mogelijke problemen die bij het model optreden.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
 \itemize{
-\item{een puntenwolk die de metingen voorstelt (geen individuele metingen,
-maar een jitter)}
-\item{curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
-model)}
-\item{curve van het domeinmodel}
-\item{grenzen van het bruikbaar interval (curves eindigen bij de
-klassenmiddens die overeenkomen met deze grenzen)}
-\item{afwijkende metingen: in rood (andere metingen in zwart)}
-\item{afwijkende deel van een curve in rood (rest van curve in zwart)}
+\item een puntenwolk die de metingen voorstelt (geen individuele metingen,
+maar een jitter)
+\item curve van het Vlaams model (als beschikbaar, dus niet voor het lokaal
+model)
+\item curve van het domeinmodel
+\item grenzen van het bruikbaar interval (curves eindigen bij de
+klassenmiddens die overeenkomen met deze grenzen)
+\item afwijkende metingen: in rood (andere metingen in zwart)
+\item afwijkende deel van een curve in rood (rest van curve in zwart)
 }
 
 Bij de keuze voor een uitbreidingsrapport (argument
 \code{Uitbreidingsrapport = TRUE}) wijkt het rapport af:
 \itemize{
-\item{algemene informatie: de RMSE is vervangen door de variabelen
-DiffMediaan, DiffMin en DiffMax}
-\item{kleur van grafiek: geen afwijkingen in rood, wel is de uitbreiding
-weergegeven in blauw (zowel jitter van metingen als curve)}
+\item algemene informatie: de RMSE is vervangen door de variabelen
+DiffMediaan, DiffMin en DiffMax
+\item kleur van grafiek: geen afwijkingen in rood, wel is de uitbreiding
+weergegeven in blauw (zowel jitter van metingen als curve)
 }
 }
 \description{

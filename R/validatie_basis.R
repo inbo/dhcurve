@@ -52,15 +52,13 @@
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
-#' \itemize{
-#'   \item{`H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
-#'     domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)}
-#'   \item{`H_VL_finaal`: een geschatte hoogte voor de omtrek volgens het Vlaams
-#'     model (dus voor het overkoepelend boomsoort-model)}
-#'   \item{`rmseD`: de foutenschatting voor het domeinmodel}
-#'   \item{`HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
-#'     `NA`}
-#' }
+#' - `H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
+#'     domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)
+#' - `H_VL_finaal`: een geschatte hoogte voor de omtrek volgens het Vlaams
+#'     model (dus voor het overkoepelend boomsoort-model)
+#' - `rmseD`: de foutenschatting voor het domeinmodel
+#' - `HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
+#'     `NA`
 #'
 #' @export
 #'

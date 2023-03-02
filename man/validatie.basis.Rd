@@ -63,13 +63,13 @@ voor meer informatie).
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
 \itemize{
-\item{\code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
-domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)}
-\item{\code{H_VL_finaal}: een geschatte hoogte voor de omtrek volgens het Vlaams
-model (dus voor het overkoepelend boomsoort-model)}
-\item{\code{rmseD}: de foutenschatting voor het domeinmodel}
-\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
-\code{NA}}
+\item \code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
+domeinmodel (dus specifiek voor de boomsoort-domeincombinatie)
+\item \code{H_VL_finaal}: een geschatte hoogte voor de omtrek volgens het Vlaams
+model (dus voor het overkoepelend boomsoort-model)
+\item \code{rmseD}: de foutenschatting voor het domeinmodel
+\item \code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
+\code{NA}
 }
 }
 \description{

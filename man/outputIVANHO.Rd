@@ -37,24 +37,24 @@ uitvoer van \code{validatie.uitbreiding()} van beide modeltypen samen.}
 Dataframe met geschatte hoogtes per domein en per boomsoort met
 velden:
 \itemize{
-\item{\code{DOMEIN_ID}: domeincode}
-\item{\code{BOS_BHI}: domeinnaam}
-\item{\code{IDbms} (identificatienummer van de boomsoort)}
-\item{\code{BMS}: boomsoort}
-\item{\code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) /
+\item \code{DOMEIN_ID}: domeincode
+\item \code{BOS_BHI}: domeinnaam
+\item \code{IDbms} (identificatienummer van de boomsoort)
+\item \code{BMS}: boomsoort
+\item \code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) of
 "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
 basismodel) of
 "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
 omdat niet relevant) of "lokaal model"(= apart model voor 1
 boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
 waarvoor geen model berekend kan worden))
-\item{\code{Omtrek}: klassenmidden van omtrekklasse}
-\item{\code{OmtrekklassetypeID}: het overeenkomstige identificatienummer van de
-omtrekklasse}
-\item{\code{Omtrekklasse}}
-\item{\code{Hoogte}: de geschatte hoogte}
-\item{\code{RMSE} (root mean square error, zie vignet voor meer info:
-\code{vignette("Handleiding", package = "dhcurve")})}
+\item \code{Omtrek}: klassenmidden van omtrekklasse
+\item \code{OmtrekklassetypeID}: het overeenkomstige identificatienummer van de
+omtrekklasse
+\item \code{Omtrekklasse}
+\item \code{Hoogte}: de geschatte hoogte
+\item \code{RMSE} (root mean square error, zie vignet voor meer info:
+\code{vignette("Handleiding", package = "dhcurve")})
 }
 }
 \description{

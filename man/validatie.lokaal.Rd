@@ -67,11 +67,11 @@ voor meer informatie).
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
 \itemize{
-\item{\code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
-domeinmodel}
-\item{\code{rmseD}: de foutenschatting voor het domeinmodel}
-\item{\code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
-\code{NA}}
+\item \code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
+domeinmodel
+\item \code{rmseD}: de foutenschatting voor het domeinmodel
+\item \code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
+\code{NA}
 }
 }
 \description{
@@ -81,10 +81,10 @@ gebruiker deze kan valideren).
 
 De functie roept meerdere hulpfuncties op:
 \itemize{
-\item{\code{rmse.basis()}}
-\item{\code{afwijkendeMetingen()}}
-\item{\code{afwijkendeCurves()}}
-\item{\code{validatierapport()}}
+\item \code{rmse.basis()}
+\item \code{afwijkendeMetingen()}
+\item \code{afwijkendeCurves()}
+\item \code{validatierapport()}
 }
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de

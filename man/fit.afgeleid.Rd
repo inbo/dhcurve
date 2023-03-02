@@ -28,10 +28,10 @@ boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
 \value{
 List met 2 tibbles:
 \itemize{
-\item{tibble met velden \code{BMS} (boomsoort), \code{DOMEIN_ID} en \code{Model}
-(\code{lm}-object van model per boomsoort-domeincombinatie)}
-\item{tibble met de ingevoerde dataset, waaraan het veld \code{H_VL_finaal} (de
-hoogteschatting volgens het Vlaams model) toegevoegd is}
+\item tibble met velden \code{BMS} (boomsoort), \code{DOMEIN_ID} en \code{Model}
+(\code{lm}-object van model per boomsoort-domeincombinatie)
+\item tibble met de ingevoerde dataset, waaraan het veld \code{H_VL_finaal} (de
+hoogteschatting volgens het Vlaams model) toegevoegd is
 }
 }
 \description{

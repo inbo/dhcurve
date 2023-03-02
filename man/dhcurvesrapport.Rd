@@ -44,11 +44,11 @@ interval.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
 \itemize{
-\item{een puntenwolk die de metingen voorstelt (geen individuele metingen,
-maar een jitter)}
-\item{curve van het domeinmodel, aangeduid met zwarte ruiten}
-\item{grenzen van het bruikbaar interval (curves eindigen bij de
-klassenmiddens die overeenkomen met deze grenzen)}
+\item een puntenwolk die de metingen voorstelt (geen individuele metingen,
+maar een jitter)
+\item curve van het domeinmodel, aangeduid met zwarte ruiten
+\item grenzen van het bruikbaar interval (curves eindigen bij de
+klassenmiddens die overeenkomen met deze grenzen)
 }
 }
 \description{
