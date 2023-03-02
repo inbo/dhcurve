@@ -23,7 +23,7 @@ aantal bomen in bruikbaar interval = `r unique(SelectieModel$nBomenInterval)`;
 aantal bomen in bruikbaar interval met omtrek > 0,5 m = `r unique(SelectieModel$nBomenIntervalOmtrek05)`
 
 Model bruikbaar tussen de omtrekklassen met klassenmiddens 
-`r unique(SelectieModel$Q5k) - 0.3` en 
+`r max(unique(SelectieModel$Q5k) - 0.3, 0.15)` en 
 `r unique(SelectieModel$Q95k) + 0.2` m
 
 ```{r, message=FALSE, warning=FALSE}
