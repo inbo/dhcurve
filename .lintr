@@ -1,7 +1,18 @@
-linters: linters_with_defaults(object_name_linter=NULL, cyclocomp_linter=NULL)
+linters: linters_with_defaults(
+    object_name_linter = NULL,
+    cyclocomp_linter = NULL
+  )
 exclusions: list(
-  "R/fit_afgeleid.R" = list(line_length_linter = 8),
-  "R/fit_basis.R" = list(line_length_linter = 5),
-  "R/fit_lokaal.R" = list(line_length_linter = 5),
-  "R/resultaat.R" = list(line_length_linter = 7)
-)
+    "R/fit_afgeleid.R" = list(
+      line_length_linter = 8
+    ),
+    "R/fit_basis.R" = list(
+      line_length_linter = 5
+    ),
+    "R/fit_lokaal.R" = list(
+      line_length_linter = 5
+    ),
+    "R/resultaat.R" = list(
+      line_length_linter = 7
+    )
+  )
