@@ -28,7 +28,7 @@
 #' Daarnaast kan in een extra veld `min_uitbreiden_model` aangegeven worden
 #' vanaf hoeveel metingen een uitbreiding naar hogere omtrekklassen opnieuw
 #' bekeken moet worden (= vervangende waarde voor 10).
-#' De waarde NA geeft telkens aan dat de defaultwaarde gebruikt mag worden.
+#' De waarde NA geeft telkens aan dat de default gebruikt mag worden.
 #' De default voor dit argument is dat er geen uitzonderingen zijn
 #' (wat sowieso het geval is als de curves nog niet gevalideerd zijn).
 #' @param Bestandsnaam Een naam voor het validatierapport (`.html`-bestand) dat

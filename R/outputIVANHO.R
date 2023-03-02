@@ -17,7 +17,7 @@
 #' @param Uitbreiding Dataset met velden `BMS`, `DOMEIN_ID` en `MaxOmtrek`
 #' die teruggegeven wordt door functie `validatie.uitbreiding()`.
 #' Als zowel een Basismodel en als Lokaal model opgegeven worden, voeg dan de
-#' outputs van `validatie.uitbreiding()` van beide modeltypen samen.
+#' uitvoer van `validatie.uitbreiding()` van beide modeltypen samen.
 #' @inheritParams resultaat
 #'
 #' @return Dataframe met geschatte hoogtes per domein en per boomsoort met
@@ -29,11 +29,11 @@
 #'   \item{`BMS`: boomsoort}
 #'   \item{`Modeltype` ("basismodel"(= eigen model op basis van mixed model) /
 #'     "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
-#'     basismodel) /
+#'     basismodel) of
 #'     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
-#'     omdat niet relevant) / "lokaal model"(= apart model voor 1
-#'     boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
-#'     waarvoor geen model berekend kan worden))}
+#'     omdat niet relevant) of "lokaal model"(= apart model voor 1
+#'     boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
+#'     waarvoor geen model berekend kan worden))
 #'   \item{`Omtrek`: klassenmidden van omtrekklasse}
 #'   \item{`OmtrekklassetypeID`: het overeenkomstige identificatienummer van de
 #'     omtrekklasse}

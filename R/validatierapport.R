@@ -30,11 +30,12 @@
 #' "Statisch", waarbij de figuren vast zijn.
 #' @param Uitbreidingsrapport Gaat het over een validatierapport voor
 #' `validatie.uitbreiding()`?
-#' Default is FALSE, wat betekent dat het validatierapport de layout heeft voor
-#' de andere validatierapporten, met afwijkingen in rood en iets andere gegevens
-#' die getoond worden.
+#' Default is `FALSE`, wat betekent dat het validatierapport de standaard layout
+#' heeft voor de validatierapporten, met afwijkingen in rood en standaard
+#' informatie die getoond wordt.
 #' In het validatierapport voor `validatie.uitbreiding()` is de uitbreiding
-#' die gevalideerd moet worden, in blauw weergegeven.
+#' die gevalideerd moet worden, in blauw weergegeven.  Ook wijkt de weergegeven
+#' informatie iets af van de standaard.
 #' @inheritParams initiatie
 #'
 #' @return De functie genereert in de working directory (of opgegeven directory)

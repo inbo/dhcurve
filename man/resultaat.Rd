@@ -40,10 +40,10 @@ Dataframe met modellen per domein en per boomsoort met velden:
 \item{\code{BMS} (boomsoort)}
 \item{\code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) /
 "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
-basismodel) /
+basismodel) of
 "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
-omdat niet relevant) / "lokaal model"(= eigen model voor 1
-boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
+omdat niet relevant) of "lokaal model"(= eigen model voor 1
+boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
 waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
 worden))}
 \item{parameters \code{A}, \code{B} en \code{C} (zie 'Description' bovenaan)}

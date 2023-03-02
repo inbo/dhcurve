@@ -31,7 +31,7 @@ berekend is.}
 \item{Uitbreiding}{Dataset met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}
 die teruggegeven wordt door functie \code{validatie.uitbreiding()}.
 Als zowel een Basismodel en als Lokaal model opgegeven worden, voeg dan de
-outputs van \code{validatie.uitbreiding()} van beide modeltypen samen.}
+uitvoer van \code{validatie.uitbreiding()} van beide modeltypen samen.}
 }
 \value{
 Dataframe met geschatte hoogtes per domein en per boomsoort met
@@ -43,11 +43,11 @@ velden:
 \item{\code{BMS}: boomsoort}
 \item{\code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) /
 "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
-basismodel) /
+basismodel) of
 "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
-omdat niet relevant) / "lokaal model"(= apart model voor 1
-boomsoort-domeincombinatie) / "geen model"(= boomsoort-domeincombinatie
-waarvoor geen model berekend kan worden))}
+omdat niet relevant) of "lokaal model"(= apart model voor 1
+boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
+waarvoor geen model berekend kan worden))
 \item{\code{Omtrek}: klassenmidden van omtrekklasse}
 \item{\code{OmtrekklassetypeID}: het overeenkomstige identificatienummer van de
 omtrekklasse}

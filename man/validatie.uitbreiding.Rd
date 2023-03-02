@@ -16,7 +16,7 @@ validatie.uitbreiding(
 }
 \arguments{
 \item{Model}{Basismodel per boomsoort of
-lokaal model per boomsoort-domein-combinatie zoals teruggegeven
+lokaal model per boomsoort-domeincombinatie zoals teruggegeven
 door de functies \code{fit.basis()} of \code{fit.lokaal()}}
 
 \item{Dataset}{Dataset zoals teruggegeven door functie \code{initiatie()}, op

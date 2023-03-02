@@ -13,7 +13,7 @@
       te fitten),
       bij afgeleide modellen ten opzichte van de beschikbare metingen tussen
       0,5 en 2,8 m.
-    * voor domein-boomsoortcombinaties met veel metingen boven het bruikbaar
+    * voor boomsoort-domeincombinaties met veel metingen boven het bruikbaar
       interval kan het bruikbare interval naar boven toe uitgebreid worden tot
       3 m met de nieuwe functie `validatie.uitbreiding()`, die volgens hetzelfde
       principe werkt als de andere validatie-functies: als een uitbreiding niet

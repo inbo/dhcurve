@@ -10,7 +10,7 @@
 #' waarvan het de bedoeling is dat de gebruiker ze valideert.
 #'
 #' @param Model Basismodel per boomsoort of
-#' lokaal model per boomsoort-domein-combinatie zoals teruggegeven
+#' lokaal model per boomsoort-domeincombinatie zoals teruggegeven
 #' door de functies `fit.basis()` of `fit.lokaal()`
 #' @param Dataset Dataset zoals teruggegeven door functie `initiatie()`, op
 #' basis waarvan het opgegeven model (basismodel of lokaal model) berekend is.

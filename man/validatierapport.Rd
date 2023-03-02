@@ -40,11 +40,12 @@ items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
 
 \item{Uitbreidingsrapport}{Gaat het over een validatierapport voor
 \code{validatie.uitbreiding()}?
-Default is FALSE, wat betekent dat het validatierapport de layout heeft voor
-de andere validatierapporten, met afwijkingen in rood en iets andere gegevens
-die getoond worden.
+Default is \code{FALSE}, wat betekent dat het validatierapport de standaard layout
+heeft voor de validatierapporten, met afwijkingen in rood en standaard
+informatie die getoond wordt.
 In het validatierapport voor \code{validatie.uitbreiding()} is de uitbreiding
-die gevalideerd moet worden, in blauw weergegeven.}
+die gevalideerd moet worden, in blauw weergegeven.  Ook wijkt de weergegeven
+informatie iets af van de standaard.}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
 boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}
