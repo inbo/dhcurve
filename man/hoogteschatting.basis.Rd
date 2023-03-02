@@ -25,7 +25,7 @@ boomsoort-domeincombinatie (lokaal)}
 
 \item{Uitbreiding}{Gaat het hier over berekening voor een uitbreiding?
 (Facultatief argument om met hogere hoogteklassen te kunnen omgaan.)
-Default is FALSE, wat betekent dat het niet over een uitbreiding gaat.}
+Default is \code{FALSE}, wat betekent dat het niet over een uitbreiding gaat.}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes

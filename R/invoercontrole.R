@@ -9,8 +9,8 @@
 #'
 #' @param Type Het type controle dat moet gebeuren, verwijzend naar de
 #' functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn:
-#' 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en
-#' 'afgeleidedata'
+#' `'initiatie'`, `'fit'`, `'basismodel'`, `'lokaalmodel'`, `'afgeleidmodel'` en
+#' `'afgeleidedata'`
 #'
 #' @inheritParams hoogteschatting.basis
 #'

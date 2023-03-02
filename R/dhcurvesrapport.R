@@ -17,7 +17,7 @@
 #' gegenereerd wordt, bestaande uit een string die eindigt op `.html`
 #' @param KleurUitbreiding Moeten de metingen van de uitbreiding in een andere
 #' kleur weergegeven worden?
-#' Default is FALSE, waarbij (eventuele) metingen van een uitbreiding niet in
+#' Default is `FALSE`, waarbij (eventuele) metingen van een uitbreiding niet in
 #' een andere kleur weergegeven worden.
 #' @inheritParams initiatie
 #'
