@@ -2,3 +2,21 @@ linters: linters_with_defaults(object_name_linter=NULL, cyclocomp_linter=NULL)
 exclude: "#nolint"
 exclude_start: "# Begin Exclude Linting"
 exclude_end: "# End Exclude Linting"
+exclusions: list(
+  "R/fit_afgeleid.R" = list(
+    1,
+    line_length_linter = 8
+  )
+  "R/fit_basis.R" = list(
+    1,
+    line_length_linter = 5
+  )
+  "R/fit_lokaal.R" = list(
+    1,
+    line_length_linter = 5
+  )
+  "R/resultaat.R" = list(
+    1,
+    line_length_linter = 7
+  )
+)

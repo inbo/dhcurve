@@ -2,11 +2,8 @@
 #'
 #' @description
 #' Functie die het lineair mixed model
-#' \eqn{Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} +
-#' B_{domein}) \log({Omtrek}) + (C_{Vlaams} + C_{domein}) \log(Omtrek)^2}{%
-#' Hoogte(basis) ~ A(Vlaams) + A(domein) + (B(Vlaams) + B(domein)).log(Omtrek)
-#' + (C(Vlaams) + C(domein)).log(Omtrek)^2} fit op basis van de opgegeven
-#' dataset.
+#' \eqn{Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} + B_{domein}) \log({Omtrek}) + (C_{Vlaams} + C_{domein}) \log(Omtrek)^2}{%Hoogte(basis) ~ A(Vlaams) + A(domein) + (B(Vlaams) + B(domein)).log(Omtrek) + (C(Vlaams) + C(domein)).log(Omtrek)^2}
+#' fit op basis van de opgegeven dataset.
 #'
 #' @param Data.basis De dataframe `Basis` uit de list die teruggegeven wordt
 #' bij de functie `initiatie()`.  (Een dataframe met minimaal de velden `BMS`

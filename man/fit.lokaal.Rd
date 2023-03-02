@@ -28,7 +28,6 @@ boomsoort-domeincombinatie).
 }
 \description{
 Functie die het lineair (fixed) model
-\eqn{Hoogte_{lokaal} \sim A_{domein} + B_{domein} \log({Omtrek}) +
-C_{domein} \log(Omtrek)^2}{Hoogte(lokaal) ~ A(domein) + B(domein).log(Omtrek)
-+ C(domein).log(Omtrek)^2} fit op basis van de opgegeven dataset.
+\eqn{Hoogte_{lokaal} \sim A_{domein} + B_{domein} \log({Omtrek}) + C_{domein} \log(Omtrek)^2}{Hoogte(lokaal) ~ A(domein) + B(domein).log(Omtrek) + C(domein).log(Omtrek)^2}
+fit op basis van de opgegeven dataset.
 }

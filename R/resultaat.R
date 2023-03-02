@@ -3,8 +3,8 @@
 #' @description
 #' De functie resultaat berekent op basis van de opgegeven modellen voor elke
 #' boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
-#' de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
-#' B.log(Omtrek) + C.log(Omtrek)^2}.
+#' de vorm
+#' \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A + B.log(Omtrek) + C.log(Omtrek)^2}.
 #'
 #' Voor deze functie worden volgende hulpfuncties aangeroepen:
 #' `modelparameters()`, `rsme.basis()` en `rsme.afgeleid()`
