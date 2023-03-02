@@ -106,15 +106,15 @@ jobs:
         shell: Rscript {0}
 
       - name: Check spelling
-      run: |
-        x <- checklist::check_spelling()
-        print(x)
-        print("errors spelling")
-        print(x$.__enclos_env__$private$spelling)
-        if(length(x$.__enclos_env__$private$spelling) > 0) {
-          stop("The spelling is not always correct. Please check the error message above.")
-        }
-      shell: Rscript {0}
+        run: |
+          x <- checklist::check_spelling()
+          print(x)
+          print("errors spelling")
+          print(x$.__enclos_env__$private$spelling)
+          if(length(x$.__enclos_env__$private$spelling) > 0) {
+            stop("The spelling is not always correct. Please check the error message above.")
+          }
+        shell: Rscript {0}
 
       - name: Check code coverage
         run: covr::codecov(quiet = FALSE)
