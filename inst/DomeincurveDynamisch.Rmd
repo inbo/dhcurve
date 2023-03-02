@@ -44,7 +44,8 @@ Grafiek <-
   scale_linetype_manual(
     name = "Metingen en modellen",
     values = c("Vlaams model" = "dashed", "Domeinmodel" = "solid")) +
-  scale_x_continuous(breaks = seq(0.05, 2.35, 0.1)) +
+  scale_x_continuous(
+    breaks = seq(0.05, unique(SelectieModel$Q95k) + 0.2, 0.1)) +
   labs(x = "Midden omtrekklasse (m)", y = "Hoogte (m)")
 
 if (has_name(SelectieModel, "H_VL_finaal")) {
