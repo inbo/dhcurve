@@ -22,8 +22,8 @@ boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
 \code{Q5k} en \code{Q95k} ("bruikbaar interval").)}
 }
 \value{
-Dataframe (tibble) met de velden \code{BMS} (boomsoort) en \code{Model}
-(\code{lme}-object met het gefit mixed model voor die boomsoort)
+Dataframe (tibble) met de velden \code{BMS} (boomsoort) en
+\code{Model} (\code{lme}-object met het gefit mixed model voor die boomsoort)
 }
 \description{
 Functie die het lineair mixed model
