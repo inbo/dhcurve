@@ -64,6 +64,6 @@ if (has_name(SelectieModel, "H_VL_finaal")) {
               colour = "black", size = 0.75)
 }
 
-ggplotly(Grafiek, tooltip = c("ID", "HOOGTE", "Omtrek"))
+ggplotly(Grafiek, tooltip = c("ID", "HOOGTE", "Omtrek", "H_D_finaal"))
 ```
 
