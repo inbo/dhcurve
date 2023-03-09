@@ -66,6 +66,9 @@ maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de
 omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten
 daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
 aangehouden.)
+Als de curve een minimum hoogte vertoont binnen het bestudeerde interval,
+wordt deze minimumwaarde als hoogte meegegeven aan alle omtrekklassen lager
+dan de omtrekklasse van dit minimum.
 
 Voor deze functie worden volgende hulpfuncties aangeroepen:
 \code{hoogteschatting.basis()}, \code{hoogteschatting.afgeleid()} en

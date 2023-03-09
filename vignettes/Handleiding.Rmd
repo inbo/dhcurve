@@ -250,7 +250,8 @@ __OPMERKING__  Er kunnen ook andere problemen optreden waarop niet expliciet wor
 ### `outputIVANHO`
 
 De functie `outputIVANHO()` genereert op basis van de berekende (gefitte) modellen een tabel met per boomsoort-domeincombinatie en per omtrekklasse een geschatte hoogte, om te gebruiken in `IVANHO`.
-
+Deze schatting wordt ingeval van een minimum of maximum binnen het interval verbeterd ten opzichte van het berekende model door de maximale hoogte ook te gebruiken voor omtrekklassen hoger dan het maximum, en de minimale hoogte ook te gebruiken voor omtrekklassen lager dan het maximum.
+De "curve" zal met andere woorden niet terug dalen of stijgen, maar horizontaal lopen.
 
 ### resultaat
 
@@ -571,6 +572,7 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
 De functie `outputIVANHO()` geeft hoogteschattingen voor de "bruikbare" omtrekklassen, dus de omtrekklassen binnen het bruikbaar interval of net erbuiten (van 3 omtrekklassen onder tot 2 omtrekklassen boven het bruikbaar interval).  Deze tabel kan dus rechtstreeks, zonder verdere berekeningen of randvoorwaarden, geraadpleegd worden om hoogteschattingen op te zoeken of in `IVANHO` opgenomen worden.  Hierdoor wordt ook vermeden dat er rekenfouten optreden doordat het model in dit R-package aangepast wordt maar niet in `IVANHO`, of omgekeerd.
 
 Voor curves met een maximum binnen het bruikbaar interval, wordt de hoogteschatting gelijkgesteld aan dit maximum voor omtrekklassen boven de omtrekklasse waarin zich dit maximum voordoet.
+Voor curves met een minimum binnen het bruikbaar interval, wordt de hoogteschatting gelijkgesteld aan dit minimum voor omtrekklassen onder de omtrekklasse waarin zich dit minimum voordoet.
 
 (Nota: deze functie maakt gebruik van de functies `hoogteschatting.basis()` en `hoogteschatting.afgeleid()` om de hoogtes te berekenen, en van de functie `curvekarakteristieken()` om de maxima in de curves te detecteren.)
 
