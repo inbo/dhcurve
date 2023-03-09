@@ -168,6 +168,17 @@ invoercontrole <- function(Data, Type, Uitbreiding = FALSE) {
             (geldige omtrekklassen zijn 0.15, 0.25, 0.35, 0.45,... t.e.m. 2.65)"
           )
         }
+        assert_that(
+          has_name(Data, "nExtra"),
+          msg = "De opgegeven dataframe heeft geen veld met naam nExtra"
+        )
+        if (!isTRUE(all.equal(Data$nExtra, as.integer(Data$nExtra),
+                              check.attributes = FALSE))) {
+          stop("De waarden in de kolom nExtra moeten gehele getallen zijn")
+        }
+        if (!all(Data$nExtra >= 0)) {
+          stop("De waarden in de kolom nExtra mogen niet negatief zijn")
+        }
       }
 
       assert_that(has_name(Data, "Q5k"),

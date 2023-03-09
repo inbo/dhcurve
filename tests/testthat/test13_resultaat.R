@@ -22,7 +22,9 @@ describe("resultaat", {
   it("De parameters worden correct berekend voor domeinen van het Basismodel", {
     resultaat <- resultaat(Basismodel1) %>%
       filter(DOMEIN_ID %in% c("HM", "LM")) %>%
-      select(-nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -nExtra
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
@@ -47,7 +49,9 @@ describe("resultaat", {
     expect_error(resultaat(Lokaalmodel = Lokaalmodel))
     resultaat <-
       resultaat(Lokaalmodel = Lokaalmodel, Data.lokaal = Lokaledata) %>%
-      select(-nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -nExtra
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
@@ -94,6 +98,7 @@ describe("resultaat", {
                                     nBomen = 5,
                                     Q5k = 0.25,
                                     Q95k = 0.45,
+                                    nExtra = 1,
                                     stringsAsFactors = FALSE
                                   )))
   })
@@ -120,6 +125,7 @@ describe("resultaat", {
                             Q5k = 0.55,
                             Q95k = 2.35,
                             Modeltype = "afgeleid model",
+                            nExtra = NA_integer_,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
   })

@@ -57,6 +57,8 @@ dus waarop afgeleid model gebaseerd is)
 waarop basismodel of lokaal model gebaseerd is)
 \item \code{nBomenIntervalOmtrek05} (aantal metingen binnen bruikbaar interval
 met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)
+\item \code{nExtra} (aantal metingen boven bruikbaar interval waarop een eventuele
+uitbreiding gebaseerd is)
 }
 
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per

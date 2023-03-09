@@ -77,6 +77,18 @@ validatie.uitbreiding <-
     msg = "De opgegeven dataset heeft geen veld 'VoorModelFit' zoals de data gegenereerd door functie initiatie() voor het berekenen van een basismodel of lokaal model. Geef de juiste dataset mee.") #nolint: line_length_linter
   assert_that(is.count(AantalDomValidatie) | AantalDomValidatie == 0,
               msg = "AantalDomValidatie moet een positief geheel getal zijn.")
+  assert_that(
+    has_name(Dataset, "nExtra"),
+    msg = "De opgegeven dataframe heeft geen veld met naam nExtra"
+  )
+  if (!isTRUE(all.equal(Dataset$nExtra, as.integer(Dataset$nExtra),
+                        check.attributes = FALSE))) {
+    stop("De waarden in de kolom nExtra moeten gehele getallen zijn")
+  }
+  if (!all(Dataset$nExtra >= 0)) {
+    stop("De waarden in de kolom nExtra mogen niet negatief zijn")
+  }
+  
   if (!is.null(GoedgekeurdeUitbreidingen)) {
     assert_that(has_name(GoedgekeurdeUitbreidingen, "DOMEIN_ID"))
     assert_that(has_name(GoedgekeurdeUitbreidingen, "BMS"))

@@ -50,6 +50,8 @@
 #'     waarop basismodel of lokaal model gebaseerd is)
 #' - `nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
 #'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)
+#' - `nExtra` (aantal metingen boven bruikbaar interval waarop een eventuele
+#'     uitbreiding gebaseerd is)
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 #' boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
@@ -92,6 +94,24 @@ resultaat <-
       ) %>%
       mutate(
         Modeltype = "basismodel"
+      ) %>%
+      left_join(
+        Basismodel %>%
+          rowwise() %>%
+          do(
+            merge(
+              .$BMS,
+              (.$Model$data %>%
+                 select("DOMEIN_ID", "nExtra") %>%
+                 distinct()
+              )
+            )
+          ) %>%
+          transmute(
+            BMS = .data$x,
+            .data$DOMEIN_ID, .data$nExtra
+          ),
+        by = c("BMS", "DOMEIN_ID")
       )
 
     # volgende code is om ook de Vlaamse modellen toe te voegen aan de
@@ -249,6 +269,12 @@ resultaat <-
       ) %>%
       mutate(
         Modeltype = "lokaal model"
+      ) %>%
+      left_join(
+        Data.lokaal %>%
+          select("DOMEIN_ID", "BMS", "nExtra") %>%
+          distinct(),
+        by = c("DOMEIN_ID", "BMS")
       )
 
     if (exists("Modellen") && !is.null(Basismodel)) {
