@@ -69,6 +69,17 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+      - name: Check spelling
+        run: |
+          x <- checklist::check_spelling()
+          print(x)
+          print("errors spelling")
+          print(x$.__enclos_env__$private$spelling)
+          if(length(x$.__enclos_env__$private$spelling) > 0) {
+            stop("The spelling is not always correct. Please check the error message above.")
+          }
+        shell: Rscript {0}
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
@@ -102,17 +113,6 @@ jobs:
               length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
            stop("The documentation and description is not always correct. Please check the error message above.")
-          }
-        shell: Rscript {0}
-
-      - name: Check spelling
-        run: |
-          x <- checklist::check_spelling()
-          print(x)
-          print("errors spelling")
-          print(x$.__enclos_env__$private$spelling)
-          if(length(x$.__enclos_env__$private$spelling) > 0) {
-            stop("The spelling is not always correct. Please check the error message above.")
           }
         shell: Rscript {0}
 
