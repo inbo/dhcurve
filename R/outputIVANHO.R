@@ -84,18 +84,18 @@ outputIVANHO <-
     invoercontrole(Basismodel, "basismodel")
 
     #maxima binnen interval opzoeken om achteraf deze hoogte toe te kennen aan
-    #hogere omtrekklassen
+    #lagere of hogere omtrekklassen
     MaxCurveBasis <- curvekarakteristieken(Basismodel) %>%
       filter(
         .data$Omtrek_Extr_Hoogte.d > 0.1,
-        .data$Omtrek_Extr_Hoogte.d < .data$Q95k,
-        .data$Hoogteverschil.d > 0
+        .data$Omtrek_Extr_Hoogte.d < .data$Q95k
       ) %>%
-      select(
-        "DOMEIN_ID",
-        "BMS",
-        "Omtrek_Extr_Hoogte.d",
-        "Extr_Hoogte.d"
+      transmute(
+        .data$DOMEIN_ID,
+        .data$BMS,
+        .data$Omtrek_Extr_Hoogte.d,
+        .data$Extr_Hoogte.d,
+        Maximum = .data$Hoogteverschil.d > 0   #is het een hoog maximum?
       )
 
     #rsme_basis berekenen
@@ -244,14 +244,14 @@ outputIVANHO <-
     MaxCurveLokaal <- curvekarakteristieken(Lokaalmodel, Data.lokaal) %>%
       filter(
         .data$Omtrek_Extr_Hoogte.d > 0.1,
-        .data$Omtrek_Extr_Hoogte.d < .data$Q95k,
-        .data$Hoogteverschil.d > 0
+        .data$Omtrek_Extr_Hoogte.d < .data$Q95k
       ) %>%
-      select(
-        "DOMEIN_ID",
-        "BMS",
-        "Omtrek_Extr_Hoogte.d",
-        "Extr_Hoogte.d"
+      transmute(
+        .data$DOMEIN_ID,
+        .data$BMS,
+        .data$Omtrek_Extr_Hoogte.d,
+        .data$Extr_Hoogte.d,
+        Maximum = .data$Hoogteverschil.d > 0   #is het een hoog maximum?
       )
 
     Hoogte.lokaal <- Data.lokaal %>%
@@ -326,9 +326,14 @@ outputIVANHO <-
         OmtrekklassetypeID = as.integer(.data$Omtrek * 10 + 1.5),
         Omtrekklasse =
           paste(.data$Omtrek * 100 - 5, .data$Omtrek * 100 + 5, sep = " - "),
-        Hoogte =
-          ifelse(!is.na(.data$Omtrek_Extr_Hoogte.d) &
+        Hoogte =  #voor laag maximum: max waarde aanhouden
+          ifelse(!is.na(.data$Omtrek_Extr_Hoogte.d) & .data$Maximum &
                    .data$Omtrek > .data$Omtrek_Extr_Hoogte.d,
+                 .data$Extr_Hoogte.d,
+                 .data$H_D_finaal),
+        Hoogte =  #voor hoog minimum: min waarde aanhouden
+          ifelse(!is.na(.data$Omtrek_Extr_Hoogte.d) & !.data$Maximum &
+                 .data$Omtrek < .data$Omtrek_Extr_Hoogte.d,
                  .data$Extr_Hoogte.d,
                  .data$H_D_finaal),
         .data$RMSE,
