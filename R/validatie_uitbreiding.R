@@ -88,7 +88,7 @@ validatie.uitbreiding <-
   if (!all(Dataset$nExtra >= 0)) {
     stop("De waarden in de kolom nExtra mogen niet negatief zijn")
   }
-  
+
   if (!is.null(GoedgekeurdeUitbreidingen)) {
     assert_that(has_name(GoedgekeurdeUitbreidingen, "DOMEIN_ID"))
     assert_that(has_name(GoedgekeurdeUitbreidingen, "BMS"))
