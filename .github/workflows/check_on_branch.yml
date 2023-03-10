@@ -75,6 +75,7 @@ jobs:
           print(x)
           print("errors spelling")
           print(x$.__enclos_env__$private$spelling)
+          print(length(x$.__enclos_env__$private$spelling))
           if(length(x$.__enclos_env__$private$spelling) > 0) {
             stop("The spelling is not always correct. Please check the error message above.")
           }
