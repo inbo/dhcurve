@@ -1,4 +1,4 @@
-#' @title Initiatiestap met opsplitsen van dataset volgens modeltypen
+#' @title Initiatiestappppp met opsplitsen van dataset volgens modeltypen
 #'
 #' @description
 #' De functie `initiatie()` maakt de dataset klaar voor de verdere stappen van
