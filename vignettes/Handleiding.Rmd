@@ -35,7 +35,7 @@ library(dhcurve)
 # Inleiding
 
 ## Situering
-testtypodrqsreijmz
+
 Een aanbeveling uit het KOBE-project "Meting na hamering" uit 2012 was om het opmeten van boomhoogtes te vervangen door diameter-hoogtecurves opgesteld aan de hand van bestaande meetgegevens.  Hiermee zou bij de volumeschatting van bomen een tijdswinst gerealiseerd kunnen worden zonder substantieel in te boeten aan nauwkeurigheid.  Om deze aanbeveling in de praktijk te brengen, is in 2016-2017 het package `dhcurve` ontwikkeld.  
 
 ## Doelstellingen
