@@ -69,6 +69,8 @@ aangehouden.)
 Als de curve een minimum hoogte vertoont binnen het bestudeerde interval,
 wordt deze minimumwaarde als hoogte meegegeven aan alle omtrekklassen lager
 dan de omtrekklasse van dit minimum.
+Als voor een bepaalde omtrekklasse de hoogteschatting lager is dan 2,5 m,
+dan wordt deze waarde vervangen door 2,5 m.
 
 Voor deze functie worden volgende hulpfuncties aangeroepen:
 \code{hoogteschatting.basis()}, \code{hoogteschatting.afgeleid()} en
