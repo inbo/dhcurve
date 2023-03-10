@@ -4,7 +4,7 @@ allowed:
   warnings:
   - motivation: The client and funder of the package is Agentschap voor Natuur en
       Bos, and therefore listed as copyright holder instead of INBO.
-    value: Research Institute for Nature and Forest must be listed as copyright holder
+    value: Research Institute for Nature and Forest (INBO) must be listed as copyright holder
       and funder and use info@inbo.be as email.
   notes: []
 required:
