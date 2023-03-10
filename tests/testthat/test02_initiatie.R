@@ -398,6 +398,19 @@ describe("initiatie", {
                       rep("Bos1", 15), rep("Bos2", 5)),
           BMS = c(rep("SoortModel", 35), rep("SoortExtra", 20)),
           IDbms = c(rep(1, 35), rep(2, 20)),
+          C13 = 210,
+          HOOGTE = 30,
+          Status = "Te controleren"
+        )
+      ) %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                        rep("Bos1", 15), rep("Bos2", 5)),
+          BOS_BHI = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                      rep("Bos1", 15), rep("Bos2", 5)),
+          BMS = c(rep("SoortModel", 35), rep("SoortExtra", 20)),
+          IDbms = c(rep(1, 35), rep(2, 20)),
           C13 = 270,
           HOOGTE = 40,
           Status = "Te controleren"

@@ -81,8 +81,8 @@
 #'
 #' Voor de eerste en derde dataframe worden metingen binnen het bruikbaar
 #' interval gemarkeerd als `VoorModelFit` en ook metingen boven dit interval
-#' tot een omtrek van 3 m bijgehouden voor een eventuele uitbreiding van het
-#' model;
+#' tot een omtrek van 3 m worden bijgehouden voor een eventuele uitbreiding van
+#' het model (tot maximaal 10 omtrekklassen);
 #' voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
 #' 0,5 m en 2,8 m bijgehouden.
 #'
@@ -315,6 +315,7 @@ initiatie <-
   Data_Selectie_50 <- Data.aantallen %>%
     filter(
       .data$Omtrek > .data$Q5k - 0.05,
+      .data$Omtrek < .data$Q95k + 1.05,
       ((.data$nBomenIntervalOmtrek05 > min_basismodel
         & is.na(.data$min_basis)) |
         (!is.na(.data$min_basis) &

@@ -90,8 +90,8 @@ opgesteld kan worden.
 
 Voor de eerste en derde dataframe worden metingen binnen het bruikbaar
 interval gemarkeerd als \code{VoorModelFit} en ook metingen boven dit interval
-tot een omtrek van 3 m bijgehouden voor een eventuele uitbreiding van het
-model;
+tot een omtrek van 3 m worden bijgehouden voor een eventuele uitbreiding van
+het model (tot maximaal 10 omtrekklassen);
 voor het afgeleid model (2de dataframe) worden de metingen met omtrek tussen
 0,5 m en 2,8 m bijgehouden.
 

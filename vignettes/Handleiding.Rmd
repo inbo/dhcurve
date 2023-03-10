@@ -272,7 +272,7 @@ De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen 
 ### uitbreiding naar hogere omtrekklassen
 
 Als een basismodel of lokaal model meer dan 10 metingen heeft voor omtrekklassen boven het bruikbaar interval, dan kunnen curves desgewenst uitgebreid worden naar die hogere omtrekklassen.
-Dit gebeurt door het model dat gebouwd is op basis van de omtrekklassen binnen het bruikbaar interval, toe te passen op de hogere omtrekklassen (tot 3,0 m), en de curves te valideren met de functie `validatie.uitbreiding()`.
+Dit gebeurt door het model dat gebouwd is op basis van de omtrekklassen binnen het bruikbaar interval, toe te passen op de hogere omtrekklassen (tot 3,0 m en maximum 10 omtrekklassen), en de curves te valideren met de functie `validatie.uitbreiding()`.
 
 Deze functie geeft, gelijkaardig aan de andere validatiefuncties, in een validatierapport de 20 slechtste curves weer (van slechtste naar minst slechte).
 Bedoeling hier is om te controleren of het blauw gekleurde deel van de curve een goede benadering is voor de in blauw weergegeven punten, dus of dit deel van de curve midden door de puntenwolk gaat.

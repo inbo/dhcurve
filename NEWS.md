@@ -14,8 +14,9 @@
       bij afgeleide modellen ten opzichte van de beschikbare metingen tussen
       0,5 en 2,8 m.
     * voor boomsoort-domeincombinaties met veel metingen boven het bruikbaar
-      interval kan het bruikbare interval naar boven toe uitgebreid worden tot
-      3 m met de nieuwe functie `validatie.uitbreiding()`, die volgens hetzelfde
+      interval kan het bruikbare interval naar boven toe met 10 omtrekklassen
+      uitgebreid worden tot een maximum omtrek van 3 m
+      met de nieuwe functie `validatie.uitbreiding()`, die volgens hetzelfde
       principe werkt als de andere validatie-functies: als een uitbreiding niet
       goed is, de minimumgrens voor het aantal metingen optrekken en de dataset
       opnieuw opsplitsen met `initiatie()`, en fitten en valideren (enkel de
