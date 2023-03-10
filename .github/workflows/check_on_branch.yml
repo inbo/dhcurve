@@ -73,10 +73,8 @@ jobs:
         run: |
           x <- checklist::check_spelling()
           print(x)
-          print("errors spelling:")
-          print(x$.__enclos_env__$private$spelling$message)
           if(length(x$.__enclos_env__$private$spelling$message) > 0) {
-            stop("The spelling is not always correct. Please check the error message above.")
+            stop("The spelling is not always correct. Please check the error message below.")
           }
         shell: Rscript {0}
 
