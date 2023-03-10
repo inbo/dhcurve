@@ -71,7 +71,7 @@ jobs:
 
       - name: Check spelling
         run: |
-          checklist::check_spelling()
+          x <- checklist::check_spelling()
           print(x)
           print("errors spelling:")
           print(x$.__enclos_env__$private$spelling$message)
