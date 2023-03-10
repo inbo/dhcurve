@@ -271,8 +271,8 @@ De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen 
 
 ### uitbreiding naar hogere omtrekklassen
 
-Als een basismodel of lokaal model meer dan 10 metingen heeft voor omtrekklassen boven 2,4 m, dan kunnen curves desgewenst uitgebreid worden naar die hogere omtrekklassen.
-Dit gebeurt door het model dat gebouwd is op basis van de omtrekklassen onder een omtrek van 2,4 m, toe te passen op de hogere omtrekklassen (tot 3,0 m), en de curves te valideren met de functie `validatie.uitbreiding()`.
+Als een basismodel of lokaal model meer dan 10 metingen heeft voor omtrekklassen boven het bruikbaar interval, dan kunnen curves desgewenst uitgebreid worden naar die hogere omtrekklassen.
+Dit gebeurt door het model dat gebouwd is op basis van de omtrekklassen binnen het bruikbaar interval, toe te passen op de hogere omtrekklassen (tot 3,0 m), en de curves te valideren met de functie `validatie.uitbreiding()`.
 
 Deze functie geeft, gelijkaardig aan de andere validatiefuncties, in een validatierapport de 20 slechtste curves weer (van slechtste naar minst slechte).
 Bedoeling hier is om te controleren of het blauw gekleurde deel van de curve een goede benadering is voor de in blauw weergegeven punten, dus of dit deel van de curve midden door de puntenwolk gaat.
@@ -579,7 +579,7 @@ Voor curves met een minimum binnen het bruikbaar interval, wordt de hoogteschatt
 #### uitbreiding naar hogere omtrekklassen
 
 Bij voldoende gegevens in hogere omtrekklassen kan een model uitgebreid worden.
-Dit wil zeggen dat het eerder gefitte model toegepast wordt op hogere omtrekklassen (tussen 2,4 en 3 m), waarna het model bij deze hogere omtrekklassen gevalideerd wordt op basis van de metingen.
+Dit wil zeggen dat het eerder gefitte model toegepast wordt op hogere omtrekklassen (`> Q95k`), waarna het model bij deze hogere omtrekklassen gevalideerd wordt op basis van de metingen.
 Voor deze validatie worden het minimum, het maximum en de mediaan berekend van het verschil tussen de meting en de schatting op basis van het model.
 De 20 slechtste modellen, die in het validatierapport getoond worden, zijn de 20 modellen met het hoogste absolute waarde voor de mediaan van het verschil tussen de meting en de schatting.
 Dit zijn dus de modellen waarbij de middelste meting het meest afwijkt van de schatting.

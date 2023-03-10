@@ -69,10 +69,6 @@ outputIVANHO <-
     )
     if (inherits(Uitbreiding$MaxOmtrek, "numeric")) {
       assert_that(
-        min(Uitbreiding$MaxOmtrek) > 2.4,
-        msg = "Elke waarde van MaxOmtrek in de dataframe Uitbreiding moet groter zijn dan 2.4 (de minimumgrens voor een uitbreiding)" #nolint: line_length_linter
-      )
-      assert_that(
         all(
           round(
             Uitbreiding$MaxOmtrek * 10 - (Uitbreiding$MaxOmtrek * 100) %/% 10,
