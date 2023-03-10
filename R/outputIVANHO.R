@@ -13,7 +13,7 @@
 #' wordt deze minimumwaarde als hoogte meegegeven aan alle omtrekklassen lager
 #' dan de omtrekklasse van dit minimum.
 #' Als voor een bepaalde omtrekklasse de hoogteschatting lager is dan 2,5 m,
-#' dan wordt deze waarde vervangen door 2,5 m.
+#' dan wordt deze omtrekklasse weggelaten.
 #'
 #' Voor deze functie worden volgende hulpfuncties aangeroepen:
 #' `hoogteschatting.basis()`, `hoogteschatting.afgeleid()` en
@@ -337,7 +337,6 @@ outputIVANHO <-
                  .data$Omtrek < .data$Omtrek_Extr_Hoogte.d,
                  .data$Extr_Hoogte.d,
                  .data$H_D_finaal),
-        Hoogte = ifelse(.data$Hoogte < 2.5, 2.5, .data$Hoogte),
         .data$RMSE,
         .data$Modeltype
       ) %>%

@@ -25,8 +25,6 @@
       van `validatie.uitbreiding()` toegevoegd moet worden aan argument
       `Uitbreiding` in `outputIVANHO()` om de uitbreiding op te nemen in de
       resulterende dataset.
-* In functie `outputIVANHO()` worden schattingen van een hoogte lager dan 2.5 m
-  niet langer weggelaten, maar vervangen door 2.5.
 
 # dhcurve 0.1
 
