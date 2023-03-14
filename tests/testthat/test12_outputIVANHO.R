@@ -140,6 +140,36 @@ describe("outputIVANHO", {
                                       rep("lokaal model", 2))))
   })
 
+  it("Een uitbreiding wordt correct toegevoegd", {
+    Uitbreiding <-
+      data.frame(BMS = "testboom", DOMEIN_ID = "A", MaxOmtrek = 2.65)
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(Omtrek),
+                 tibble(Omtrek = c(2.65, 2.75, 2.85)))
+    Uitbreiding <-
+      data.frame(BMS = c("testboom", "andereboom"),
+                 DOMEIN_ID = c("A", "LM"), MaxOmtrek = c(2.65, 2.55))
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(DOMEIN_ID, Omtrek),
+                 tibble(DOMEIN_ID = c(rep("A", 3), rep("LM", 2)),
+                        Omtrek = c(2.65, 2.75, 2.85, 2.65, 2.75)))
+    Uitbreiding <-
+      data.frame(BMS = "andereboom", DOMEIN_ID = "LM", MaxOmtrek = 2.65)
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(DOMEIN_ID, Omtrek),
+                 tibble(DOMEIN_ID = "LM",
+                        Omtrek = c(2.65, 2.75, 2.85)))
+  })
+
   setwd(wd)
 
 })
