@@ -117,6 +117,8 @@ validatie.uitbreiding <-
     if (nrow(ZonderJoin) > 0) {
       warning("Niet elk opgegeven record in GoedgekeurdeUitbreidingen heeft een afwijkende curve") #nolint: line_length_linter
     }
+    GoedgekeurdeUitbreidingen <- GoedgekeurdeUitbreidingen %>%
+      select("BMS", "DOMEIN_ID", "nBomenTerugTonen")
   }
 
   DatasetUitbreiding <- Dataset %>%
