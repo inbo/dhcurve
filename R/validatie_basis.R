@@ -63,7 +63,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% filter select mutate distinct group_by
-#' summarise ungroup bind_rows do rowwise anti_join left_join
+#' summarise ungroup bind_rows do rowwise anti_join left_join transmute
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
@@ -189,7 +189,9 @@ validatie.basis <-
     ) %>%
     bind_rows(
       ExtraCurvesRapport %>%
-        mutate(
+        transmute(
+          .data$DOMEIN_ID,
+          .data$BMS,
           Reden = "opgegeven als extra curve"
         )
     ) %>%
