@@ -102,7 +102,7 @@ dhcurvesrapport <-
   assert_that(has_name(Datalijst[["Lokaal"]], "HOOGTE"))
   assert_that(inherits(Datalijst[["Lokaal"]]$HOOGTE, "numeric"))
 
-  assert_that(is.logical("KleurUitbreiding"))
+  assert_that(is.logical(KleurUitbreiding))
   assert_that(is.flag(verbose))
   assert_that(noNA(verbose))
   assert_that(is.character(Bestandsnaam))
