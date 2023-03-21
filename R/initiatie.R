@@ -267,7 +267,10 @@ initiatie <-
     ) %>%
     ungroup() %>%
     left_join(
-      Uitzonderingen,
+      Uitzonderingen %>%
+        select(
+          "DOMEIN_ID", "BMS", "min_basis", "min_afgeleid",
+          "min_uitbreiden_model"),
       by = c("BMS", "DOMEIN_ID")
     )
 
