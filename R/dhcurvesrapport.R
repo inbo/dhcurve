@@ -37,6 +37,7 @@
 #' @export
 #'
 #' @importFrom dplyr %>% mutate bind_rows group_by arrange ungroup right_join
+#'   select
 #' @importFrom rlang .data
 #' @importFrom rmarkdown render
 #' @importFrom assertthat assert_that noNA is.flag has_name
@@ -58,6 +59,8 @@ dhcurvesrapport <-
   assert_that(has_name(OutputIVANHO, "Hoogte"))
   assert_that(inherits(OutputIVANHO$Hoogte, "numeric"))
   assert_that(has_name(OutputIVANHO, "Modeltype"))
+  assert_that(has_name(OutputIVANHO, "RMSE"))
+  assert_that(inherits(OutputIVANHO$RMSE, "numeric"))
 
   assert_that(inherits(Datalijst, "list"))
   assert_that(has_name(Datalijst, "Basis"))
@@ -127,7 +130,10 @@ dhcurvesrapport <-
         )
     ) %>%
     right_join(
-      OutputIVANHO,
+      OutputIVANHO %>%
+        select(
+          "BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "Hoogte", "Modeltype", "RMSE"
+        ),
       by = c("BMS", "DOMEIN_ID", "BOS_BHI", "Omtrek", "Modeltype"),
       suffix = c(".data", ".model")
     ) %>%
