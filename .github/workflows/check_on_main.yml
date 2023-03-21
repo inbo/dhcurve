@@ -18,7 +18,6 @@ jobs:
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -67,6 +66,15 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+      - name: Check spelling
+        run: |
+          x <- checklist::check_spelling()
+          print(x)
+          if(length(x$.__enclos_env__$private$spelling$message) > 0) {
+            stop("The spelling is not always correct. Please check the error message below.")
+          }
+        shell: Rscript {0}
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
@@ -85,32 +93,26 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
-      - name: Check documentation
+      - name: Check documentation and description
         run: |
-          #probleem met path: Loaded and on-disk path mismatch (errors disabled)
-          test <- checklist::check_documentation()
-          test
-          #if(test$fail) {
-          #  stop("The documentation is not always correct. Please check the error message above.")
-          #}
-        shell: Rscript {0}
-
-      - name: Check description
-        run: |
-          test <- checklist::check_description()
-          test
-          if (length(test$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
-              length(test$.__enclos_env__$private$warnings) > length(test$.__enclos_env__$private$allowed_warnings) |
-              length(test$.__enclos_env__$private$notes) > length(test$.__enclos_env__$private$allowed_notes)
+          x <- checklist::check_description()
+          x <- checklist::check_documentation(x)
+          print(x)
+          print("errors description")
+          print(x$.__enclos_env__$private$errors$DESCRIPTION)
+          print("errors documentation")
+          print(x$.__enclos_env__$private$errors$documentation)
+          if(length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+              length(x$.__enclos_env__$private$errors$documentation) > 0 |
+              length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) |
+              length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
-            stop("Error in the desciption file, please check the error message above.")
+           stop("The documentation and description is not always correct. Please check the error message above.")
           }
         shell: Rscript {0}
 
       - name: Check code coverage
-        run: |
-          result <- covr::codecov(quiet = FALSE) #, commit="'$GITHUB_SHA'")
-          message(result$message)
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
 
       - name: build pkgdown website
