@@ -254,7 +254,7 @@ Deze schatting wordt ingeval van een minimum of maximum binnen het interval verb
 De "curve" zal met andere woorden niet terug dalen of stijgen, maar horizontaal lopen.
 Een omtrekklasse wordt weggelaten als de geschatte hoogte lager is dan 2,5 m.
 
-### resultaat
+### `resultaat`
 
 De functie `resultaat()` genereert op basis van de berekende (gefitte) modellen een tabel met volgende info:
 
@@ -568,7 +568,7 @@ Er kunnen zich 2 situaties voordoen die potentieel afwijkend zijn (beschreven on
 \newpage
 ## Berekening resultaat
 
-### `outputIVANHO`
+### output voor implementatie in IVANHO
 
 De functie `outputIVANHO()` geeft hoogteschattingen voor de "bruikbare" omtrekklassen, dus de omtrekklassen binnen het bruikbaar interval of net erbuiten (van 3 omtrekklassen onder tot 2 omtrekklassen boven het bruikbaar interval).  Deze tabel kan dus rechtstreeks, zonder verdere berekeningen of randvoorwaarden, geraadpleegd worden om hoogteschattingen op te zoeken of in `IVANHO` opgenomen worden.  Hierdoor wordt ook vermeden dat er rekenfouten optreden doordat het model in dit R-package aangepast wordt maar niet in `IVANHO`, of omgekeerd.
 
@@ -580,15 +580,16 @@ Omtrekklassen worden weggelaten als de hoogteschatting lager is dan 2,5 m.
 
 #### uitbreiding naar hogere omtrekklassen
 
-Bij voldoende gegevens in hogere omtrekklassen kan een model uitgebreid worden.
-Dit wil zeggen dat het eerder gefitte model toegepast wordt op hogere omtrekklassen (`> Q95k`), waarna het model bij deze hogere omtrekklassen gevalideerd wordt op basis van de metingen.
+Bij voldoende gegevens in hogere omtrekklassen kan een model uitgebreid worden, zie [uitbreiding naar hogere omtrekklassen](#uitbreiding-naar-hogere-omtrekklassen).
+Met behulp van de functie `validatie.uitbreiding()` wordt het eerder gefitte model toegepast op hogere omtrekklassen (`> Q95k`), waarna het model bij deze hogere omtrekklassen gevalideerd wordt op basis van de extra metingen.
 Voor deze validatie worden het minimum, het maximum en de mediaan berekend van het verschil tussen de meting en de schatting op basis van het model.
 De 20 slechtste modellen, die in het validatierapport getoond worden, zijn de 20 modellen met het hoogste absolute waarde voor de mediaan van het verschil tussen de meting en de schatting.
-Dit zijn dus de modellen waarbij de middelste meting het meest afwijkt van de schatting.
+Dit zijn dus de modellen waarbij de middelste meting het meest afwijkt van de schatting.  
+Naast een validatierapport wordt ook een dataframe gegenereerd (met DOMEIN_ID, BMS en MaxOmtrek) dat kan meegenomen worden in `outputIVANHO()` om de eventuele uitbreiding toe te voegen aan de output van deze laatste functie.
 
-### resultaat
+### modelparameters per domein 
 
-De berekeningswijze van de meeste info uit de tabel die met de functie `resultaat()` gegenereerd wordt, is eerder uitgelegd.  De parameters `A`, `B` en `C` worden berekend door de in het modeltype aanwezige Vlaamse en domeinspecifieke parameters op te tellen.  Dit betekent:
+De modelparameters kunnen opgevraagd worden met de functie `resultaat()`. De berekeningswijze van de meeste info uit de tabel die met de functie `resultaat()` gegenereerd wordt, is eerder uitgelegd.  De parameters `A`, `B` en `C` worden berekend door de in het modeltype aanwezige Vlaamse en domeinspecifieke parameters op te tellen.  Dit betekent:
 
 - voor het basismodel: 
     - $A = A_{Vlaams} + A_{domein}$
@@ -605,6 +606,6 @@ De berekeningswijze van de meeste info uit de tabel die met de functie `resultaa
     - $B = B_{domein}$
     - $C = C_{domein}$
     
-Bijgevolg geldt voor de elk van de modellen in de tabel de algemene functie $Hoogte \sim A + B\log(Omtrek)+C\log(Omtrek)^2$
+Bijgevolg geldt voor elk van de modellen in de tabel de algemene functie $Hoogte \sim A + B\log(Omtrek)+C\log(Omtrek)^2$
 
 (Nota: deze parameters kunnen berekend worden met de functie `modelparameters()`.)

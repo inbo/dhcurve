@@ -28,7 +28,7 @@
 #' @param AantalDomValidatie Standaard worden de 20 domeinen met de hoogste
 #' gemiddelde afwijking (`DiffMediaan`) geselecteerd om te valideren.
 #' (Hierbij worden `GoedgekeurdeUitbreidingen` niet meer getoond.)
-#' `AantalDomHogeRMSE` laat toe om dit aantal van 20 domeinen aan te passen.
+#' `AantalDomValidatie` laat toe om dit aantal van 20 domeinen aan te passen.
 #'
 #' @inheritParams validatierapport
 #' @inheritParams initiatie
