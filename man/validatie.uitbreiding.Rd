@@ -25,7 +25,7 @@ basis waarvan het opgegeven model (basismodel of lokaal model) berekend is.}
 \item{AantalDomValidatie}{Standaard worden de 20 domeinen met de hoogste
 gemiddelde afwijking (\code{DiffMediaan}) geselecteerd om te valideren.
 (Hierbij worden \code{GoedgekeurdeUitbreidingen} niet meer getoond.)
-\code{AantalDomHogeRMSE} laat toe om dit aantal van 20 domeinen aan te passen.}
+\code{AantalDomValidatie} laat toe om dit aantal van 20 domeinen aan te passen.}
 
 \item{GoedgekeurdeUitbreidingen}{Optie om goedgekeurde uitbreidingen
 niet meer te tonen in het validatierapport zolang er geen extra metingen
