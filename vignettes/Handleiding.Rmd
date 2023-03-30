@@ -584,7 +584,7 @@ Bij voldoende gegevens in hogere omtrekklassen kan een model uitgebreid worden, 
 Met behulp van de functie `validatie.uitbreiding()` wordt het eerder gefitte model toegepast op hogere omtrekklassen (`> Q95k`), waarna het model bij deze hogere omtrekklassen gevalideerd wordt op basis van de extra metingen.
 Voor deze validatie worden het minimum, het maximum en de mediaan berekend van het verschil tussen de meting en de schatting op basis van het model.
 De 20 slechtste modellen, die in het validatierapport getoond worden, zijn de 20 modellen met het hoogste absolute waarde voor de mediaan van het verschil tussen de meting en de schatting.
-Dit zijn dus de modellen waarbij de middelste meting het meest afwijkt van de schatting.  
+Dit zijn dus de modellen waarbij de middelste meting het meest afwijkt van de schatting.
 Naast een validatierapport wordt ook een dataframe gegenereerd (met DOMEIN_ID, BMS en MaxOmtrek) dat kan meegenomen worden in `outputIVANHO()` om de eventuele uitbreiding toe te voegen aan de output van deze laatste functie.
 
 ### modelparameters per domein 
