@@ -52,30 +52,39 @@ describe("validatie", {
   Lokaalmodel <- fit.lokaal(Data.lokaal)
 
 
+  it("de functies geven geen warnings", {
+    expect_no_warning(validatie.basis(Basismodel))
+    expect_no_warning(validatie.afgeleid(Basismodel, Afgeleidmodel))
+    expect_no_warning(validatie.lokaal(Lokaalmodel, Data.lokaal))
+  })
+
   it("De uitvoer van de functies is correct", {
     expect_equal(validatie.basis(Basismodel) %>%
                    colnames(.),
-                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+                   "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "Q5", "Q95", "nExtra", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend"))
     expect_equal(validatie.afgeleid(Basismodel, Afgeleidmodel) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95",
-                   "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
-                   "rmseVL", "rmseD", "HogeRmse", "Afwijkend")
+                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "nBomen",
+                   "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13",
+                   "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "Q5", "Q95", "H_D_finaal", "ResidD2", "nBomenModel",
+                   "RmseVerschuiving", "rmseVL", "rmseD", "HogeRmse",
+                   "Afwijkend")
     )
     expect_equal(validatie.lokaal(Lokaalmodel, Data.lokaal) %>%
                    colnames(.),
-                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+                   "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
-                   "HogeRmse", "Afwijkend")
+                  "logOmtrek2", "Q5", "Q95", "nExtra", "BMS",
+                  "rmseD", "maxResid", "HogeRmse", "Afwijkend")
     )
   })
 
@@ -155,9 +164,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een basismodel"
     )
     expect_equal(
-      validatie.basis(
-        Basismodel,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.basis(
+          Basismodel,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.basis(Basismodel)
     )
@@ -176,9 +187,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model"
     )
     expect_equal(
-      validatie.afgeleid(
-        Basismodel, Afgeleidmodel,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.afgeleid(
+          Basismodel, Afgeleidmodel,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.afgeleid(Basismodel, Afgeleidmodel)
     )
@@ -197,9 +210,11 @@ describe("validatie", {
       "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
     )
     expect_equal(
-      validatie.lokaal(
-        Lokaalmodel, Data.lokaal,
-        ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+      suppressWarnings(
+        validatie.lokaal(
+          Lokaalmodel, Data.lokaal,
+          ExtraCurvesRapport = data.frame(DOMEIN_ID = "Q", BMS = "boom")
+        )
       ),
       validatie.lokaal(Lokaalmodel, Data.lokaal)
     )
@@ -219,13 +234,15 @@ describe("validatie", {
         GoedgekeurdeAfwijkendeCurves =
           data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
       ),
-      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint: line_length_linter
     )
     expect_equal(
-      validatie.basis(
-        Basismodel,
-        GoedgekeurdeAfwijkendeCurves =
-          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      suppressWarnings(
+        validatie.basis(
+          Basismodel,
+          GoedgekeurdeAfwijkendeCurves =
+            data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+        )
       ),
       validatie.basis(Basismodel)
     )
@@ -235,13 +252,15 @@ describe("validatie", {
         GoedgekeurdeAfwijkendeCurves =
           data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
       ),
-      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint
+      "Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve" #nolint: line_length_linter
     )
     expect_equal(
-      validatie.lokaal(
-        Lokaalmodel, Data.lokaal,
-        GoedgekeurdeAfwijkendeCurves =
-          data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+      suppressWarnings(
+        validatie.lokaal(
+          Lokaalmodel, Data.lokaal,
+          GoedgekeurdeAfwijkendeCurves =
+            data.frame(DOMEIN_ID = "Q", BMS = "boom", nBomenTerugTonen = 50)
+        )
       ),
       validatie.lokaal(Lokaalmodel, Data.lokaal)
     )

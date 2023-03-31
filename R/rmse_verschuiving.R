@@ -1,22 +1,23 @@
-#' Berekent RMSE van afgeleid model
+#' @title Berekent RMSE van afgeleid model
 #'
-#' Deze functie berekent de rmse op basis van verschil tussen de
+#' @description
+#' Deze functie berekent de RMSE op basis van verschil tussen de
 #' hoogteschatting volgens het domeinmodel en de gemeten hoogte (voor
-#' omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale rmse van het
-#' afgeleid model, want behalve deze rmse van de verschuiving moet hier ook de
-#' rmse van het Vlaams model (basismodel) in rekening gebracht worden.
+#' omtrekklassen > 0.5 m).  Dit is slechts een deel van de totale RMSE van het
+#' afgeleid model, want behalve deze RMSE van de verschuiving moet hier ook de
+#' RMSE van het Vlaams model (basismodel) in rekening gebracht worden.
 #' Opgelet!  In tegenstelling tot de meeste functies van dit package werkt deze
 #' functie op basis van de meetgegevens van 1 model.  Zie voorbeeld voor een
 #' methode om deze functie te kunnen toepassen vertrekkend van het berekende
 #' model.
 #'
 #'
-#' @param Verschovenmodel Afgeleid model voor één boomsoort-domein-combinatie
-#' (lm-object)
-#' @param Boomsoort BMS
-#' @param Domein DOMEIN_ID
+#' @param Verschovenmodel Afgeleid model voor één boomsoort-domeincombinatie
+#' (`lm`-object)
+#' @param Boomsoort `BMS`
+#' @param Domein `DOMEIN_ID`
 #'
-#' @return Dataframe met BMS(boomsoort), DOMEIN_ID, RmseVerschuiving
+#' @return Dataframe met `BMS` (boomsoort), `DOMEIN_ID`, `RmseVerschuiving`
 #'
 #' @examples
 #' library(dplyr)
@@ -29,7 +30,7 @@
 #' Data.afgeleid <- Datalijst[["Afgeleid"]]
 #' Afgeleidmodel <- fit.afgeleid(Data.afgeleid, Basismodel)
 #'
-#' # De rmse berekenen voor de verschuiving van het Vlaams model naar een
+#' # De RMSE berekenen voor de verschuiving van het Vlaams model naar een
 #' # afgeleid model
 #' Afgeleidmodel[[1]] %>%
 #'   rowwise() %>%
@@ -68,7 +69,7 @@ rmse.verschuiving <- function(Verschovenmodel, Boomsoort, Domein) {
       DOMEIN_ID = Domein
     ) %>%
     select(
-      .data$BMS, .data$DOMEIN_ID, .data$nBomenModel, .data$RmseVerschuiving
+      "BMS", "DOMEIN_ID", "nBomenModel", "RmseVerschuiving"
     )
 
   return(Rmse)

@@ -1,25 +1,15 @@
 Package: dhcurve
 Title: Automated Modelling of Diameter Height Curves for Trees
-Version: 0.1
-Authors@R: 
-    c(person(given = "Els",
-             family = "Lommelen",
-             role = c("aut", "cre"),
-             email = "els.lommelen@inbo.be",
-             comment = c(ORCID = "0000-0002-3481-5684")),
-      person(given = "Thierry",
-             family = "Onkelinx",
-             role = "aut",
-             email = "thierry.onkelinx@inbo.be",
-             comment = c(ORCID = "0000-0001-8804-4216")),
-      person(given = "Anja",
-             family = "Leyman",
-             role = "ctb",
-             email = "anja.leyman@inbo.be",
-             comment = c(ORCID = "0000-0002-0292-6582")),
-      person(given = "Agentschap voor Natuur en Bos",
-             role = "cph",
-             email = "anb@vlaanderen.be"))
+Version: 0.2
+Authors@R: c(
+    person("Els", "Lommelen", , "els.lommelen@inbo.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3481-5684")),
+    person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "aut",
+           comment = c(ORCID = "0000-0001-8804-4216")),
+    person("Anja", "Leyman", , "anja.leyman@inbo.be", role = "ctb",
+           comment = c(ORCID = "0000-0002-0292-6582")),
+    person("Agentschap voor Natuur en Bos", , , "anb@vlaanderen.be", role = "cph")
+  )
 Description: Model diameter height curves for individual tree species and
     forests.
 License: GPL-3
@@ -28,9 +18,9 @@ BugReports: https://github.com/inbo/dhcurve/issues
 Depends:
     R (>= 3.3.0)
 Imports:
-    DT,
     assertthat,
     dplyr,
+    DT,
     ggplot2,
     nlme,
     plotly,
@@ -42,10 +32,14 @@ Imports:
     tidyr
 Suggests:
     knitr,
+    stringr,
     testthat,
-    tibble
+    tibble,
+    xml2
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
+Language: nl-BE
 LazyData: true
-RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

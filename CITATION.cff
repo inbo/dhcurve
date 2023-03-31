@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+authors:
+- family-names: Lommelen
+  given-names: Els
+  orcid: https://orcid.org/0000-0002-3481-5684
+- family-names: Onkelinx
+  given-names: Thierry
+  orcid: https://orcid.org/0000-0001-8804-4216
+contact:
+- email: els.lommelen@inbo.be
+  family-names: Lommelen
+  given-names: Els
+- email: anb@vlaanderen.be
+  name: Agentschap voor Natuur en Bos
+title: 'dhcurve: Automated Modelling of Diameter Height Curves for Trees'
+version: '0.2'
+abstract: Model diameter height curves for individual tree species and forests.
+license: GPL-3.0
+type: software
+repository-code: https://github.com/inbo/dhcurve
+identifiers:
+- type: url
+  value: https://inbo.github.io/dhcurve
+keywords:
+- model tree height
+- R package

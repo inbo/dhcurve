@@ -1,27 +1,24 @@
-#' Validatie van het lokaal model
+#' @title Validatie van het lokaal model
 #'
+#' @description
 #' Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en
 #' een overzicht geeft van de afwijkende metingen en slechte curves (zodat de
 #' gebruiker deze kan valideren).
 #'
 #' De functie roept meerdere hulpfuncties op:
-#'
-#' - rmse.basis
-#'
-#' - afwijkendeMetingen
-#'
-#' - afwijkendeCurves
-#'
-#' - validatierapport
+#' - `rmse.basis()`
+#' - `afwijkendeMetingen()`
+#' - `afwijkendeCurves()`
+#' - `validatierapport()`
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-#' slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+#' slechtste modellen opgelijst (op basis van RMSE, afwijkende metingen en
 #' afwijkende curves).
 #'
 #'
 #' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven
-#' door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-#' en Model (lm-object met het gefit lineair model voor die
+#' door de functie `fit.lokaal()`: tibble met de velden `BMS` (boomsoort),
+#' `DOMEIN_ID` en `Model` (`lm`-object met het gefit lineair model voor die
 #' boomsoort-domeincombinatie).
 #' @param Data Dataset op basis waarvan het opgegeven lokaal model berekend is.
 #'
@@ -32,26 +29,24 @@
 #'
 #' @return
 #'
-#' De functie genereert een validatierapport (html-bestand) in de working
+#' De functie genereert een validatierapport (`.html`-bestand) in de working
 #' directory met informatie en grafieken van de te controleren modellen.  De
 #' afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-#' het probleem ook woordelijk beschreven (zie ?validatierapport of vignette
+#' het probleem ook woordelijk beschreven (zie `?validatierapport` of vignet
 #' voor meer informatie).
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
-#'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
-#' domeinmodel
-#'
-#' - rmseD: de foutenschatting voor het domeinmodel
-#'
-#' - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
+#' - `H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
+#'     domeinmodel
+#' - `rmseD`: de foutenschatting voor het domeinmodel
+#' -  `HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders
+#'     `NA`
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% inner_join filter select mutate distinct group_by
-#' summarise ungroup bind_rows do rowwise anti_join left_join
+#' summarise ungroup bind_rows do rowwise anti_join left_join transmute
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that has_name is.count
@@ -64,6 +59,11 @@ validatie.lokaal <-
            ) {
 
   invoercontrole(Lokaalmodel, "lokaalmodel")
+  if (has_name(Data, "VoorModelFit")) {
+    Data <- Data %>%
+      filter(.data$VoorModelFit) %>%
+      select(-"VoorModelFit")
+  }
   invoercontrole(Data, "fit")
 
   Rmse <- Data %>%
@@ -78,7 +78,7 @@ validatie.lokaal <-
 
   Hoogteschatting <- Lokaalmodel %>%
     inner_join(
-      Data,
+      x = Data,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -87,15 +87,15 @@ validatie.lokaal <-
     ) %>%
     do(
       hoogteschatting.basis(.$Model[[1]],
-                              select(., -.data$Model),
+                              select(., -"Model"),
                               "Lokaal", unique(.$BMS))
     ) %>%
     ungroup()
 
   Dataset <- Hoogteschatting %>%
-    inner_join(
+    left_join(
       Rmse %>%
-        select(.data$BMS, .data$DOMEIN_ID, .data$rmseD, .data$maxResid),
+        select("BMS", "DOMEIN_ID", "rmseD", "maxResid"),
       by = c("BMS", "DOMEIN_ID")
     )
 
@@ -110,7 +110,9 @@ validatie.lokaal <-
     ZonderJoin <- ExtraCurvesRapport %>%
       anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model") #nolint
+      warning(
+        "Niet elk opgegeven record in ExtraCurvesRapport heeft een lokaal model"
+      )
     }
   } else {
     ExtraCurvesRapport <-
@@ -123,7 +125,7 @@ validatie.lokaal <-
     assert_that(
       inherits(
         GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, c("integer", "numeric")),
-      msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint
+      msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een getal zijn" #nolint: line_length_linter
     )
     if (inherits(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen, "numeric")) {
       assert_that(
@@ -134,7 +136,7 @@ validatie.lokaal <-
           ),
           na.rm = TRUE
         ) < 1e-6
-        , msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een geheel getal zijn" #nolint
+        , msg = "Elke waarde van nBomenTerugTonen in de dataframe GoedgekeurdeAfwijkendeCurves moet een geheel getal zijn" #nolint: line_length_linter
       )
       GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen <-
         as.integer(GoedgekeurdeAfwijkendeCurves$nBomenTerugTonen)
@@ -142,12 +144,12 @@ validatie.lokaal <-
     ZonderJoin <- GoedgekeurdeAfwijkendeCurves %>%
       anti_join(AfwijkendeCurves, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint
+      warning("Niet elk opgegeven record in GoedgekeurdeAfwijkendeCurves heeft een afwijkende curve") #nolint: line_length_linter
     }
     AfwijkendeCurvesNegeren <- GoedgekeurdeAfwijkendeCurves %>%
       left_join(
         Dataset %>%
-          select(.data$DOMEIN_ID, .data$BMS, .data$nBomenInterval) %>%
+          select("DOMEIN_ID", "BMS", "nBomenInterval") %>%
           distinct(),
         by = c("DOMEIN_ID", "BMS")
       ) %>%
@@ -161,7 +163,7 @@ validatie.lokaal <-
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
-    select(.data$DOMEIN_ID, .data$BMS) %>%
+    select("DOMEIN_ID", "BMS") %>%
     distinct() %>%
     mutate(
       Reden = "hoge RMSE"
@@ -179,7 +181,7 @@ validatie.lokaal <-
           .data$Status != "Goedgekeurd"
         ) %>%
         select(
-          .data$BMS, .data$DOMEIN_ID
+          "BMS", "DOMEIN_ID"
         ) %>%
         distinct() %>%
         mutate(
@@ -188,7 +190,9 @@ validatie.lokaal <-
     ) %>%
     bind_rows(
       ExtraCurvesRapport %>%
-        mutate(
+        transmute(
+          .data$DOMEIN_ID,
+          .data$BMS,
           Reden = "opgegeven als extra curve"
         )
     ) %>%

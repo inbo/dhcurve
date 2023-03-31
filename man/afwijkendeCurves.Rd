@@ -8,8 +8,8 @@ afwijkendeCurves(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis of model per boomsoort-domeincombinatie zoals teruggegeven door de
-functie fit.lokaal}
+\code{fit.basis()} of model per boomsoort-domeincombinatie zoals teruggegeven door
+de functie \code{fit.lokaal()}}
 
 \item{Data}{Dataset op basis waarvan het lokaal model berekend is (enkel
 nodig voor lokaal model)}
@@ -17,26 +17,22 @@ nodig voor lokaal model)}
 \value{
 Dataframe dat de mogelijk afwijkende curves oplijst, met volgende
 velden:
-
-- BMS: Boomsoort
-
-- DOMEIN_ID
-
-- Reden: reden waarom de curve afwijkend is
-
-- Omtrek_Buigpunt.d: midden van omtrekklasse waarin het buigpunt van de curve
-van het domeinmodel ligt
-
-- Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin het maximum van de
-curve van het domeinmodel ligt
+\itemize{
+\item \code{BMS}: Boomsoort
+\item \code{DOMEIN_ID}
+\item \code{Reden}: reden waarom de curve afwijkend is
+\item \code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin het buigpunt van
+de curve van het domeinmodel ligt
+\item \code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin het maximum
+van de curve van het domeinmodel ligt
+}
 }
 \description{
 Functie die op basis van de curvekarakteristieken van de modellen (extremen
 en buigpunten) de mogelijk slechtste modellen oplijst met de reden.  Deze
 functie kan ook gebruikt worden voor lokale modellen, in dat geval moet ook
 de dataset als parameter meegegeven worden.
-}
-\details{
+
 Deze functie roept voor de berekening van de extremen en buigpunten de
-functie curvekarakteristieken op.
+functie \code{curvekarakteristieken()} op.
 }

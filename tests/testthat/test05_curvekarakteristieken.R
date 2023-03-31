@@ -18,6 +18,11 @@ describe("curvekarakteristieken", {
   Lokaalmodel <- Data[["Lokaalmodel"]]
 
 
+  it("functie curvekarakteristieken() geeft geen warnings", {
+    expect_no_warning(curvekarakteristieken(Basismodel))
+    expect_no_warning(curvekarakteristieken(Lokaalmodel, Lokaledata))
+  })
+
   it("Niet afwijkende curves vertonen geen extremen in relevant interval", {
     expect_equal(curvekarakteristieken(Basismodel) %>%
                    filter(!(Omtrek_Extr_Hoogte.d > 0.1 &
@@ -129,8 +134,11 @@ describe("curvekarakteristieken", {
   })
 
   it("Niet meegeven van de data bij het lokaal model geeft een foutmelding", {
-    expect_error(curvekarakteristieken(Lokaalmodel),
-                 "Bij opgave van een lokaal model moet je ook de dataset meegeven") #nolint
+    expect_error(
+      curvekarakteristieken(
+        Lokaalmodel),
+      "Bij opgave van een lokaal model moet je ook de dataset meegeven"
+    )
   })
 
   setwd(wd)

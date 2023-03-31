@@ -1,5 +1,5 @@
 ---
-title: "Rapport met dh-curves"
+title: "Rapport met diameter-hoogtecurves"
 author: "Els Lommelen"
 date: "`r Sys.Date()`"
 output: html_document

@@ -8,8 +8,8 @@ curvekarakteristieken(Basismodel, Data = NULL)
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis of model per boomsoort-domeincombinatie zoals teruggegeven door de
-functie fit.lokaal}
+\code{fit.basis()} of model per boomsoort-domeincombinatie zoals teruggegeven door
+de functie \code{fit.lokaal()}}
 
 \item{Data}{Dataset op basis waarvan het lokaal model berekend is (enkel
 nodig voor lokaal model)}
@@ -17,30 +17,26 @@ nodig voor lokaal model)}
 \value{
 Dataframe met curvekarakteristieken per domein en boomsoort met de
 velden:
-
-- parameters Ad, Bd en Cd van het model en enkele generieke velden
-(DOMEIN_ID, BMS,...)
-
-- Omtrek_Extr_Hoogte.d: midden van omtrekklasse waarin een extreem (minimum
-of maximum) van de curve van het domeinmodel ligt
-
-- Extr_Hoogte.d: hoogteschatting die aansluit bij het vorige veld
-
-- Hoogteverschil.d: verschil tussen de hoogteschattingen van het extreem van
-de curve en de bovengrens van het bruikbaar interval.  Deze maat is relevant
-als het extreem een maximum is (enkel dan is deze waarde positief).
-
-- Omtrek_Buigpunt.d: midden van omtrekklasse waarin een buigpunt van de curve
-van het domeinmodel ligt (deze en volgende variabelen zijn relevante maten
-bij het voorkomen van een minimum)
-
-- Verschil_rico_BP_Q5.d: het verschil in de waarde van de
-richtingscoefficient tussen het buigpunt en de ondergrens van het bruikbaar
-interval.
-
-- Verschil_rico_BP_Q5_per_omtrek.d: de voorgaande variabele gedeeld door het
-verschil in omtrek tussen het buigpunt en de ondergrens van het bruikbaar
-interval.
+\itemize{
+\item parameters \code{Ad}, \code{Bd} en \code{Cd} van het model en enkele generieke
+velden (\code{DOMEIN_ID}, \code{BMS},...)
+\item \code{Omtrek_Extr_Hoogte.d}: midden van omtrekklasse waarin een extreem
+(minimum of maximum) van de curve van het domeinmodel ligt
+\item \code{Extr_Hoogte.d}: hoogteschatting die aansluit bij het vorige veld
+\item \code{Hoogteverschil.d}: verschil tussen de hoogteschattingen van het
+extreem van de curve en de bovengrens van het bruikbaar interval.
+Deze maat is relevant als het extreem een maximum is
+(enkel dan is deze waarde positief).
+\item \code{Omtrek_Buigpunt.d}: midden van omtrekklasse waarin een buigpunt van
+de curve van het domeinmodel ligt (deze en volgende variabelen zijn
+relevante maten bij het voorkomen van een minimum)
+\item \code{Verschil_rico_BP_Q5.d}: het verschil in de waarde van de
+richtingscoëfficiënt tussen het buigpunt en de ondergrens van het
+bruikbaar interval.
+\item \code{Verschil_rico_BP_Q5_per_omtrek.d}: de voorgaande variabele gedeeld
+door het verschil in omtrek tussen het buigpunt en de ondergrens van het
+bruikbaar interval.
+}
 
 Ingeval van een basismodel worden deze variabelen aangevuld met dezelfde
 variabelen voor het Vlaams model.  Hierbij is de 'd' op het einde van de

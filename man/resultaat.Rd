@@ -14,68 +14,67 @@ resultaat(
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-gefit mixed model voor die boomsoort).}
+\code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
+(\code{lme}-object met het gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
-door de functie fit.afgeleid: list met 2 tibbles.}
+\item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
+door de functie \code{fit.afgeleid()}: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-en Model (lm-object met het gefit lineair model voor die
+door de functie \code{fit.lokaal()}: tibble met de velden \code{BMS} (boomsoort),
+\code{DOMEIN_ID} en \code{Model} (\code{lm}-object met het gefit lineair model voor die
 boomsoort-domeincombinatie).}
 
 \item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
 berekend is.}
 
 \item{Data.onbruikbaar}{Evt. lijst met meetresultaten van
-domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
-vorm van een dataframe zoals de dataframe "Rest" uit de list die door de
-funtie initiatie teruggegeven wordt.}
+boomsoort-domeincombinaties waarvoor geen model opgesteld kan worden, in de
+vorm van een dataframe zoals de dataframe \code{Rest} uit de list die door de
+functie \code{initiatie()} teruggegeven wordt.}
 }
 \value{
 Dataframe met modellen per domein en per boomsoort met velden:
-
-- DomeinID (identificatienummer voor domein)
-
-- BMS (boomsoort)
-
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-basismodel) /
-‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-omdat niet relevant) / 'lokaal model'(= eigen model voor 1
-boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
-waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
-
-- paramaters A, B en C (zie description)
-
-- bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)
-
-- RMSE (root mean square error, zie vignette voor meer info)
-
-- nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en 2,4 m)
-
-- nBomenInterval (aantal metingen waarop model gebaseerd is)
-
-- nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
-gebaseerd is)
+\itemize{
+\item \code{DomeinID} (identificatienummer voor domein)
+\item \code{BMS} (boomsoort)
+\item \code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) of
+"afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
+basismodel) of
+"Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
+omdat niet relevant) of "lokaal model"(= eigen model voor 1
+boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
+waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
+worden))
+\item parameters \code{A}, \code{B} en \code{C} (zie 'Description' bovenaan)
+\item bruikbaar interval (\code{Q5k} en \code{Q95k}, zie vignet voor meer info)
+\item \code{RMSE} (root mean square error, zie vignet voor meer info)
+\item \code{nBomen} (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
+3,0 m)
+\item \code{nBomenOmtrek05} (aantal metingen met omtrek tussen 0.5 en 2,8 m,
+dus waarop afgeleid model gebaseerd is)
+\item \code{nBomenInterval} (aantal metingen binnen bruikbaar interval, dus
+waarop basismodel of lokaal model gebaseerd is)
+\item \code{nBomenIntervalOmtrek05} (aantal metingen binnen bruikbaar interval
+met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)
+\item \code{nExtra} (aantal metingen boven bruikbaar interval waarop een eventuele
+uitbreiding gebaseerd is)
+}
 
 evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
-DomeinID leeg gelaten wordt of een specifieke waarde
-‘Vlaams model’ krijgt
+\code{DomeinID} leeg gelaten wordt of een specifieke waarde
+"Vlaams model" krijgt
 }
 \description{
 De functie resultaat berekent op basis van de opgegeven modellen voor elke
 boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
-de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
-B.log(Omtrek) + C.log(Omtrek)^2}.
-}
-\details{
-Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters,
-rsme.basis en rsme.afgeleid
+de vorm
+\eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A + B.log(Omtrek) + C.log(Omtrek)^2}.
 
-Verder worden parameters A, B en C uit het model gehaald (coef) en een
-aantal in de functie initiatie berekende gegevens toegevoegd .
+Voor deze functie worden volgende hulpfuncties aangeroepen:
+\code{modelparameters()}, \code{rsme.basis()} en \code{rsme.afgeleid()}
+
+Verder worden parameters \code{A}, \code{B} en \code{C} uit het model gehaald en een
+aantal in de functie \code{initiatie()} berekende gegevens toegevoegd.
 }

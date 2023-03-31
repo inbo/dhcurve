@@ -24,7 +24,7 @@ library(knitr)
 
 Uitvoer <- NULL
 
-for (Poutliers in unique(Selectie$maxResid)) {
+for (Poutliers in unique(Selectie$maxResid)) { #nolint: cyclocomp_linter
   SelectieOutliers <- Selectie %>%
     filter(maxResid == Poutliers)
   for (Boomsoort in unique(SelectieOutliers$BMS)) {
@@ -36,14 +36,21 @@ for (Poutliers in unique(Selectie$maxResid)) {
       #print(unique(SelectieModel$Reden))  #nolint
       #print(maakGrafiek(SelectieModel))  #nolint
       if (TypeRapport == "dynamisch") {
-        Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+        if (Uitbreidingsrapport) {
+          Uitvoer <- c(Uitvoer, knit_child("UitbreidingscurveDynamisch.Rmd"))
+        } else {
+          Uitvoer <- c(Uitvoer, knit_child("DomeincurveDynamisch.Rmd"))
+        }
       } else {
-        Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+        if (Uitbreidingsrapport) {
+          Uitvoer <- c(Uitvoer, knit_child("Uitbreidingscurve.Rmd"))
+        } else {
+          Uitvoer <- c(Uitvoer, knit_child("Domeincurve.Rmd"))
+        }
       }
     }
   }
 }
-  
 
 ```
 

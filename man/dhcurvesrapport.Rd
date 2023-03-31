@@ -2,28 +2,34 @@
 % Please edit documentation in R/dhcurvesrapport.R
 \name{dhcurvesrapport}
 \alias{dhcurvesrapport}
-\title{Stelt de finale dhcurves grafisch voor in een rapport}
+\title{Stelt de finale diameter-hoogtecurves grafisch voor in een rapport}
 \usage{
 dhcurvesrapport(
   OutputIVANHO,
   Datalijst,
   Bestandsnaam = "dhcurves.html",
+  KleurUitbreiding = FALSE,
   verbose = TRUE,
   PathWD = getwd()
 )
 }
 \arguments{
 \item{OutputIVANHO}{Lijst met geschatte hoogte per omtrekklasse (dataframe
-zoals gegenereerd door de functie outputIVANHO()).}
+zoals gegenereerd door de functie \code{outputIVANHO()}).}
 
 \item{Datalijst}{Datasets met gemeten waarden die gebruikt zijn voor de
-modellen, zoals gegenereerd door de functie initiatie().}
+modellen, zoals gegenereerd door de functie \code{initiatie()}.}
 
-\item{Bestandsnaam}{Een naam voor het rapport (html-bestand) dat gegenereerd
-wordt, bestaande uit een string die eindigt op '.html'}
+\item{Bestandsnaam}{Een naam voor het rapport (\code{.html}-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
+
+\item{KleurUitbreiding}{Moeten de metingen van de uitbreiding in een andere
+kleur weergegeven worden?
+Default is \code{FALSE}, waarbij (eventuele) metingen van een uitbreiding niet in
+een andere kleur weergegeven worden.}
 
 \item{verbose}{Dit geeft de toestand van het systeem aan en zorgt ervoor dat
-boodschappen niet onnodig gegeven worden.  (Default-waarde behouden.)}
+boodschappen niet onnodig gegeven worden.  (Defaultwaarde behouden.)}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
 validatierapport opgeslagen moet worden (default wordt het in de op dat
@@ -33,25 +39,23 @@ moment actieve working directory opgeslagen).}
 De functie genereert in de working directory (of opgegeven directory)
 een rapport (html) met de te controleren modellen.  Hierin wordt per model
 (boomsoort-domeincombinatie) de volgende algemene informatie vermeld:
-boomsoort, domein (+ ID), modeltype, aantal metingen, rmse en bruikbaar
+boomsoort, domein (en ID), modeltype, aantal metingen, RMSE en bruikbaar
 interval.
 
 Daaronder wordt telkens grafisch volgende info weergegeven:
-
-- een puntenwolk die de metingen voorstelt (geen individuele metingen, maar
-een jitter)
-
-- curve van het domeinmodel, aangeduid met zwarte ruiten
-
-- grenzen van het bruikbaar interval (curves eindigen bij de klassemiddens
-die overeenkomen met deze grenzen)
+\itemize{
+\item een puntenwolk die de metingen voorstelt (geen individuele metingen,
+maar een jitter)
+\item curve van het domeinmodel, aangeduid met zwarte ruiten
+\item grenzen van het bruikbaar interval (curves eindigen bij de
+klassenmiddens die overeenkomen met deze grenzen)
+}
 }
 \description{
-De functie genereert een rapport (html-bestand) in de working directory
+De functie genereert een rapport (\code{.html}-bestand) in de working directory
 (of opgegeven directory) met informatie en grafieken van de finale
 modellen.
-}
-\details{
-Deze functie rendert het bestand dhcurverapport.Rmd, dat voor elke
-boomsoort-domeincombinatie child dhcurve.Rmd toevoegt.
+
+Deze functie rendert het bestand \code{dhcurverapport.Rmd}, dat voor elke
+boomsoort-domeincombinatie child \code{dhcurve.Rmd} toevoegt.
 }

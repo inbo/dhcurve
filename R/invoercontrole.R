@@ -1,5 +1,6 @@
-#' Hulpfunctie die ingevoerd object controleert
+#' @title Hulpfunctie die ingevoerd object controleert
 #'
+#' @description
 #' Omdat de controle op de invoer voor meerdere functies gelijkaardig is, is
 #' deze interne functie ontwikkeld die voor de vaak voorkomende parameters van
 #' de functies uit dhcurve controleert of de invoer voldoet aan de vereisten.
@@ -8,15 +9,18 @@
 #'
 #' @param Type Het type controle dat moet gebeuren, verwijzend naar de
 #' functie(s) waarvoor het gebruikt wordt.  Mogelijke waarden zijn:
-#' 'initiatie', 'fit', 'basismodel', 'lokaalmodel', 'afgeleidmodel' en
-#' 'afgeleidedata'
+#' `'initiatie'`, `'fit'`, `'basismodel'`, `'lokaalmodel'`, `'afgeleidmodel'` en
+#' `'afgeleidedata'`
+#'
+#' @inheritParams hoogteschatting.basis
 #'
 #' @return Een foutmelding of de geteste dataframe.
 #'
 #' @importFrom assertthat assert_that has_name
+#' @noRd
 #'
 
-invoercontrole <- function(Data, Type) {
+invoercontrole <- function(Data, Type, Uitbreiding = FALSE) {
 
   #controle 'Type'
   assert_that(is.character(Type))
@@ -75,16 +79,16 @@ invoercontrole <- function(Data, Type) {
         msg = "De opgegeven dataframe heeft geen veld met naam Status"
       )
       assert_that(inherits(Data$Status, "character"))
-      if (Type != "afgeleidedata" &
+      if (Type != "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd"))) {
-        stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint
+        stop("De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.")  #nolint: line_length_linter
       }
-      if (Type == "afgeleidedata" &
+      if (Type == "afgeleidedata" &&
           !all(Data$Status %in%
                c("Niet gecontroleerd", "Te controleren", "Goedgekeurd", NA))) {
         stop(
-          "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten." #nolint
+          "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen, NA is ook toegelaten." #nolint: line_length_linter
         )
       }
     }
@@ -104,6 +108,19 @@ invoercontrole <- function(Data, Type) {
         stop("De waarden in de kolom nBomen mogen niet negatief zijn")
       }
 
+      assert_that(has_name(Data, "nBomenOmtrek05"),
+                  msg = "De opgegeven dataframe heeft geen veld met
+                  naam nBomenOmtrek05")
+      if (!isTRUE(all.equal(Data$nBomenOmtrek05,
+                            as.integer(Data$nBomenOmtrek05),
+                            check.attributes = FALSE))) {
+        stop(
+          "De waarden in de kolom nBomenOmtrek05 moeten gehele getallen zijn"
+        )
+      }
+      if (!all(Data$nBomenOmtrek05 >= 0)) {
+        stop("De waarden in de kolom nBomenOmtrek05 mogen niet negatief zijn")
+      }
       assert_that(has_name(Data, "nBomenInterval"),
                   msg = "De opgegeven dataframe heeft geen veld met naam
                   nBomenInterval")
@@ -118,26 +135,26 @@ invoercontrole <- function(Data, Type) {
         stop("De waarden in de kolom nBomenInterval mogen niet negatief zijn")
       }
 
-      assert_that(has_name(Data, "nBomenOmtrek05"),
+      assert_that(has_name(Data, "nBomenIntervalOmtrek05"),
                   msg = "De opgegeven dataframe heeft geen veld met
-                  naam nBomenOmtrek05")
-      if (!isTRUE(all.equal(Data$nBomenOmtrek05,
-                            as.integer(Data$nBomenOmtrek05),
+                  naam nBomenIntervalOmtrek05")
+      if (!isTRUE(all.equal(Data$nBomenIntervalOmtrek05,
+                            as.integer(Data$nBomenIntervalOmtrek05),
                             check.attributes = FALSE))) {
         stop(
-          "De waarden in de kolom nBomenOmtrek05 moeten gehele getallen zijn"
+          "De waarden in de kolom nBomenIntervalOmtrek05 moeten gehele getallen zijn" #nolint: line_length_linter
         )
       }
-      if (!all(Data$nBomenOmtrek05 >= 0)) {
-        stop("De waarden in de kolom nBomenOmtrek05 mogen niet negatief zijn")
+      if (!all(Data$nBomenIntervalOmtrek05 >= 0)) {
+        stop("De waarden in de kolom nBomenIntervalOmtrek05 mogen niet negatief zijn") #nolint: line_length_linter
       }
 
       if (!all(Data$nBomen >= Data$nBomenInterval)) {
         stop("nBomen moet groter zijn dan nBomenInterval")
       }
 
-      if (!all(Data$nBomenInterval >= Data$nBomenOmtrek05)) {
-        stop("nBomenInterval moet groter zijn dan nBomenOmtrek05")
+      if (!all(Data$nBomenInterval >= Data$nBomenIntervalOmtrek05)) {
+        stop("nBomenInterval moet groter zijn dan nBomenIntervalOmtrek05")
       }
 
       assert_that(
@@ -145,9 +162,23 @@ invoercontrole <- function(Data, Type) {
         msg = "De opgegeven dataframe heeft geen veld met naam Omtrek"
       )
       assert_that(inherits(Data$Omtrek, "numeric"))
-      if (!all(round(Data$Omtrek * 100) %in% seq(25, 235, 10))) {
-        stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
-             (geldige omtrekklassen zijn 0.25, 0.35, 0.45,... t.e.m. 2.35)")
+      if (!Uitbreiding && Type != "afgeleidedata") {
+        if (!all(round(Data$Omtrek * 100) %in% seq(15, 265, 10))) {
+          stop("Omtrek bevat waarden die geen geldige omtrekklassen zijn
+            (geldige omtrekklassen zijn 0.15, 0.25, 0.35, 0.45,... t.e.m. 2.65)"
+          )
+        }
+        assert_that(
+          has_name(Data, "nExtra"),
+          msg = "De opgegeven dataframe heeft geen veld met naam nExtra"
+        )
+        if (!isTRUE(all.equal(Data$nExtra, as.integer(Data$nExtra),
+                              check.attributes = FALSE))) {
+          stop("De waarden in de kolom nExtra moeten gehele getallen zijn")
+        }
+        if (!all(Data$nExtra >= 0)) {
+          stop("De waarden in de kolom nExtra mogen niet negatief zijn")
+        }
       }
 
       assert_that(has_name(Data, "Q5k"),

@@ -1,70 +1,70 @@
-#' Berekent de modelparameters per domein
+#' @title Berekent de modelparameters per domein
 #'
+#' @description
 #' De functie resultaat berekent op basis van de opgegeven modellen voor elke
 #' boomsoort-domeincombinatie de modelparameters A, B en C voor een model van
-#' de vorm \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A +
-#' B.log(Omtrek) + C.log(Omtrek)^2}.
+#' de vorm
+#' \eqn{Hoogte \sim A + B\log(Omtrek) + C\log(Omtrek)^2}{Hoogte ~ A + B.log(Omtrek) + C.log(Omtrek)^2}.
 #'
-#' Voor deze functie worden volgende hulpfuncties aangeroepen: modelparameters,
-#' rsme.basis en rsme.afgeleid
+#' Voor deze functie worden volgende hulpfuncties aangeroepen:
+#' `modelparameters()`, `rsme.basis()` en `rsme.afgeleid()`
 #'
-#' Verder worden parameters A, B en C uit het model gehaald (coef) en een
-#' aantal in de functie initiatie berekende gegevens toegevoegd .
+#' Verder worden parameters `A`, `B` en `C` uit het model gehaald en een
+#' aantal in de functie `initiatie()` berekende gegevens toegevoegd.
 #'
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
-#' fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-#' gefit mixed model voor die boomsoort).
-#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven
-#' door de functie fit.afgeleid: list met 2 tibbles.
+#' `fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
+#' (`lme`-object met het gefit mixed model voor die boomsoort).
+#' @param Afgeleidmodel Model per boomsoort-domeincombinatie zoals teruggegeven
+#' door de functie `fit.afgeleid()`: list met 2 tibbles.
 #' @param Lokaalmodel Model per boomsoort-domeincombinatie zoals teruggegeven
-#' door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-#' en Model (lm-object met het gefit lineair model voor die
+#' door de functie `fit.lokaal()`: tibble met de velden `BMS` (boomsoort),
+#' `DOMEIN_ID` en `Model` (`lm`-object met het gefit lineair model voor die
 #' boomsoort-domeincombinatie).
 #' @param Data.lokaal Dataset op basis waarvan het opgegeven lokaal model
 #' berekend is.
 #' @param Data.onbruikbaar Evt. lijst met meetresultaten van
-#' domein-boomsoort-combinaties waarvoor geen model opgesteld kan worden, in de
-#' vorm van een dataframe zoals de dataframe "Rest" uit de list die door de
-#' funtie initiatie teruggegeven wordt.
+#' boomsoort-domeincombinaties waarvoor geen model opgesteld kan worden, in de
+#' vorm van een dataframe zoals de dataframe `Rest` uit de list die door de
+#' functie `initiatie()` teruggegeven wordt.
 #'
 #' @return Dataframe met modellen per domein en per boomsoort met velden:
-#'
-#' - DomeinID (identificatienummer voor domein)
-#'
-#' - BMS (boomsoort)
-#'
-#' - Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-#' ‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-#' basismodel) /
-#' ‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-#' omdat niet relevant) / 'lokaal model'(= eigen model voor 1
-#' boomsoort-domeincombinatie) / 'geen model'(= boomsoort-domeincombinatie
-#' waarvoor minstens 1 boom opgemeten is maar geen model berekend kan worden))
-#'
-#' - paramaters A, B en C (zie description)
-#'
-#' - bruikbaar interval (Q5k en Q95k, zie vignette voor meer info)
-#'
-#' - RMSE (root mean square error, zie vignette voor meer info)
-#'
-#' - nBomen (totaal aantal opgemeten bomen met omtrek tussen 0,2 en 2,4 m)
-#'
-#' - nBomenInterval (aantal metingen waarop model gebaseerd is)
-#'
-#' - nBomenOmtrek05 (aantal metingen > 0.5 m, dus waarop rmse-berekening
-#' gebaseerd is)
+#' - `DomeinID` (identificatienummer voor domein)
+#' - `BMS` (boomsoort)
+#' - `Modeltype` ("basismodel"(= eigen model op basis van mixed model) of
+#'     "afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
+#'     basismodel) of
+#'     "Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
+#'     omdat niet relevant) of "lokaal model"(= eigen model voor 1
+#'     boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
+#'     waarvoor minstens 1 boom opgemeten is maar geen model berekend kan
+#'     worden))
+#' - parameters `A`, `B` en `C` (zie 'Description' bovenaan)
+#' - bruikbaar interval (`Q5k` en `Q95k`, zie vignet voor meer info)
+#' - `RMSE` (root mean square error, zie vignet voor meer info)
+#' - `nBomen` (totaal aantal opgemeten bomen met omtrek tussen 0,2 en
+#'     3,0 m)
+#' - `nBomenOmtrek05` (aantal metingen met omtrek tussen 0.5 en 2,8 m,
+#'     dus waarop afgeleid model gebaseerd is)
+#' - `nBomenInterval` (aantal metingen binnen bruikbaar interval, dus
+#'     waarop basismodel of lokaal model gebaseerd is)
+#' - `nBomenIntervalOmtrek05` (aantal metingen binnen bruikbaar interval
+#'     met omtrek > 0.5 m, dus waarop RMSE-berekening gebaseerd is)
+#' - `nExtra` (aantal metingen boven bruikbaar interval waarop een eventuele
+#'     uitbreiding gebaseerd is)
 #'
 #' evt. kan een tweede dataframe toegevoegd worden met Vlaamse modellen per
 #' boomsoort, of deze kan toegevoegd worden aan de vorige dataframe, waarbij
-#' DomeinID leeg gelaten wordt of een specifieke waarde
-#' ‘Vlaams model’ krijgt
+#' `DomeinID` leeg gelaten wordt of een specifieke waarde
+#' "Vlaams model" krijgt
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% select left_join rowwise do ungroup rename mutate
-#' bind_rows group_by
+#' bind_rows group_by filter
 #' @importFrom plyr .
 #' @importFrom rlang .data
+#' @importFrom assertthat has_name
 #'
 
 resultaat <-
@@ -74,26 +74,44 @@ resultaat <-
   if (!is.null(Basismodel)) {
     invoercontrole(Basismodel, "basismodel")
     Modellen.basis <- modelparameters(Basismodel) %>%
-    select(-.data$Q5k, -.data$Q95k) %>%
-    left_join(Basismodel %>%
-                rowwise() %>%
-                do(
-                  rmse.basis(.$Model$data, "Basis", .$BMS)
-                ) %>%
-                ungroup(),
-              c("BMS", "DOMEIN_ID")) %>%
-    select(-.data$maxResid)
+      select(-"Q5k", -"Q95k") %>%
+      left_join(Basismodel %>%
+                  rowwise() %>%
+                  do(
+                    rmse.basis(.$Model$data, "Basis", .$BMS)
+                  ) %>%
+                  ungroup(),
+                c("BMS", "DOMEIN_ID")) %>%
+      select(-"maxResid")
 
     Modellen <- Modellen.basis %>%
-      select(-.data$Avl, -.data$Bvl, -.data$Cvl, -.data$rmseVL) %>%
+      select(-"Avl", -"Bvl", -"Cvl", -"rmseVL") %>%
       rename(
-        A = .data$Ad,
-        B = .data$Bd,
-        C = .data$Cd,
-        RMSE = .data$rmseD
+        A = "Ad",
+        B = "Bd",
+        C = "Cd",
+        RMSE = "rmseD"
       ) %>%
       mutate(
         Modeltype = "basismodel"
+      ) %>%
+      left_join(
+        Basismodel %>%
+          rowwise() %>%
+          do(
+            merge(
+              .$BMS,
+              (.$Model$data %>%
+                 select("DOMEIN_ID", "nExtra") %>%
+                 distinct()
+              )
+            )
+          ) %>%
+          transmute(
+            BMS = .data$x,
+            .data$DOMEIN_ID, .data$nExtra
+          ),
+        by = c("BMS", "DOMEIN_ID")
       )
 
     # volgende code is om ook de Vlaamse modellen toe te voegen aan de
@@ -103,26 +121,26 @@ resultaat <-
     # voegen we het niet toe
 
     # Modellen.Vlaams <- Modellen.basis %>%
-    #   select(-.data$Ad, -.data$Bd, -.data$Cd, -.data$rmseD) %>%
+    #   select(-"Ad", -"Bd", -"Cd", -"rmseD") %>%
     #   mutate(
-    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenOmtrek05 - 2)    #nolint
+    #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   group_by(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
     #   summarise(
-    #     nBomen = sum(.data$nBomen),
-    #     nBomenInterval = sum(.data$nBomenInterval),
-    #     nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))   #nolint
+    #     nBomen = sum(.data$nBomen),  #nolint: commented_code_linter
+    #     nBomenInterval = sum(.data$nBomenInterval),  #nolint: commented_code_linter, line_length_linter
+    #     nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),  #nolint: commented_code_linter, line_length_linter
+    #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))   #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   ungroup() %>%
     #   rename(
-    #     A = .data$Avl,
-    #     B = .data$Bvl,
-    #     C = .data$Cvl,
-    #     nBomenOmtrek05 = .data$nBomenOmtrek05VL    #nolint
+    #     A = .data$Avl,  #nolint: commented_code_linter
+    #     B = .data$Bvl,  #nolint: commented_code_linter
+    #     C = .data$Cvl,  #nolint: commented_code_linter
+    #     nBomenIntervalOmtrek05 = .data$nBomenIntervalOmtrek05VL    #nolint: commented_code_linter, line_length_linter
     #   ) %>%
     #   mutate(
-    #     Modeltype = "Vlaams model"     #nolint
+    #     Modeltype = "Vlaams model"     #nolint:  commented_code_linter
     #   )
 
     if (!is.null(Afgeleidmodel)) {
@@ -136,12 +154,12 @@ resultaat <-
         ) %>%
         ungroup() %>%
         mutate(
-          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
+          sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenIntervalOmtrek05 - 2)
         ) %>%
         group_by(.data$BMS) %>%
         summarise(
-          nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
+          nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
+          rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))
         ) %>%
         ungroup()
 
@@ -153,7 +171,7 @@ resultaat <-
         ) %>%
         ungroup() %>%
         inner_join(
-          RmseVL %>% select(.data$BMS, .data$rmseVL),
+          RmseVL %>% select("BMS", "rmseVL"),
           by = c("BMS")
         ) %>%
         mutate(
@@ -166,15 +184,16 @@ resultaat <-
         bind_rows(
           Afgeleidmodel[[2]] %>%
             select(
-              .data$BMS,
-              .data$DOMEIN_ID,
-              .data$nBomen,
-              .data$nBomenInterval,
-              .data$nBomenOmtrek05
+              "BMS",
+              "DOMEIN_ID",
+              "nBomen",
+              "nBomenOmtrek05",
+              "nBomenInterval",
+              "nBomenIntervalOmtrek05"
             ) %>%
             distinct() %>%
             left_join(
-              RmseAfg %>% select(.data$BMS, .data$DOMEIN_ID, .data$rmseD),
+              RmseAfg %>% select("BMS", "DOMEIN_ID", "rmseD"),
               by = c("BMS", "DOMEIN_ID")
             ) %>%
             left_join(
@@ -188,8 +207,9 @@ resultaat <-
               B = .data$Bvl,
               C = .data$Cvl,
               .data$nBomen,
-              .data$nBomenInterval,
               .data$nBomenOmtrek05,
+              .data$nBomenInterval,
+              .data$nBomenIntervalOmtrek05,
               .data$Q5k,
               .data$Q95k,
               RMSE = .data$rmseD
@@ -212,12 +232,17 @@ resultaat <-
     if (is.null(Data.lokaal)) {
       stop("Bij opgave van een lokaal model moet je ook de dataset meegeven")
     } else {
+      if (has_name(Data.lokaal, "VoorModelFit")) {
+        Data.lokaal <- Data.lokaal %>%
+          filter(.data$VoorModelFit) %>%
+          select(-"VoorModelFit")
+      }
       invoercontrole(Data.lokaal, "fit")
     }
 
     Modellen.lokaal <-
       modelparameters(Lokaalmodel, Data.lokaal) %>%
-      select(-.data$Q5k, -.data$Q95k) %>%
+      select(-"Q5k", -"Q95k") %>%
       left_join(Data.lokaal %>%
                   group_by(
                     .data$BMS,
@@ -229,23 +254,30 @@ resultaat <-
                   ungroup(),
                 c("BMS", "DOMEIN_ID")) %>%
       select(
-        .data$DOMEIN_ID,
-        .data$BMS,
-        A = .data$Ad,
-        B = .data$Bd,
-        C = .data$Cd,
-        .data$nBomen,
-        .data$nBomenInterval,
-        .data$nBomenOmtrek05,
-        .data$Q5k,
-        .data$Q95k,
-        RMSE = .data$rmseD
+        "DOMEIN_ID",
+        "BMS",
+        A = "Ad",
+        B = "Bd",
+        C = "Cd",
+        "nBomen",
+        "nBomenOmtrek05",
+        "nBomenInterval",
+        "nBomenIntervalOmtrek05",
+        "Q5k",
+        "Q95k",
+        RMSE = "rmseD"
       ) %>%
       mutate(
         Modeltype = "lokaal model"
+      ) %>%
+      left_join(
+        Data.lokaal %>%
+          select("DOMEIN_ID", "BMS", "nExtra") %>%
+          distinct(),
+        by = c("DOMEIN_ID", "BMS")
       )
 
-    if (exists("Modellen") & !is.null(Basismodel)) {
+    if (exists("Modellen") && !is.null(Basismodel)) {
       Modellen <- Modellen %>%
         bind_rows(Modellen.lokaal)
     } else {
@@ -254,18 +286,18 @@ resultaat <-
   }
 
   if (!is.null(Data.onbruikbaar)) {
-    invoercontrole(Data.onbruikbaar, "fit")
+    invoercontrole(Data.onbruikbaar, "fit", Uitbreiding = TRUE)
 
     Lijst.onbruikbaar <- Data.onbruikbaar %>%
       select(
-        .data$DOMEIN_ID, .data$BMS,
-        .data$nBomen, .data$nBomenInterval, .data$nBomenOmtrek05,
-        .data$Q5k, .data$Q95k
-        ) %>%
-        distinct() %>%
-        mutate(
-          Modeltype = "Geen model"
-        )
+        "DOMEIN_ID", "BMS",
+        "nBomen", "nBomenOmtrek05", "nBomenInterval", "nBomenIntervalOmtrek05",
+        "Q5k", "Q95k"
+      ) %>%
+      distinct() %>%
+      mutate(
+        Modeltype = "Geen model"
+      )
 
     if (exists("Modellen")) {
       Modellen <- Modellen %>%

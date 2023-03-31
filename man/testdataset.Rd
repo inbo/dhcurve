@@ -24,9 +24,12 @@ testdataset(
 \item{maxOmtrek}{Maximale omtrek voor de data}
 }
 \value{
-Dataframe met testdata voor 1 boomsoort met velden ...
+Dataframe met testdata voor 1 boomsoort met velden \code{BMS}, \code{IDbms},
+\code{DOMEIN_ID}, \code{BOS_BHI}, \code{C13}, \code{HOOGTE}, \code{Status} en \code{ID}.
 }
 \description{
 Deze functie genereert een testdataset die voldoet aan de opgegeven
 vereisten.
+De testdataset kan gebruikt worden om het package te testen, ze voldoet als
+invoer voor functie \code{initiatie()}
 }

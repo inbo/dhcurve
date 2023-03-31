@@ -1,4 +1,5 @@
 *.html
+.DS_Store
 .github/*.html
 .httr-oauth
 .RData
@@ -11,3 +12,5 @@ inst/dbpath
 inst/dh_curve.pdf
 inst/tijdelijk
 inst/wdpath
+/doc/
+/Meta/

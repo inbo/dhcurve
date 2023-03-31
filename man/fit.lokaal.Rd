@@ -7,23 +7,27 @@
 fit.lokaal(Data.lokaal)
 }
 \arguments{
-\item{Data.lokaal}{De dataframe "Lokaal" uit de list die teruggegeven wordt
-bij de functie initiatie.  (Een dataframe met minimaal de velden BMS
-(boomsoort), IDbms (identificatienummer van de boomsoort), DOMEIN_ID
-(identificatienummer van het domein), BOS_BHI (domeinnaam), HOOGTE, Omtrek,
-logOmtrek, logOmtrek2, Status (van data: niet gecontroleerd,
-gecontroleerd,...), nBomen (aantal bomen per boomsoort-domeincombinatie),
-nBomenInterval (aantal bomen per boomsoort-domeincombinatie binnen bruikbaar
-interval), nBomenOmtrek05 (aantal bomen per boomsoort-domeincombinatie binnen
-bruikbaar interval met omtrek > 0.5 m), Q5k en Q95k ('bruikbaar interval').)}
+\item{Data.lokaal}{De dataframe \code{Lokaal} uit de list die teruggegeven wordt
+bij de functie \code{initiatie()}.  (Een dataframe met minimaal de velden \code{BMS}
+(boomsoort), \code{IDbms} (identificatienummer van de boomsoort), \code{DOMEIN_ID}
+(identificatienummer van het domein), \code{BOS_BHI} (domeinnaam), \code{HOOGTE},
+\code{Omtrek}, \code{logOmtrek}, \code{logOmtrek2},
+\code{Status} (van data: "niet gecontroleerd", "gecontroleerd",...),
+\code{nBomen} (aantal bomen per boomsoort-domeincombinatie),
+\code{nBomenOmtrek05} (aantal bomen per boomsoort-domeincombinatie met
+omtrek > 0.5 m),
+\code{nBomenInterval} (aantal bomen per boomsoort-domeincombinatie binnen
+bruikbaar interval), \code{nBomenIntervalOmtrek05} (aantal bomen per
+boomsoort-domeincombinatie binnen bruikbaar interval met omtrek > 0.5 m),
+\code{Q5k} en \code{Q95k} ("bruikbaar interval").)}
 }
 \value{
-Dataframe (tibble) met de velden BMS (boomsoort), DOMEIN_ID en Model
-(lm-object met het gefit lineair model voor die boomsoort-domeincombinatie).
+Dataframe (tibble) met de velden \code{BMS} (boomsoort), \code{DOMEIN_ID} en
+\code{Model} (\code{lm}-object met het gefit lineair model voor die
+boomsoort-domeincombinatie).
 }
 \description{
 Functie die het lineair (fixed) model
-\eqn{Hoogte_{lokaal} \sim A_{domein} + B_{domein} \log({Omtrek}) +
-C_{domein} \log(Omtrek)^2}{Hoogte(lokaal) ~ A(domein) + B(domein).log(Omtrek)
-+ C(domein).log(Omtrek)^2} fit op basis van de opgegeven dataset.
+\eqn{Hoogte_{lokaal} \sim A_{domein} + B_{domein} \log({Omtrek}) + C_{domein} \log(Omtrek)^2}{Hoogte(lokaal) ~ A(domein) + B(domein).log(Omtrek) + C(domein).log(Omtrek)^2}
+fit op basis van de opgegeven dataset.
 }

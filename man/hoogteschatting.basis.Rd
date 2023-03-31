@@ -4,18 +4,28 @@
 \alias{hoogteschatting.basis}
 \title{Hoogteschatting op basis van opgegeven basismodel}
 \usage{
-hoogteschatting.basis(Soortmodel, Soortdata, Typemodel, BMS)
+hoogteschatting.basis(
+  Soortmodel,
+  Soortdata,
+  Typemodel,
+  BMS,
+  Uitbreiding = FALSE
+)
 }
 \arguments{
 \item{Soortmodel}{model voor één boomsoort (basis) of één
-boomsoort-domein-combinatie (lokaal)}
+boomsoort-domeincombinatie (lokaal)}
 
 \item{Soortdata}{meetgegevens van boomsoort (basis) of
-domein-boomsoort-combinatie (lokaal)}
+boomsoort-domeincombinatie (lokaal)}
 
-\item{Typemodel}{'Basis' of 'Lokaal'?}
+\item{Typemodel}{"Basis" of "Lokaal"?}
 
 \item{BMS}{Boomsoort}
+
+\item{Uitbreiding}{Gaat het hier over berekening voor een uitbreiding?
+(Facultatief argument om met hogere hoogteklassen te kunnen omgaan.)
+Default is \code{FALSE}, wat betekent dat het niet over een uitbreiding gaat.}
 }
 \value{
 dataframe met de meetresultaten en de schattingen van de hoogtes
@@ -28,7 +38,7 @@ kan gebruikt worden om grafieken te maken of afwijkende metingen te
 bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit
 package werkt deze functie op basis van 1 model en de bijhorende
 meetgegevens.  Zie voorbeelden voor een methode om deze functie te kunnen
-toepassen op Basismodel of Lokaalmodel + Data.lokaal.
+toepassen op het \code{Basismodel} of het \code{Lokaalmodel} en \code{Data.lokaal}.
 }
 \examples{
 library(dplyr)
@@ -65,7 +75,7 @@ Lokaalmodel \%>\%
   do(
     hoogteschatting.basis(.$Model[[1]],
                            select(., -Model),
-                           "Lokaal", .$BMS)
+                           "Lokaal", unique(.$BMS))
   ) \%>\%
   ungroup()
 

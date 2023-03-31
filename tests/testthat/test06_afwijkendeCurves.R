@@ -34,6 +34,11 @@ describe("afwijkendecurves", {
     select(Ad, Bd, Cd)
 
 
+  it("functie afwijkendecurves() geeft geen warnings", {
+    expect_no_warning(afwijkendeCurves(Basismodel))
+    expect_no_warning(afwijkendeCurves(Lokaalmodel, Lokaledata))
+  })
+
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeCurves(Basismodel) %>%
                    as_tibble(),

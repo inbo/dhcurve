@@ -22,7 +22,9 @@ describe("resultaat", {
   it("De parameters worden correct berekend voor domeinen van het Basismodel", {
     resultaat <- resultaat(Basismodel1) %>%
       filter(DOMEIN_ID %in% c("HM", "LM")) %>%
-      select(-nBomenInterval, -nBomenOmtrek05) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -nExtra
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
@@ -47,7 +49,9 @@ describe("resultaat", {
     expect_error(resultaat(Lokaalmodel = Lokaalmodel))
     resultaat <-
       resultaat(Lokaalmodel = Lokaalmodel, Data.lokaal = Lokaledata) %>%
-      select(-nBomenInterval, -nBomenOmtrek05) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -nExtra
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
@@ -72,12 +76,41 @@ describe("resultaat", {
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
+  it("functie resultaat() geeft geen warnings", {
+    expect_no_warning(resultaat(Basismodel2, Afgeleidmodel,
+                                Lokaalmodel, Lokaledata,
+                                Data.onbruikbaar =
+                                  data.frame(
+                                    BMS = "restboom",
+                                    DOMEIN_ID = "A",
+                                    nBomenOmtrek05 = 0,
+                                    nBomenInterval = 1,
+                                    nBomenIntervalOmtrek05 = 0,
+                                    IDbms = 20,
+                                    BOS_BHI = "DOMEIN_A",
+                                    C13 = 41,
+                                    HOOGTE = 18,
+                                    Status = "Niet gecontroleerd",
+                                    ID = 3000,
+                                    Omtrek = 0.45,
+                                    logOmtrek = log(0.45),
+                                    logOmtrek2 = log(0.45) ^ 2,
+                                    nBomen = 5,
+                                    Q5k = 0.25,
+                                    Q95k = 0.45,
+                                    nExtra = 1,
+                                    stringsAsFactors = FALSE
+                                  )))
+  })
+
   it("De parameters worden correct berekend voor Afgeleid model", {
     expect_error(resultaat(Afgeleidmodel))
     expect_error(resultaat(Afgeleidmodel = Afgeleidmodel))
     resultaat <- resultaat(Basismodel2, Afgeleidmodel = Afgeleidmodel) %>%
       filter(Modeltype == "afgeleid model") %>%
-      select(-nBomenInterval, -nBomenOmtrek05, -RMSE) %>%
+      select(
+        -nBomenOmtrek05, -nBomenInterval, -nBomenIntervalOmtrek05, -RMSE
+      ) %>%
       as.data.frame(., stringsAsFactors = FALSE)
     attr(resultaat$Q5k, "names") <- NULL
     attr(resultaat$Q95k, "names") <- NULL
@@ -92,6 +125,7 @@ describe("resultaat", {
                             Q5k = 0.55,
                             Q95k = 2.35,
                             Modeltype = "afgeleid model",
+                            nExtra = NA_integer_,
                             stringsAsFactors = FALSE),
                  tolerance = 1)
   })
@@ -104,8 +138,9 @@ describe("resultaat", {
                              data.frame(
                                BMS = "restboom",
                                DOMEIN_ID = "A",
-                               nBomenInterval = 1,
                                nBomenOmtrek05 = 0,
+                               nBomenInterval = 1,
+                               nBomenIntervalOmtrek05 = 0,
                                IDbms = 20,
                                BOS_BHI = "DOMEIN_A",
                                C13 = 41,
@@ -134,8 +169,9 @@ describe("resultaat", {
                              data.frame(
                                BMS = "restboom",
                                DOMEIN_ID = "A",
-                               nBomenInterval = 1,
                                nBomenOmtrek05 = 0,
+                               nBomenInterval = 1,
+                               nBomenIntervalOmtrek05 = 0,
                                IDbms = 20,
                                BOS_BHI = "DOMEIN_A",
                                C13 = 41,
@@ -161,8 +197,9 @@ describe("resultaat", {
                              data.frame(
                                BMS = "restboom",
                                DOMEIN_ID = "A",
-                               nBomenInterval = 1,
                                nBomenOmtrek05 = 0,
+                               nBomenInterval = 1,
+                               nBomenIntervalOmtrek05 = 0,
                                IDbms = 20,
                                BOS_BHI = "DOMEIN_A",
                                C13 = 41,

@@ -10,9 +10,16 @@ describe("fit", {
 
   library(dplyr)
   library(tibble)
+  set.seed(123456)
 
   Data <- testdataset() %>%
-    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2))
+    bind_rows(testdataset(c(100, 100), BMS = "andereboom", IDbms = 2)) %>%
+    bind_rows(
+      testdataset(20, maxOmtrek = 280) %>%
+        mutate(
+          DOMEIN_ID = "J", BOS_BHI = "Domein_J"
+        )
+    )
 
   Datalijst <- initiatie(Data)
 
@@ -20,6 +27,12 @@ describe("fit", {
   Data.afgeleid <- Datalijst[["Afgeleid"]]
   Data.lokaal <- Datalijst[["Lokaal"]]
 
+
+  it("fit-functies geven geen warnings", {
+    expect_no_warning(Basismodel <- fit.basis(Data.basis))
+    expect_no_warning(fit.afgeleid(Data.afgeleid, Basismodel))
+    expect_no_warning(fit.lokaal(Data.lokaal))
+  })
 
   it("Output van fit.basis is correct (tibble met velden BMS en Model)", {
       expect_is(fit.basis(Data.basis), "data.frame")
@@ -56,9 +69,11 @@ describe("fit", {
 
   Basismodel <- fit.basis(Data.basis)
   Kolomnamen <-
-    c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05", "nBomen",
+    c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+      "nBomenIntervalOmtrek05", "nBomen",
       "Q5k", "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95", "BMS")
+      "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+      "Q5", "Q95", "BMS")
 
   it("Output van fit.afgeleid is correct (list met 2 tibbles)", {
       expect_error(fit.afgeleid(Data.afgeleid),
@@ -69,7 +84,7 @@ describe("fit", {
                    c("DOMEIN_ID", "BMS", "Model"))
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[1]] %>%
                      select(BMS, DOMEIN_ID),
-                   tibble(BMS = "testboom", DOMEIN_ID = c("G", "H")))
+                   tibble(BMS = "testboom", DOMEIN_ID = c("G", "H", "J")))
       expect_type(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model,
                   "list")
       expect_s3_class(fit.afgeleid(Data.afgeleid, Basismodel)[[1]]$Model[[1]],
@@ -80,10 +95,24 @@ describe("fit", {
                    Kolomnamen)
       expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[2]] %>%
                      select(-H_VL_finaal, -BMS) %>%
-                     filter(!is.na(C13)) %>%
+                     filter(!is.na(C13), DOMEIN_ID != "J") %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE),
                    Data.afgeleid %>%
+                     filter(
+                       Omtrek %in% unique(Data.basis$Omtrek),
+                       DOMEIN_ID != "J") %>%
+                     select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
+                     arrange(C13, HOOGTE) %>%
+                     as.data.frame(., stringsAsFactors = FALSE))
+      expect_equal(fit.afgeleid(Data.afgeleid, Basismodel)[[2]] %>%
+                     select(-H_VL_finaal, -BMS) %>%
+                     filter(!is.na(C13), DOMEIN_ID == "J") %>%
+                     arrange(C13, HOOGTE) %>%
+                     as.data.frame(., stringsAsFactors = FALSE),
+                   Data.afgeleid %>%
+                     filter(
+                       DOMEIN_ID == "J") %>%
                      select(setdiff(Kolomnamen, "H_VL_finaal"), -BMS) %>%
                      arrange(C13, HOOGTE) %>%
                      as.data.frame(., stringsAsFactors = FALSE))

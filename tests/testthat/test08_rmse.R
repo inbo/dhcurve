@@ -10,7 +10,7 @@ library(dplyr)
 
 for (rmse in c(1, 3, 10)) {
 
-describe(sprintf("rmse", rmse), {
+describe(sprintf("rmse %d", rmse), {
 
   Data <- dataAfwijkendeCurve(nBomen = 10000, sd = rmse)
 
@@ -21,8 +21,9 @@ describe(sprintf("rmse", rmse), {
   it("De rmse wordt correct berekend voor domeinen van het Basismodel", {
     expect_equal(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "rmseVL",
                    "maxResid"))
     expect_equal(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)) %>%
                    filter(
@@ -42,8 +43,10 @@ describe(sprintf("rmse", rmse), {
                               filter(DOMEIN_ID == "HM"),
                             "Lokaal", unique(Lokaledata$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenOmtrek05", "Q5k", "Q95k", "rmseD", "maxResid"))
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "maxResid")
+                 )
     expect_equal(rmse.basis(Lokaledata %>%
                               filter(DOMEIN_ID == "HM"),
                             "Lokaal", unique(Lokaledata$BMS)) %>%
@@ -81,9 +84,9 @@ describe(sprintf("rmse", rmse), {
   it("De output van de functie is correct voor Vlaams model (Basismodel)", {
     expect_equal(rmse.basis(Basisdata2, "Basis", unique(Basisdata2$BMS)) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenInterval",
-                   "nBomenOmtrek05", "Q5k", "Q95k", "rmseD", "rmseVL",
-                   "maxResid"))
+                 c("BMS", "DOMEIN_ID", "nBomen", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "Q5k", "Q95k",
+                   "rmseD", "rmseVL", "maxResid"))
     expect_is(
       rmse.basis(Basisdata2, "Basis", unique(Basisdata2$BMS))$rmseVL, "numeric"
     )
@@ -107,6 +110,15 @@ describe(sprintf("rmse", rmse), {
                               RmseVerschuiving = rmse,
                               stringsAsFactors = FALSE),
                    tolerance = 0.1)
+  })
+
+  it("de rmse-functies geven geen warnings", {
+    expect_no_warning(rmse.basis(Basisdata1, "Basis", unique(Basisdata1$BMS)))
+    expect_no_warning(rmse.basis(Lokaledata %>%
+                                   filter(DOMEIN_ID == "LM"),
+                                 "Lokaal", unique(Lokaledata$BMS)))
+    expect_no_warning(
+      rmse.verschuiving(Afgeleidmodel[[1]]$Model[[1]], "testboom", "Klein"))
   })
 
 })

@@ -51,7 +51,7 @@ describe("initiatie", {
                         stringsAsFactors = FALSE)
 
   Resultaat1 <- data.frame(nBomenInterval = 55,
-                           nBomenOmtrek05 = 55)
+                           nBomenIntervalOmtrek05 = 55)
   Resultaat2 <- data.frame(C13 = 100,
                            HOOGTE = 20,
                            Status = "Te controleren",
@@ -60,6 +60,7 @@ describe("initiatie", {
   Resultaat3 <- data.frame(logOmtrek = 0.048790164169,
                        logOmtrek2 = 0.00238048011968,
                        nBomen = 55,
+                       nBomenOmtrek05 = 55,
                        Q5 = 0.95,
                        Q5k = 0.95,
                        Q95 = 1.15,
@@ -67,6 +68,7 @@ describe("initiatie", {
   Resultaat3rest <- data.frame(logOmtrek = 0.048790164169,
                            logOmtrek2 = 0.00238048011968,
                            nBomen = 45,
+                           nBomenOmtrek05 = 45,
                            Q5 = 0.95,
                            Q5k = 0.95,
                            Q95 = 1.15,
@@ -77,11 +79,19 @@ describe("initiatie", {
                                           rep(55, 55),
                                           rep(45, 45),
                                           rep(15, 15)),
+                               nBomenOmtrek05 = c(rep(45, 45),
+                                                     rep(55, 55),
+                                                     rep(45, 45),
+                                                     rep(15, 15)),
                                Q5 = 0.95,
                                Q5k = 0.95,
                                Q95 = 1.15,
                                Q95k = 1.15)
 
+
+  it("initiatie() geeft geen warnings", {
+    expect_no_warning(initiatie(Dataset))
+  })
 
   it("Dataset wordt correct opgedeeld", {
     expect_is(
@@ -113,12 +123,14 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = "SoortModel",
                             DOMEIN_ID = c(rep("BosKlein", 15)),
                             nBomenInterval = 15,
-                            nBomenOmtrek05 = 15,
+                            nBomenIntervalOmtrek05 = 15,
                             BOS_BHI = c(rep("BosKlein", 15)),
                             IDbms = 1,
                             C13 = 100,
@@ -129,6 +141,7 @@ describe("initiatie", {
                             logOmtrek = 0.048790164169,
                             logOmtrek2 = 0.00238048011968,
                             nBomen = 15,
+                            nBomenOmtrek05 = 15,
                             Q5 = 0.95,
                             Q5k = 0.95,
                             Q95 = 1.15,
@@ -145,6 +158,8 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(56:110, 211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),
@@ -153,7 +168,7 @@ describe("initiatie", {
                             DOMEIN_ID = c(rep("Bos1", 45),
                                           rep("Bos6", 45)),
                             nBomenInterval = 45,
-                            nBomenOmtrek05 = 45,
+                            nBomenIntervalOmtrek05 = 45,
                             BOS_BHI = c(rep("Bos1", 45),
                                         rep("Bos6", 45)),
                             IDbms = c(rep(3, 45),
@@ -200,12 +215,14 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = character(),
                             DOMEIN_ID = character(),
                             nBomenInterval = integer(),
-                            nBomenOmtrek05 = integer(),
+                            nBomenIntervalOmtrek05 = integer(),
                             BOS_BHI = character(),
                             IDbms = double(),
                             C13 = double(),
@@ -216,8 +233,9 @@ describe("initiatie", {
                             logOmtrek = double(),
                             logOmtrek2 = double(),
                             nBomen = integer(),
+                            nBomenOmtrek05 = integer(),
                             Q5 = double(),
-                            Q5k = logical(),
+                            Q5k = double(),
                             Q95 = double(),
                             Q95k = double(),
                             stringsAsFactors = FALSE))
@@ -230,6 +248,8 @@ describe("initiatie", {
                             Resultaat2,
                             Rijnr = c(211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),
@@ -243,7 +263,7 @@ describe("initiatie", {
                                                rep(55, 55),
                                                rep(45, 45),
                                                rep(15, 15)),
-                            nBomenOmtrek05 = c(rep(45, 45),
+                            nBomenIntervalOmtrek05 = c(rep(45, 45),
                                                rep(55, 55),
                                                rep(45, 45),
                                                rep(15, 15)),
@@ -299,12 +319,14 @@ describe("initiatie", {
                             Resultaat2status,
                             Rijnr = c(1:55, 156:210, 266:485),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Afgeleid"]]),
                  data.frame(BMS = "SoortModel",
                             DOMEIN_ID = c(rep("BosKlein", 15)),
                             nBomenInterval = 15,
-                            nBomenOmtrek05 = 15,
+                            nBomenIntervalOmtrek05 = 15,
                             BOS_BHI = c(rep("BosKlein", 15)),
                             IDbms = 1,
                             C13 = 100,
@@ -315,6 +337,7 @@ describe("initiatie", {
                             logOmtrek = 0.048790164169,
                             logOmtrek2 = 0.00238048011968,
                             nBomen = 15,
+                            nBomenOmtrek05 = 15,
                             Q5 = 0.95,
                             Q5k = 0.95,
                             Q95 = 1.15,
@@ -331,6 +354,8 @@ describe("initiatie", {
                             Resultaat2status,
                             Rijnr = c(56:110, 211:265),
                             Resultaat3,
+                            VoorModelFit = TRUE,
+                            nExtra = 0,
                             stringsAsFactors = FALSE))
     expect_equal(as.data.frame(Output[["Rest"]]) %>%
                    arrange(Rijnr),
@@ -339,7 +364,7 @@ describe("initiatie", {
                             DOMEIN_ID = c(rep("Bos6", 45),
                                           rep("Bos1", 45)),
                             nBomenInterval = 45,
-                            nBomenOmtrek05 = 45,
+                            nBomenIntervalOmtrek05 = 45,
                             BOS_BHI = c(rep("Bos6", 45),
                                         rep("Bos1", 45)),
                             IDbms = c(rep(2, 45),
@@ -356,12 +381,152 @@ describe("initiatie", {
                  "De bestandnaam moet eindigen op '.html'")
   })
 
-  Dataset$Status <-
-    ifelse(Dataset$DOMEIN_ID == "BosKlein", "Afgekeurd", "Niet gecontroleerd")
-
   it("Dataset mag geen afgekeurde gegevens bevatten", {
+    Dataset$Status <-
+      ifelse(Dataset$DOMEIN_ID == "BosKlein", "Afgekeurd", "Niet gecontroleerd")
     expect_error(initiatie(Dataset),
-                 "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.") #nolint
+                 "De kolom Status in de dataframe heeft niet voor alle records een geldige waarde.  Zorg dat enkel de waarden 'Niet gecontroleerd', 'Te controleren' en 'Goedgekeurd' voorkomen.") #nolint: line_length_linter
+  })
+
+  it("Hoge omtrekklassen worden correct afgehandeld (uitbreidingen)", {
+    Dataset <- Dataset %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                        rep("Bos1", 15), rep("Bos2", 5)),
+          BOS_BHI = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                      rep("Bos1", 15), rep("Bos2", 5)),
+          BMS = c(rep("SoortModel", 35), rep("SoortExtra", 20)),
+          IDbms = c(rep(1, 35), rep(2, 20)),
+          C13 = 210,
+          HOOGTE = 30,
+          Status = "Te controleren"
+        )
+      ) %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                        rep("Bos1", 15), rep("Bos2", 5)),
+          BOS_BHI = c(rep("Bos1", 15), rep("Bos2", 5), rep("BosKlein", 15),
+                      rep("Bos1", 15), rep("Bos2", 5)),
+          BMS = c(rep("SoortModel", 35), rep("SoortExtra", 20)),
+          IDbms = c(rep(1, 35), rep(2, 20)),
+          C13 = 270,
+          HOOGTE = 40,
+          Status = "Te controleren"
+        )
+      )
+    Output <- initiatie(Dataset)
+    expect_equal(
+      Output[["Basis"]] %>%
+        filter(!VoorModelFit) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        filter((!VoorModelFit)) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    Uitzonderingen <-
+      data.frame(DOMEIN_ID = c("Bos1", "Bos1"),
+                 BMS = c("SoortModel", "SoortExtra"),
+                 min_basis = NA,
+                 min_afgeleid = NA,
+                 min_uitbreiden_model = 14,
+                 stringsAsFactors = FALSE)
+    Output <- initiatie(Dataset, Uitzonderingen)
+    expect_equal(
+      Output[["Basis"]] %>%
+        filter(!VoorModelFit) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        filter((!VoorModelFit)) %>%
+        count(DOMEIN_ID, nExtra),
+      tibble(DOMEIN_ID = "Bos1", nExtra = 15, n = 15)
+    )
+    Uitzonderingen <- Uitzonderingen %>%
+      bind_rows(
+        data.frame(DOMEIN_ID = "BosKlein", BMS = "SoortModel",
+                   stringsAsFactors = FALSE)
+      ) %>%
+      mutate(
+        min_uitbreiden_model = 16
+      )
+    expect_warning(
+      Output <- initiatie(Dataset, Uitzonderingen),
+      "min_uitbreiden_model opgegeven voor afgeleid model, dit zal genegeerd worden \\(bij afgeleide modellen worden alle gegevens meegenomen\\)" #nolint: line_length_linter
+    )
+    expect_equal(
+      nrow(Output[["Basis"]] %>%
+             filter(!VoorModelFit)),
+      0
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        filter(C13 == 270) %>%
+        count(DOMEIN_ID),
+      tibble(DOMEIN_ID = "BosKlein", n = 15)
+    )
+    expect_equal(
+      nrow(Output[["Lokaal"]] %>%
+             filter(!VoorModelFit)),
+      0
+    )
+  })
+
+  it("Hoge/lage omtrekklassen worden correct verwijderd", {
+    Dataset2 <- Dataset %>%
+      bind_rows(
+        data.frame(
+          DOMEIN_ID = c(rep("Bos1", 2), rep("BosKlein", 2), rep("Bos1", 2)),
+          BOS_BHI = c(rep("Bos1", 2), rep("BosKlein", 2), rep("Bos1", 2)),
+          BMS = c(rep("SoortModel", 4), rep("SoortExtra", 2)),
+          IDbms = c(rep(1, 4), rep(2, 2)),
+          C13 = c(48, 305, 48, 285, 48, 305),
+          HOOGTE = c(10, 40),
+          Status = "Te controleren"
+        )
+      )
+    Output <- initiatie(Dataset)
+    expect_message(
+      Output2 <- initiatie(Dataset2),
+      regexp = "Het rapport is opgeslagen in de working directory"
+    )
+    expect_equal(
+      Output[["Basis"]] %>%
+        select(-"nBomen"),
+      Output2[["Basis"]] %>%
+        select(-"nBomen")
+    )
+    expect_equal(
+      Output[["Afgeleid"]] %>%
+        select(-"nBomen", -"nBomenInterval", -"Q5", -"Q5k"),
+      Output2[["Afgeleid"]] %>%
+        select(-"nBomen", -"nBomenInterval", -"Q5", -"Q5k")
+    )
+    expect_equal(
+      Output[["Lokaal"]] %>%
+        select(-"nBomen"),
+      Output2[["Lokaal"]] %>%
+        select(-"nBomen")
+    )
   })
 
   setwd(wd)

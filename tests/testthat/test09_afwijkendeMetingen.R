@@ -61,14 +61,14 @@ describe("afwijkendemetingen", {
     ) %>%
     ungroup() %>%
     mutate(
-      sseVL = (rmseVL) ^ 2 * (nBomenOmtrek05 - 2)
+      sseVL = (rmseVL) ^ 2 * (nBomenIntervalOmtrek05 - 2)
     ) %>%
     group_by(BMS) %>%
     summarise(
       nBomen = sum(nBomen),
       nBomenInterval = sum(nBomenInterval),
-      nBomenOmtrek05VL = sum(nBomenOmtrek05),
-      rmseVL = sqrt(sum(sseVL) / (nBomenOmtrek05VL - 2))
+      nBomenIntervalOmtrek05VL = sum(nBomenIntervalOmtrek05),
+      rmseVL = sqrt(sum(sseVL) / (nBomenIntervalOmtrek05VL - 2))
     ) %>%
     ungroup()
 
@@ -88,7 +88,7 @@ describe("afwijkendemetingen", {
 
   Hoogteschatting <- AModel %>%
     inner_join(
-      Afgeleidmodel[[2]],
+      x = Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -97,7 +97,7 @@ describe("afwijkendemetingen", {
     ) %>%
     do(
       hoogteschatting.afgeleid(.$Model[[1]],
-                                select(., -.data$Model))
+                                select(., -Model))
     ) %>%
     ungroup() %>%
     mutate(
@@ -114,7 +114,8 @@ describe("afwijkendemetingen", {
     ungroup() %>%
     inner_join(
       Hoogteschatting,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
     inner_join(
       Rmse,
@@ -137,6 +138,8 @@ describe("afwijkendemetingen", {
 
   Data.lokaal <- Datalijst[["Lokaal"]]
   Lokaalmodel <- fit.lokaal(Data.lokaal)
+  Data.lokaal <- Data.lokaal %>%
+    select(-VoorModelFit)
 
   Rmse <- Data.lokaal %>%
     group_by(
@@ -150,7 +153,7 @@ describe("afwijkendemetingen", {
 
   Hoogteschatting <- Lokaalmodel %>%
     inner_join(
-      Data.lokaal,
+      x = Data.lokaal,
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -159,8 +162,8 @@ describe("afwijkendemetingen", {
     ) %>%
     do(
       hoogteschatting.basis(.$Model[[1]],
-                             select(., -.data$Model),
-                             "Lokaal", .$BMS)
+                             select(., -Model),
+                             "Lokaal", unique(.$BMS))
     ) %>%
     ungroup()
 
@@ -170,31 +173,39 @@ describe("afwijkendemetingen", {
 
 
 
+  it("de functie afwijkendeMetingen() geeft geen warnings", {
+    expect_no_warning(afwijkendeMetingen(DatasetBasis))
+    expect_no_warning(afwijkendeMetingen(DatasetAfgeleid))
+    expect_no_warning(afwijkendeMetingen(DatasetLokaal))
+  })
 
   it("De uitvoer van de functie is correct", {
     expect_equal(afwijkendeMetingen(DatasetBasis) %>%
                    colnames(.),
-                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+                   "nBomenIntervalOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
                    "H_D_finaal", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
-                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2", "Q5",
-                   "Q95", "BMS", "rmseD", "maxResid", "HogeRmse", "Afwijkend"))
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "Q5", "Q95", "nExtra", "BMS", "rmseD", "maxResid",
+                   "HogeRmse", "Afwijkend"))
     expect_equal(afwijkendeMetingen(DatasetAfgeleid) %>%
                    colnames(.),
-                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenInterval",
-                   "nBomenOmtrek05", "nBomen", "Q5k", "Q95k", "Omtrek",
-                   "H_VL_finaal", "IDbms", "C13", "HOOGTE", "Status", "ID",
-                   "Rijnr", "logOmtrek", "logOmtrek2", "Q5", "Q95",
-                   "H_D_finaal", "ResidD2", "nBomenModel", "RmseVerschuiving",
-                   "rmseVL", "rmseD", "HogeRmse", "Afwijkend")
+                 c("BMS", "DOMEIN_ID", "maxResid", "BOS_BHI", "nBomenOmtrek05",
+                   "nBomenInterval", "nBomenIntervalOmtrek05", "nBomen", "Q5k",
+                   "Q95k", "Omtrek", "H_VL_finaal", "IDbms", "C13", "HOOGTE",
+                   "Status", "ID", "Rijnr", "logOmtrek", "logOmtrek2",
+                   "Q5", "Q95", "H_D_finaal", "ResidD2", "nBomenModel",
+                   "RmseVerschuiving", "rmseVL", "rmseD", "HogeRmse",
+                   "Afwijkend")
     )
     expect_equal(afwijkendeMetingen(DatasetLokaal) %>%
                    colnames(.),
-                 c("DOMEIN_ID", "BOS_BHI", "nBomenInterval", "nBomenOmtrek05",
+                 c("DOMEIN_ID", "BOS_BHI", "nBomenOmtrek05", "nBomenInterval",
+                   "nBomenIntervalOmtrek05",
                    "nBomen", "Q5k", "Q95k", "Omtrek", "H_D_finaal", "IDbms",
                    "C13", "HOOGTE", "Status", "ID", "Rijnr", "logOmtrek",
-                   "logOmtrek2", "Q5", "Q95", "BMS", "rmseD", "maxResid",
-                   "HogeRmse", "Afwijkend")
+                   "logOmtrek2", "Q5", "Q95", "nExtra", "BMS",
+                   "rmseD", "maxResid", "HogeRmse", "Afwijkend")
     )
   })
 

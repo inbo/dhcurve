@@ -17,79 +17,77 @@ validatie.lokaal(
 }
 \arguments{
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-en Model (lm-object met het gefit lineair model voor die
+door de functie \code{fit.lokaal()}: tibble met de velden \code{BMS} (boomsoort),
+\code{DOMEIN_ID} en \code{Model} (\code{lm}-object met het gefit lineair model voor die
 boomsoort-domeincombinatie).}
 
 \item{Data}{Dataset op basis waarvan het opgegeven lokaal model berekend is.}
 
-\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste RMSE
-geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
-metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
-domeinen aan te passen.}
+\item{AantalDomHogeRMSE}{Standaard worden de 20 domeinen met de hoogste
+\code{RMSE} geselecteerd en voor elk van deze domeinen worden minstens 10
+afwijkende metingen geselecteerd. \code{AantalDomHogeRMSE} laat toe om dit aantal
+van 20 domeinen aan te passen.}
 
-\item{ExtraCurvesRapport}{Optie om een lijst met extra domein-BMS-combinaties
-op te geven waardoor de curve getoond moet worden in het validatierapport.
-Deze moeten opgegeven worden als een dataframe met velden DOMEIN_ID en BMS,
-met benamingen die overeenkomen met deze in de opgegeven dataset.}
+\item{ExtraCurvesRapport}{Optie om een lijst met extra
+boomsoort-domeincombinaties op te geven waardoor de curve getoond moet worden
+in het validatierapport.
+Deze moeten opgegeven worden als een dataframe met velden \code{DOMEIN_ID} en
+\code{BMS}, met benamingen die overeenkomen met deze in de opgegeven dataset.}
 
 \item{GoedgekeurdeAfwijkendeCurves}{Optie om goedgekeurde afwijkende curves
 niet meer te tonen in het validatierapport zolang er geen extra metingen
-toegevoegd zijn voor de BMS-domein-combinatie (om als gebruiker enkel de
+toegevoegd zijn voor de boomsoort-domeincombinatie (om als gebruiker enkel de
 te keuren curves in het rapport over te houden). De goedgekeurde en dus te
-negeren curves moeten opgegeven worden in een dataframe met velden DOMEIN_ID,
-BMS en nBomenTerugTonen, met nBomenTerugTonen het aantal bomen
-(nBomenInterval) in de domein-BMS-combinatie vanaf wanneer de curve terug
-getoond moet worden. (In dit geval wordt de curve uiteraard enkel terug
-getoond als ze nog steeds afwijkend is.)}
+negeren curves moeten opgegeven worden in een dataframe met velden
+\code{DOMEIN_ID}, \code{BMS} en \code{nBomenTerugTonen}, met \code{nBomenTerugTonen} het aantal
+bomen (\code{nBomenInterval}) in de boomsoort-domeincombinatie vanaf wanneer de
+curve terug getoond moet worden. (In dit geval wordt de curve uiteraard enkel
+terug getoond als ze nog steeds afwijkend is.)}
 
-\item{Bestandsnaam}{Een naam voor het validatierapport (html-bestand) dat
-gegenereerd wordt, bestaande uit een string die eindigt op '.html'}
+\item{Bestandsnaam}{Een naam voor het validatierapport (\code{.html}-bestand) dat
+gegenereerd wordt, bestaande uit een string die eindigt op \code{.html}}
 
-\item{TypeRapport}{Default is 'Dynamisch', waarbij de figuren in het
-html-bestand kunnen worden aangepast (meetgegevens weergeven door muis
-erover te bewegen (inclusief ID als deze in de dataset meegegeven is), items
-uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
-'Statisch', waarbij de figuren vast zijn.}
+\item{TypeRapport}{Default is "Dynamisch", waarbij de figuren in het
+\code{.html}-bestand kunnen worden aangepast (meetgegevens weergeven door muis
+erover te bewegen (inclusief \code{ID} als deze in de dataset meegegeven is),
+items uit legende wegklikken, grafiek inzoomen,...).  Een andere optie is
+"Statisch", waarbij de figuren vast zijn.}
 
 \item{PathWD}{Het path van de working directory, dus het path waarin het
 validatierapport opgeslagen moet worden (default wordt het in de op dat
 moment actieve working directory opgeslagen).}
 }
 \value{
-De functie genereert een validatierapport (html-bestand) in de working
+De functie genereert een validatierapport (\code{.html}-bestand) in de working
 directory met informatie en grafieken van de te controleren modellen.  De
 afwijkende metingen en curvedelen zijn in rood aangeduid; boven de curve is
-het probleem ook woordelijk beschreven (zie ?validatierapport of vignette
+het probleem ook woordelijk beschreven (zie \code{?validatierapport} of vignet
 voor meer informatie).
 
 De functie geeft een dataframe terug met de te controleren metingen, met
 behalve de informatie uit de databank een aantal berekende waarden:
-
-- H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
+\itemize{
+\item \code{H_D_finaal}: een geschatte hoogte voor de omtrekklasse volgens het
 domeinmodel
-
-- rmseD: de foutenschatting voor het domeinmodel
-
-- HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
+\item \code{rmseD}: de foutenschatting voor het domeinmodel
+\item \code{HogeRmse}: \code{TRUE} als het domeinmodel een hoge RMSE heeft, anders
+\code{NA}
+}
 }
 \description{
 Functie die alle nodige validaties uitvoert op het opgegeven lokaal model en
 een overzicht geeft van de afwijkende metingen en slechte curves (zodat de
 gebruiker deze kan valideren).
-}
-\details{
+
 De functie roept meerdere hulpfuncties op:
-
-- rmse.basis
-
-- afwijkendeMetingen
-
-- afwijkendeCurves
-
-- validatierapport
+\itemize{
+\item \code{rmse.basis()}
+\item \code{afwijkendeMetingen()}
+\item \code{afwijkendeCurves()}
+\item \code{validatierapport()}
+}
 
 Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-slechtste modellen opgelijst (op basis van rmse, afwijkende metingen en
+slechtste modellen opgelijst (op basis van RMSE, afwijkende metingen en
 afwijkende curves).
 }

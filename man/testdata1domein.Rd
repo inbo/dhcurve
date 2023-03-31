@@ -23,15 +23,15 @@ testdata1domein(
 
 \item{A}{Parameter voor het intercept van de functie}
 
-\item{B}{Parameter voor de 1ste-graadsfunctie}
+\item{B}{Parameter voor de eerstegraadsterm}
 
-\item{C}{Parameter voor de 2de-graadsfunctie}
+\item{C}{Parameter voor de tweedegraadsterm}
 
 \item{sd}{foutenmarge t.o.v. model voor de data}
 }
 \value{
 Dataframe met testdata voor 1 boomsoort-domeincombinatie met velden
-C13 en HOOGTE.
+\code{C13} en \code{HOOGTE}.
 }
 \description{
 Deze functie genereert een testdataset voor 1 domein die voldoet aan de

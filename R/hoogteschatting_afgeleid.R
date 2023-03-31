@@ -1,17 +1,18 @@
-#' Hoogteschatting op basis van opgegeven afgeleid model
+#' @title Hoogteschatting op basis van opgegeven afgeleid model
 #'
+#' @description
 #' Functie die de gemiddelde hoogte per omtrekklasse schat voor de domeincurves
 #' en Vlaamse curves van het opgegeven afgeleid model.  De teruggegeven
 #' dataframe kan gebruikt worden om grafieken te maken of afwijkende metingen
 #' te bestuderen.  Opgelet!  In tegenstelling tot de meeste functies van dit
 #' package werkt deze functie op basis van 1 model en de bijhorende
 #' meetgegevens.  Zie voorbeeld voor een methode om deze functie te kunnen
-#' toepassen op de volledige dataset Afgeleidmodel.
+#' toepassen op de volledige dataset `Afgeleidmodel`.
 #'
 #' @param Domeinsoortmodel verschoven Vlaams model voor 1
-#' boomsoort-domein-combinatie
+#' boomsoort-domeincombinatie
 #' @param Domeinsoortdata de gegevens die hierbij horen: meetresultaten voor 1
-#' boomsoort-domein-combinatie
+#' boomsoort-domeincombinatie
 #'
 #' @return dataframe met de meetresultaten en de schattingen van de hoogtes
 #' voor het domeinmodel en de Vlaamse model
@@ -39,7 +40,7 @@
 #'   ) %>%
 #'   do(
 #'     hoogteschatting.afgeleid(.$Model[[1]],
-#'                               select(., -.data$Model))
+#'                               select(., -Model))
 #'   ) %>%
 #'   ungroup()
 #'

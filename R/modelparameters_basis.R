@@ -1,5 +1,6 @@
-#' Modelparameters berekenen voor opgegeven basismodel
+#' @title Modelparameters berekenen voor opgegeven basismodel
 #'
+#' @description
 #' Functie die de modelparameters berekent op basis van een opgegeven
 #' basismodel.  Ze berekent zowel de parameters voor het domeinmodel als voor
 #' het Vlaams model, en geeft ook de grenzen van het bruikbaar interval
@@ -7,8 +8,10 @@
 #' @param Soortmodel model van boomsoort
 #' @param BMS boomsoort
 #'
-#' @return dataframe met parameters voor domeinmodel (Ad, Bd en Cd) en
-#' parameters voor Vlaams model (Avl, Bvl en Cvl)
+#' @return dataframe met parameters voor domeinmodel (`Ad`, `Bd` en `Cd`) en
+#' parameters voor Vlaams model (`Avl`, `Bvl` en `Cvl`)
+#'
+#' @noRd
 #'
 #' @importFrom dplyr %>% select distinct left_join
 #' @importFrom rlang .data
@@ -30,9 +33,9 @@ modelparameters.basis <- function(Soortmodel, BMS) {
 
   Soortparameters <- Soortmodel$data %>%
     select(
-      .data$DOMEIN_ID,
-      .data$Q5k,
-      .data$Q95k
+      "DOMEIN_ID",
+      "Q5k",
+      "Q95k"
     ) %>%
     distinct() %>%
     left_join(

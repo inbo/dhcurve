@@ -7,39 +7,38 @@
 rmse.basis(Data, Typemodel, BMS)
 }
 \arguments{
-\item{Data}{Meetgegevens van één boomsoort-domein-combinatie (dataframe
+\item{Data}{Meetgegevens van één boomsoort-domeincombinatie (dataframe
 zoals de dataframes die in de list teruggegeven worden door de functie
-initiatie)}
+\code{initiatie()})}
 
-\item{Typemodel}{'Basis' of 'Lokaal'?}
+\item{Typemodel}{"Basis" of "Lokaal"?}
 
 \item{BMS}{Boomsoort}
 }
 \value{
-Dataframe met rmse_domein (rmseD), rmse_Vlaams (rmseVL, niet voor
-lokaal model) en maxResid
+Dataframe met RMSE_domein (\code{rmseD}), RMSE_Vlaams (\code{rmseVL}, niet voor
+lokaal model) en \code{maxResid}
 }
 \description{
-Deze functie berekent de rmse door cross-validatie op basis van 6 subsets.
+Deze functie berekent de RMSE door cross-validatie op basis van 6 subsets.
 Deze functie kan ook gebruikt worden voor het lokaal model (ze bepaalt het
 verschil tussen de datasets op basis van het al dan niet aanwezig zijn van
-een veld DOMEIN_ID in de dataset).  Opgelet!  In tegenstelling tot de meeste
-functies van dit package werkt deze functie op basis van de meetgegevens van
-1 model.  Zie voorbeelden voor een methode om deze functie te kunnen
-toepassen vertrekkend van meetgegevens (bv. Data.lokaal) of vertrekkend van
-een model waar de meetgegevens uit gehaald kunnen worden (bv. Basismodel).
-}
-\details{
-Deze functie berekent de rmse op basis van testgroepen en omvat de volgende
+een veld \code{DOMEIN_ID} in de dataset).  Opgelet!  In tegenstelling tot de
+meeste functies van dit package werkt deze functie op basis van de
+meetgegevens van 1 model.
+Zie voorbeelden voor een methode om deze functie te kunnen
+toepassen vertrekkend van meetgegevens (bv. \code{Data.lokaal}) of vertrekkend van
+een model waar de meetgegevens uit gehaald kunnen worden (bv. \code{Basismodel}).
+
+Deze functie berekent de RMSE op basis van testgroepen en omvat de volgende
 deelstappen:
-
-- metingen opdelen in 6 testgroepen (veld testgroep)
-
-- modellen fitten voor testgroepen, waarbij ze de functie fit.basis 6 keer
-oproept
-
-- rmse berekenen voor domeinmodellen en Vlaams model op basis van
-testgroep-modellen
+\itemize{
+\item metingen opdelen in 6 testgroepen (veld testgroep)
+\item modellen fitten voor testgroepen, waarbij ze de functie \code{fit.basis()}
+6 keer oproept
+\item RMSE berekenen voor domeinmodellen en Vlaams model op basis van
+de gemeten waarden en schattingen voor de testgroepen
+}
 }
 \examples{
 library(dplyr)
@@ -49,7 +48,7 @@ Data <- testdataset()
 Datalijst <- initiatie(Data)
 Data.basis <- Datalijst[["Basis"]]
 
-#De rmse berekenen voor een basismodel op basis van de dataset
+#De RMSE berekenen voor een basismodel op basis van de dataset
 Data.basis \%>\%
   group_by(
     BMS

@@ -1,22 +1,23 @@
-#' Geeft de afwijkende metingen uit een gegeven model
+#' @title Geeft de afwijkende metingen uit een gegeven model
 #'
+#' @description
 #' Berekent afwijkende metingen, dit zijn metingen met een afwijking > 2,5 *
-#' rmse, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
-#' de hoogste RMSE, waarbij de 'foutenmarge' breder is, worden minstens 10
-#' meetresultaten geselecteerd als 'afwijkend' (nl. de 10 meetresultaten met de
+#' RMSE, en geeft deze weer volgens dalende afwijking.  Voor de 20 domeinen met
+#' de hoogste `RMSE`, waarbij de "foutenmarge" breder is, worden minstens 10
+#' meetresultaten geselecteerd als "afwijkend" (nl. de 10 meetresultaten met de
 #' hoogste error).
 #'
 #' @param Dataset Dataframe met meetresultaten, geschatte waarden voor het
-#' domeinmodel en het Vlaamse model en de rmse voor het domeinmodel.  Deze
+#' domeinmodel en het Vlaamse model en de RMSE voor het domeinmodel.  Deze
 #' dataframe moet dezelfde velden bevatten als de dataframes in de list
-#' teruggegeven in de functie initiatie, en daarnaast de velden H_D_finaal,
-#' rmseD en maxResid.
-#' @param AantalDomHogeRMSE Standaard worden de 20 domeinen met de hoogste RMSE
-#' geselecteerd en voor elk van deze domeinen worden minstens 10 afwijkende
-#' metingen geselecteerd. AantalDomHogeRMSE laat toe om dit aantal van 20
-#' domeinen aan te passen.
+#' teruggegeven in de functie `initiatie()`, en daarnaast de velden
+#' `H_D_finaal`, `rmseD` en `maxResid`.
+#' @param AantalDomHogeRMSE Standaard worden de 20 domeinen met de hoogste
+#' `RMSE` geselecteerd en voor elk van deze domeinen worden minstens 10
+#' afwijkende metingen geselecteerd. `AantalDomHogeRMSE` laat toe om dit aantal
+#' van 20 domeinen aan te passen.
 #'
-#' @return Lijst met afwijkende metingen (> 2,5 * rmse), inclusief vlag uit
+#' @return Lijst met afwijkende metingen (> 2,5 * RMSE), inclusief vlag uit
 #' databank
 #'
 #' @export
@@ -41,7 +42,7 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
               msg = "AantalDomHogeRMSE moet een positief geheel getal zijn.")
 
   HogeRmse <- Dataset %>%
-    select(.data$BMS, .data$DOMEIN_ID, .data$rmseD) %>%
+    select("BMS", "DOMEIN_ID", "rmseD") %>%
     distinct() %>%
     arrange(desc(.data$rmseD)) %>%
     slice(seq_len(AantalDomHogeRMSE)) %>%
@@ -69,7 +70,7 @@ afwijkendeMetingen <- function(Dataset, AantalDomHogeRMSE = 20) {
     slice(1:10) %>%
     ungroup() %>%
     select(
-      .data$BMS, .data$DOMEIN_ID, .data$C13, .data$HOOGTE, .data$HogeAfwijking
+      "BMS", "DOMEIN_ID", "C13", "HOOGTE", "HogeAfwijking"
     ) %>%
     distinct()
 

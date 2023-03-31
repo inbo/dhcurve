@@ -20,13 +20,13 @@ jobs:
       ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |
@@ -36,7 +36,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
@@ -69,6 +69,15 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
+      - name: Check spelling
+        run: |
+          x <- checklist::check_spelling()
+          print(x)
+          if(length(x$.__enclos_env__$private$spelling$message) > 0) {
+            stop("The spelling is not always correct. Please check the error message below.")
+          }
+        shell: Rscript {0}
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_: false
@@ -87,31 +96,24 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
-      - name: Check documentation
-        run: |
-          #probleem met path: Loaded and on-disk path mismatch (errors disabled)
-          test <- checklist::check_documentation()
-          test
-          #if(test$fail) {
-          #  stop("The documentation is not always correct. Please check the error message above.")
-          #}
-        shell: Rscript {0}
-
-      - name: Check description
+      - name: Check documentation and description
         run: |
           x <- checklist::check_description()
+          x <- checklist::check_documentation(x)
           print(x)
-          if (length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+          print("errors description")
+          print(x$.__enclos_env__$private$errors$DESCRIPTION)
+          print("errors documentation")
+          print(x$.__enclos_env__$private$errors$documentation)
+          if(length(x$.__enclos_env__$private$errors$DESCRIPTION) > 0 |
+              length(x$.__enclos_env__$private$errors$documentation) > 0 |
               length(x$.__enclos_env__$private$warnings) != length(x$.__enclos_env__$private$allowed_warnings) |
               length(x$.__enclos_env__$private$notes) != length(x$.__enclos_env__$private$allowed_notes)
           ) {
-            stop("Error in the desciption file, please check the error message above.")
+           stop("The documentation and description is not always correct. Please check the error message above.")
           }
         shell: Rscript {0}
 
       - name: Check code coverage
-        run: |
-          #result <-
-            covr::codecov(quiet = FALSE)
-          #message(result$message)
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}

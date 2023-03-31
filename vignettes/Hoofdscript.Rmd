@@ -34,4 +34,13 @@ write.csv2(OutputIvanho, "IVANHO.csv")
 Resultaat <-
   resultaat(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal)
 write.csv2(Resultaat, "DHcurves.csv")
+
+#Eventueel, bij voldoende metingen van hogere omtrekklassen
+UitbreidingBasis <- validatie.uitbreiding(Basismodel, Data.basis)
+UitbreidingLokaal <- validatie.uitbreiding(Lokaalmodel, Data.lokaal)
+Uitbreiding <- rbind(UitbreidingBasis, UitbreidingLokaal)
+OutputIvanho <-
+  outputIVANHO(Basismodel, Afgeleidmodel, Lokaalmodel, Data.lokaal,
+               Uitbreiding = Uitbreiding)
+write.csv2(OutputIvanho, "IVANHO_uitbreiding.csv")
 ```

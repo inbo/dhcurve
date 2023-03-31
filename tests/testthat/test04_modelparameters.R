@@ -65,6 +65,13 @@ describe("modelparameters", {
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
 
 
+  it("functie modelparameters() geeft geen warnings", {
+    expect_no_warning(modelparameters(Basismodel1))
+    expect_no_warning(
+      modelparameters(Basismodel2, Afgeleidmodel = Afgeleidmodel))
+    expect_no_warning(modelparameters(Lokaalmodel, Lokaledata))
+  })
+
   it("De parameters worden correct berekend voor Vlaams model (Basismodel)", {
     resultaat <-
       modelparameters(Basismodel2) %>%

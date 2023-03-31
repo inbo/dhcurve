@@ -38,10 +38,12 @@ describe("outputIVANHO", {
                    as.data.frame(., stringsAsFactors = FALSE),
                  data.frame(BMS = "testboom",
                             IDbms = 1,
-                            DOMEIN_ID = rep(c("HM", "LM"), 22),
-                            BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
-                                            22),
-                            Omtrek = rep(seq(0.25, 2.35, 0.1), each = 2),
+                            DOMEIN_ID = c("HM", rep(c("HM", "LM"), 24)),
+                            BOS_BHI =
+                              c("HoogMinimum",
+                                rep(c("HoogMinimum", "LaagMaximum"), 24)),
+                            Omtrek =
+                              c(0.15, rep(seq(0.25, 2.55, 0.1), each = 2)),
                             stringsAsFactors = FALSE) %>%
                    mutate(
                      Hoogte =
@@ -62,13 +64,16 @@ describe("outputIVANHO", {
                      -OmtrekklassetypeID, -Omtrekklasse, -RMSE
                    ) %>%
                    as.data.frame(., stringsAsFactors = FALSE),
-                 data.frame(BMS = "andereboom",
-                            IDbms = 2,
-                            DOMEIN_ID = rep(c("HM", "LM"), each = 22),
-                            BOS_BHI = rep(c("HoogMinimum", "LaagMaximum"),
-                                          each = 22),
-                            Omtrek = seq(0.25, 2.35, 0.1),
-                            stringsAsFactors = FALSE) %>%
+                 data.frame(
+                   BMS = "andereboom",
+                   IDbms = 2,
+                   DOMEIN_ID = c("HM", rep(c("HM", "LM"), each = 24)),
+                   BOS_BHI =
+                     c("HoogMinimum",
+                       rep(c("HoogMinimum", "LaagMaximum"), each = 24)),
+                   Omtrek = c(0.15, rep(seq(0.25, 2.55, 0.1), 2)),
+                   stringsAsFactors = FALSE
+                 ) %>%
                    mutate(
                      Hoogte =
                        ifelse(DOMEIN_ID == "HM",
@@ -83,6 +88,14 @@ describe("outputIVANHO", {
 
   Basismodel2 <- Data[["Basismodel"]]
   Afgeleidmodel <- Data[["Afgeleidmodel"]]
+
+  it("functie outputIVANHO() geeft geen warnings", {
+    expect_no_warning(
+      outputIVANHO(Basismodel = Basismodel1, Data.lokaal = Lokaledata,
+                   Lokaalmodel = Lokaalmodel))
+    expect_no_warning(
+      outputIVANHO(Basismodel = Basismodel2, Afgeleidmodel = Afgeleidmodel))
+  })
 
   it("De uitgevoerde dataset heeft de juiste kolommen voor afgeleid model", {
     expect_equal(
@@ -106,7 +119,7 @@ describe("outputIVANHO", {
                             IDbms = 1,
                             DOMEIN_ID = "Klein",
                             BOS_BHI = "DOMEIN_Klein",
-                            Omtrek = seq(0.55, 2.35, 0.1),
+                            Omtrek = seq(0.45, 2.55, 0.1),
                             stringsAsFactors = FALSE) %>%
                    mutate(
                      Hoogte = 15 + 15 * log(Omtrek) + log(Omtrek) ^ 2,
@@ -125,6 +138,36 @@ describe("outputIVANHO", {
                         DOMEIN_ID = c(LETTERS[1:6], "Klein", "HM", "LM"),
                         Modeltype = c(rep("basismodel", 6), "afgeleid model",
                                       rep("lokaal model", 2))))
+  })
+
+  it("Een uitbreiding wordt correct toegevoegd", {
+    Uitbreiding <-
+      data.frame(BMS = "testboom", DOMEIN_ID = "A", MaxOmtrek = 2.65)
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(Omtrek),
+                 tibble(Omtrek = c(2.65, 2.75, 2.85)))
+    Uitbreiding <-
+      data.frame(BMS = c("testboom", "andereboom"),
+                 DOMEIN_ID = c("A", "LM"), MaxOmtrek = c(2.65, 2.55))
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(DOMEIN_ID, Omtrek),
+                 tibble(DOMEIN_ID = c(rep("A", 3), rep("LM", 2)),
+                        Omtrek = c(2.65, 2.75, 2.85, 2.65, 2.75)))
+    Uitbreiding <-
+      data.frame(BMS = "andereboom", DOMEIN_ID = "LM", MaxOmtrek = 2.65)
+    expect_equal(outputIVANHO(Basismodel2, Afgeleidmodel,
+                              Lokaalmodel, Lokaledata,
+                              Uitbreiding = Uitbreiding) %>%
+                   filter(Omtrek > 2.6) %>%
+                   select(DOMEIN_ID, Omtrek),
+                 tibble(DOMEIN_ID = "LM",
+                        Omtrek = c(2.65, 2.75, 2.85)))
   })
 
   setwd(wd)

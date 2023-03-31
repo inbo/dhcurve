@@ -8,68 +8,71 @@ outputIVANHO(
   Basismodel = NULL,
   Afgeleidmodel = NULL,
   Lokaalmodel = NULL,
-  Data.lokaal = NULL
+  Data.lokaal = NULL,
+  Uitbreiding = NULL
 )
 }
 \arguments{
 \item{Basismodel}{Model per boomsoort zoals teruggegeven door de functie
-fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-gefit mixed model voor die boomsoort).}
+\code{fit.basis()}: tibble met de velden \code{BMS} (boomsoort) en \code{Model}
+(\code{lme}-object met het gefit mixed model voor die boomsoort).}
 
-\item{Afgeleidmodel}{Model per domein-boomsoortcombinatie zoals teruggegeven
-door de functie fit.afgeleid: list met 2 tibbles.}
+\item{Afgeleidmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
+door de functie \code{fit.afgeleid()}: list met 2 tibbles.}
 
 \item{Lokaalmodel}{Model per boomsoort-domeincombinatie zoals teruggegeven
-door de functie fit.lokaal: tibble met de velden BMS (boomsoort), DOMEIN_ID
-en Model (lm-object met het gefit lineair model voor die
+door de functie \code{fit.lokaal()}: tibble met de velden \code{BMS} (boomsoort),
+\code{DOMEIN_ID} en \code{Model} (\code{lm}-object met het gefit lineair model voor die
 boomsoort-domeincombinatie).}
 
 \item{Data.lokaal}{Dataset op basis waarvan het opgegeven lokaal model
 berekend is.}
+
+\item{Uitbreiding}{Dataset met velden \code{BMS}, \code{DOMEIN_ID} en \code{MaxOmtrek}
+die teruggegeven wordt door functie \code{validatie.uitbreiding()}.
+Als zowel een Basismodel en als Lokaal model opgegeven worden, voeg dan de
+uitvoer van \code{validatie.uitbreiding()} van beide modeltypen samen.}
 }
 \value{
 Dataframe met geschatte hoogtes per domein en per boomsoort met
 velden:
-
-- DOMEIN_ID: domeincode
-
-- BOS_BHI: domeinnaam
-
-- IDbms (identificatienummer van de boomsoort)
-
-- BMS: boomsoort
-
-- Modeltype ('basismodel'(= eigen model op basis van mixed model) /
-‘afgeleid model'(= verschoven Vlaams model, afgeleid van fixed factor uit
-basismodel) /
-‘Vlaams model’(= fixed factor uit basismodel, niet toegevoegd
-omdat niet relevant) / 'lokaal model'(= apart model voor 1
-boomsoort-domein-combinatie) / 'geen model'(= boomsoort-domein-combinatie
+\itemize{
+\item \code{DOMEIN_ID}: domeincode
+\item \code{BOS_BHI}: domeinnaam
+\item \code{IDbms} (identificatienummer van de boomsoort)
+\item \code{BMS}: boomsoort
+\item \code{Modeltype} ("basismodel"(= eigen model op basis van mixed model) of
+"afgeleid model"(= verschoven Vlaams model, afgeleid van fixed factor uit
+basismodel) of
+"Vlaams model"(= fixed factor uit basismodel, niet toegevoegd
+omdat niet relevant) of "lokaal model"(= apart model voor 1
+boomsoort-domeincombinatie) of "geen model"(= boomsoort-domeincombinatie
 waarvoor geen model berekend kan worden))
-
-- Omtrek: klassemidden van omtrekklasse
-
-- OmtrekklassetypeID: het overeenkomstige identificatienummer van de
+\item \code{Omtrek}: klassenmidden van omtrekklasse
+\item \code{OmtrekklassetypeID}: het overeenkomstige identificatienummer van de
 omtrekklasse
-
-- Omtrekklasse
-
-- Hoogte: de geschatte hoogte
-
-- RMSE (root mean square error, zie vignette voor meer info:
+\item \code{Omtrekklasse}
+\item \code{Hoogte}: de geschatte hoogte
+\item \code{RMSE} (root mean square error, zie vignet voor meer info:
 \code{vignette("Handleiding", package = "dhcurve")})
 }
+}
 \description{
-De functie outputIVANHO voert de berekeningen uit die leiden tot de
-gevraagde tabel om in IVANHO te importeren: een tabel met per boomsoort,
+De functie \code{outputIVANHO()} voert de berekeningen uit die leiden tot de
+gevraagde tabel om in \code{IVANHO} te importeren: een tabel met per boomsoort,
 domein en omtrekklasse een schatting van de hoogte.  Als de curve een
 maximum hoogte vertoont binnen het bestudeerde interval, wordt deze
 maximumwaarde als hoogte meegegeven aan alle omtrekklassen hoger dan de
 omtrekklasse van dit maximum.  (Dus verschillend van de validatierapporten
 daalt de hoogte hier niet terug na het maximum, maar de hoogste waarde wordt
 aangehouden.)
-}
-\details{
+Als de curve een minimum hoogte vertoont binnen het bestudeerde interval,
+wordt deze minimumwaarde als hoogte meegegeven aan alle omtrekklassen lager
+dan de omtrekklasse van dit minimum.
+Als voor een bepaalde omtrekklasse de hoogteschatting lager is dan 2,5 m,
+dan wordt deze omtrekklasse weggelaten.
+
 Voor deze functie worden volgende hulpfuncties aangeroepen:
-hoogteschatting.basis, hoogteschatting.afgeleid en curvekarakteristieken.
+\code{hoogteschatting.basis()}, \code{hoogteschatting.afgeleid()} en
+\code{curvekarakteristieken()}.
 }

@@ -1,7 +1,10 @@
-#' Genereert testdataset
+#' @title Genereert testdataset
 #'
+#' @description
 #' Deze functie genereert een testdataset die voldoet aan de opgegeven
 #' vereisten.
+#' De testdataset kan gebruikt worden om het package te testen, ze voldoet als
+#' invoer voor functie `initiatie()`
 #'
 #' @param nBomenDomein Vector met aantal gemeten bomen per domein
 #' @param BMS Naam van boomsoort
@@ -9,7 +12,8 @@
 #' @param minOmtrek Minimale omtrek voor de data
 #' @param maxOmtrek Maximale omtrek voor de data
 #'
-#' @return Dataframe met testdata voor 1 boomsoort met velden ...
+#' @return Dataframe met testdata voor 1 boomsoort met velden `BMS`, `IDbms`,
+#' `DOMEIN_ID`, `BOS_BHI`, `C13`, `HOOGTE`, `Status` en `ID`.
 #'
 #' @export
 #'

@@ -1,56 +1,48 @@
-#' Validatie van het afgeleid model
+#' @title Validatie van het afgeleid model
 #'
+#' @description
 #' Functie die de validatie uitvoert op het verschoven Vlaams model en een
 #' overzicht geeft van de afwijkende metingen (zodat de gebruiker deze kan
 #' valideren).
 #'
-#' validatie.afgeleid roept meerdere hulpfuncties op:
-#'
-#' - rmse.basis en rmse.verschuiving
-#'
-#' - afwijkendeMetingen
-#'
-#' - validatierapport
+#' `validatie.afgeleid()` roept meerdere hulpfuncties op:
+#' - `rmse.basis()` en `rmse.verschuiving()`
+#' - `afwijkendeMetingen()`
+#' - `validatierapport()`
 #'
 #' Voorafgaand aan het uitvoeren van deze laatste functie worden eerst de
-#' slechtste modellen opgelijst (op basis van rmse en afwijkende metingen).
+#' slechtste modellen opgelijst (op basis van RMSE en afwijkende metingen).
 #'
 #' @param Basismodel Model per boomsoort zoals teruggegeven door de functie
-#' fit.basis: tibble met de velden BMS (boomsoort) en Model (lme-object met het
-#' gefit mixed model voor die boomsoort)
-#' @param Afgeleidmodel Model per domein-boomsoortcombinatie zoals teruggegeven
-#' door de functie fit.afgeleid: list met 2 tibbles.
-#' #@param Data.afgeleid dataframe 10-50
+#' `fit.basis()`: tibble met de velden `BMS` (boomsoort) en `Model`
+#' (`lme`-object met het gefit mixed model voor die boomsoort)
+#' @param Afgeleidmodel Model per boomsoort-domeincombinatie zoals teruggegeven
+#' door de functie `fit.afgeleid()`: list met 2 tibbles.
 #'
 #' @inheritParams afwijkendeMetingen
 #' @inheritParams validatierapport
 #' @inheritParams validatie.basis
 #' @inheritParams initiatie
 #'
-#' @return De functie genereert een validatierapport (html-bestand) in de
+#' @return De functie genereert een validatierapport (`.html`-bestand) in de
 #' working directory met informatie en grafieken van de te controleren metingen.
-#' De afwijkende metingen zijn in rood aangeduid (zie ?validatierapport of
-#' vignette voor meer informatie).
+#' De afwijkende metingen zijn in rood aangeduid (zie `?validatierapport` of
+#' vignet voor meer informatie).
 #'
 #' De functie geeft een dataframe terug met de te controleren metingen, met
 #' behalve de informatie uit de databank een aantal berekende waarden:
-#'
-#' - H_D_finaal: een geschatte hoogte voor de omtrekklasse volgens het
-#' domeinmodel
-#'
-#' - rsmeD: de foutenschatting voor het domeinmodel
-#'
-#' - H_VL_finaal: een geschatte hoogte voor de omtrekklasse volgens het Vlaams
-#' model waarvan het domeinmodel afgeleid is
-#'
-#' - rmseVL: de foutenschatting voor dit Vlaams model
-#'
-#' - HogeRmse: TRUE als het domeinmodel een hoge rmse heeft, anders NA
+#' - `H_D_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
+#'     domeinmodel
+#' - `rsmeD`: de foutenschatting voor het domeinmodel
+#' - `H_VL_finaal`: een geschatte hoogte voor de omtrekklasse volgens het
+#'     Vlaams model waarvan het domeinmodel afgeleid is
+#' - `rmseVL`: de foutenschatting voor dit Vlaams model
+#' - `HogeRmse`: `TRUE` als het domeinmodel een hoge RMSE heeft, anders `NA`
 #'
 #' @export
 #'
 #' @importFrom dplyr %>% filter rowwise do select distinct mutate bind_rows
-#' group_by summarise ungroup inner_join
+#' group_by summarise ungroup inner_join transmute
 #' @importFrom plyr .
 #' @importFrom rlang .data
 #' @importFrom assertthat assert_that is.count
@@ -75,14 +67,14 @@ validatie.afgeleid <-
     ) %>%
     ungroup() %>%
     mutate(
-      sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenOmtrek05 - 2)
+      sseVL = (.data$rmseVL) ^ 2 * (.data$nBomenIntervalOmtrek05 - 2)
     ) %>%
     group_by(.data$BMS) %>%
     summarise(
       nBomen = sum(.data$nBomen),
       nBomenInterval = sum(.data$nBomenInterval),
-      nBomenOmtrek05VL = sum(.data$nBomenOmtrek05),
-      rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenOmtrek05VL - 2))
+      nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),
+      rmseVL = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))
     ) %>%
     ungroup()
 
@@ -94,7 +86,7 @@ validatie.afgeleid <-
     ) %>%
     ungroup() %>%
     inner_join(
-      RmseVL %>% select(.data$BMS, .data$rmseVL),
+      RmseVL %>% select("BMS", "rmseVL"),
       by = c("BMS")
     ) %>%
     mutate(
@@ -104,7 +96,7 @@ validatie.afgeleid <-
 
   Hoogteschatting <- AModel %>%
     inner_join(
-      Afgeleidmodel[[2]],
+      x = Afgeleidmodel[[2]],
       by = c("BMS", "DOMEIN_ID")
     ) %>%
     group_by(
@@ -113,7 +105,7 @@ validatie.afgeleid <-
     ) %>%
     do(
       hoogteschatting.afgeleid(.$Model[[1]],
-                                select(., -.data$Model))
+                                select(., -"Model"))
     ) %>%
     ungroup() %>%
     mutate(
@@ -121,7 +113,7 @@ validatie.afgeleid <-
     )
 
   Dataset <- Hoogteschatting %>%
-    select(.data$BMS, .data$DOMEIN_ID, .data$ResidD2) %>%
+    select("BMS", "DOMEIN_ID", "ResidD2") %>%
     filter(!is.na(.data$ResidD2)) %>%
     group_by(.data$BMS, .data$DOMEIN_ID) %>%
     summarise(
@@ -130,12 +122,19 @@ validatie.afgeleid <-
     ungroup() %>%
     inner_join(
       Hoogteschatting,
-      by = c("BMS", "DOMEIN_ID")
+      by = c("BMS", "DOMEIN_ID"),
+      multiple = "all"
     ) %>%
-    inner_join(
+    left_join(
       Rmse,
       by = c("BMS", "DOMEIN_ID")
-    )
+    ) %>%
+    group_by(.data$BMS, .data$DOMEIN_ID) %>%
+    mutate(
+      Q5k = min(.data$Omtrek) + 0.3,
+      Q95k = max(.data$Omtrek) - 0.2
+    ) %>%
+    ungroup()
 
 
   AfwijkendeMetingen <- afwijkendeMetingen(Dataset, AantalDomHogeRMSE)
@@ -146,7 +145,7 @@ validatie.afgeleid <-
     ZonderJoin <- ExtraCurvesRapport %>%
       anti_join(Dataset, by = c("DOMEIN_ID", "BMS"))
     if (nrow(ZonderJoin) > 0) {
-      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model") #nolint
+      warning("Niet elk opgegeven record in ExtraCurvesRapport heeft een afgeleid model") #nolint: line_length_linter
     }
   } else {
     ExtraCurvesRapport <-
@@ -155,7 +154,7 @@ validatie.afgeleid <-
 
   SlechtsteModellen <- AfwijkendeMetingen %>%
     filter(.data$HogeRmse & .data$Status != "Goedgekeurd") %>%
-    select(.data$DOMEIN_ID, .data$BMS) %>%
+    select("DOMEIN_ID", "BMS") %>%
     distinct() %>%
     mutate(
       Reden = "hoge RMSE"
@@ -166,7 +165,7 @@ validatie.afgeleid <-
           .data$Status != "Goedgekeurd"
         ) %>%
         select(
-          .data$BMS, .data$DOMEIN_ID
+          "BMS", "DOMEIN_ID"
         ) %>%
         distinct() %>%
         mutate(
@@ -175,7 +174,9 @@ validatie.afgeleid <-
     ) %>%
     bind_rows(
       ExtraCurvesRapport %>%
-        mutate(
+        transmute(
+          .data$DOMEIN_ID,
+          .data$BMS,
           Reden = "opgegeven als extra curve"
         )
     ) %>%
