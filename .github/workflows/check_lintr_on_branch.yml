@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     name: "check lintr"
     steps:
-      - uses: inbo/actions/lint_pkg@master
+      - uses: inbo/actions/lint_pkg@main
