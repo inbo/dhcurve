@@ -6,7 +6,7 @@ on:
       - main
       - ghpages
 
-name: lint.yaml
+name: "check lintr"
 
 permissions: read-all
 
