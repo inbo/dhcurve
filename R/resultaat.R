@@ -120,19 +120,19 @@ resultaat <-
     # schatten boom ligt in een andere streek, is de schatting onbetrouwbaar),
     # voegen we het niet toe
 
-    # Modellen.Vlaams <- Modellen.basis %>%
-    #   select(-"Ad", -"Bd", -"Cd", -"rmseD") %>%
+    # Modellen.Vlaams <- Modellen.basis %>% #nolint: commented_code_linter
+    #   select(-"Ad", -"Bd", -"Cd", -"rmseD") %>% #nolint: commented_code_linter
     #   mutate(
     #     sseVL = (.data$rmseVL)^2 * (.data$nBomenIntervalOmtrek05 - 2) #nolint: commented_code_linter, line_length_linter
     #   ) %>%
-    #   group_by(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>%
+    #   group_by(.data$BMS, .data$Avl, .data$Bvl, .data$Cvl) %>% #nolint: commented_code_linter line_length_linter
     #   summarise(
     #     nBomen = sum(.data$nBomen),  #nolint: commented_code_linter
     #     nBomenInterval = sum(.data$nBomenInterval),  #nolint: commented_code_linter, line_length_linter
     #     nBomenIntervalOmtrek05VL = sum(.data$nBomenIntervalOmtrek05),  #nolint: commented_code_linter, line_length_linter
     #     RMSE = sqrt(sum(.data$sseVL) / (.data$nBomenIntervalOmtrek05VL - 2))   #nolint: commented_code_linter, line_length_linter
     #   ) %>%
-    #   ungroup() %>%
+    #   ungroup() %>% #nolint: commented_code_linter
     #   rename(
     #     A = .data$Avl,  #nolint: commented_code_linter
     #     B = .data$Bvl,  #nolint: commented_code_linter
@@ -180,7 +180,7 @@ resultaat <-
 
 
       Modellen <- Modellen %>%
-    #    bind_rows(Modellen.Vlaams) %>%
+    #    bind_rows(Modellen.Vlaams) %>% #nolint: commented_code_linter
         bind_rows(
           Afgeleidmodel[[2]] %>%
             select(
