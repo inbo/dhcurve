@@ -5,6 +5,7 @@ on:
     branches-ignore:
       - main
       - ghpages
+  pull_request:
 
 name: "check lintr"
 
