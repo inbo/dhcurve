@@ -20,6 +20,7 @@ vignette: >
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4)
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 
