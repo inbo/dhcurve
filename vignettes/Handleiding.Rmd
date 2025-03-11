@@ -367,7 +367,7 @@ Voor het basismodel starten we van het hierboven voorgestelde algemene model.  O
 $$Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} + B_{domein})\log({Omtrek}) + (C_{Vlaams} + C_{domein})\log(Omtrek)^2$$
 Dit model bevat dus een soortspecifiek overkoepelend model met parameters $A_{Vlaams}$, $B_{Vlaams}$ en $C_{Vlaams}$ (in vaktermen _fixed factor_ genoemd), wat we definiëren als "__Vlaams model__".  Daarnaast bevat het model de domeinspecifieke parameters $A_{domein}$, $B_{domein}$ en $C_{domein}$ (in vaktermen _random factor_ genoemd), die gesommeerd met de overkoepelende parameters de parameters voor het domeinspecifieke model geven.
 
-```{r figBasismodel, echo=FALSE}
+```{r figBasismodel, fig.alt="naar boven toe afgebogen curves van enkele domeinmodellen (dunne lijnen) en een Vlaams model (dikke lijn) die in het midden tussen de domeinmodellen ligt", echo=FALSE}
 
 Modellen <-
   merge(
@@ -427,7 +427,7 @@ $\phantom{Hoogte_{afgeleid}}= A_{domein} + A_{Vlaams} + B_{Vlaams}\log(Omtrek) +
 
 Wat in feite gebeurt, is dat de gemiddelde afstand tussen de meetpunten van het domein en de Vlaamse curve berekend wordt, en dat de Vlaamse curve verticaal over deze hoogte verschoven wordt.  Deze "verschuiving" is een domeinspecifieke parameter $A_{domein}$ die corrigeert voor de standplaats (arm / rijk) op basis van effectieve metingen van dat domein; de andere parameters zijn overgenomen uit het Vlaams model.  De curvevorm wordt dus overgenomen van het Vlaams model, dat berekend is op basis van een groot aantal gegevens uit verschillende domeinen.
 
-```{r figAfgeleidModel, echo=FALSE}
+```{r figAfgeleidModel, fig.alt="curve van Vlaams model en van daaruit pijlen naar een lager geleden identieke curve, het Afgeleid model", echo=FALSE}
 
 merge(
   data.frame(
@@ -508,7 +508,7 @@ De werkelijke hoogte van individuele bomen kan overschat of onderschat worden, w
 Het gemiddelde van meerdere bomen zal echter een kleinere spreiding hebben dan een individuele boom, omdat deze bomen een mix zijn van onderschattingen en overschattingen.
 Hoe groter het aantal bomen waarvoor de voorspelling gebeurt, hoe beter de onder- en overschattingen uitgemiddeld worden en hoe kleiner het BI, wat geïllustreerd wordt in onderstaande grafiek.
 
-```{r figBIbomen, echo=FALSE}
+```{r figBIbomen, fig.alt="5 punten met error bars die van breed naar smal gaan als het aantal bomen toeneemt", echo=FALSE}
 data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
   mutate(
     Hmin = Hoogte - qnorm(0.975) * RMSE / sqrt(n),
@@ -524,7 +524,7 @@ data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
 
 We beschouwen een meting als afwijkend als de afwijking van het model groter is dan $2,5 * RMSE$, dus als de meting buiten het interval ligt dat begrensd wordt door $schatting - 2,5 * RMSE$ en $schatting + 2,5 * RMSE$.
 
-```{r figBetrouwbaarheidsinterval, echo=FALSE}
+```{r figBetrouwbaarheidsinterval, fig.alt="curve met zwarte punten en een vage grijze band rond, en enkele rode punten die buiten die band vallen en de afwijkende metingen voorstellen", echo=FALSE}
 
 Metingen <- testdata1domein(nBomen = 200) %>%
   mutate(
