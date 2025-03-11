@@ -398,8 +398,8 @@ Modellen %>%
     C = NA
   ) %>%
   rbind(Modellen) %>%
-  ggplot(aes(x = Omtrek, y = Hoogte, group = Domein, size = Type)) +
-  scale_size_manual(values = c(0.3, 1.5)) +
+  ggplot(aes(x = Omtrek, y = Hoogte, group = Domein, linewidth = Type)) +
+  scale_linewidth_manual(values = c(0.3, 1.5)) +
   geom_line()
 
 ```
@@ -446,7 +446,7 @@ mutate(
   EindePijl = 16 + B * log(Omtrek) + C * log(Omtrek) ^ 2
 )  %>%
 ggplot() +
-  geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), size = 1) +
+  geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), linewidth = 1) +
   geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl),
                arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
 
@@ -539,7 +539,7 @@ Metingen <- testdata1domein(nBomen = 200) %>%
 ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) +
   geom_point(aes(colour = Afwijkend)) +
   scale_colour_manual(values = c("black", "red")) +
-  geom_line(aes(x = Omtrek, y = Model), size = 1) +
+  geom_line(aes(x = Omtrek, y = Model), linewidth = 1) +
   geom_ribbon(aes(ymax = Hmax, ymin = Hmin), alpha = 0.1)
 ```
 
