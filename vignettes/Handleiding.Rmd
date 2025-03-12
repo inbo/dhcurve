@@ -114,7 +114,12 @@ De zogenaamde diameter-hoogtecurves, die in feite omtrek-hoogtecurves zijn, kunn
 
 ```{r hoofdscript1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 child_id <- 1
-cat(knit(text = knit_expand(system.file("Hoofdscript.Rmd", package = "dhcurve")), quiet = TRUE))
+cat(
+  knit(
+    text = knit_expand(system.file("Hoofdscript.Rmd", package = "dhcurve")),
+    quiet = TRUE
+  )
+)
 ```
 
 De stappen "fit" en "validatie" worden achtereenvolgens doorlopen voor de verschillende modeltypen (basismodel, afgeleid model en lokaal model).  Deze stappen (inclusief de initiatiestap en de finale stappen) worden hieronder kort toegelicht vanuit praktisch oogpunt, met focus op de workflow en aandachtspunten.  Voor meer informatie over het gebruik van de functies (om ze bv. buiten deze standaard workflow te gebruiken) verwijzen we naar de helpfunctie van de functie in kwestie (in R aan te roepen door `?<functienaam>`), voor achtergrondinformatie over de achterliggende berekeningen verwijzen we naar het laatste deel van dit document: [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen).
