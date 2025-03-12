@@ -30,6 +30,10 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
+          sudo apt install -y --no-install-recommends libcurl4-openssl-dev \
+            libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev \
+            libjpeg-dev libmagick++-dev libpng-dev libpoppler-cpp-dev \
+            libsecret-1-dev libtiff5-dev
 
       - name: Install dependencies
         run: |
