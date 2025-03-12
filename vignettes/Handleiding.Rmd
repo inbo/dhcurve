@@ -1,5 +1,5 @@
 ---
-title: "Handleiding package diameter-hoogtecurves (dhcurve)"
+title: "Handleiding package diameter-hoogtecurves"
 author: "Els Lommelen en Thierry Onkelinx"
 date: "`r Sys.Date()`"
 output: 
@@ -13,14 +13,13 @@ output:
     lof: FALSE
     lot: FALSE
 vignette: >
-  %\VignetteIndexEntry{Handleiding dhcurve}
+  %\VignetteIndexEntry{Handleiding package diameter-hoogtecurves}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r include=FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4)
-options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 
