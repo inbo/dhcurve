@@ -120,3 +120,9 @@ jobs:
           git commit --amend -m "Automated update of gh-pages website"
           git push --force --set-upstream origin gh-pages
 
+      - name: updating tag
+        run: |
+          git rev-parse --abbrev-ref origin/HEAD | sed 's/origin\///' | xargs git checkout
+          Rscript --no-save --no-restore -e 'checklist::set_tag()'
+          git push --tags
+
