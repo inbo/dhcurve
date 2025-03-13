@@ -1,11 +1,17 @@
 <!-- spell-check: ignore:start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![License](http://img.shields.io/badge/license-GPL--3-blue.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
-[![wercker status](https://app.wercker.com/status/99290c273f1542a89027cab7f625bee0/s/master "wercker status")](https://app.wercker.com/project/byKey/99290c273f1542a89027cab7f625bee0)
-[![codecov](https://codecov.io/gh/inbo/dhcurve/branch/master/graph/badge.svg)](https://codecov.io/gh/inbo/dhcurve)
+[![Release](https://img.shields.io/github/release/inbo/dhcurve.svg)](https://github.com/inbo/dhcurve/releases)
+[![R build status](https://github.com/inbo/dhcurve/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/dhcurve/actions)
+[![codecov](https://codecov.io/gh/inbo/dhcurve/branch/main/graph/badge.svg)](https://codecov.io/gh/inbo/dhcurve)
 ![r-universe
 name](https://inbo.r-universe.dev/badges/:name?color=c04384)
-![r-universe package](https://inbo.r-universe.dev/badges/dhcurve)
+[![r-universe package](https://inbo.r-universe.dev/badges/dhcurve)](https://inbo.r-universe.dev/dhcurve)
+![GitHub code size in
+bytes](https://img.shields.io/github/languages/code-size/inbo/dhcurve.svg)
+![GitHub repo
+size](https://img.shields.io/github/repo-size/inbo/dhcurve.svg)
+<!-- badges: end -->
 
 <a href="https://www.natuurenbos.be/">
 <img src="man/figures/logo.png" align="right" alt="logo of ANB: Agentschap Natuur & Bos" width="200"/>

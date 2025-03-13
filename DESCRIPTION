@@ -1,6 +1,6 @@
 Package: dhcurve
 Title: Automated Modelling of Diameter Height Curves for Trees
-Version: 0.2
+Version: 0.2.1
 Authors@R: c(
     person("Els", "Lommelen", , "els.lommelen@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3481-5684")),
@@ -42,4 +42,4 @@ Encoding: UTF-8
 Language: nl-BE
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

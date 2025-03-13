@@ -1,3 +1,8 @@
+# dhcurve 0.2.1
+
+* Technische aanpassingen, geen inhoudelijke: herwerking van de machinerie
+  die op GitHub de werking van het package test.
+
 # dhcurve 0.2
 
 * Bij afgeleide curves vervalt het bruikbaar interval, deze worden nu

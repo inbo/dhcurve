@@ -1,5 +1,5 @@
 ---
-title: "Handleiding package diameter-hoogtecurves (dhcurve)"
+title: "Handleiding package diameter-hoogtecurves"
 author: "Els Lommelen en Thierry Onkelinx"
 date: "`r Sys.Date()`"
 output: 
@@ -13,7 +13,7 @@ output:
     lof: FALSE
     lot: FALSE
 vignette: >
-  %\VignetteIndexEntry{Handleiding dhcurve}
+  %\VignetteIndexEntry{Handleiding package diameter-hoogtecurves}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -114,7 +114,12 @@ De zogenaamde diameter-hoogtecurves, die in feite omtrek-hoogtecurves zijn, kunn
 
 ```{r hoofdscript1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 child_id <- 1
-cat(knit(text = knit_expand("Hoofdscript.Rmd"), quiet = TRUE))
+cat(
+  knit(
+    text = knit_expand(system.file("Hoofdscript.Rmd", package = "dhcurve")),
+    quiet = TRUE
+  )
+)
 ```
 
 De stappen "fit" en "validatie" worden achtereenvolgens doorlopen voor de verschillende modeltypen (basismodel, afgeleid model en lokaal model).  Deze stappen (inclusief de initiatiestap en de finale stappen) worden hieronder kort toegelicht vanuit praktisch oogpunt, met focus op de workflow en aandachtspunten.  Voor meer informatie over het gebruik van de functies (om ze bv. buiten deze standaard workflow te gebruiken) verwijzen we naar de helpfunctie van de functie in kwestie (in R aan te roepen door `?<functienaam>`), voor achtergrondinformatie over de achterliggende berekeningen verwijzen we naar het laatste deel van dit document: [Standaardstramien voor berekeningen](#standaardstramien-voor-berekeningen).
@@ -366,7 +371,7 @@ Voor het basismodel starten we van het hierboven voorgestelde algemene model.  O
 $$Hoogte_{basis} \sim A_{Vlaams} + A_{domein} + (B_{Vlaams} + B_{domein})\log({Omtrek}) + (C_{Vlaams} + C_{domein})\log(Omtrek)^2$$
 Dit model bevat dus een soortspecifiek overkoepelend model met parameters $A_{Vlaams}$, $B_{Vlaams}$ en $C_{Vlaams}$ (in vaktermen _fixed factor_ genoemd), wat we definiëren als "__Vlaams model__".  Daarnaast bevat het model de domeinspecifieke parameters $A_{domein}$, $B_{domein}$ en $C_{domein}$ (in vaktermen _random factor_ genoemd), die gesommeerd met de overkoepelende parameters de parameters voor het domeinspecifieke model geven.
 
-```{r figBasismodel, echo=FALSE}
+```{r figBasismodel, fig.alt="naar boven toe afgebogen curves van enkele domeinmodellen (dunne lijnen) en een Vlaams model (dikke lijn) die in het midden tussen de domeinmodellen ligt", echo=FALSE}
 
 Modellen <-
   merge(
@@ -397,8 +402,8 @@ Modellen %>%
     C = NA
   ) %>%
   rbind(Modellen) %>%
-  ggplot(aes(x = Omtrek, y = Hoogte, group = Domein, size = Type)) +
-  scale_size_manual(values = c(0.3, 1.5)) +
+  ggplot(aes(x = Omtrek, y = Hoogte, group = Domein, linewidth = Type)) +
+  scale_linewidth_manual(values = c(0.3, 1.5)) +
   geom_line()
 
 ```
@@ -426,7 +431,7 @@ $\phantom{Hoogte_{afgeleid}}= A_{domein} + A_{Vlaams} + B_{Vlaams}\log(Omtrek) +
 
 Wat in feite gebeurt, is dat de gemiddelde afstand tussen de meetpunten van het domein en de Vlaamse curve berekend wordt, en dat de Vlaamse curve verticaal over deze hoogte verschoven wordt.  Deze "verschuiving" is een domeinspecifieke parameter $A_{domein}$ die corrigeert voor de standplaats (arm / rijk) op basis van effectieve metingen van dat domein; de andere parameters zijn overgenomen uit het Vlaams model.  De curvevorm wordt dus overgenomen van het Vlaams model, dat berekend is op basis van een groot aantal gegevens uit verschillende domeinen.
 
-```{r figAfgeleidModel, echo=FALSE}
+```{r figAfgeleidModel, fig.alt="curve van Vlaams model en van daaruit pijlen naar een lager geleden identieke curve, het Afgeleid model", echo=FALSE}
 
 merge(
   data.frame(
@@ -445,7 +450,7 @@ mutate(
   EindePijl = 16 + B * log(Omtrek) + C * log(Omtrek) ^ 2
 )  %>%
 ggplot() +
-  geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), size = 1) +
+  geom_line(aes(x = Omtrek, y = Hoogte, colour = Type), linewidth = 1) +
   geom_segment(aes(x = Omtrek, xend = Omtrek, y = BeginPijl, yend = EindePijl),
                arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
 
@@ -507,7 +512,7 @@ De werkelijke hoogte van individuele bomen kan overschat of onderschat worden, w
 Het gemiddelde van meerdere bomen zal echter een kleinere spreiding hebben dan een individuele boom, omdat deze bomen een mix zijn van onderschattingen en overschattingen.
 Hoe groter het aantal bomen waarvoor de voorspelling gebeurt, hoe beter de onder- en overschattingen uitgemiddeld worden en hoe kleiner het BI, wat geïllustreerd wordt in onderstaande grafiek.
 
-```{r figBIbomen, echo=FALSE}
+```{r figBIbomen, fig.alt="5 punten met error bars die van breed naar smal gaan als het aantal bomen toeneemt", echo=FALSE}
 data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
   mutate(
     Hmin = Hoogte - qnorm(0.975) * RMSE / sqrt(n),
@@ -523,7 +528,7 @@ data.frame(Hoogte = 20, RMSE = 2, n = c(1, 4, 16, 64, 128)) %>%
 
 We beschouwen een meting als afwijkend als de afwijking van het model groter is dan $2,5 * RMSE$, dus als de meting buiten het interval ligt dat begrensd wordt door $schatting - 2,5 * RMSE$ en $schatting + 2,5 * RMSE$.
 
-```{r figBetrouwbaarheidsinterval, echo=FALSE}
+```{r figBetrouwbaarheidsinterval, fig.alt="curve met zwarte punten en een vage grijze band rond, en enkele rode punten die buiten die band vallen en de afwijkende metingen voorstellen", echo=FALSE}
 
 Metingen <- testdata1domein(nBomen = 200) %>%
   mutate(
@@ -538,7 +543,7 @@ Metingen <- testdata1domein(nBomen = 200) %>%
 ggplot(Metingen, aes(x = Omtrek, y = Hoogte)) +
   geom_point(aes(colour = Afwijkend)) +
   scale_colour_manual(values = c("black", "red")) +
-  geom_line(aes(x = Omtrek, y = Model), size = 1) +
+  geom_line(aes(x = Omtrek, y = Model), linewidth = 1) +
   geom_ribbon(aes(ymax = Hmax, ymin = Hmin), alpha = 0.1)
 ```
 
